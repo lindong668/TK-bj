@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>圆角裁剪 - PicStudio</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <a href="../index.html" class="logo">
+                <span class="logo-icon">🎨</span>
+                <span class="logo-text">Pic<span class="accent">Studio</span></span>
+            </a>
+        </div>
+    </header>
+
+    <section class="tool-page">
+        <div class="container">
+            <a href="../index.html" class="back-link">← 返回首页</a>
+            <div class="tool-header">
+                <h1>⬜ 圆角裁剪</h1>
+                <p>给图片添加圆角或圆形遮罩，适合头像和卡片</p>
+            </div>
+
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-icon">📁</div>
+                <div class="upload-text">点击或拖拽图片到这里</div>
+                <div class="upload-hint">支持 PNG / JPG / WebP</div>
+                <input type="file" id="fileInput" accept="image/*">
+            </div>
+
+            <div class="preview-area" id="previewArea">
+                <div class="preview-box">
+                    <h3>原始图片</h3>
+                    <img id="originalPreview" src="" alt="原始图片">
+                </div>
+                <div class="preview-box">
+                    <h3>处理结果</h3>
+                    <img id="processedPreview" src="" alt="处理结果">
+                </div>
+            </div>
+
+            <div class="controls" id="controls">
+                <div class="control-group">
+                    <label class="control-label">形状</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" name="shape" id="shapeRounded" value="rounded" checked>
+                            <label for="shapeRounded">圆角矩形</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="shape" id="shapeCircle" value="circle">
+                            <label for="shapeCircle">圆形</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="shape" id="shapeHeart" value="heart">
+                            <label for="shapeHeart">心形</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group" id="radiusGroup">
+                    <label class="control-label">圆角大小</label>
+                    <input type="range" id="radius" min="0" max="50" value="15">
+                    <div class="control-hint" id="radiusHint">15%</div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">背景颜色（透明区域填充）</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" name="fillMode" id="fillNone" value="none" checked>
+                            <label for="fillNone">透明</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="fillMode" id="fillWhite" value="white">
+                            <label for="fillWhite">白色</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="fillMode" id="fillCustom" value="custom">
+                            <label for="fillCustom">自定义</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group" id="customFillGroup" style="display:none;">
+                    <input type="color" id="fillColor" value="#6366f1" style="width:60px;height:40px;border:none;border-radius:8px;cursor:pointer;">
+                </div>
+
+                <button class="btn btn-primary btn-lg" id="processBtn" style="width:100%;">应用</button>
+            </div>
+
+            <div class="download-section" id="downloadSection">
+                <button class="btn btn-primary btn-lg" id="downloadBtn">⬇️ 下载结果</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <div class="loading-text">正在处理中，请稍候...</div>
+    </div>
+
+    <script src="../assets/js/tools.js"></script>
+    <script>
+    const radiusSlider = document.getElementById('radius');
+    const radiusHint = document.getElementById('radiusHint');
+    const shapeRadios = document.querySelectorAll('input[name="shape"]');
+    const radiusGroup = document.getElementById('radiusGroup');
+    const fillRadios = document.querySelectorAll('input[name="fillMode"]');
+    const customFillGroup = document.getElementById('customFillGroup');
+
+    radiusSlider.addEventListener('input', () => {
+        radiusHint.textContent = `${radiusSlider.value}%`;
+    });
+
+    shapeRadios.forEach(radio => {
+        radio.addEventListener('change', (e) => {
+            radiusGroup.style.display = e.target.value === 'circle' ? 'none' : 'block';
+        });
+    });
+
+    fillRadios.forEach(radio => {
+        radio.addEventListener('change', (e) => {
+            customFillGroup.style.display = e.target.value === 'custom' ? 'block' : 'none';
+        });
+    });
+
+    const tool = new ImageTool({
+        process: async (canvas) => {
+            const shape = document.querySelector('input[name="shape"]:checked').value;
+            const radiusPercent = parseInt(radiusSlider.value);
+            const fillMode = document.querySelector('input[name="fillMode"]:checked').value;
+            const fillColor = document.getElementById('fillColor').value;
+
+            const w = canvas.width;
+            const h = canvas.height;
+
+            const result = document.createElement('canvas');
+            result.width = w;
+            result.height = h;
+            const ctx = result.getContext('2d');
+
+            // Fill background
+            if (fillMode === 'white') {
+                ctx.fillStyle = '#FFFFFF';
+                ctx.fillRect(0, 0, w, h);
+            } else if (fillMode === 'custom') {
+                ctx.fillStyle = fillColor;
+                ctx.fillRect(0, 0, w, h);
+            }
+
+            // Draw image with clipping
+            ctx.save();
+
+            if (shape === 'circle') {
+                const cx = w / 2;
+                const cy = h / 2;
+                const radius = Math.min(w, h) / 2;
+                ctx.beginPath();
+                ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+                ctx.clip();
+            } else if (shape === 'rounded') {
+                const r = Math.floor(Math.min(w, h) * radiusPercent / 100);
+                ctx.beginPath();
+                ctx.moveTo(r, 0);
+                ctx.lineTo(w - r, 0);
+                ctx.quadraticCurveTo(w, 0, w, r);
+                ctx.lineTo(w, h - r);
+                ctx.quadraticCurveTo(w, h, w - r, h);
+                ctx.lineTo(r, h);
+                ctx.quadraticCurveTo(0, h, 0, h - r);
+                ctx.lineTo(0, r);
+                ctx.quadraticCurveTo(0, 0, r, 0);
+                ctx.closePath();
+                ctx.clip();
+            } else if (shape === 'heart') {
+                // Heart shape clip path
+                ctx.beginPath();
+                const cx = w / 2;
+                const cy = h / 2;
+                const s = Math.min(w, h) / 30;
+                for (let t = 0; t <= Math.PI * 2; t += 0.01) {
+                    const x = 16 * Math.pow(Math.sin(t), 3);
+                    const y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
+                    if (t === 0) ctx.moveTo(cx + x * s, cy + y * s);
+                    else ctx.lineTo(cx + x * s, cy + y * s);
+                }
+                ctx.closePath();
+                ctx.clip();
+            }
+
+            ctx.drawImage(canvas, 0, 0);
+            ctx.restore();
+
+            return result;
+        },
+        downloadOptions: { filename: 'picstudio-rounded', format: 'png' }
+    });
+
+    document.getElementById('processBtn').addEventListener('click', () => tool.process());
+    </script>
+</body>
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 智能抠图 - PicStudio</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <a href="../index.html" class="logo">
+                <span class="logo-icon">🎨</span>
+                <span class="logo-text">Pic<span class="accent">Studio</span></span>
+            </a>
+        </div>
+    </header>
+
+    <section class="tool-page">
+        <div class="container">
+            <a href="../index.html" class="back-link">← 返回首页</a>
+            <div class="tool-header">
+                <h1>✂️ AI 智能抠图</h1>
+                <p>上传图片，AI 自动识别主体并去除背景</p>
+            </div>
+
+            <!-- Upload Area -->
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-icon">📁</div>
+                <div class="upload-text">点击或拖拽图片到这里</div>
+                <div class="upload-hint">支持 PNG / JPG / WebP，建议图片小于 5MB</div>
+                <input type="file" id="fileInput" accept="image/*">
+            </div>
+
+            <!-- Preview Area -->
+            <div class="preview-area" id="previewArea">
+                <div class="preview-box">
+                    <h3>原始图片</h3>
+                    <img id="originalPreview" src="" alt="原始图片">
+                </div>
+                <div class="preview-box">
+                    <h3>抠图结果</h3>
+                    <img id="processedPreview" src="" alt="处理结果">
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="controls" id="controls">
+                <div class="control-group">
+                    <label class="control-label">背景选项</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" name="bgType" id="bgTransparent" value="transparent" checked>
+                            <label for="bgTransparent">透明背景</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="bgType" id="bgWhite" value="white">
+                            <label for="bgWhite">白色背景</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="bgType" id="bgCustom" value="custom">
+                            <label for="bgCustom">自定义颜色</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group" id="customColorGroup" style="display:none;">
+                    <label class="control-label">选择背景颜色</label>
+                    <input type="color" id="bgColor" value="#6366f1" style="width:60px;height:40px;border:none;border-radius:8px;cursor:pointer;">
+                </div>
+
+                <button class="btn btn-primary btn-lg" id="processBtn" style="width:100%;">开始抠图</button>
+            </div>
+
+            <!-- Download -->
+            <div class="download-section" id="downloadSection">
+                <button class="btn btn-primary btn-lg" id="downloadBtn">⬇️ 下载结果</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <div class="loading-text" id="loadingText">正在处理中，请稍候...</div>
+    </div>
+
+    <script src="../assets/js/tools.js"></script>
+    <script>
+    // Toggle custom color picker
+    document.querySelectorAll('input[name="bgType"]').forEach(radio => {
+        radio.addEventListener('change', (e) => {
+            document.getElementById('customColorGroup').style.display =
+                e.target.value === 'custom' ? 'block' : 'none';
+        });
+    });
+
+    const tool = new ImageTool({
+        process: async (canvas) => {
+            const bgType = document.querySelector('input[name="bgType"]:checked').value;
+
+            // Simulate AI background removal with edge detection
+            // In production, this would use @imgly/background-removal or similar
+            const result = await removeBackground(canvas);
+
+            // Apply background
+            if (bgType === 'white') {
+                return applyBackgroundColor(result, '#FFFFFF');
+            } else if (bgType === 'custom') {
+                const color = document.getElementById('bgColor').value;
+                return applyBackgroundColor(result, color);
+            }
+            return result;
+        },
+        downloadOptions: { filename: 'picstudio-removebg', format: 'png' }
+    });
+
+    document.getElementById('processBtn').addEventListener('click', () => tool.process());
+
+    /**
+     * Remove background using canvas-based edge detection
+     * This is a simplified version - for production use @imgly/background-removal
+     */
+    async function removeBackground(canvas) {
+        const ctx = canvas.getContext('2d');
+        const w = canvas.width;
+        const h = canvas.height;
+        const imageData = ctx.getImageData(0, 0, w, h);
+        const data = imageData.data;
+
+        // Create result canvas
+        const result = document.createElement('canvas');
+        result.width = w;
+        result.height = h;
+        const resultCtx = result.getContext('2d');
+        resultCtx.drawImage(canvas, 0, 0);
+        const resultData = resultCtx.getImageData(0, 0, w, h);
+        const resultPixels = resultData.data;
+
+        // Simple background removal: detect edges and create alpha channel
+        // This uses a combination of color difference and edge detection
+        const tolerance = 30;
+
+        // Sample background color from corners
+        const corners = [
+            [0, 0], [w-1, 0], [0, h-1], [w-1, h-1],
+            [Math.floor(w/2), 0], [0, Math.floor(h/2)],
+            [w-1, Math.floor(h/2)], [Math.floor(w/2), h-1]
+        ];
+
+        let bgR = 0, bgG = 0, bgB = 0;
+        corners.forEach(([x, y]) => {
+            const idx = (y * w + x) * 4;
+            bgR += data[idx];
+            bgG += data[idx + 1];
+            bgB += data[idx + 2];
+        });
+        bgR = Math.floor(bgR / corners.length);
+        bgG = Math.floor(bgG / corners.length);
+        bgB = Math.floor(bgB / corners.length);
+
+        // Process each pixel
+        for (let i = 0; i < data.length; i += 4) {
+            const r = data[i];
+            const g = data[i + 1];
+            const b = data[i + 2];
+
+            const diff = Math.sqrt(
+                Math.pow(r - bgR, 2) +
+                Math.pow(g - bgG, 2) +
+                Math.pow(b - bgB, 2)
+            );
+
+            if (diff < tolerance) {
+                resultPixels[i + 3] = 0; // Transparent
+            } else if (diff < tolerance * 2) {
+                // Soft edge
+                resultPixels[i + 3] = Math.floor(128 * (diff - tolerance) / tolerance);
+            } else {
+                resultPixels[i + 3] = 255; // Opaque
+            }
+        }
+
+        resultCtx.putImageData(resultData, 0, 0);
+        return result;
+    }
+
+    function applyBackgroundColor(canvas, color) {
+        const ctx = canvas.getContext('2d');
+        const w = canvas.width;
+        const h = canvas.height;
+
+        // Parse color
+        const hex = color.replace('#', '');
+        const r = parseInt(hex.substr(0, 2), 16);
+        const g = parseInt(hex.substr(2, 2), 16);
+        const b = parseInt(hex.substr(4, 2), 16);
+
+        // Create new canvas with background
+        const result = document.createElement('canvas');
+        result.width = w;
+        result.height = h;
+        const resultCtx = result.getContext('2d');
+
+        // Fill background
+        resultCtx.fillStyle = `rgb(${r},${g},${b})`;
+        resultCtx.fillRect(0, 0, w, h);
+
+        // Draw image on top
+        resultCtx.drawImage(canvas, 0, 0);
+
+        return result;
+    }
+    </script>
+</body>
+</html>

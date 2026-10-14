@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片压缩 - PicStudio</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <a href="../index.html" class="logo">
+                <span class="logo-icon">🎨</span>
+                <span class="logo-text">Pic<span class="accent">Studio</span></span>
+            </a>
+        </div>
+    </header>
+
+    <section class="tool-page">
+        <div class="container">
+            <a href="../index.html" class="back-link">← 返回首页</a>
+            <div class="tool-header">
+                <h1>🗜️ 图片压缩</h1>
+                <p>智能压缩图片体积，保持画质，加快网页加载</p>
+            </div>
+
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-icon">📁</div>
+                <div class="upload-text">点击或拖拽图片到这里</div>
+                <div class="upload-hint">支持 PNG / JPG / WebP</div>
+                <input type="file" id="fileInput" accept="image/*">
+            </div>
+
+            <div class="preview-area" id="previewArea">
+                <div class="preview-box">
+                    <h3>原始图片</h3>
+                    <img id="originalPreview" src="" alt="原始图片">
+                    <div id="originalInfo" style="margin-top:12px;font-size:13px;color:var(--text-muted);"></div>
+                </div>
+                <div class="preview-box">
+                    <h3>压缩结果</h3>
+                    <img id="processedPreview" src="" alt="处理结果">
+                    <div id="resultInfo" style="margin-top:12px;font-size:13px;color:var(--text-muted);"></div>
+                </div>
+            </div>
+
+            <div class="controls" id="controls">
+                <div class="control-group">
+                    <label class="control-label">压缩质量</label>
+                    <input type="range" id="quality" min="10" max="100" value="75">
+                    <div class="control-hint" id="qualityHint">质量：75%（越小压缩率越高）</div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">最大宽度（可选）</label>
+                    <input type="number" id="maxWidth" placeholder="留空则不限制" min="1">
+                    <div class="control-hint">超过此宽度的图片会被缩放</div>
+                </div>
+
+                <button class="btn btn-primary btn-lg" id="processBtn" style="width:100%;">开始压缩</button>
+            </div>
+
+            <div class="download-section" id="downloadSection">
+                <button class="btn btn-primary btn-lg" id="downloadBtn">⬇️ 下载压缩后的图片</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <div class="loading-text">正在压缩中，请稍候...</div>
+    </div>
+
+    <script src="../assets/js/tools.js"></script>
+    <script>
+    const qualitySlider = document.getElementById('quality');
+    const qualityHint = document.getElementById('qualityHint');
+
+    qualitySlider.addEventListener('input', () => {
+        qualityHint.textContent = `质量：${qualitySlider.value}%（越小压缩率越高）`;
+    });
+
+    let originalFileSize = 0;
+
+    const tool = new ImageTool({
+        process: async (canvas) => {
+            const quality = parseInt(qualitySlider.value) / 100;
+            const maxWidth = parseInt(document.getElementById('maxWidth').value) || null;
+
+            let workingCanvas = canvas;
+
+            // Resize if needed
+            if (maxWidth && canvas.width > maxWidth) {
+                const ratio = maxWidth / canvas.width;
+                const newHeight = Math.round(canvas.height * ratio);
+                workingCanvas = ImageUtils.resizeCanvas(canvas, maxWidth, newHeight);
+            }
+
+            // Compress as JPEG
+            const dataUrl = workingCanvas.toDataURL('image/jpeg', quality);
+            const compressedSize = Math.round(dataUrl.length * 3 / 4);
+
+            // Show comparison
+            const savedPercent = Math.round((1 - compressedSize / originalFileSize) * 100);
+            document.getElementById('resultInfo').innerHTML =
+                `压缩后：${(compressedSize / 1024).toFixed(1)} KB<br>` +
+                `<span style="color:var(--accent);font-weight:600;">节省了 ${savedPercent}%</span>`;
+
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => {
+                    const result = document.createElement('canvas');
+                    result.width = img.naturalWidth;
+                    result.height = img.naturalHeight;
+                    result.getContext('2d').drawImage(img, 0, 0);
+                    resolve(result);
+                };
+                img.src = dataUrl;
+            });
+        },
+        downloadOptions: { filename: 'picstudio-compressed', format: 'jpeg' }
+    });
+
+    // Track original file size
+    const origHandleFile = tool.handleFile.bind(tool);
+    tool.handleFile = function(file) {
+        originalFileSize = file.size;
+        document.getElementById('originalInfo').textContent =
+            `大小：${(file.size / 1024).toFixed(1)} KB`;
+        origHandleFile(file);
+    };
+
+    document.getElementById('processBtn').addEventListener('click', () => tool.process());
+    </script>
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>背景虚化 - PicStudio</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <a href="../index.html" class="logo">
+                <span class="logo-icon">🎨</span>
+                <span class="logo-text">Pic<span class="accent">Studio</span></span>
+            </a>
+        </div>
+    </header>
+
+    <section class="tool-page">
+        <div class="container">
+            <a href="../index.html" class="back-link">← 返回首页</a>
+            <div class="tool-header">
+                <h1>🌫️ 背景虚化</h1>
+                <p>给图片添加专业级背景虚化效果，模拟大光圈镜头</p>
+            </div>
+
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-icon">📁</div>
+                <div class="upload-text">点击或拖拽图片到这里</div>
+                <div class="upload-hint">支持 PNG / JPG / WebP</div>
+                <input type="file" id="fileInput" accept="image/*">
+            </div>
+
+            <div class="preview-area" id="previewArea">
+                <div class="preview-box">
+                    <h3>原始图片</h3>
+                    <img id="originalPreview" src="" alt="原始图片">
+                </div>
+                <div class="preview-box">
+                    <h3>虚化结果</h3>
+                    <img id="processedPreview" src="" alt="处理结果">
+                </div>
+            </div>
+
+            <div class="controls" id="controls">
+                <div class="control-group">
+                    <label class="control-label">虚化程度</label>
+                    <input type="range" id="blurAmount" min="1" max="50" value="15">
+                    <div class="control-hint">值越大，背景越模糊</div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">保留区域（中心半径 %）</label>
+                    <input type="range" id="keepRadius" min="10" max="80" value="35">
+                    <div class="control-hint">中心区域保持清晰的范围</div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">虚化模式</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" name="blurMode" id="modeCenter" value="center" checked>
+                            <label for="modeCenter">中心清晰</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="blurMode" id="modeFull" value="full">
+                            <label for="modeFull">全局虚化</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="blurMode" id="modeEdge" value="edge">
+                            <label for="modeEdge">边缘虚化</label>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary btn-lg" id="processBtn" style="width:100%;">应用虚化</button>
+            </div>
+
+            <div class="download-section" id="downloadSection">
+                <button class="btn btn-primary btn-lg" id="downloadBtn">⬇️ 下载结果</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <div class="loading-text">正在处理中，请稍候...</div>
+    </div>
+
+    <script src="../assets/js/tools.js"></script>
+    <script>
+    const tool = new ImageTool({
+        process: async (canvas) => {
+            const blurAmount = parseInt(document.getElementById('blurAmount').value);
+            const keepRadius = parseInt(document.getElementById('keepRadius').value) / 100;
+            const blurMode = document.querySelector('input[name="blurMode"]:checked').value;
+
+            return applyBlur(canvas, blurAmount, keepRadius, blurMode);
+        },
+        downloadOptions: { filename: 'picstudio-blur', format: 'png' }
+    });
+
+    document.getElementById('processBtn').addEventListener('click', () => tool.process());
+
+    function applyBlur(canvas, amount, radius, mode) {
+        const w = canvas.width;
+        const h = canvas.height;
+        const cx = w / 2;
+        const cy = h / 2;
+        const maxDist = Math.sqrt(cx * cx + cy * cy);
+
+        // Create blurred version
+        const blurred = ImageUtils.gaussianBlur(canvas, amount);
+
+        if (mode === 'full') {
+            return blurred;
+        }
+
+        // Create result canvas
+        const result = document.createElement('canvas');
+        result.width = w;
+        result.height = h;
+        const ctx = result.getContext('2d');
+
+        if (mode === 'center') {
+            // Center clear, edges blurred
+            const scaledRadius = radius * Math.min(w, h) / 2;
+
+            // Draw original
+            ctx.drawImage(canvas, 0, 0);
+
+            // Create gradient mask for blur
+            const gradient = ctx.createRadialGradient(cx, cy, scaledRadius * 0.5, cx, cy, scaledRadius * 1.5);
+            gradient.addColorStop(0, 'rgba(0,0,0,0)');
+            gradient.addColorStop(1, 'rgba(0,0,0,1)');
+
+            // Use composite operation to blend
+            ctx.globalCompositeOperation = 'source-over';
+
+            // Draw blurred on top with gradient mask
+            ctx.save();
+            ctx.globalCompositeOperation = 'destination-out';
+            // This approach won't work directly, let's use a different method
+
+            // Simpler approach: pixel by pixel blending
+            const origData = canvas.getContext('2d').getImageData(0, 0, w, h);
+            const blurData = blurred.getContext('2d').getImageData(0, 0, w, h);
+            const resultData = ctx.createImageData(w, h);
+            const origPixels = origData.data;
+            const blurPixels = blurData.data;
+            const resultPixels = resultData.data;
+
+            for (let y = 0; y < h; y++) {
+                for (let x = 0; x < w; x++) {
+                    const dx = x - cx;
+                    const dy = y - cy;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    const normalizedDist = dist / scaledRadius;
+
+                    let blend = 0;
+                    if (normalizedDist > 1) {
+                        blend = 1;
+                    } else if (normalizedDist > 0.5) {
+                        blend = (normalizedDist - 0.5) * 2;
+                    }
+
+                    const idx = (y * w + x) * 4;
+                    resultPixels[idx] = origPixels[idx] * (1 - blend) + blurPixels[idx] * blend;
+                    resultPixels[idx + 1] = origPixels[idx + 1] * (1 - blend) + blurPixels[idx + 1] * blend;
+                    resultPixels[idx + 2] = origPixels[idx + 2] * (1 - blend) + blurPixels[idx + 2] * blend;
+                    resultPixels[idx + 3] = 255;
+                }
+            }
+
+            ctx.putImageData(resultData, 0, 0);
+        } else if (mode === 'edge') {
+            // Edge clear, center blurred
+            const scaledRadius = radius * Math.min(w, h) / 2;
+
+            const origData = canvas.getContext('2d').getImageData(0, 0, w, h);
+            const blurData = blurred.getContext('2d').getImageData(0, 0, w, h);
+            const resultData = ctx.createImageData(w, h);
+            const origPixels = origData.data;
+            const blurPixels = blurData.data;
+            const resultPixels = resultData.data;
+
+            for (let y = 0; y < h; y++) {
+                for (let x = 0; x < w; x++) {
+                    const dx = x - cx;
+                    const dy = y - cy;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    const normalizedDist = dist / scaledRadius;
+
+                    let blend = 0;
+                    if (normalizedDist < 0.5) {
+                        blend = 1 - (normalizedDist / 0.5);
+                    }
+
+                    const idx = (y * w + x) * 4;
+                    resultPixels[idx] = blurPixels[idx] * (1 - blend) + origPixels[idx] * blend;
+                    resultPixels[idx + 1] = blurPixels[idx + 1] * (1 - blend) + origPixels[idx + 1] * blend;
+                    resultPixels[idx + 2] = blurPixels[idx + 2] * (1 - blend) + origPixels[idx + 2] * blend;
+                    resultPixels[idx + 3] = 255;
+                }
+            }
+
+            ctx.putImageData(resultData, 0, 0);
+        }
+
+        return result;
+    }
+    </script>
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PicStudio - 免费在线图片处理工具</title>
+    <meta name="description" content="PicStudio 提供免费的在线图片处理工具：AI抠图、背景虚化、格式转换、尺寸调整、图标制作等。无需注册，本地处理，保护隐私。">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <!-- 顶部导航 -->
+    <header class="header">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">🎨</span>
+                <span class="logo-text">Pic<span class="accent">Studio</span></span>
+            </a>
+            <nav class="nav">
+                <a href="#tools" class="nav-link">工具</a>
+                <a href="#features" class="nav-link">功能</a>
+                <a href="#faq" class="nav-link">常见问题</a>
+            </nav>
+            <button class="menu-btn" id="menuBtn">☰</button>
+        </div>
+    </header>
+
+    <!-- 移动端菜单 -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#tools" class="mobile-link">工具</a>
+        <a href="#features" class="mobile-link">功能</a>
+        <a href="#faq" class="mobile-link">常见问题</a>
+    </div>
+
+    <!-- Hero 区域 -->
+    <section class="hero">
+        <div class="container">
+            <h1 class="hero-title">
+                免费在线图片处理工具<br>
+                <span class="gradient-text">AI 抠图 · 格式转换 · 图片编辑</span>
+            </h1>
+            <p class="hero-desc">无需安装软件，打开浏览器即可使用。所有处理在本地完成，100% 保护您的隐私。</p>
+            <a href="#tools" class="btn btn-primary btn-lg">开始使用 →</a>
+        </div>
+    </section>
+
+    <!-- 工具列表 -->
+    <section class="tools" id="tools">
+        <div class="container">
+            <h2 class="section-title">选择工具</h2>
+            <div class="tools-grid">
+
+                <!-- AI 抠图 -->
+                <a href="tools/remove-bg.html" class="tool-card">
+                    <div class="tool-icon">✂️</div>
+                    <h3 class="tool-name">AI 智能抠图</h3>
+                    <p class="tool-desc">一键去除图片背景，AI 自动识别主体，支持人像、商品、动物等</p>
+                    <span class="tool-tag">热门</span>
+                </a>
+
+                <!-- 背景虚化 -->
+                <a href="tools/blur.html" class="tool-card">
+                    <div class="tool-icon">🌫️</div>
+                    <h3 class="tool-name">背景虚化</h3>
+                    <p class="tool-desc">给图片添加专业级背景虚化效果，模拟大光圈镜头</p>
+                    <span class="tool-tag">热门</span>
+                </a>
+
+                <!-- 格式转换 -->
+                <a href="tools/convert.html" class="tool-card">
+                    <div class="tool-icon">🔄</div>
+                    <h3 class="tool-name">格式转换</h3>
+                    <p class="tool-desc">PNG/JPG/WebP/BMP/GIF 互转，快速无损</p>
+                    <span class="tool-tag">常用</span>
+                </a>
+
+                <!-- 尺寸调整 -->
+                <a href="tools/resize.html" class="tool-card">
+                    <div class="tool-icon">📐</div>
+                    <h3 class="tool-name">尺寸调整</h3>
+                    <p class="tool-desc">按比例缩放、指定像素、裁剪，适配各种平台</p>
+                    <span class="tool-tag">常用</span>
+                </a>
+
+                <!-- 图标制作 -->
+                <a href="tools/icon-maker.html" class="tool-card">
+                    <div class="tool-icon">🎯</div>
+                    <h3 class="tool-name">图标制作</h3>
+                    <p class="tool-desc">一键生成 App 图标、Favicon，支持多种尺寸输出</p>
+                    <span class="tool-tag">实用</span>
+                </a>
+
+                <!-- 图片压缩 -->
+                <a href="tools/compress.html" class="tool-card">
+                    <div class="tool-icon">🗜️</div>
+                    <h3 class="tool-name">图片压缩</h3>
+                    <p class="tool-desc">智能压缩图片体积，保持画质，加快网页加载</p>
+                    <span class="tool-tag">实用</span>
+                </a>
+
+                <!-- 滤镜美化 -->
+                <a href="tools/filter.html" class="tool-card">
+                    <div class="tool-icon">🌈</div>
+                    <h3 class="tool-name">滤镜美化</h3>
+                    <p class="tool-desc">黑白、复古、冷调、暖调等多种滤镜一键应用</p>
+                    <span class="tool-tag">趣味</span>
+                </a>
+
+                <!-- 圆角裁剪 -->
+                <a href="tools/rounded.html" class="tool-card">
+                    <div class="tool-icon">⬜</div>
+                    <h3 class="tool-name">圆角裁剪</h3>
+                    <p class="tool-desc">给图片添加圆角或圆形遮罩，适合头像和卡片</p>
+                    <span class="tool-tag">趣味</span>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 功能特点 -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">为什么选择 PicStudio？</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">🔒</div>
+                    <h3>隐私安全</h3>
+                    <p>所有图片处理在浏览器本地完成，不上传服务器</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">⚡</div>
+                    <h3>极速处理</h3>
+                    <p>利用 WebAssembly 技术，处理速度快如本地软件</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">💰</div>
+                    <h3>完全免费</h3>
+                    <p>无需注册，无广告，无使用次数限制</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">📱</div>
+                    <h3>多端适配</h3>
+                    <p>电脑、手机、平板均可使用，界面自适应</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq" id="faq">
+        <div class="container">
+            <h2 class="section-title">常见问题</h2>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">图片会上传到服务器吗？</div>
+                    <div class="faq-answer">不会。所有处理都在您的浏览器本地完成，图片不会上传到任何服务器，充分保护您的隐私。</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">使用需要注册账号吗？</div>
+                    <div class="faq-answer">不需要。PicStudio 完全免费，打开即可使用，无需注册。</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">支持哪些图片格式？</div>
+                    <div class="faq-answer">支持 PNG、JPG/JPEG、WebP、BMP、GIF 等常见格式的输入和输出。</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">有使用次数限制吗？</div>
+                    <div class="faq-answer">没有限制，您可以无限次使用所有工具。</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="logo-icon">🎨</span>
+                    <span class="logo-text">Pic<span class="accent">Studio</span></span>
+                </div>
+                <p class="footer-desc">免费的在线图片处理工具，让每个人都能轻松编辑图片</p>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 PicStudio. 保留所有权利。</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

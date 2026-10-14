@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片尺寸调整 - PicStudio</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <a href="../index.html" class="logo">
+                <span class="logo-icon">🎨</span>
+                <span class="logo-text">Pic<span class="accent">Studio</span></span>
+            </a>
+        </div>
+    </header>
+
+    <section class="tool-page">
+        <div class="container">
+            <a href="../index.html" class="back-link">← 返回首页</a>
+            <div class="tool-header">
+                <h1>📐 图片尺寸调整</h1>
+                <p>按比例缩放、指定像素、裁剪，适配各种平台</p>
+            </div>
+
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-icon">📁</div>
+                <div class="upload-text">点击或拖拽图片到这里</div>
+                <div class="upload-hint">支持 PNG / JPG / WebP</div>
+                <input type="file" id="fileInput" accept="image/*">
+            </div>
+
+            <div class="preview-area" id="previewArea">
+                <div class="preview-box">
+                    <h3>原始图片</h3>
+                    <img id="originalPreview" src="" alt="原始图片">
+                    <div id="originalSize" style="margin-top:12px;font-size:13px;color:var(--text-muted);"></div>
+                </div>
+                <div class="preview-box">
+                    <h3>调整结果</h3>
+                    <img id="processedPreview" src="" alt="处理结果">
+                    <div id="resultSize" style="margin-top:12px;font-size:13px;color:var(--text-muted);"></div>
+                </div>
+            </div>
+
+            <div class="controls" id="controls">
+                <div class="control-group">
+                    <label class="control-label">调整模式</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" name="resizeMode" id="modePercent" value="percent" checked>
+                            <label for="modePercent">按比例</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="resizeMode" id="modePixels" value="pixels">
+                            <label for="modePixels">指定像素</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="resizeMode" id="modePreset" value="preset">
+                            <label for="modePreset">预设尺寸</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Percent Mode -->
+                <div class="control-group" id="percentGroup">
+                    <label class="control-label">缩放比例</label>
+                    <input type="range" id="percent" min="10" max="300" value="100">
+                    <div class="control-hint" id="percentHint">100%</div>
+                </div>
+
+                <!-- Pixels Mode -->
+                <div class="control-group" id="pixelsGroup" style="display:none;">
+                    <label class="control-label">宽度（像素）</label>
+                    <input type="number" id="targetWidth" placeholder="输入宽度" min="1">
+                    <div style="height:12px;"></div>
+                    <label class="control-label">高度（像素）</label>
+                    <input type="number" id="targetHeight" placeholder="输入高度" min="1">
+                    <div class="control-hint">
+                        <input type="checkbox" id="keepAspect" checked> 保持宽高比
+                    </div>
+                </div>
+
+                <!-- Preset Mode -->
+                <div class="control-group" id="presetGroup" style="display:none;">
+                    <label class="control-label">选择预设</label>
+                    <select id="presetSelect">
+                        <option value="1920x1080">1920×1080 (Full HD)</option>
+                        <option value="1280x720">1280×720 (HD)</option>
+                        <option value="1080x1080">1080×1080 (Instagram 方形)</option>
+                        <option value="1080x1350">1080×1350 (Instagram 竖版)</option>
+                        <option value="1200x630">1200×630 (社交分享)</option>
+                        <option value="800x800">800×800 (电商主图)</option>
+                        <option value="414x896">414×896 (手机壁纸)</option>
+                    </select>
+                </div>
+
+                <button class="btn btn-primary btn-lg" id="processBtn" style="width:100%;">调整尺寸</button>
+            </div>
+
+            <div class="download-section" id="downloadSection">
+                <button class="btn btn-primary btn-lg" id="downloadBtn">⬇️ 下载结果</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <div class="loading-text">正在调整中，请稍候...</div>
+    </div>
+
+    <script src="../assets/js/tools.js"></script>
+    <script>
+    const modeRadios = document.querySelectorAll('input[name="resizeMode"]');
+    const percentGroup = document.getElementById('percentGroup');
+    const pixelsGroup = document.getElementById('pixelsGroup');
+    const presetGroup = document.getElementById('presetGroup');
+    const percentSlider = document.getElementById('percent');
+    const percentHint = document.getElementById('percentHint');
+
+    modeRadios.forEach(radio => {
+        radio.addEventListener('change', (e) => {
+            percentGroup.style.display = 'none';
+            pixelsGroup.style.display = 'none';
+            presetGroup.style.display = 'none';
+
+            if (e.target.value === 'percent') percentGroup.style.display = 'block';
+            if (e.target.value === 'pixels') pixelsGroup.style.display = 'block';
+            if (e.target.value === 'preset') presetGroup.style.display = 'block';
+        });
+    });
+
+    percentSlider.addEventListener('input', () => {
+        percentHint.textContent = `${percentSlider.value}%`;
+    });
+
+    let origWidth = 0, origHeight = 0;
+
+    const tool = new ImageTool({
+        process: async (canvas) => {
+            const mode = document.querySelector('input[name="resizeMode"]:checked').value;
+            let newWidth, newHeight;
+
+            if (mode === 'percent') {
+                const scale = parseInt(percentSlider.value) / 100;
+                newWidth = Math.round(canvas.width * scale);
+                newHeight = Math.round(canvas.height * scale);
+            } else if (mode === 'pixels') {
+                const w = parseInt(document.getElementById('targetWidth').value);
+                const h = parseInt(document.getElementById('targetHeight').value);
+                const keepAspect = document.getElementById('keepAspect').checked;
+
+                if (keepAspect) {
+                    if (w && !h) {
+                        newWidth = w;
+                        newHeight = Math.round(canvas.height * (w / canvas.width));
+                    } else if (!w && h) {
+                        newHeight = h;
+                        newWidth = Math.round(canvas.width * (h / canvas.height));
+                    } else if (w && h) {
+                        newWidth = w;
+                        newHeight = h;
+                    } else {
+                        alert('请输入宽度或高度');
+                        return canvas;
+                    }
+                } else {
+                    newWidth = w || canvas.width;
+                    newHeight = h || canvas.height;
+                }
+            } else if (mode === 'preset') {
+                const [w, h] = document.getElementById('presetSelect').value.split('x').map(Number);
+                newWidth = w;
+                newHeight = h;
+            }
+
+            const result = ImageUtils.resizeCanvas(canvas, newWidth, newHeight);
+            document.getElementById('resultSize').textContent = `${newWidth} × ${newHeight} px`;
+            return result;
+        },
+        downloadOptions: { filename: 'picstudio-resized', format: 'png' }
+    });
+
+    // Override to show original size
+    const origHandleFile = tool.handleFile.bind(tool);
+    tool.handleFile = function(file) {
+        origHandleFile(file).then(() => {
+            // Update displayed size after image loads
+            setTimeout(() => {
+                if (tool.originalCanvas) {
+                    origWidth = tool.originalCanvas.width;
+                    origHeight = tool.originalCanvas.height;
+                    document.getElementById('originalSize').textContent = `${origWidth} × ${origHeight} px`;
+                    document.getElementById('targetWidth').placeholder = `原图 ${origWidth}`;
+                    document.getElementById('targetHeight').placeholder = `原图 ${origHeight}`;
+                }
+            }, 100);
+        });
+    };
+
+    document.getElementById('processBtn').addEventListener('click', () => tool.process());
+    </script>
+</body>
+</html>

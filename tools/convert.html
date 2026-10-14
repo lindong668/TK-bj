@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片格式转换 - PicStudio</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <a href="../index.html" class="logo">
+                <span class="logo-icon">🎨</span>
+                <span class="logo-text">Pic<span class="accent">Studio</span></span>
+            </a>
+        </div>
+    </header>
+
+    <section class="tool-page">
+        <div class="container">
+            <a href="../index.html" class="back-link">← 返回首页</a>
+            <div class="tool-header">
+                <h1>🔄 图片格式转换</h1>
+                <p>在 PNG / JPG / WebP / BMP 之间快速转换</p>
+            </div>
+
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-icon">📁</div>
+                <div class="upload-text">点击或拖拽图片到这里</div>
+                <div class="upload-hint">支持 PNG / JPG / WebP / BMP / GIF</div>
+                <input type="file" id="fileInput" accept="image/*">
+            </div>
+
+            <div class="preview-area" id="previewArea">
+                <div class="preview-box">
+                    <h3>原始图片</h3>
+                    <img id="originalPreview" src="" alt="原始图片">
+                    <div id="originalInfo" style="margin-top:12px;font-size:13px;color:var(--text-muted);"></div>
+                </div>
+                <div class="preview-box">
+                    <h3>转换结果</h3>
+                    <img id="processedPreview" src="" alt="处理结果">
+                    <div id="resultInfo" style="margin-top:12px;font-size:13px;color:var(--text-muted);"></div>
+                </div>
+            </div>
+
+            <div class="controls" id="controls">
+                <div class="control-group">
+                    <label class="control-label">目标格式</label>
+                    <select id="targetFormat">
+                        <option value="png">PNG - 无损压缩，支持透明</option>
+                        <option value="jpeg">JPG - 有损压缩，文件更小</option>
+                        <option value="webp">WebP - 现代格式，压缩率高</option>
+                        <option value="bmp">BMP - 无压缩位图</option>
+                    </select>
+                </div>
+
+                <div class="control-group" id="qualityGroup">
+                    <label class="control-label">输出质量（仅 JPG/WebP）</label>
+                    <input type="range" id="quality" min="10" max="100" value="92">
+                    <div class="control-hint" id="qualityHint">质量：92%</div>
+                </div>
+
+                <button class="btn btn-primary btn-lg" id="processBtn" style="width:100%;">转换格式</button>
+            </div>
+
+            <div class="download-section" id="downloadSection">
+                <button class="btn btn-primary btn-lg" id="downloadBtn">⬇️ 下载结果</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <div class="loading-text">正在转换中，请稍候...</div>
+    </div>
+
+    <script src="../assets/js/tools.js"></script>
+    <script>
+    const qualitySlider = document.getElementById('quality');
+    const qualityHint = document.getElementById('qualityHint');
+    const targetFormat = document.getElementById('targetFormat');
+    const qualityGroup = document.getElementById('qualityGroup');
+
+    qualitySlider.addEventListener('input', () => {
+        qualityHint.textContent = `质量：${qualitySlider.value}%`;
+    });
+
+    targetFormat.addEventListener('change', () => {
+        const fmt = targetFormat.value;
+        qualityGroup.style.display = (fmt === 'jpeg' || fmt === 'webp') ? 'block' : 'none';
+    });
+
+    let originalSize = 0;
+
+    const tool = new ImageTool({
+        process: async (canvas) => {
+            const format = targetFormat.value;
+            const quality = parseInt(qualitySlider.value) / 100;
+
+            const mimeType = `image/${format === 'jpeg' ? 'jpeg' : format}`;
+            const dataUrl = canvas.toDataURL(mimeType, quality);
+
+            // Show result info
+            const sizeKB = Math.round(dataUrl.length * 3 / 4 / 1024);
+            document.getElementById('resultInfo').textContent = `格式：${format.toUpperCase()} | 预估大小：${sizeKB} KB`;
+
+            // Convert data URL back to canvas for download
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => {
+                    const result = document.createElement('canvas');
+                    result.width = img.naturalWidth;
+                    result.height = img.naturalHeight;
+                    result.getContext('2d').drawImage(img, 0, 0);
+                    resolve(result);
+                };
+                img.src = dataUrl;
+            });
+        },
+        downloadOptions: { filename: 'picstudio-converted' }
+    });
+
+    // Override handleFile to show original info
+    const originalHandleFile = tool.handleFile.bind(tool);
+    tool.handleFile = function(file) {
+        originalSize = file.size;
+        const sizeKB = (file.size / 1024).toFixed(1);
+        const ext = file.name.split('.').pop().toUpperCase();
+        document.getElementById('originalInfo').textContent = `格式：${ext} | 大小：${sizeKB} KB`;
+        originalHandleFile(file);
+    };
+
+    document.getElementById('processBtn').addEventListener('click', () => {
+        const format = targetFormat.value;
+        tool.config.downloadOptions.format = format;
+        tool.process();
+    });
+    </script>
+</body>
+</html>

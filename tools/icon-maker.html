@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图标制作 - PicStudio</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <a href="../index.html" class="logo">
+                <span class="logo-icon">🎨</span>
+                <span class="logo-text">Pic<span class="accent">Studio</span></span>
+            </a>
+        </div>
+    </header>
+
+    <section class="tool-page">
+        <div class="container">
+            <a href="../index.html" class="back-link">← 返回首页</a>
+            <div class="tool-header">
+                <h1>🎯 图标制作</h1>
+                <p>一键生成 App 图标、Favicon，支持多种尺寸和圆角</p>
+            </div>
+
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-icon">📁</div>
+                <div class="upload-text">点击或拖拽图片到这里</div>
+                <div class="upload-hint">建议使用正方形图片，PNG / JPG / WebP</div>
+                <input type="file" id="fileInput" accept="image/*">
+            </div>
+
+            <div class="preview-area" id="previewArea">
+                <div class="preview-box">
+                    <h3>原始图片</h3>
+                    <img id="originalPreview" src="" alt="原始图片">
+                </div>
+                <div class="preview-box">
+                    <h3>图标预览</h3>
+                    <img id="processedPreview" src="" alt="处理结果">
+                </div>
+            </div>
+
+            <div class="controls" id="controls">
+                <div class="control-group">
+                    <label class="control-label">输出尺寸</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" name="iconSize" id="size512" value="512">
+                            <label for="size512">512px</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="iconSize" id="size256" value="256" checked>
+                            <label for="size256">256px</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="iconSize" id="size192" value="192">
+                            <label for="size192">192px</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="iconSize" id="size64" value="64">
+                            <label for="size64">64px</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="iconSize" id="size32" value="32">
+                            <label for="size32">32px</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">圆角半径</label>
+                    <input type="range" id="cornerRadius" min="0" max="50" value="20">
+                    <div class="control-hint" id="radiusHint">20%</div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">背景样式</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" name="bgStyle" id="bgNone" value="none" checked>
+                            <label for="bgNone">无背景</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="bgStyle" id="bgSolid" value="solid">
+                            <label for="bgSolid">纯色</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="bgStyle" id="bgGradient" value="gradient">
+                            <label for="bgGradient">渐变</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-group" id="bgColorGroup" style="display:none;">
+                    <label class="control-label">背景颜色</label>
+                    <input type="color" id="iconBgColor" value="#6366f1" style="width:60px;height:40px;border:none;border-radius:8px;cursor:pointer;">
+                </div>
+
+                <button class="btn btn-primary btn-lg" id="processBtn" style="width:100%;">生成图标</button>
+            </div>
+
+            <div class="download-section" id="downloadSection">
+                <button class="btn btn-primary btn-lg" id="downloadBtn">⬇️ 下载图标</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <div class="loading-text">正在生成中，请稍候...</div>
+    </div>
+
+    <script src="../assets/js/tools.js"></script>
+    <script>
+    const cornerSlider = document.getElementById('cornerRadius');
+    const radiusHint = document.getElementById('radiusHint');
+    const bgRadios = document.querySelectorAll('input[name="bgStyle"]');
+    const bgColorGroup = document.getElementById('bgColorGroup');
+
+    cornerSlider.addEventListener('input', () => {
+        radiusHint.textContent = `${cornerSlider.value}%`;
+    });
+
+    bgRadios.forEach(radio => {
+        radio.addEventListener('change', (e) => {
+            bgColorGroup.style.display = e.target.value === 'solid' ? 'block' : 'none';
+        });
+    });
+
+    const tool = new ImageTool({
+        process: async (canvas) => {
+            const size = parseInt(document.querySelector('input[name="iconSize"]:checked').value);
+            const radiusPercent = parseInt(cornerSlider.value);
+            const bgStyle = document.querySelector('input[name="bgStyle"]:checked').value;
+            const bgColor = document.getElementById('iconBgColor').value;
+
+            // Resize to square (center crop)
+            const minDim = Math.min(canvas.width, canvas.height);
+            const startX = (canvas.width - minDim) / 2;
+            const startY = (canvas.height - minDim) / 2;
+
+            const squareCanvas = document.createElement('canvas');
+            squareCanvas.width = minDim;
+            squareCanvas.height = minDim;
+            squareCanvas.getContext('2d').drawImage(canvas, startX, startY, minDim, minDim, 0, 0, minDim, minDim);
+
+            // Resize to target size
+            const resized = ImageUtils.resizeCanvas(squareCanvas, size, size);
+
+            // Apply rounded corners
+            const result = document.createElement('canvas');
+            result.width = size;
+            result.height = size;
+            const ctx = result.getContext('2d');
+
+            // Draw background
+            if (bgStyle === 'solid') {
+                ctx.fillStyle = bgColor;
+                ctx.fillRect(0, 0, size, size);
+            } else if (bgStyle === 'gradient') {
+                const gradient = ctx.createLinearGradient(0, 0, size, size);
+                gradient.addColorStop(0, '#6366f1');
+                gradient.addColorStop(1, '#ec4899');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, size, size);
+            }
+
+            // Apply rounded corners mask
+            const radius = Math.floor(size * radiusPercent / 100);
+            ctx.save();
+            roundRect(ctx, 0, 0, size, size, radius);
+            ctx.clip();
+            ctx.drawImage(resized, 0, 0);
+            ctx.restore();
+
+            return result;
+        },
+        downloadOptions: { filename: 'picstudio-icon', format: 'png' }
+    });
+
+    function roundRect(ctx, x, y, w, h, r) {
+        ctx.beginPath();
+        ctx.moveTo(x + r, y);
+        ctx.lineTo(x + w - r, y);
+        ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+        ctx.lineTo(x + w, y + h - r);
+        ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+        ctx.lineTo(x + r, y + h);
+        ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+        ctx.lineTo(x, y + r);
+        ctx.quadraticCurveTo(x, y, x + r, y);
+        ctx.closePath();
+    }
+
+    document.getElementById('processBtn').addEventListener('click', () => tool.process());
+    </script>
+</body>
+</html>
