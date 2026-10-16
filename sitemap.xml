@@ -10,7 +10,7 @@
 
   <!-- 背景虚化 -->
   <url>
-    <loc>https://piccalc.com/工具/blur.html</loc>
+    <loc>https://piccalc.com/tools/blur.html</loc>
     <lastmod>2026-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -18,7 +18,7 @@
 
   <!-- 图片压缩 -->
   <url>
-    <loc>https://piccalc.com/工具/compress.html</loc>
+    <loc>https://piccalc.com/tools/compress.html</loc>
     <lastmod>2026-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -26,7 +26,7 @@
 
   <!-- 格式转换 -->
   <url>
-    <loc>https://piccalc.com/工具/convert.html</loc>
+    <loc>https://piccalc.com/tools/convert.html</loc>
     <lastmod>2026-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -34,7 +34,7 @@
 
   <!-- 滤镜美化 -->
   <url>
-    <loc>https://piccalc.com/工具/filter.html</loc>
+    <loc>https://piccalc.com/tools/filter.html</loc>
     <lastmod>2026-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -42,7 +42,7 @@
 
   <!-- 图标制作 -->
   <url>
-    <loc>https://piccalc.com/工具/icon-maker.html</loc>
+    <loc>https://piccalc.com/tools/icon-maker.html</loc>
     <lastmod>2026-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -50,7 +50,7 @@
 
   <!-- AI 抠图 -->
   <url>
-    <loc>https://piccalc.com/工具/remove-bg.html</loc>
+    <loc>https://piccalc.com/tools/remove-bg.html</loc>
     <lastmod>2026-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -58,7 +58,7 @@
 
   <!-- 尺寸调整 -->
   <url>
-    <loc>https://piccalc.com/工具/resize.html</loc>
+    <loc>https://piccalc.com/tools/resize.html</loc>
     <lastmod>2026-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -66,7 +66,7 @@
 
   <!-- 圆角裁剪 -->
   <url>
-    <loc>https://piccalc.com/工具/rounded.html</loc>
+    <loc>https://piccalc.com/tools/rounded.html</loc>
     <lastmod>2026-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
