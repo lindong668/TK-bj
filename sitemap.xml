@@ -7,12 +7,68 @@
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
-  
-  <!-- 如果有其他页面，按下面格式继续添加 -->
-  <!-- <url>
-    <loc>https://piccalc.com/tools/remove-bg.html</loc>
+
+  <!-- 背景虚化 -->
+  <url>
+    <loc>https://piccalc.com/工具/blur.html</loc>
     <lastmod>2026-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-  </url> -->
+  </url>
+
+  <!-- 图片压缩 -->
+  <url>
+    <loc>https://piccalc.com/工具/compress.html</loc>
+    <lastmod>2026-10-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 格式转换 -->
+  <url>
+    <loc>https://piccalc.com/工具/convert.html</loc>
+    <lastmod>2026-10-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 滤镜美化 -->
+  <url>
+    <loc>https://piccalc.com/工具/filter.html</loc>
+    <lastmod>2026-10-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- 图标制作 -->
+  <url>
+    <loc>https://piccalc.com/工具/icon-maker.html</loc>
+    <lastmod>2026-10-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- AI 抠图 -->
+  <url>
+    <loc>https://piccalc.com/工具/remove-bg.html</loc>
+    <lastmod>2026-10-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 尺寸调整 -->
+  <url>
+    <loc>https://piccalc.com/工具/resize.html</loc>
+    <lastmod>2026-10-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 圆角裁剪 -->
+  <url>
+    <loc>https://piccalc.com/工具/rounded.html</loc>
+    <lastmod>2026-10-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 </urlset>
