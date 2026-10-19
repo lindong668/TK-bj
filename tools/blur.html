@@ -296,18 +296,93 @@
         <div class="loading-text">正在处理中，请稍候...</div>
     </div>
 
+    <script src="../assets/js/algo-seg.js"></script>
+    <script src="../assets/js/ai-core.js"></script>
     <script src="../assets/js/tools.js"></script>
     <script>
     const tool = new ImageTool({
         process: async (canvas) => {
-            const blurAmount = parseInt(document.getElementById('blurAmount').value);
-            const keepRadius = parseInt(document.getElementById('keepRadius').value) / 100;
-            const blurMode = document.querySelector('input[name="blurMode"]:checked').value;
+            const mode    = document.querySelector('input[name="blurMode"]:checked')?.value || 'bg';
+            const radius  = parseInt(document.getElementById('strength')?.value || document.getElementById('blurAmount')?.value || 15, 10);
+            const shape   = document.querySelector('input[name="blurShape"]:checked')?.value || 'gaussian';
 
-            return applyBlur(canvas, blurAmount, keepRadius, blurMode);
+            // 马赛克模式：直接像素化整图
+            if (shape === 'mosaic') {
+                return mosaicCanvas(canvas, Math.max(2, Math.round(radius / 2)));
+            }
+
+            // 整图模糊
+            if (mode === 'all') {
+                return PicSeg.boxBlur(canvas, radius);
+            }
+
+            // 背景虚化：优先用 AI 分割出人像/主体，只虚化背景
+            if (mode !== 'all' && window.AILab) {
+                try {
+                    const txt = document.querySelector('.loading-text');
+                    const out = await window.AILab.portraitBlur(canvas, {
+                        strength: radius,
+                        feather: 2,
+                        onProgress: (msg) => { if (txt) txt.textContent = msg; }
+                    });
+                    if (out) return out;
+                } catch (err) {
+                    console.warn('[blur] AI 分割失败，降级本地算法：', err);
+                }
+            }
+
+            // 本地方案：先分割出主体，再按距离分层模糊（真实景深）
+            const ctx = canvas.getContext('2d');
+            const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            // 在低分辨率上算 mask 即可，省时且足够准
+            const work = PicSeg.downsampleImageData(imgData.data, canvas.width, canvas.height, 600);
+            const alpha = PicSeg.segmentAlpha(work.data, work.W, work.H, { maxSide: 600 });
+            const smallMask = new Uint8Array(work.W * work.H);
+            for (let i = 0; i < smallMask.length; i++) smallMask[i] = alpha[i] > 0.5 ? 1 : 0;
+            const mask = PicSeg.upsampleMask(smallMask, work.W, work.H, canvas.width, canvas.height);
+
+            return PicSeg.depthBlur(canvas, mask, { maxRadius: radius, layers: 4 });
         },
         downloadOptions: { filename: 'picstudio-blur', format: 'png' }
     });
+
+    // 处理结束后把加载文案还原，避免下次显示上一条进度
+    document.getElementById('processBtn')?.addEventListener('click', () => {
+        const txt = document.querySelector('.loading-text');
+        if (txt) txt.textContent = '正在处理中，请稍候...';
+    });
+
+    /** 马赛克（像素化） */
+    function mosaicCanvas(canvas, block) {
+        const W = canvas.width, H = canvas.height;
+        const ctx = canvas.getContext('2d');
+        const img = ctx.getImageData(0, 0, W, H);
+        const d = img.data;
+        for (let y = 0; y < H; y += block) {
+            for (let x = 0; x < W; x += block) {
+                let r = 0, g = 0, b = 0, n = 0;
+                const y1 = Math.min(H, y + block), x1 = Math.min(W, x + block);
+                for (let yy = y; yy < y1; yy++) {
+                    for (let xx = x; xx < x1; xx++) {
+                        const o = (yy * W + xx) * 4;
+                        r += d[o]; g += d[o+1]; b += d[o+2]; n++;
+                    }
+                }
+                r = r/n; g = g/n; b = b/n;
+                for (let yy = y; yy < y1; yy++) {
+                    for (let xx = x; xx < x1; xx++) {
+                        const o = (yy * W + xx) * 4;
+                        d[o] = r; d[o+1] = g; d[o+2] = b;
+                    }
+                }
+            }
+        }
+        ctx.putImageData(img, 0, 0);
+        const out = document.createElement('canvas');
+        out.width = W; out.height = H;
+        out.getContext('2d').drawImage(canvas, 0, 0);
+        return out;
+    }
 
     document.getElementById('processBtn').addEventListener('click', () => tool.process());
 

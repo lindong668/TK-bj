@@ -173,7 +173,26 @@
                     <div class="control-hint">容差越大，被判定为背景的范围越广。抠不干净就调大，主体缺角就调小。</div>
                 </div>
 
+                <div class="control-group">
+                    <label class="control-label">边缘羽化：<span id="featherHint">开</span></label>
+                    <input type="range" id="feather" min="0" max="10" value="5" step="1">
+                    <div class="control-hint">让边缘过渡更柔和。处理发丝、毛发时调大；要硬边缘（如商品图）可关掉（拖到 0）。</div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">手动修补（可选）</label>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+                        <button type="button" class="btn btn-secondary btn-sm" id="brushNone" style="flex:1;min-width:80px;">关闭画笔</button>
+                        <button type="button" class="btn btn-secondary btn-sm" id="brushFg" style="flex:1;min-width:80px;">🟢 保留笔</button>
+                        <button type="button" class="btn btn-secondary btn-sm" id="brushBg" style="flex:1;min-width:80px;">🔴 擦除笔</button>
+                    </div>
+                    <input type="range" id="brushSize" min="5" max="80" value="25" step="1">
+                    <div class="control-hint">自动结果不满意时，用保留笔涂抹主体被误删的部分、用擦除笔涂抹残留的背景，再点「重新抠图」。</div>
+                </div>
+
+                <div class="engine-badge" id="engineBadge" style="display:none;"></div>
                 <button class="btn btn-primary btn-lg" id="processBtn" style="width:100%;">开始抠图</button>
+                <button class="btn btn-secondary btn-lg" id="reprocessBtn" style="width:100%;margin-top:8px;display:none;">🔄 应用修补并重新抠图</button>
             </div>
 
             <!-- Download -->
@@ -301,6 +320,8 @@
         <div class="loading-text" id="loadingText">正在处理中，请稍候...</div>
     </div>
 
+    <script src="../assets/js/algo-seg.js"></script>
+    <script src="../assets/js/ai-core.js"></script>
     <script src="../assets/js/tools.js"></script>
     <script>
     // Toggle custom color picker
@@ -312,168 +333,250 @@
     });
 
     const tolSlider = document.getElementById('tolerance');
-    const tolHint = document.getElementById('tolHint');
-    tolSlider.addEventListener('input', () => {
-        tolHint.textContent = tolSlider.value;
+    const tolHint   = document.getElementById('tolHint');
+    const feather   = document.getElementById('feather');
+    const featherH  = document.getElementById('featherHint');
+    tolSlider.addEventListener('input', () => { tolHint.textContent = tolSlider.value; });
+    feather.addEventListener('input', () => {
+        featherH.textContent = (+feather.value === 0) ? '关' : feather.value;
     });
+
+    /* ---------------- 手动修补状态 ---------------- */
+    const brush = { mode: 'none', size: 25, fg: null, bg: null, W: 0, H: 0 };
+    const brushSize = document.getElementById('brushSize');
+    brushSize.addEventListener('input', () => { brush.size = +brushSize.value; });
+
+    function setBrush(mode) {
+        brush.mode = mode;
+        ['brushNone','brushFg','brushBg'].forEach(id => {
+            document.getElementById(id).style.outline = '';
+        });
+        const map = { none:'brushNone', fg:'brushFg', bg:'brushBg' };
+        document.getElementById(map[mode]).style.outline = '2px solid var(--accent)';
+        const prev = document.getElementById('originalPreview');
+        prev.style.cursor = mode === 'none' ? 'default' : 'crosshair';
+    }
+    document.getElementById('brushNone').onclick = () => setBrush('none');
+    document.getElementById('brushFg').onclick   = () => setBrush('fg');
+    document.getElementById('brushBg').onclick   = () => setBrush('bg');
+
+    let lastImageData = null;   // 保留原图 ImageData 供重新计算
+
+    /* ---------------- 引擎状态提示 ---------------- */
+    const engineBadge = document.getElementById('engineBadge');
+    function setEngine(text, kind) {
+        if (!engineBadge) return;
+        engineBadge.style.display = 'block';
+        engineBadge.textContent = text;
+        engineBadge.className = 'engine-badge' + (kind ? ' ' + kind : '');
+    }
+
+    /* 把 AI 输出的 mask 统一转成 0..1 的 Float 数组，并套用手动修补笔 */
+    function maskToAlpha(mask, W, H) {
+        const a = new Float32Array(W * H);
+        const m = mask.data, mw = mask.width, mh = mask.height;
+        if (mw === W && mh === H) {
+            for (let i = 0; i < a.length; i++) a[i] = m[i] / 255;
+        } else {
+            const sx = mw / W, sy = mh / H;
+            for (let y = 0; y < H; y++) {
+                const my = Math.min(mh - 1, Math.floor(y * sy));
+                for (let x = 0; x < W; x++) {
+                    const mx = Math.min(mw - 1, Math.floor(x * sx));
+                    a[y * W + x] = m[my * mw + mx] / 255;
+                }
+            }
+        }
+        if (brush.fg && brush.bg && brush.fg.length === W * H) {
+            for (let i = 0; i < a.length; i++) {
+                if (brush.fg[i]) a[i] = 1;
+                else if (brush.bg[i]) a[i] = 0;
+            }
+        }
+        return a;
+    }
 
     const tool = new ImageTool({
         process: async (canvas) => {
             const bgType = document.querySelector('input[name="bgType"]:checked').value;
+            const tol = parseInt(tolSlider.value, 10);
+            const featherPx = parseInt(feather.value, 10);
+            const W = canvas.width, H = canvas.height;
 
-            // Simulate AI background removal with edge detection
-            // In production, this would use @imgly/background-removal or similar
-            const result = await removeBackground(canvas, parseInt(tolSlider.value, 10));
-
-            // Apply background
-            if (bgType === 'white') {
-                return applyBackgroundColor(result, '#FFFFFF');
-            } else if (bgType === 'custom') {
-                const color = document.getElementById('bgColor').value;
-                return applyBackgroundColor(result, color);
+            lastImageData = canvas.getContext('2d').getImageData(0, 0, W, H);
+            brush.W = W; brush.H = H;
+            if (!brush.fg || brush.fg.length !== W * H) {
+                brush.fg = new Uint8Array(W * H);
+                brush.bg = new Uint8Array(W * H);
             }
+
+            let alpha = null;
+
+            /* ---- 优先：真正的神经网络分割（MODNet / MediaPipe） ---- */
+            if (window.AILab) {
+                try {
+                    setEngine('正在准备识别模型…', 'loading');
+                    const mask = await window.AILab.segment(canvas, {
+                        onProgress: (msg) => setEngine(msg, 'loading')
+                    });
+                    alpha = maskToAlpha(mask, W, H);
+                    const engine = window.AILab.getEngine();
+                    if (engine === 'modnet') {
+                        setEngine('✅ 已用 AI 分割模型（MODNet）识别主体', 'ai');
+                    } else if (engine === 'mediapipe') {
+                        setEngine('✅ 已用 AI 人像分割模型（MediaPipe）识别主体', 'ai');
+                    } else {
+                        setEngine('⚙️ AI 模型未加载成功，本次使用本地算法', 'local');
+                    }
+                } catch (err) {
+                    console.warn('[remove-bg] AI 分割失败，降级本地算法：', err);
+                    alpha = null;
+                }
+            }
+
+            /* ---- 降级：本地 GrabCut + 洪水填充（永不失效） ---- */
+            if (!alpha) {
+                alpha = PicSeg.segmentAlpha(
+                    lastImageData.data, W, H,
+                    { tolerance: tol, maxSide: 900, fgSeeds: brush.fg, bgSeeds: brush.bg }
+                );
+                setEngine('⚙️ 本地算法抠图（GrabCut + 边缘细化）。效果不理想可调容差，或用修补笔涂抹。', 'local');
+            }
+
+            const result = alphaToCanvas(alpha, canvas, featherPx);
+
+            // 显示修补按钮
+            document.getElementById('reprocessBtn').style.display = 'block';
+            setupBrushCanvas();
+
+            if (bgType === 'white') return applyBackgroundColor(result, '#FFFFFF');
+            if (bgType === 'custom') return applyBackgroundColor(result, document.getElementById('bgColor').value);
             return result;
         },
         downloadOptions: { filename: 'picstudio-removebg', format: 'png' }
     });
 
     document.getElementById('processBtn').addEventListener('click', () => tool.process());
+    document.getElementById('reprocessBtn').addEventListener('click', () => tool.process());
 
-    /**
-     * 去除背景：边界采样 + 洪水填充（Flood Fill）+ 边缘羽化
-     *
-     * 与「逐像素全局比对背景色」不同，这里从画面四条边出发做连通区域扩散，
-     * 只有与边界连通、且颜色接近背景的像素才会被移除。
-     * 因此主体内部即使出现与背景相同的颜色（例如白衬衫前的白墙），也不会被误删。
-     *
-     * @param {HTMLCanvasElement} canvas
-     * @param {number} tolerance 颜色容差，0-255 距离
-     */
-    async function removeBackground(canvas, tolerance) {
-        tolerance = (typeof tolerance === 'number' && tolerance > 0) ? tolerance : 30;
-
-        const w = canvas.width;
-        const h = canvas.height;
-        const ctx = canvas.getContext('2d');
-        const src = ctx.getImageData(0, 0, w, h);
-        const d = src.data;
-        const total = w * h;
-
-        // ---------- 1. 从四条边采样背景色（取中位数，抗离群点） ----------
-        const rs = [], gs = [], bs = [];
-        const stepSample = Math.max(1, Math.floor(Math.min(w, h) / 60));
-        for (let x = 0; x < w; x += stepSample) { pushPx(x, 0); pushPx(x, h - 1); }
-        for (let y = 0; y < h; y += stepSample) { pushPx(0, y); pushPx(w - 1, y); }
-        function pushPx(x, y) {
-            const i = (y * w + x) * 4;
-            rs.push(d[i]); gs.push(d[i + 1]); bs.push(d[i + 2]);
-        }
-        const bgR = median(rs), bgG = median(gs), bgB = median(bs);
-
-        // ---------- 2. 洪水填充：标记与边界连通的背景像素 ----------
-        const mask = new Uint8Array(total);          // 1 = 背景
-        const visited = new Uint8Array(total);
-        const queue = new Int32Array(total);
-        let head = 0, tail = 0;
-        const tol2 = tolerance * tolerance;
-
-        // 种子：四条边
-        for (let x = 0; x < w; x++) { seed(x, 0); seed(x, h - 1); }
-        for (let y = 0; y < h; y++) { seed(0, y); seed(w - 1, y); }
-        function seed(x, y) {
-            const p = y * w + x;
-            if (visited[p]) return;
-            visited[p] = 1;
-            if (isBg(p)) { mask[p] = 1; queue[tail++] = p; }
-        }
-        function isBg(p) {
-            const i = p * 4;
-            const dr = d[i] - bgR, dg = d[i + 1] - bgG, db = d[i + 2] - bgB;
-            return (dr * dr + dg * dg + db * db) <= tol2;
-        }
-
-        // BFS 扩散（四邻域）
-        while (head < tail) {
-            const p = queue[head++];
-            const x = p % w, y = (p / w) | 0;
-            if (x > 0)     tryPush(p - 1);
-            if (x < w - 1) tryPush(p + 1);
-            if (y > 0)     tryPush(p - w);
-            if (y < h - 1) tryPush(p + w);
-        }
-        function tryPush(np) {
-            if (visited[np]) return;
-            visited[np] = 1;
-            if (isBg(np)) { mask[np] = 1; queue[tail++] = np; }
-        }
-
-        // ---------- 3. 生成 alpha：背景透明，边缘做羽化 ----------
-        const out = new ImageData(w, h);
+    /* ---------------- alpha → canvas ---------------- */
+    function alphaToCanvas(alpha, srcCanvas, featherPx) {
+        const W = srcCanvas.width, H = srcCanvas.height;
+        const src = srcCanvas.getContext('2d').getImageData(0, 0, W, H).data;
+        const out = new ImageData(W, H);
         const o = out.data;
-        o.set(d);
 
-        for (let y = 0; y < h; y++) {
-            for (let x = 0; x < w; x++) {
-                const p = y * w + x;
-                const i = p * 4;
-                if (mask[p] !== 1) { o[i + 3] = 255; continue; }
+        let a = alpha;
+        if (featherPx > 0) {
+            a = smoothAlpha(alpha, W, H, featherPx);
+        }
+        for (let i = 0; i < W * H; i++) {
+            const j = i * 4;
+            o[j] = src[j]; o[j+1] = src[j+1]; o[j+2] = src[j+2];
+            o[j+3] = Math.round(Math.max(0, Math.min(1, a[i])) * 255);
+        }
+        const c = document.createElement('canvas');
+        c.width = W; c.height = H;
+        c.getContext('2d').putImageData(out, 0, 0);
+        return c;
+    }
 
-                // 统计 3x3 邻域中「非背景」像素的数量，越多说明越贴近主体轮廓
-                let solid = 0;
-                for (let dy = -1; dy <= 1; dy++) {
-                    const ny = y + dy;
-                    if (ny < 0 || ny >= h) continue;
-                    for (let dx = -1; dx <= 1; dx++) {
-                        const nx = x + dx;
-                        if (nx < 0 || nx >= w) continue;
-                        if (mask[ny * w + nx] !== 1) solid++;
-                    }
+    /* 边缘羽化：对 alpha 做一次轻量模糊（只在边缘区生效） */
+    function smoothAlpha(alpha, W, H, radius) {
+        const src = alpha;
+        const tmp = new Float32Array(W * H);
+        const out = new Float32Array(W * H);
+        const r = Math.max(1, radius);
+        // 水平
+        for (let y = 0; y < H; y++) {
+            for (let x = 0; x < W; x++) {
+                let s = 0, n = 0;
+                for (let k = -r; k <= r; k++) {
+                    const xx = x + k; if (xx < 0 || xx >= W) continue;
+                    s += src[y*W+xx]; n++;
                 }
-                // 完全被背景包围 -> 全透明；贴着主体 -> 保留一部分不透明度做柔和过渡
-                o[i + 3] = solid === 0 ? 0 : Math.min(255, solid * 26);
+                tmp[y*W+x] = s / n;
             }
         }
-
-        // ---------- 4. 输出 ----------
-        const result = document.createElement('canvas');
-        result.width = w;
-        result.height = h;
-        result.getContext('2d').putImageData(out, 0, 0);
-        return result;
-
-        function median(arr) {
-            if (!arr.length) return 0;
-            const a = arr.slice().sort((m, n) => m - n);
-            return a[a.length >> 1];
+        // 垂直
+        for (let y = 0; y < H; y++) {
+            for (let x = 0; x < W; x++) {
+                let s = 0, n = 0;
+                for (let k = -r; k <= r; k++) {
+                    const yy = y + k; if (yy < 0 || yy >= H) continue;
+                    s += tmp[yy*W+x]; n++;
+                }
+                out[y*W+x] = s / n;
+            }
         }
+        // 只在原边缘带内应用（避免整体发虚）
+        for (let i = 0; i < W*H; i++) {
+            if (src[i] <= 0.001 || src[i] >= 0.999) out[i] = src[i];
+        }
+        return out;
     }
 
-    function applyBackgroundColor(canvas, color) {
-        const ctx = canvas.getContext('2d');
-        const w = canvas.width;
-        const h = canvas.height;
-
-        // Parse color
-        const hex = color.replace('#', '');
-        const r = parseInt(hex.substr(0, 2), 16);
-        const g = parseInt(hex.substr(2, 2), 16);
-        const b = parseInt(hex.substr(4, 2), 16);
-
-        // Create new canvas with background
-        const result = document.createElement('canvas');
-        result.width = w;
-        result.height = h;
-        const resultCtx = result.getContext('2d');
-
-        // Fill background
-        resultCtx.fillStyle = `rgb(${r},${g},${b})`;
-        resultCtx.fillRect(0, 0, w, h);
-
-        // Draw image on top
-        resultCtx.drawImage(canvas, 0, 0);
-
-        return result;
+    /* ---------------- 画笔交互 ---------------- */
+    let brushCanvas = null, brushCtx = null;
+    function setupBrushCanvas() {
+        const prev = document.getElementById('originalPreview');
+        if (!prev || !brush.W) return;
+        if (!brushCanvas) {
+            brushCanvas = document.createElement('canvas');
+            brushCanvas.style.cssText = 'position:absolute;left:0;top:0;width:100%;height:100%;';
+            if (prev.parentElement.style.position !== 'relative') {
+                prev.parentElement.style.position = 'relative';
+            }
+            prev.parentElement.appendChild(brushCanvas);
+            brushCtx = brushCanvas.getContext('2d');
+            const paint = (e) => {
+                if (brush.mode === 'none' || !brushCtx) return;
+                const rect = brushCanvas.getBoundingClientRect();
+                const cx = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+                const cy = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
+                const sx = brush.W / rect.width, sy = brush.H / rect.height;
+                const px = cx * sx, py = cy * sy;
+                const rad = brush.size * Math.max(sx, sy) * 0.5;
+                const x0 = Math.max(0, Math.floor(px - rad)), x1 = Math.min(brush.W-1, Math.ceil(px + rad));
+                const y0 = Math.max(0, Math.floor(py - rad)), y1 = Math.min(brush.H-1, Math.ceil(py + rad));
+                for (let y = y0; y <= y1; y++) {
+                    for (let x = x0; x <= x1; x++) {
+                        const dx = x - px, dy = y - py;
+                        if (dx*dx + dy*dy > rad*rad) continue;
+                        const idx = y * brush.W + x;
+                        if (brush.mode === 'fg') { brush.fg[idx] = 1; brush.bg[idx] = 0; }
+                        else                     { brush.bg[idx] = 1; brush.fg[idx] = 0; }
+                    }
+                }
+                drawBrushOverlay();
+            };
+            let drawing = false;
+            brushCanvas.addEventListener('mousedown', e => { drawing = true; paint(e); });
+            brushCanvas.addEventListener('mousemove', e => { if (drawing) paint(e); });
+            window.addEventListener('mouseup', () => { drawing = false; });
+            brushCanvas.addEventListener('touchstart', e => { e.preventDefault(); paint(e); }, { passive: false });
+            brushCanvas.addEventListener('touchmove',  e => { e.preventDefault(); paint(e); }, { passive: false });
+        }
+        brushCanvas.width = brush.W;
+        brushCanvas.height = brush.H;
+        drawBrushOverlay();
     }
+    function drawBrushOverlay() {
+        if (!brushCtx) return;
+        brushCtx.clearRect(0, 0, brush.W, brush.H);
+        if (!brush.fg) return;
+        const img = brushCtx.createImageData(brush.W, brush.H);
+        for (let i = 0; i < brush.W * brush.H; i++) {
+            const j = i * 4;
+            if (brush.fg[i])      { img.data[j]=34;  img.data[j+1]=197; img.data[j+2]=94;  img.data[j+3]=110; }
+            else if (brush.bg[i]) { img.data[j]=239; img.data[j+1]=68;  img.data[j+2]=68;  img.data[j+3]=110; }
+        }
+        brushCtx.putImageData(img, 0, 0);
+    }
+
+    /**
+     * 把抠出的透明图合成到指定背景色上（保留原图 RGB，只替换透明区）
+     */
     </script>
 </body>
 </html>

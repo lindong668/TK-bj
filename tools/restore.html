@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>老照片修复 - 在线修复泛黄褪色老照片 | PicStudio</title>
+    <meta name="description" content="在线修复泛黄、褪色、发灰的老照片，自动色阶校正加可选去噪与锐化，让旧照重新通透清晰。浏览器本地处理，图片不上传。">
+    <meta name="keywords" content="老照片修复,旧照片翻新,泛黄照片修复,照片修复,自动色阶,老照片上色">
+    <link rel="canonical" href="https://piccalc.com/tools/restore.html">
+    <meta name="robots" content="index,follow,max-image-preview:large">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="PicStudio">
+    <meta property="og:locale" content="zh_CN">
+    <meta property="og:title" content="老照片修复 - 在线修复泛黄褪色老照片 | PicStudio">
+    <meta property="og:description" content="在线修复泛黄、褪色、发灰的老照片，自动色阶校正加可选去噪与锐化，让旧照重新通透清晰。浏览器本地处理，图片不上传。">
+    <meta property="og:url" content="https://piccalc.com/tools/restore.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="老照片修复 - 在线修复泛黄褪色老照片 | PicStudio">
+    <meta name="twitter:description" content="在线修复泛黄、褪色、发灰的老照片，自动色阶校正加可选去噪与锐化，让旧照重新通透清晰。浏览器本地处理，图片不上传。">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <style>.content-section{padding:48px 0;background:#f8fafc;border-top:1px solid #e2e8f0}
+.content-section .container{max-width:860px}
+.content-block{margin-bottom:40px}
+.content-block h2{font-size:1.35rem;color:#0f172a;margin-bottom:16px;padding-left:12px;border-left:4px solid #6366f1}
+.content-block h3{font-size:1.05rem;color:#1e293b;margin:20px 0 8px}
+.content-block p{color:#475569;line-height:1.85;margin-bottom:12px}
+.content-block ul,.content-block ol{color:#475569;line-height:1.85;padding-left:22px;margin-bottom:12px}
+.content-block li{margin-bottom:6px}
+.steps-list{counter-reset:step;list-style:none;padding-left:0}
+.steps-list li{counter-increment:step;position:relative;padding-left:44px;margin-bottom:14px;color:#475569;line-height:1.8}
+.steps-list li::before{content:counter(step);position:absolute;left:0;top:2px;width:28px;height:28px;background:#6366f1;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:600}
+.scenario-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:14px}
+.scenario-card{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:16px}
+.scenario-card h4{font-size:.98rem;color:#0f172a;margin-bottom:6px}
+.scenario-card p{font-size:.9rem;color:#64748b;margin:0;line-height:1.7}
+.spec-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:.92rem}
+.spec-table th,.spec-table td{border:1px solid #e2e8f0;padding:10px 12px;text-align:left}
+.spec-table th{background:#eef2ff;color:#3730a3;font-weight:600;white-space:nowrap}
+.spec-table td{color:#475569}
+.faq-item{border-bottom:1px solid #e2e8f0;padding:16px 0}
+.faq-item:last-child{border-bottom:none}
+.faq-item h3{font-size:1rem;color:#0f172a;margin:0 0 8px}
+.faq-item p{color:#475569;line-height:1.8;margin:0}
+.related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.related-card{display:block;background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:14px;text-decoration:none;transition:.2s}
+.related-card:hover{border-color:#6366f1;transform:translateY(-2px)}
+.related-card .ricon{font-size:1.4rem;display:block;margin-bottom:6px}
+.related-card .rname{font-size:.92rem;color:#0f172a;font-weight:600}
+.related-card .rdesc{font-size:.8rem;color:#64748b;margin-top:4px;line-height:1.5}
+@media(max-width:640px){.content-section{padding:32px 0}.content-block h2{font-size:1.2rem}}</style>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "老照片修复",
+  "url": "https://piccalc.com/tools/restore.html",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "任意（浏览器）",
+  "browserRequirements": "需要支持 Canvas 的现代浏览器",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "CNY"
+  },
+  "description": "在线修复泛黄、褪色、发灰的老照片，自动色阶校正加可选去噪与锐化，让旧照重新通透清晰。浏览器本地处理，图片不上传。"
+}
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "能修复破损、折痕吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "不能。本工具只做色彩与清晰度的数字增强，无法去除物理破损、折痕、污渍或补全缺失部分，那需要人工精修。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "能给黑白照片上色吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "不能。自动上色需要 AI 模型判断物体应有的颜色，本工具是纯算法处理，不涉及内容理解，不会凭空添加颜色。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "修复后感觉太浓艳了怎么办？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "可以把「自动色阶校正」关掉，只保留去噪和锐化。也可先用「调色增强」手动微调饱和度到满意。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "扫描分辨率多少合适？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "建议扫描时用 300–600 dpi。分辨率太低的话，修复只能改善色彩，无法增加真实细节。"
+      }
+    }
+  ]
+}
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "首页",
+      "item": "https://piccalc.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "全部工具",
+      "item": "https://piccalc.com/#tools"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "老照片修复",
+      "item": "https://piccalc.com/tools/restore.html"
+    }
+  ]
+}
+    </script>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <a href="../index.html" class="logo">
+                <span class="logo-icon">🎨</span>
+                <span class="logo-text">Pic<span class="accent">Studio</span></span>
+            </a>
+            <nav class="tool-nav">
+                <a href="../index.html#tools">全部工具</a>
+                <a href="/privacy.html">隐私政策</a>
+                <a href="/faq.html">常见问题</a>
+                <a href="/contact.html">联系我们</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="tool-page">
+        <div class="container">
+            <a href="../index.html" class="back-link">← 返回首页</a>
+            <div class="tool-header">
+                <h1>🕰️ 老照片修复</h1>
+                <p>自动校正色阶，让泛黄发灰的老照片重新通透</p>
+            </div>
+
+
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-icon">📁</div>
+                <div class="upload-text">点击或拖拽图片到这里</div>
+                <div class="upload-hint">支持 PNG / JPG / WebP</div>
+                <input type="file" id="fileInput" accept="image/*">
+            </div>
+
+            <div class="preview-area" id="previewArea">
+                <div class="preview-box">
+                    <h3>原始图片</h3>
+                    <img id="originalPreview" src="" alt="原始图片">
+                </div>
+                <div class="preview-box">
+                    <h3>修复结果</h3>
+                    <img id="processedPreview" src="" alt="处理结果">
+                </div>
+            </div>
+
+            <div class="controls" id="controls">
+                <div class="control-group">
+                    <label class="control-label">自动色阶校正</label>
+                    <div class="radio-group">
+                        <div class="radio-option"><input type="radio" name="rsLevel" id="rsOn" value="1" checked><label for="rsOn">开启（推荐）</label></div>
+                        <div class="radio-option"><input type="radio" name="rsLevel" id="rsOff" value="0"><label for="rsOff">关闭</label></div>
+                    </div>
+                    <div class="control-hint">自动拉伸各通道的明暗范围，解决发灰、偏色</div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">去噪强度</label>
+                    <input type="range" id="rsDn" min="0" max="8" value="2">
+                    <div class="control-hint">老照片通常颗粒重，建议 2–4；设 0 则不去噪</div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">锐化程度</label>
+                    <input type="range" id="rsSharp" min="0" max="100" value="35">
+                    <div class="control-hint">让轮廓更清楚，弥补扫描损失</div>
+                </div>
+                <button class="btn btn-primary btn-lg" id="processBtn" style="width:100%;">开始修复</button>
+            </div>
+            <div class="download-section" id="downloadSection">
+                <button class="btn btn-primary btn-lg" id="downloadBtn" style="width:100%;">下载修复后的照片</button>
+            </div>
+
+            <div class="loading-overlay" id="loadingOverlay">
+                <div class="spinner"></div>
+                <div class="loading-text" id="loadingText">处理中…</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block">
+                <h2>老照片修复怎么用</h2>
+                <ol class="steps-list"><li>上传扫描的老照片</li><li>保持「自动色阶校正」开启，这是修复褪色发灰的关键步骤</li><li>根据颗粒程度设去噪强度，扫描件通常 2–4</li><li>设锐化让轮廓更清晰，点「开始修复」</li></ol>
+            </div>
+            <div class="content-block">
+                <h2>它的原理是什么</h2>
+                <p>老照片最常见的问题是"发灰"：因为年代久远，原本的黑不够黑、白不够白，全部挤在中间调里，看起来灰蒙蒙的。</p><p>自动色阶的做法是：统计每个颜色通道的直方图，把最暗和最亮各 0.5% 的极端像素裁掉，然后把剩下的范围线性拉伸到 0–255。这一步就能让对比度恢复，同时顺带校正偏色。</p><p>之后再按需做保边去噪和 USM 锐化：先抹平年代留下的颗粒，再强化被扫描弱化的轮廓，照片就重新通透了。</p>
+            </div>
+            <div class="content-block">
+                <h2>常见使用场景</h2>
+                <p>下面这些情况用它最顺手：</p>
+                <div class="scenario-grid"><div class="scenario-card"><h4>家庭老照片</h4><p>爷爷奶奶辈的泛黄照片翻新</p></div><div class="scenario-card"><h4>证件旧照</h4><p>多年前的证件照重新变清晰</p></div><div class="scenario-card"><h4>历史资料</h4><p>档案、书本扫描件增强可读性</p></div><div class="scenario-card"><h4>底片扫描</h4><p>负片转正后色彩发灰的修正</p></div></div>
+            </div>
+            <div class="content-block">
+                <h2>规格与参数说明</h2>
+                <table class="spec-table"><tbody><tr><th>输入格式</th><td>PNG / JPG / WebP</td></tr><tr><th>输出格式</th><td>PNG</td></tr><tr><th>自动色阶</th><td>按通道 0.5% 裁剪拉伸</td></tr><tr><th>可选处理</th><td>去噪 0–8 / 锐化 0–100</td></tr><tr><th>最大尺寸</th><td>单边 3000 像素</td></tr></tbody></table>
+            </div>
+            <div class="content-block">
+                <h2>关于老照片修复的常见问题</h2>
+                <div class="faq-item"><h3>能修复破损、折痕吗？</h3><p>不能。本工具只做色彩与清晰度的数字增强，无法去除物理破损、折痕、污渍或补全缺失部分，那需要人工精修。</p></div><div class="faq-item"><h3>能给黑白照片上色吗？</h3><p>不能。自动上色需要 AI 模型判断物体应有的颜色，本工具是纯算法处理，不涉及内容理解，不会凭空添加颜色。</p></div><div class="faq-item"><h3>修复后感觉太浓艳了怎么办？</h3><p>可以把「自动色阶校正」关掉，只保留去噪和锐化。也可先用「调色增强」手动微调饱和度到满意。</p></div><div class="faq-item"><h3>扫描分辨率多少合适？</h3><p>建议扫描时用 300–600 dpi。分辨率太低的话，修复只能改善色彩，无法增加真实细节。</p></div>
+            </div>
+            <div class="content-block">
+                <h2>试试其它工具</h2>
+                <div class="related-grid"><a class="related-card" href="denoise.html"><span class="ricon">✨</span><span class="rname">图片去噪</span><span class="rdesc">消除噪点颗粒</span></a><a class="related-card" href="adjust.html"><span class="ricon">🎨</span><span class="rname">调色增强</span><span class="rdesc">手动微调色彩</span></a><a class="related-card" href="upscale.html"><span class="ricon">🔍</span><span class="rname">图片放大</span><span class="rdesc">提升分辨率</span></a><a class="related-card" href="remove-bg.html"><span class="ricon">🎭</span><span class="rname">智能抠图</span><span class="rdesc">去除背景</span></a></div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="logo-icon">🎨</span>
+                    <span class="logo-text">Pic<span class="accent">Studio</span></span>
+                </div>
+                <p class="footer-desc">免费的在线图片处理工具，所有处理在浏览器本地完成</p>
+            </div>
+            <div class="footer-links">
+                <a href="../index.html#tools">全部工具</a>
+                <a href="/about.html">关于我们</a>
+                <a href="/contact.html">联系我们</a>
+                <a href="/faq.html">常见问题</a>
+                <a href="/privacy.html">隐私政策</a>
+                <a href="/terms.html">使用条款</a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 PicStudio. 保留所有权利。</p>
+            </div>
+        </div>
+    </footer>
+    <script src="../assets/js/lab.js"></script>
+<script>
+(function(){
+var $=function(id){return document.getElementById(id);};
+var fileInput=$('fileInput'),uploadArea=$('uploadArea'),previewArea=$('previewArea'),
+    originalPreview=$('originalPreview'),processedPreview=$('processedPreview'),
+    controls=$('controls'),downloadSection=$('downloadSection'),
+    downloadBtn=$('downloadBtn'),processBtn=$('processBtn'),
+    loadingOverlay=$('loadingOverlay'),loadingText=$('loadingText');
+var srcCanvas=null,outCanvas=null,srcImage=null;
+var MAXSIDE=3000;
+function loadImage(file){return new Promise(function(res,rej){
+  var r=new FileReader();
+  r.onload=function(e){var im=new Image();im.onload=function(){res(im);};im.onerror=function(){rej(new Error('图片解码失败'));};im.src=e.target.result;};
+  r.onerror=function(){rej(new Error('文件读取失败'));};r.readAsDataURL(file);});}
+function toCanvas(img){
+  var w=img.naturalWidth,h=img.naturalHeight,s=Math.min(1,MAXSIDE/Math.max(w,h));
+  var c=document.createElement('canvas');
+  c.width=Math.round(w*s);c.height=Math.round(h*s);
+  var x=c.getContext('2d');x.imageSmoothingEnabled=true;x.imageSmoothingQuality='high';
+  x.drawImage(img,0,0,c.width,c.height);
+  return c;}
+function handleFile(file){
+  if(!file||!file.type.startsWith('image/')){alert('请选择图片文件');return;}
+  loadImage(file).then(function(img){
+    srcImage=img;srcCanvas=toCanvas(img);
+    originalPreview.src=srcCanvas.toDataURL();
+    previewArea.classList.add('active');controls.classList.add('active');
+    outCanvas=null;downloadSection.classList.remove('active');
+    if(window.onImageReady)window.onImageReady(srcCanvas,img);
+  }).catch(function(e){alert(e.message);});}
+uploadArea.addEventListener('click',function(){fileInput.click();});
+fileInput.addEventListener('change',function(e){handleFile(e.target.files[0]);});
+uploadArea.addEventListener('dragover',function(e){e.preventDefault();uploadArea.classList.add('dragover');});
+uploadArea.addEventListener('dragleave',function(){uploadArea.classList.remove('dragover');});
+uploadArea.addEventListener('drop',function(e){e.preventDefault();uploadArea.classList.remove('dragover');handleFile(e.dataTransfer.files[0]);});
+function num(id,d){var el=$(id);var v=el?parseFloat(el.value):NaN;return isNaN(v)?d:v;}
+function val(id){var el=$(id);return el?el.value:null;}
+function radio(name){var el=document.querySelector('input[name="'+name+'"]:checked');return el?el.value:null;}
+function checked(id){var el=$(id);return el?el.checked:false;}
+function showLoading(t){loadingText.textContent=t||'处理中…';loadingOverlay.classList.add('active');}
+function hideLoading(){loadingOverlay.classList.remove('active');}
+function finish(c){outCanvas=c;processedPreview.src=c.toDataURL();downloadSection.classList.add('active');hideLoading();}
+function fail(e){hideLoading();alert('处理失败：'+(e&&e.message||e));}
+processBtn.addEventListener('click',function(){
+  if(!srcCanvas){alert('请先选择一张图片');return;}
+  showLoading(LOADING_TEXT);
+  setTimeout(function(){
+    try{var r=process(srcCanvas);
+      if(r&&typeof r.then==='function'){r.then(finish).catch(fail);}else{finish(r);}
+    }catch(e){fail(e);}
+  },30);});
+downloadBtn.addEventListener('click',function(){
+  if(!outCanvas)return;
+  var a=document.createElement('a');
+  a.download=FILENAME;a.href=outCanvas.toDataURL(FORMAT,QUALITY);a.click();});
+var LOADING_TEXT='正在修复老照片…';
+var FILENAME='restored.png';
+var FORMAT='png';
+var QUALITY=0.92;
+
+function process(src){
+  var c=document.createElement('canvas');c.width=src.width;c.height=src.height;
+  c.getContext('2d').drawImage(src,0,0);
+  return Lab.restore(c,{autoLevel:radio('rsLevel')==='1',
+    denoise:num('rsDn',2),sharpen:num('rsSharp',35)});}
+})();
+</script>
+</body>
+</html>

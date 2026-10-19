@@ -86,60 +86,172 @@
         <div class="container">
             <h2 class="section-title">选择工具</h2>
             <div class="tools-grid">
-                <!-- AI 抠图 -->
+                <!-- 智能抠图 -->
                 <a href="tools/remove-bg.html" class="tool-card">
                     <div class="tool-icon">✂️</div>
                     <h3 class="tool-name">智能抠图</h3>
-                    <p class="tool-desc">去除纯色背景，导出透明 PNG，适合证件照换底色与商品图</p>
+                    <p class="tool-desc">AI 识别主体，一键去背景导出透明 PNG，证件照换底色与商品图必备</p>
                     <span class="tool-tag">热门</span>
                 </a>
                 <!-- 背景虚化 -->
                 <a href="tools/blur.html" class="tool-card">
                     <div class="tool-icon">🌫️</div>
                     <h3 class="tool-name">背景虚化</h3>
-                    <p class="tool-desc">给图片添加专业级背景虚化效果，模拟大光圈镜头</p>
+                    <p class="tool-desc">智能识别主体，只虚化背景，模拟大光圈景深，也可遮挡隐私</p>
+                    <span class="tool-tag">热门</span>
+                </a>
+                <!-- 二维码生成 -->
+                <a href="tools/qrcode.html" class="tool-card">
+                    <div class="tool-icon">📱</div>
+                    <h3 class="tool-name">二维码生成</h3>
+                    <p class="tool-desc">网址、文本、WiFi、名片一键生成二维码，可加 Logo 与自定义颜色</p>
+                    <span class="tool-tag">热门</span>
+                </a>
+                <!-- 证件照制作 -->
+                <a href="tools/id-photo.html" class="tool-card">
+                    <div class="tool-icon">🪪</div>
+                    <h3 class="tool-name">证件照制作</h3>
+                    <p class="tool-desc">自动识别人像换红蓝白标准底色，裁剪成一寸、二寸、签证尺寸</p>
                     <span class="tool-tag">热门</span>
                 </a>
                 <!-- 格式转换 -->
                 <a href="tools/convert.html" class="tool-card">
                     <div class="tool-icon">🔄</div>
                     <h3 class="tool-name">格式转换</h3>
-                    <p class="tool-desc">PNG/JPG/WebP/BMP/GIF 互转，快速无损</p>
+                    <p class="tool-desc">PNG/JPG/WebP/BMP/GIF 互转，含各格式特性对比，本地无损转换</p>
                     <span class="tool-tag">常用</span>
                 </a>
                 <!-- 尺寸调整 -->
                 <a href="tools/resize.html" class="tool-card">
                     <div class="tool-icon">📐</div>
                     <h3 class="tool-name">尺寸调整</h3>
-                    <p class="tool-desc">按比例缩放、指定像素、裁剪，适配各种平台</p>
+                    <p class="tool-desc">按比例缩放、指定像素、裁剪，附常见平台尺寸对照表</p>
                     <span class="tool-tag">常用</span>
-                </a>
-                <!-- 图标制作 -->
-                <a href="tools/icon-maker.html" class="tool-card">
-                    <div class="tool-icon">🎯</div>
-                    <h3 class="tool-name">图标制作</h3>
-                    <p class="tool-desc">一键生成 App 图标、Favicon，支持多种尺寸输出</p>
-                    <span class="tool-tag">实用</span>
                 </a>
                 <!-- 图片压缩 -->
                 <a href="tools/compress.html" class="tool-card">
                     <div class="tool-icon">🗜️</div>
                     <h3 class="tool-name">图片压缩</h3>
-                    <p class="tool-desc">智能压缩图片体积，保持画质，加快网页加载</p>
+                    <p class="tool-desc">可调质量与最大宽度，实时显示压缩前后体积对比，突破上传限制</p>
+                    <span class="tool-tag">常用</span>
+                </a>
+                <!-- 图片转 PDF -->
+                <a href="tools/to-pdf.html" class="tool-card">
+                    <div class="tool-icon">📄</div>
+                    <h3 class="tool-name">图片转 PDF</h3>
+                    <p class="tool-desc">一张或多张图片合成 PDF，自动居中适配 A4，支持自定义清晰度</p>
+                    <span class="tool-tag">常用</span>
+                </a>
+                <!-- 图片加水印 -->
+                <a href="tools/watermark.html" class="tool-card">
+                    <div class="tool-icon">💧</div>
+                    <h3 class="tool-name">图片加水印</h3>
+                    <p class="tool-desc">文字或图片水印，支持全图平铺、四角定位、透明度与旋转，防盗图</p>
+                    <span class="tool-tag">实用</span>
+                </a>
+                <!-- 智能裁剪 -->
+                <a href="tools/crop.html" class="tool-card">
+                    <div class="tool-icon">🖼️</div>
+                    <h3 class="tool-name">智能裁剪</h3>
+                    <p class="tool-desc">微信、小红书、抖音、淘宝、YouTube 等平台标准尺寸一键裁剪</p>
+                    <span class="tool-tag">实用</span>
+                </a>
+                <!-- 图片拼接 -->
+                <a href="tools/stitch.html" class="tool-card">
+                    <div class="tool-icon">🧩</div>
+                    <h3 class="tool-name">图片拼接</h3>
+                    <p class="tool-desc">多张图横向、纵向或九宫格拼接，可调间距、背景色与对齐方式</p>
+                    <span class="tool-tag">实用</span>
+                </a>
+                <!-- 图标制作 -->
+                <a href="tools/icon-maker.html" class="tool-card">
+                    <div class="tool-icon">🎯</div>
+                    <h3 class="tool-name">图标制作</h3>
+                    <p class="tool-desc">一键生成 App 图标与 Favicon，iOS、Android 各规格一次输出</p>
+                    <span class="tool-tag">实用</span>
+                </a>
+                <!-- 二维码识别 -->
+                <a href="tools/qr-reader.html" class="tool-card">
+                    <div class="tool-icon">🔍</div>
+                    <h3 class="tool-name">二维码识别</h3>
+                    <p class="tool-desc">上传二维码图片解析出网址、文本、WiFi 密码，无需安装 App</p>
+                    <span class="tool-tag">实用</span>
+                </a>
+                <!-- 马赛克打码 -->
+                <a href="tools/mosaic.html" class="tool-card">
+                    <div class="tool-icon">🟦</div>
+                    <h3 class="tool-name">马赛克打码</h3>
+                    <p class="tool-desc">框选局部遮挡人脸、车牌、门牌号等隐私信息，也可整图打码</p>
+                    <span class="tool-tag">实用</span>
+                </a>
+                <!-- EXIF 查看清除 -->
+                <a href="tools/exif.html" class="tool-card">
+                    <div class="tool-icon">🗂️</div>
+                    <h3 class="tool-name">EXIF 查看清除</h3>
+                    <p class="tool-desc">查看相机型号、拍摄时间、GPS 定位等信息，一键清除保护隐私</p>
+                    <span class="tool-tag">实用</span>
+                </a>
+                <!-- 调色增强 -->
+                <a href="tools/adjust.html" class="tool-card">
+                    <div class="tool-icon">🎨</div>
+                    <h3 class="tool-name">调色增强</h3>
+                    <p class="tool-desc">调整亮度、对比度、饱和度、色温、伽马与锐化，含黑白复古滤镜</p>
                     <span class="tool-tag">实用</span>
                 </a>
                 <!-- 滤镜美化 -->
                 <a href="tools/filter.html" class="tool-card">
                     <div class="tool-icon">🌈</div>
                     <h3 class="tool-name">滤镜美化</h3>
-                    <p class="tool-desc">黑白、复古、冷调、暖调等多种滤镜一键应用</p>
+                    <p class="tool-desc">黑白、复古、冷调、暖调等多种滤镜一键应用，可调整强度</p>
                     <span class="tool-tag">趣味</span>
                 </a>
                 <!-- 圆角裁剪 -->
                 <a href="tools/rounded.html" class="tool-card">
                     <div class="tool-icon">⬜</div>
                     <h3 class="tool-name">圆角裁剪</h3>
-                    <p class="tool-desc">给图片添加圆角或圆形遮罩，适合头像和卡片</p>
+                    <p class="tool-desc">给图片添加圆角或圆形遮罩，输出透明背景 PNG，适合头像与卡片</p>
+                    <span class="tool-tag">趣味</span>
+                </a>
+                <!-- 长图分割 -->
+                <a href="tools/split.html" class="tool-card">
+                    <div class="tool-icon">📏</div>
+                    <h3 class="tool-name">长图分割</h3>
+                    <p class="tool-desc">把超长截图、聊天记录长图按份数或固定高度切成多张，便于分段发送</p>
+                    <span class="tool-tag">趣味</span>
+                </a>
+                <!-- 图片去噪 -->
+                <a href="tools/denoise.html" class="tool-card">
+                    <div class="tool-icon">✨</div>
+                    <h3 class="tool-name">图片去噪</h3>
+                    <p class="tool-desc">保边滤波消除噪点与颗粒感，同时保留人物轮廓与文字边缘</p>
+                    <span class="tool-tag">趣味</span>
+                </a>
+                <!-- 老照片修复 -->
+                <a href="tools/restore.html" class="tool-card">
+                    <div class="tool-icon">🕰️</div>
+                    <h3 class="tool-name">老照片修复</h3>
+                    <p class="tool-desc">自动色阶校正泛黄褪色旧照，可选去噪与锐化，让旧照重新通透</p>
+                    <span class="tool-tag">趣味</span>
+                </a>
+                <!-- 图片放大 -->
+                <a href="tools/upscale.html" class="tool-card">
+                    <div class="tool-icon">🔎</div>
+                    <h3 class="tool-name">图片放大</h3>
+                    <p class="tool-desc">Lanczos3 高质量插值放大 2–4 倍，比普通拉伸更清晰</p>
+                    <span class="tool-tag">趣味</span>
+                </a>
+                <!-- 颜色提取 -->
+                <a href="tools/palette.html" class="tool-card">
+                    <div class="tool-icon">🖌️</div>
+                    <h3 class="tool-name">颜色提取</h3>
+                    <p class="tool-desc">K-means 聚类提取主色调，生成配色方案与 HEX/RGB 色值</p>
+                    <span class="tool-tag">趣味</span>
+                </a>
+                <!-- Base64 转换 -->
+                <a href="tools/base64.html" class="tool-card">
+                    <div class="tool-icon">🔤</div>
+                    <h3 class="tool-name">Base64 转换</h3>
+                    <p class="tool-desc">图片与 Base64 编码双向互转，一键复制，适合前端内联图片</p>
                     <span class="tool-tag">趣味</span>
                 </a>
             </div>

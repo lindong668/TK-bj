@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片转PDF - 在线把多张图片合成PDF文档 | PicStudio</title>
+    <meta name="description" content="在线把一张或多张图片转换成 PDF 文档，图片自动居中适配 A4 页面，支持自定义清晰度。浏览器本地处理，文件不上传。">
+    <meta name="keywords" content="图片转PDF,jpg转pdf,png转pdf,多图合成pdf,在线转pdf,图片变pdf">
+    <link rel="canonical" href="https://piccalc.com/tools/to-pdf.html">
+    <meta name="robots" content="index,follow,max-image-preview:large">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="PicStudio">
+    <meta property="og:locale" content="zh_CN">
+    <meta property="og:title" content="图片转PDF - 在线把多张图片合成PDF文档 | PicStudio">
+    <meta property="og:description" content="在线把一张或多张图片转换成 PDF 文档，图片自动居中适配 A4 页面，支持自定义清晰度。浏览器本地处理，文件不上传。">
+    <meta property="og:url" content="https://piccalc.com/tools/to-pdf.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="图片转PDF - 在线把多张图片合成PDF文档 | PicStudio">
+    <meta name="twitter:description" content="在线把一张或多张图片转换成 PDF 文档，图片自动居中适配 A4 页面，支持自定义清晰度。浏览器本地处理，文件不上传。">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <style>.content-section{padding:48px 0;background:#f8fafc;border-top:1px solid #e2e8f0}
+.content-section .container{max-width:860px}
+.content-block{margin-bottom:40px}
+.content-block h2{font-size:1.35rem;color:#0f172a;margin-bottom:16px;padding-left:12px;border-left:4px solid #6366f1}
+.content-block h3{font-size:1.05rem;color:#1e293b;margin:20px 0 8px}
+.content-block p{color:#475569;line-height:1.85;margin-bottom:12px}
+.content-block ul,.content-block ol{color:#475569;line-height:1.85;padding-left:22px;margin-bottom:12px}
+.content-block li{margin-bottom:6px}
+.steps-list{counter-reset:step;list-style:none;padding-left:0}
+.steps-list li{counter-increment:step;position:relative;padding-left:44px;margin-bottom:14px;color:#475569;line-height:1.8}
+.steps-list li::before{content:counter(step);position:absolute;left:0;top:2px;width:28px;height:28px;background:#6366f1;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:600}
+.scenario-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:14px}
+.scenario-card{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:16px}
+.scenario-card h4{font-size:.98rem;color:#0f172a;margin-bottom:6px}
+.scenario-card p{font-size:.9rem;color:#64748b;margin:0;line-height:1.7}
+.spec-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:.92rem}
+.spec-table th,.spec-table td{border:1px solid #e2e8f0;padding:10px 12px;text-align:left}
+.spec-table th{background:#eef2ff;color:#3730a3;font-weight:600;white-space:nowrap}
+.spec-table td{color:#475569}
+.faq-item{border-bottom:1px solid #e2e8f0;padding:16px 0}
+.faq-item:last-child{border-bottom:none}
+.faq-item h3{font-size:1rem;color:#0f172a;margin:0 0 8px}
+.faq-item p{color:#475569;line-height:1.8;margin:0}
+.related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.related-card{display:block;background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:14px;text-decoration:none;transition:.2s}
+.related-card:hover{border-color:#6366f1;transform:translateY(-2px)}
+.related-card .ricon{font-size:1.4rem;display:block;margin-bottom:6px}
+.related-card .rname{font-size:.92rem;color:#0f172a;font-weight:600}
+.related-card .rdesc{font-size:.8rem;color:#64748b;margin-top:4px;line-height:1.5}
+@media(max-width:640px){.content-section{padding:32px 0}.content-block h2{font-size:1.2rem}}</style>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "图片转PDF",
+  "url": "https://piccalc.com/tools/to-pdf.html",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "任意（浏览器）",
+  "browserRequirements": "需要支持 Canvas 的现代浏览器",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "CNY"
+  },
+  "description": "在线把一张或多张图片转换成 PDF 文档，图片自动居中适配 A4 页面，支持自定义清晰度。浏览器本地处理，文件不上传。"
+}
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "生成的 PDF 能打印吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "能。选 A4 尺寸时页面就是标准打印尺寸，图片居中留白，直接打印即可。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "为什么图片被缩小了？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "为保证生成速度和文件体积，单页超过 2000 像素会自动等比缩小。打印用途下 2000 像素已足够清晰。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "PDF 里的文字可以选中吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "不能。本工具是把整张图片嵌入 PDF，不做文字识别（OCR），所以文字是图像的一部分，无法选中和搜索。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "能设置 PDF 密码或权限吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "当前版本不支持加密。如需加密请用专业 PDF 软件二次处理。"
+      }
+    }
+  ]
+}
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "首页",
+      "item": "https://piccalc.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "全部工具",
+      "item": "https://piccalc.com/#tools"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "图片转PDF",
+      "item": "https://piccalc.com/tools/to-pdf.html"
+    }
+  ]
+}
+    </script>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <a href="../index.html" class="logo">
+                <span class="logo-icon">🎨</span>
+                <span class="logo-text">Pic<span class="accent">Studio</span></span>
+            </a>
+            <nav class="tool-nav">
+                <a href="../index.html#tools">全部工具</a>
+                <a href="/privacy.html">隐私政策</a>
+                <a href="/faq.html">常见问题</a>
+                <a href="/contact.html">联系我们</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="tool-page">
+        <div class="container">
+            <a href="../index.html" class="back-link">← 返回首页</a>
+            <div class="tool-header">
+                <h1>📄 图片转PDF</h1>
+                <p>多张图片合成一个 PDF，自动居中适配 A4，顺序可调</p>
+            </div>
+
+<style>.thumb-list{display:flex;flex-wrap:wrap;gap:12px;margin:18px 0}
+.thumb-item{width:140px;background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden}
+.thumb-item img{width:100%;height:100px;object-fit:cover;display:block;background:#f1f5f9}
+.thumb-bar{display:flex;align-items:center;gap:2px;padding:6px 8px;background:#f8fafc;font-size:.72rem;color:#475569;flex-wrap:wrap}
+.thumb-bar span{flex:1;min-width:60px}
+.thumb-btn{border:1px solid #cbd5e1;background:#fff;color:#475569;border-radius:5px;width:22px;height:22px;cursor:pointer;font-size:.72rem;line-height:1;padding:0}
+.thumb-btn:hover{border-color:#6366f1;color:#6366f1}
+.thumb-btn.danger:hover{border-color:#ef4444;color:#ef4444}
+.result-box{margin-top:20px;text-align:center}
+.result-box h3{font-size:1rem;color:#0f172a;margin-bottom:10px}
+.result-box img{max-width:100%;max-height:480px;border-radius:10px;border:1px solid #e2e8f0;background:#f8fafc}
+@media(max-width:640px){.thumb-item{width:calc(50% - 6px)}}</style>
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-icon">📁</div>
+                <div class="upload-text">点击或拖拽图片到这里</div>
+                <div class="upload-hint">可一次选择多张图片，按顺序生成 PDF</div>
+                <input type="file" id="fileInput" accept="image/*" multiple>
+            </div>
+
+            <div class="thumb-list" id="thumbs"></div>
+
+            <div class="result-box" id="resultBox">
+                <h3></h3>
+                <img id="resultImg" src="" alt="处理结果">
+            </div>
+
+            <div class="controls" id="controls">
+                <div class="control-group">
+                    <label class="control-label">页面尺寸</label>
+                    <div class="radio-group">
+                        <div class="radio-option"><input type="radio" name="pfSize" id="pfA4" value="a4" checked><label for="pfA4">A4（595×842）</label></div>
+                        <div class="radio-option"><input type="radio" name="pfSize" id="pfFit" value="fit"><label for="pfFit">跟随图片尺寸</label></div>
+                    </div>
+                    <div class="control-hint">选 A4 便于打印，选「跟随图片」保持原始比例不变形</div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">图片清晰度</label>
+                    <input type="range" id="pfQ" min="50" max="100" value="85">
+                    <div class="control-hint">越高越清晰但文件越大，85 是常用平衡点</div>
+                </div>
+                <button class="btn btn-primary btn-lg" id="processBtn" style="width:100%;">生成 PDF</button>
+            </div>
+            <div class="download-section" id="downloadSection">
+                <div id="pdfInfo" style="text-align:center;color:#475569;margin-bottom:12px;font-size:.95rem;"></div>
+                <button class="btn btn-primary btn-lg" id="downloadBtn" style="width:100%;">下载 PDF 文件</button>
+            </div>
+
+            <div class="loading-overlay" id="loadingOverlay">
+                <div class="spinner"></div>
+                <div class="loading-text" id="loadingText">处理中…</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block">
+                <h2>图片转PDF怎么用</h2>
+                <ol class="steps-list"><li>一次选择多张图片（可多选）</li><li>用 ↑ ↓ 调整页面顺序，✕ 删除</li><li>选择页面尺寸：打印选 A4，存档选「跟随图片尺寸」</li><li>点「生成 PDF」，预览大小后下载</li></ol>
+            </div>
+            <div class="content-block">
+                <h2>它的原理是什么</h2>
+                <p>PDF 中的图片是以 JPEG 数据流的形式嵌入的，每个页面包含一个 XObject 图像对象，通过坐标矩阵（cm 操作符）把图片绘制到页面上。</p><p>选 A4 时，程序用 595×842 点（对应 210×297 毫米）作为页面尺寸，把图片等比缩放后居中放置，四周留白，保证不变形。</p><p>生成的 PDF 包含完整的文件头、对象表、交叉引用表和 trailer，符合 PDF 1.4 规范，可被所有主流阅读器打开。</p>
+            </div>
+            <div class="content-block">
+                <h2>常见使用场景</h2>
+                <p>下面这些情况用它最顺手：</p>
+                <div class="scenario-grid"><div class="scenario-card"><h4>扫描件归档</h4><p>把多张扫描图片合成一个 PDF 存档</p></div><div class="scenario-card"><h4>合同与证件</h4><p>多页证件照合并成一个文件提交</p></div><div class="scenario-card"><h4>作品集</h4><p>摄影作品整理成 PDF 作品集</p></div><div class="scenario-card"><h4>发票报销</h4><p>多张发票图片合并成一个报销附件</p></div></div>
+            </div>
+            <div class="content-block">
+                <h2>规格与参数说明</h2>
+                <table class="spec-table"><tbody><tr><th>输入格式</th><td>PNG / JPG / WebP（可多张）</td></tr><tr><th>输出格式</th><td>PDF 1.4</td></tr><tr><th>页面尺寸</th><td>A4（595×842pt）/ 跟随图片</td></tr><tr><th>清晰度</th><td>50–100，默认 85</td></tr><tr><th>单页上限</th><td>2000 像素（自动缩放）</td></tr></tbody></table>
+            </div>
+            <div class="content-block">
+                <h2>关于图片转PDF的常见问题</h2>
+                <div class="faq-item"><h3>生成的 PDF 能打印吗？</h3><p>能。选 A4 尺寸时页面就是标准打印尺寸，图片居中留白，直接打印即可。</p></div><div class="faq-item"><h3>为什么图片被缩小了？</h3><p>为保证生成速度和文件体积，单页超过 2000 像素会自动等比缩小。打印用途下 2000 像素已足够清晰。</p></div><div class="faq-item"><h3>PDF 里的文字可以选中吗？</h3><p>不能。本工具是把整张图片嵌入 PDF，不做文字识别（OCR），所以文字是图像的一部分，无法选中和搜索。</p></div><div class="faq-item"><h3>能设置 PDF 密码或权限吗？</h3><p>当前版本不支持加密。如需加密请用专业 PDF 软件二次处理。</p></div>
+            </div>
+            <div class="content-block">
+                <h2>试试其它工具</h2>
+                <div class="related-grid"><a class="related-card" href="stitch.html"><span class="ricon">🖼️</span><span class="rname">图片拼接</span><span class="rdesc">多图合成一张</span></a><a class="related-card" href="split.html"><span class="ricon">📏</span><span class="rname">长图分割</span><span class="rdesc">把长图切成多段</span></a><a class="related-card" href="compress.html"><span class="ricon">🗜️</span><span class="rname">图片压缩</span><span class="rdesc">减小文件体积</span></a><a class="related-card" href="crop.html"><span class="ricon">✂️</span><span class="rname">智能裁剪</span><span class="rdesc">按平台尺寸裁剪</span></a></div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="logo-icon">🎨</span>
+                    <span class="logo-text">Pic<span class="accent">Studio</span></span>
+                </div>
+                <p class="footer-desc">免费的在线图片处理工具，所有处理在浏览器本地完成</p>
+            </div>
+            <div class="footer-links">
+                <a href="../index.html#tools">全部工具</a>
+                <a href="/about.html">关于我们</a>
+                <a href="/contact.html">联系我们</a>
+                <a href="/faq.html">常见问题</a>
+                <a href="/privacy.html">隐私政策</a>
+                <a href="/terms.html">使用条款</a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 PicStudio. 保留所有权利。</p>
+            </div>
+        </div>
+    </footer>
+    <script src="../assets/js/lab.js"></script>
+<script>
+(function(){
+var $=function(id){return document.getElementById(id);};
+var fileInput=$('fileInput'),uploadArea=$('uploadArea'),controls=$('controls'),
+    processBtn=$('processBtn'),downloadBtn=$('downloadBtn'),
+    downloadSection=$('downloadSection'),loadingOverlay=$('loadingOverlay'),
+    loadingText=$('loadingText'),thumbs=$('thumbs');
+var imgs=[];var pdfBlob=null;
+function loadImage(file){return new Promise(function(res,rej){
+  var r=new FileReader();
+  r.onload=function(e){var im=new Image();im.onload=function(){res(im);};im.onerror=function(){rej(new Error('解码失败'));};im.src=e.target.result;};
+  r.onerror=function(){rej(new Error('读取失败'));};r.readAsDataURL(file);});}
+function renderThumbs(){
+  thumbs.innerHTML='';
+  imgs.forEach(function(im,i){
+    var d=document.createElement('div');d.className='thumb-item';
+    var img=document.createElement('img');img.src=im.src;
+    var bar=document.createElement('div');bar.className='thumb-bar';
+    var no=document.createElement('span');no.textContent='第'+(i+1)+'页';
+    var up=document.createElement('button');up.textContent='↑';up.className='thumb-btn';
+    var dn=document.createElement('button');dn.textContent='↓';dn.className='thumb-btn';
+    var rm=document.createElement('button');rm.textContent='✕';rm.className='thumb-btn danger';
+    up.onclick=function(){if(i>0){var t=imgs[i-1];imgs[i-1]=imgs[i];imgs[i]=t;renderThumbs();}};
+    dn.onclick=function(){if(i<imgs.length-1){var t=imgs[i+1];imgs[i+1]=imgs[i];imgs[i]=t;renderThumbs();}};
+    rm.onclick=function(){imgs.splice(i,1);renderThumbs();};
+    bar.appendChild(no);bar.appendChild(up);bar.appendChild(dn);bar.appendChild(rm);
+    d.appendChild(img);d.appendChild(bar);thumbs.appendChild(d);});
+  controls.classList.toggle('active',imgs.length>0);}
+function addFiles(list){
+  Promise.all(Array.from(list).filter(function(f){return f.type.startsWith('image/');}).map(loadImage))
+    .then(function(arr){imgs=imgs.concat(arr);renderThumbs();}).catch(function(e){alert(e.message);});}
+uploadArea.addEventListener('click',function(){fileInput.click();});
+fileInput.addEventListener('change',function(e){addFiles(e.target.files);fileInput.value='';});
+uploadArea.addEventListener('dragover',function(e){e.preventDefault();uploadArea.classList.add('dragover');});
+uploadArea.addEventListener('dragleave',function(){uploadArea.classList.remove('dragover');});
+uploadArea.addEventListener('drop',function(e){e.preventDefault();uploadArea.classList.remove('dragover');addFiles(e.dataTransfer.files);});
+function num(id,d){var el=$(id);var v=el?parseFloat(el.value):NaN;return isNaN(v)?d:v;}
+function radio(name){var el=document.querySelector('input[name="'+name+'"]:checked');return el?el.value:null;}
+processBtn.addEventListener('click',function(){
+  if(!imgs.length){alert('请先选择至少一张图片');return;}
+  loadingText.textContent='正在生成 PDF…';loadingOverlay.classList.add('active');
+  setTimeout(function(){
+    try{
+      var pages=imgs.map(function(im){
+        var s=Math.min(1,2000/Math.max(im.naturalWidth,im.naturalHeight));
+        var c=document.createElement('canvas');
+        c.width=Math.round(im.naturalWidth*s);c.height=Math.round(im.naturalHeight*s);
+        c.getContext('2d').drawImage(im,0,0,c.width,c.height);return c;});
+      var opts={quality:num('pfQ',85)/100};
+      if(radio('pfSize')==='a4'){opts.width=595.28;opts.height=841.89;}
+      else{var m=pages[0];opts.width=m.width*0.75;opts.height=m.height*0.75;}
+      pdfBlob=Lab.toPDF(pages,opts);
+      downloadSection.classList.add('active');loadingOverlay.classList.remove('active');
+      $('pdfInfo').textContent='共 '+pages.length+' 页，大小约 '+(pdfBlob.size/1024/1024).toFixed(2)+' MB';
+    }catch(e){loadingOverlay.classList.remove('active');alert('生成失败：'+e.message);}
+  },50);});
+downloadBtn.addEventListener('click',function(){
+  if(!pdfBlob)return;
+  var url=URL.createObjectURL(pdfBlob);var a=document.createElement('a');
+  a.href=url;a.download='images.pdf';document.body.appendChild(a);a.click();
+  document.body.removeChild(a);setTimeout(function(){URL.revokeObjectURL(url);},2000);});
+})();
+</script>
+</body>
+</html>
