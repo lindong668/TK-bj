@@ -18,35 +18,35 @@
     <meta name="twitter:title" content="二维码生成 - 在线生成二维码支持Logo与自定义颜色 | PicStudio">
     <meta name="twitter:description" content="免费在线二维码生成器，支持网址、文本、WiFi、名片、邮件、短信、电话、地理位置，可加中心 Logo、自定义颜色与码点样式，无需注册。">
     <link rel="stylesheet" href="../assets/css/style.css">
-    <style>.content-section{padding:48px 0;background:#f8fafc;border-top:1px solid #e2e8f0}
+    <style>.content-section{padding:48px 0;background:transparent;border-top:1px solid var(--border)}
 .content-section .container{max-width:860px}
 .content-block{margin-bottom:40px}
-.content-block h2{font-size:1.35rem;color:#0f172a;margin-bottom:16px;padding-left:12px;border-left:4px solid #6366f1}
-.content-block h3{font-size:1.05rem;color:#1e293b;margin:20px 0 8px}
-.content-block p{color:#475569;line-height:1.85;margin-bottom:12px}
-.content-block ul,.content-block ol{color:#475569;line-height:1.85;padding-left:22px;margin-bottom:12px}
+.content-block h2{font-size:1.35rem;color:var(--text-primary);margin-bottom:16px;padding-left:12px;border-left:4px solid #6366f1}
+.content-block h3{font-size:1.05rem;color:var(--text-primary);margin:20px 0 8px}
+.content-block p{color:var(--text-secondary);line-height:1.85;margin-bottom:12px}
+.content-block ul,.content-block ol{color:var(--text-secondary);line-height:1.85;padding-left:22px;margin-bottom:12px}
 .content-block li{margin-bottom:6px}
 .steps-list{counter-reset:step;list-style:none;padding-left:0}
-.steps-list li{counter-increment:step;position:relative;padding-left:44px;margin-bottom:14px;color:#475569;line-height:1.8}
+.steps-list li{counter-increment:step;position:relative;padding-left:44px;margin-bottom:14px;color:var(--text-secondary);line-height:1.8}
 .steps-list li::before{content:counter(step);position:absolute;left:0;top:2px;width:28px;height:28px;background:#6366f1;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:600}
 .scenario-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:14px}
-.scenario-card{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:16px}
-.scenario-card h4{font-size:.98rem;color:#0f172a;margin-bottom:6px}
-.scenario-card p{font-size:.9rem;color:#64748b;margin:0;line-height:1.7}
+.scenario-card{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:16px}
+.scenario-card h4{font-size:.98rem;color:var(--text-primary);margin-bottom:6px}
+.scenario-card p{font-size:.9rem;color:var(--text-secondary);margin:0;line-height:1.7}
 .spec-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:.92rem}
-.spec-table th,.spec-table td{border:1px solid #e2e8f0;padding:10px 12px;text-align:left}
-.spec-table th{background:#eef2ff;color:#3730a3;font-weight:600;white-space:nowrap}
-.spec-table td{color:#475569}
+.spec-table th,.spec-table td{border:1px solid var(--border);padding:10px 12px;text-align:left}
+.spec-table th{background:var(--bg-dark);color:var(--text-primary);font-weight:600;white-space:nowrap}
+.spec-table td{color:var(--text-secondary)}
 .faq-item{border-bottom:1px solid #e2e8f0;padding:16px 0}
 .faq-item:last-child{border-bottom:none}
-.faq-item h3{font-size:1rem;color:#0f172a;margin:0 0 8px}
-.faq-item p{color:#475569;line-height:1.8;margin:0}
+.faq-item h3{font-size:1rem;color:var(--text-primary);margin:0 0 8px}
+.faq-item p{color:var(--text-secondary);line-height:1.8;margin:0}
 .related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
-.related-card{display:block;background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:14px;text-decoration:none;transition:.2s}
+.related-card{display:block;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:14px;text-decoration:none;transition:.2s}
 .related-card:hover{border-color:#6366f1;transform:translateY(-2px)}
 .related-card .ricon{font-size:1.4rem;display:block;margin-bottom:6px}
-.related-card .rname{font-size:.92rem;color:#0f172a;font-weight:600}
-.related-card .rdesc{font-size:.8rem;color:#64748b;margin-top:4px;line-height:1.5}
+.related-card .rname{font-size:.92rem;color:var(--text-primary);font-weight:600}
+.related-card .rdesc{font-size:.8rem;color:var(--text-secondary);margin-top:4px;line-height:1.5}
 @media(max-width:640px){.content-section{padding:32px 0}.content-block h2{font-size:1.2rem}}</style>
     <script type="application/ld+json">
 {
@@ -164,19 +164,19 @@
                 <p>网址、WiFi、名片、邮件都能生成，可加 Logo、改颜色、换码点样式</p>
             </div>
 
-<style>.qr-workspace{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:22px;margin-bottom:8px}
+<style>.qr-workspace{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:8px}
 .qr-grid{display:grid;grid-template-columns:1fr 320px;gap:24px;align-items:start}
 @media(max-width:860px){.qr-grid{grid-template-columns:1fr}}
-.qr-preview{text-align:center;background:#f8fafc;border-radius:12px;padding:18px;border:1px solid #e2e8f0}
+.qr-preview{text-align:center;background:var(--bg-dark);border-radius:12px;padding:18px;border:1px solid var(--border)}
 .qr-preview canvas{max-width:100%;height:auto;border-radius:8px;background:#fff}
-.qr-meta{margin-top:10px;font-size:.82rem;color:#64748b}
+.qr-meta{margin-top:10px;font-size:.82rem;color:var(--text-secondary)}
 .type-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
-.type-tab{padding:7px 14px;border:1px solid #e2e8f0;background:#fff;border-radius:20px;cursor:pointer;font-size:.86rem;color:#475569;transition:.15s}
+.type-tab{padding:7px 14px;border:1px solid var(--border);background:var(--bg-card);border-radius:20px;cursor:pointer;font-size:.86rem;color:var(--text-secondary);transition:.15s}
 .type-tab:hover{border-color:#6366f1}
 .type-tab.active{background:#6366f1;color:#fff;border-color:#6366f1}
 .field{margin-bottom:12px}
-.field label{display:block;font-size:.86rem;color:#334155;margin-bottom:5px;font-weight:500}
-.field input,.field textarea,.field select{width:100%;padding:9px 11px;border:1px solid #e2e8f0;border-radius:8px;font-size:.9rem;font-family:inherit}
+.field label{display:block;font-size:.86rem;color:var(--text-secondary);margin-bottom:5px;font-weight:500}
+.field input,.field textarea,.field select{width:100%;padding:9px 11px;border:1px solid var(--border);border-radius:8px;font-size:.9rem;font-family:inherit}
 .field textarea{min-height:80px;resize:vertical}
 .field input:focus,.field textarea:focus{outline:none;border-color:#6366f1}
 .opt-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}

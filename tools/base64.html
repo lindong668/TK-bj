@@ -18,35 +18,35 @@
     <meta name="twitter:title" content="Base64 转换 - 在线图片与Base64编码互转 | PicStudio">
     <meta name="twitter:description" content="在线把图片转换成 Base64 编码字符串，或把 Base64 编码还原成图片，支持双向转换与一键复制，适合前端开发内联图片。本地处理，图片不上传。">
     <link rel="stylesheet" href="../assets/css/style.css">
-    <style>.content-section{padding:48px 0;background:#f8fafc;border-top:1px solid #e2e8f0}
+    <style>.content-section{padding:48px 0;background:transparent;border-top:1px solid var(--border)}
 .content-section .container{max-width:860px}
 .content-block{margin-bottom:40px}
-.content-block h2{font-size:1.35rem;color:#0f172a;margin-bottom:16px;padding-left:12px;border-left:4px solid #6366f1}
-.content-block h3{font-size:1.05rem;color:#1e293b;margin:20px 0 8px}
-.content-block p{color:#475569;line-height:1.85;margin-bottom:12px}
-.content-block ul,.content-block ol{color:#475569;line-height:1.85;padding-left:22px;margin-bottom:12px}
+.content-block h2{font-size:1.35rem;color:var(--text-primary);margin-bottom:16px;padding-left:12px;border-left:4px solid #6366f1}
+.content-block h3{font-size:1.05rem;color:var(--text-primary);margin:20px 0 8px}
+.content-block p{color:var(--text-secondary);line-height:1.85;margin-bottom:12px}
+.content-block ul,.content-block ol{color:var(--text-secondary);line-height:1.85;padding-left:22px;margin-bottom:12px}
 .content-block li{margin-bottom:6px}
 .steps-list{counter-reset:step;list-style:none;padding-left:0}
-.steps-list li{counter-increment:step;position:relative;padding-left:44px;margin-bottom:14px;color:#475569;line-height:1.8}
+.steps-list li{counter-increment:step;position:relative;padding-left:44px;margin-bottom:14px;color:var(--text-secondary);line-height:1.8}
 .steps-list li::before{content:counter(step);position:absolute;left:0;top:2px;width:28px;height:28px;background:#6366f1;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:600}
 .scenario-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:14px}
-.scenario-card{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:16px}
-.scenario-card h4{font-size:.98rem;color:#0f172a;margin-bottom:6px}
-.scenario-card p{font-size:.9rem;color:#64748b;margin:0;line-height:1.7}
+.scenario-card{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:16px}
+.scenario-card h4{font-size:.98rem;color:var(--text-primary);margin-bottom:6px}
+.scenario-card p{font-size:.9rem;color:var(--text-secondary);margin:0;line-height:1.7}
 .spec-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:.92rem}
-.spec-table th,.spec-table td{border:1px solid #e2e8f0;padding:10px 12px;text-align:left}
-.spec-table th{background:#eef2ff;color:#3730a3;font-weight:600;white-space:nowrap}
-.spec-table td{color:#475569}
+.spec-table th,.spec-table td{border:1px solid var(--border);padding:10px 12px;text-align:left}
+.spec-table th{background:var(--bg-dark);color:var(--text-primary);font-weight:600;white-space:nowrap}
+.spec-table td{color:var(--text-secondary)}
 .faq-item{border-bottom:1px solid #e2e8f0;padding:16px 0}
 .faq-item:last-child{border-bottom:none}
-.faq-item h3{font-size:1rem;color:#0f172a;margin:0 0 8px}
-.faq-item p{color:#475569;line-height:1.8;margin:0}
+.faq-item h3{font-size:1rem;color:var(--text-primary);margin:0 0 8px}
+.faq-item p{color:var(--text-secondary);line-height:1.8;margin:0}
 .related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
-.related-card{display:block;background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:14px;text-decoration:none;transition:.2s}
+.related-card{display:block;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:14px;text-decoration:none;transition:.2s}
 .related-card:hover{border-color:#6366f1;transform:translateY(-2px)}
 .related-card .ricon{font-size:1.4rem;display:block;margin-bottom:6px}
-.related-card .rname{font-size:.92rem;color:#0f172a;font-weight:600}
-.related-card .rdesc{font-size:.8rem;color:#64748b;margin-top:4px;line-height:1.5}
+.related-card .rname{font-size:.92rem;color:var(--text-primary);font-weight:600}
+.related-card .rdesc{font-size:.8rem;color:var(--text-secondary);margin-top:4px;line-height:1.5}
 @media(max-width:640px){.content-section{padding:32px 0}.content-block h2{font-size:1.2rem}}</style>
     <script type="application/ld+json">
 {
@@ -156,20 +156,20 @@
                 <p>图片 ↔ Base64 双向转换，一键复制，前端内联图片必备</p>
             </div>
 
-<style>.gen-box{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:22px;margin-bottom:8px}
+<style>.gen-box{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:8px}
 .gen-out{margin-top:16px}
-.gen-out h3{font-size:1rem;color:#0f172a;margin-bottom:8px}
-.gen-out textarea,.gen-out pre{width:100%;min-height:110px;padding:12px;border:1px solid #e2e8f0;border-radius:8px;font-size:.85rem;font-family:ui-monospace,Menlo,Consolas,monospace;background:#f8fafc;color:#334155;word-break:break-all;white-space:pre-wrap;margin:0}
+.gen-out h3{font-size:1rem;color:var(--text-primary);margin-bottom:8px}
+.gen-out textarea,.gen-out pre{width:100%;min-height:110px;padding:12px;border:1px solid var(--border);border-radius:8px;font-size:.85rem;font-family:ui-monospace,Menlo,Consolas,monospace;background:var(--bg-dark);color:var(--text-primary);word-break:break-all;white-space:pre-wrap;margin:0}
 .sw-list{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
-.sw{width:96px;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;background:#fff}
+.sw{width:96px;border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--bg-card)}
 .sw-chip{height:62px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px;font-size:.68rem;font-weight:600}
-.sw-hex{padding:6px;text-align:center;font-size:.76rem;color:#475569;font-family:ui-monospace,monospace;cursor:pointer}
+.sw-hex{padding:6px;text-align:center;font-size:.76rem;color:var(--text-secondary);font-family:ui-monospace,monospace;cursor:pointer}
 .sw-hex:hover{background:#eef2ff;color:#4f46e5}
 .meta-table{width:100%;border-collapse:collapse;font-size:.88rem;margin-top:12px}
-.meta-table th,.meta-table td{border:1px solid #e2e8f0;padding:8px 11px;text-align:left}
-.meta-table th{background:#eef2ff;color:#3730a3;font-weight:600;width:35%}
-.meta-table td{color:#475569;word-break:break-all}
-.warn-box{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:12px 14px;color:#92400e;font-size:.88rem;line-height:1.7;margin-top:12px}
+.meta-table th,.meta-table td{border:1px solid var(--border);padding:8px 11px;text-align:left}
+.meta-table th{background:var(--bg-dark);color:var(--text-primary);font-weight:600;width:35%}
+.meta-table td{color:var(--text-secondary);word-break:break-all}
+.warn-box{background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.35);border-radius:10px;padding:12px 14px;color:#fcd34d;font-size:.88rem;line-height:1.7;margin-top:12px}
 .ok-box{background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;padding:12px 14px;color:#065f46;font-size:.88rem;margin-top:12px}.preview-box{max-width:420px;margin:16px auto}</style>
             <div class="upload-area" id="uploadArea">
                 <div class="upload-icon">📁</div>

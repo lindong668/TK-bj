@@ -300,6 +300,49 @@
         return cv;
     };
 
+    /**
+     * 生成渐变背景画布
+     * @param {number} w 宽
+     * @param {number} h 高
+     * @param {string} c1 顶部颜色
+     * @param {string} c2 底部颜色
+     */
+    LAB.gradientCanvas = function (w, h, c1, c2) {
+        var cv = makeCanvas(w, h);
+        var ctx = cv.getContext('2d');
+        var g = ctx.createLinearGradient(0, 0, 0, h);
+        g.addColorStop(0, c1);
+        g.addColorStop(1, c2);
+        ctx.fillStyle = g;
+        ctx.fillRect(0, 0, w, h);
+        return cv;
+    };
+
+    /**
+     * 把前景（可能带透明）居中合成到背景底上，并按目标尺寸留白
+     * 支持纯色背景与渐变背景
+     */
+    LAB.composeOn = function (fg, tw, th, bgSpec) {
+        var w = fg.naturalWidth || fg.width, h = fg.naturalHeight || fg.height;
+        if (!w || !h) return makeCanvas(tw, th);
+        var s = Math.min(tw / w, th / h);
+        var dw = Math.round(w * s), dh = Math.round(h * s);
+
+        // 背景底：渐变用 gradientCanvas，其余按纯色填充
+        var cv;
+        if (typeof bgSpec === 'object' && bgSpec && bgSpec.type === 'gradient') {
+            cv = LAB.gradientCanvas(tw, th, bgSpec.from, bgSpec.to);
+        } else {
+            cv = makeCanvas(tw, th);
+            var ctx = cv.getContext('2d');
+            ctx.fillStyle = (typeof bgSpec === 'string' && bgSpec) ? bgSpec : '#ffffff';
+            ctx.fillRect(0, 0, tw, th);
+        }
+        cv.getContext('2d').drawImage(fg,
+            Math.round((tw - dw) / 2), Math.round((th - dh) / 2), dw, dh);
+        return cv;
+    };
+
     /** 裁剪 + 缩放到指定尺寸（可选填充白底，避免变形） */
     LAB.cropTo = function (src, tw, th, pad) {
         var ratio = tw / th;

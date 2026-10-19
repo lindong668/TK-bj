@@ -18,35 +18,35 @@
     <meta name="twitter:title" content="证件照制作 - 在线换底色制作标准尺寸证件照 | PicStudio">
     <meta name="twitter:description" content="在线制作证件照：自动识别人像替换背景为红、蓝、白等标准底色，并裁剪成一寸、二寸、签证等标准尺寸。浏览器本地处理，照片不上传。">
     <link rel="stylesheet" href="../assets/css/style.css">
-    <style>.content-section{padding:48px 0;background:#f8fafc;border-top:1px solid #e2e8f0}
+    <style>.content-section{padding:48px 0;background:transparent;border-top:1px solid var(--border)}
 .content-section .container{max-width:860px}
 .content-block{margin-bottom:40px}
-.content-block h2{font-size:1.35rem;color:#0f172a;margin-bottom:16px;padding-left:12px;border-left:4px solid #6366f1}
-.content-block h3{font-size:1.05rem;color:#1e293b;margin:20px 0 8px}
-.content-block p{color:#475569;line-height:1.85;margin-bottom:12px}
-.content-block ul,.content-block ol{color:#475569;line-height:1.85;padding-left:22px;margin-bottom:12px}
+.content-block h2{font-size:1.35rem;color:var(--text-primary);margin-bottom:16px;padding-left:12px;border-left:4px solid #6366f1}
+.content-block h3{font-size:1.05rem;color:var(--text-primary);margin:20px 0 8px}
+.content-block p{color:var(--text-secondary);line-height:1.85;margin-bottom:12px}
+.content-block ul,.content-block ol{color:var(--text-secondary);line-height:1.85;padding-left:22px;margin-bottom:12px}
 .content-block li{margin-bottom:6px}
 .steps-list{counter-reset:step;list-style:none;padding-left:0}
-.steps-list li{counter-increment:step;position:relative;padding-left:44px;margin-bottom:14px;color:#475569;line-height:1.8}
+.steps-list li{counter-increment:step;position:relative;padding-left:44px;margin-bottom:14px;color:var(--text-secondary);line-height:1.8}
 .steps-list li::before{content:counter(step);position:absolute;left:0;top:2px;width:28px;height:28px;background:#6366f1;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:600}
 .scenario-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:14px}
-.scenario-card{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:16px}
-.scenario-card h4{font-size:.98rem;color:#0f172a;margin-bottom:6px}
-.scenario-card p{font-size:.9rem;color:#64748b;margin:0;line-height:1.7}
+.scenario-card{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:16px}
+.scenario-card h4{font-size:.98rem;color:var(--text-primary);margin-bottom:6px}
+.scenario-card p{font-size:.9rem;color:var(--text-secondary);margin:0;line-height:1.7}
 .spec-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:.92rem}
-.spec-table th,.spec-table td{border:1px solid #e2e8f0;padding:10px 12px;text-align:left}
-.spec-table th{background:#eef2ff;color:#3730a3;font-weight:600;white-space:nowrap}
-.spec-table td{color:#475569}
+.spec-table th,.spec-table td{border:1px solid var(--border);padding:10px 12px;text-align:left}
+.spec-table th{background:var(--bg-dark);color:var(--text-primary);font-weight:600;white-space:nowrap}
+.spec-table td{color:var(--text-secondary)}
 .faq-item{border-bottom:1px solid #e2e8f0;padding:16px 0}
 .faq-item:last-child{border-bottom:none}
-.faq-item h3{font-size:1rem;color:#0f172a;margin:0 0 8px}
-.faq-item p{color:#475569;line-height:1.8;margin:0}
+.faq-item h3{font-size:1rem;color:var(--text-primary);margin:0 0 8px}
+.faq-item p{color:var(--text-secondary);line-height:1.8;margin:0}
 .related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
-.related-card{display:block;background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:14px;text-decoration:none;transition:.2s}
+.related-card{display:block;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:14px;text-decoration:none;transition:.2s}
 .related-card:hover{border-color:#6366f1;transform:translateY(-2px)}
 .related-card .ricon{font-size:1.4rem;display:block;margin-bottom:6px}
-.related-card .rname{font-size:.92rem;color:#0f172a;font-weight:600}
-.related-card .rdesc{font-size:.8rem;color:#64748b;margin-top:4px;line-height:1.5}
+.related-card .rname{font-size:.92rem;color:var(--text-primary);font-weight:600}
+.related-card .rdesc{font-size:.8rem;color:var(--text-secondary);margin-top:4px;line-height:1.5}
 @media(max-width:640px){.content-section{padding:32px 0}.content-block h2{font-size:1.2rem}}</style>
     <script type="application/ld+json">
 {
@@ -217,9 +217,13 @@
                         <div class="radio-option"><input type="radio" name="bgPreset" id="bgW" value="#ffffff" checked><label for="bgW">白底</label></div>
                         <div class="radio-option"><input type="radio" name="bgPreset" id="bgR" value="#ff0000"><label for="bgR">红底</label></div>
                         <div class="radio-option"><input type="radio" name="bgPreset" id="bgB" value="#438edb"><label for="bgB">蓝底</label></div>
-                        <div class="radio-option"><input type="radio" name="bgPreset" id="bgG" value="#c8d9e8"><label for="bgG">渐变蓝</label></div>
+                        <div class="radio-option"><input type="radio" name="bgPreset" id="bgG" value="gradient"><label for="bgG">渐变蓝</label></div>
                     </div>
-                    <input type="color" id="bgColor" value="#ffffff" style="margin-top:8px;width:60px;height:36px;border:1px solid #e2e8f0;border-radius:6px;">
+                    <div style="display:flex;align-items:center;gap:10px;margin-top:8px;">
+                        <input type="color" id="bgColor" value="#ffffff" style="width:60px;height:36px;border:1px solid var(--border);border-radius:6px;background:var(--bg-card);padding:2px;">
+                        <span id="bgSwatch" style="display:inline-block;width:36px;height:36px;border-radius:6px;border:1px solid var(--border);background:#ffffff;"></span>
+                        <span id="bgLabel" style="font-size:.85rem;color:var(--text-secondary);">白底 #ffffff</span>
+                    </div>
                     <div class="control-hint">也可直接取色自定义；常见要求：社保用白底，护照用白/浅蓝，签证看具体国家</div>
                 </div>
                 <button class="btn btn-primary btn-lg" id="processBtn" style="width:100%;">生成证件照</button>
@@ -325,6 +329,43 @@ $('sizeSel').addEventListener('change',function(){
   var s=SIZES[$('sizeSel').value];
   $('custGroup').style.display=$('sizeSel').value==='custom'?'':'none';
   if(s&&s[0]){$('idW').value=s[0];$('idH').value=s[1];}});
+
+/* ---------- 底色：预设按钮 与 取色器 双向联动 ---------- */
+var GRADIENT_BLUE={type:'gradient',from:'#dbeafe',to:'#8fb8f0'};
+var PRESET_NAME={'#ffffff':'白底','#ff0000':'红底','#438edb':'蓝底','gradient':'渐变蓝'};
+/* 当前底色规格：优先读预设按钮，其次取色器（自定义时预设会被取消选中） */
+function currentBgSpec(){
+  var r=document.querySelector('input[name="bgPreset"]:checked');
+  if(r){
+    if(r.value==='gradient')return GRADIENT_BLUE;
+    return r.value;
+  }
+  return val('bgColor')||'#ffffff';
+}
+function syncBgUI(){
+  var r=document.querySelector('input[name="bgPreset"]:checked');
+  var sw=$('bgSwatch'),lb=$('bgLabel');
+  if(r&&r.value==='gradient'){
+    if(sw)sw.style.background='linear-gradient(180deg,'+GRADIENT_BLUE.from+' 0%,'+GRADIENT_BLUE.to+' 100%)';
+    if(lb)lb.textContent='渐变蓝 '+GRADIENT_BLUE.from+' → '+GRADIENT_BLUE.to;
+    return;
+  }
+  var hex=(r&&r.value)?r.value:(val('bgColor')||'#ffffff');
+  if(sw)sw.style.background=hex;
+  if(lb)lb.textContent=((r&&PRESET_NAME[hex])?PRESET_NAME[hex]:'自定义')+' '+hex;
+}
+/* 点预设 → 取色器同步显示（渐变蓝显示起始色），保证两者永远一致 */
+Array.prototype.forEach.call(document.querySelectorAll('input[name="bgPreset"]'),function(r){
+  r.addEventListener('change',function(){
+    var c=$('bgColor');
+    if(c)c.value=(r.value==='gradient')?GRADIENT_BLUE.from:r.value;
+    syncBgUI();});});
+/* 动取色器 → 取消预设选中，转为自定义底色 */
+$('bgColor').addEventListener('input',function(){
+  Array.prototype.forEach.call(document.querySelectorAll('input[name="bgPreset"]'),function(r){r.checked=false;});
+  syncBgUI();});
+syncBgUI();
+
 processBtn.addEventListener('click',function(){
   if(!srcCanvas){alert('请先选择照片');return;}
   var mode=radio('bgMode');
@@ -338,16 +379,16 @@ processBtn.addEventListener('click',function(){
   }).catch(function(e){loadingOverlay.classList.remove('active');alert('处理失败：'+(e.message||e));});},40);});
 function run(mode){
   var w=Math.round(num('idW',295)),h=Math.round(num('idH',413));
-  var bg=val('bgColor')||'#ffffff';
+  var bg=currentBgSpec();
   if(mode==='keep'){
     // 不换背景：直接裁剪到目标比例，留白填充
-    return Promise.resolve(Lab.cropTo(srcCanvas,w,h,bg));}
+    return Promise.resolve(Lab.composeOn(srcCanvas,w,h,bg));}
   // 换背景：先抠图
   return AILab.segment(srcCanvas,{onProgress:function(t){loadingText.textContent=t;}})
     .then(function(mask){
       var cut=AILab.applyMask(srcCanvas,mask,{feather:1});
       // 放到纯色背景上并裁剪到目标尺寸
-      var cv=Lab.cropTo(cut,w,h,bg);
+      var cv=Lab.composeOn(cut,w,h,bg);
       return cv;})
     .catch(function(e){
       // AI 不可用时降级：直接用本地算法（algo-seg.js 必定可用，不依赖任何网络）
@@ -356,7 +397,7 @@ function run(mode){
         var d=srcCanvas.getContext('2d').getImageData(0,0,srcCanvas.width,srcCanvas.height);
         var alpha=PicSeg.segmentAlpha(d.data,srcCanvas.width,srcCanvas.height,{tolerance:45,maxSide:900});
         var cut=Lab.alphaToCanvas?Lab.alphaToCanvas(alpha,srcCanvas,1):applyAlpha(srcCanvas,alpha);
-        return Lab.cropTo(cut,w,h,bg);
+        return Lab.composeOn(cut,w,h,bg);
       }
       throw e;});}
 /* 本地兜底：把 alpha 套到原图上（生成透明 PNG） */

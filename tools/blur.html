@@ -300,26 +300,37 @@
     <script src="../assets/js/ai-core.js"></script>
     <script src="../assets/js/tools.js"></script>
     <script>
+    /* 生成「中心清晰、外围模糊」的径向遮罩。
+     * keepPct = 清晰区直径占图片短边的百分比（10~90） */
+    function radialMask(W, H, keepPct) {
+        const cx = W / 2, cy = H / 2;
+        const r0 = (Math.min(W, H) * (keepPct / 100)) / 2;
+        const m = new Uint8Array(W * H);
+        for (let y = 0; y < H; y++) {
+            for (let x = 0; x < W; x++) {
+                const d = Math.sqrt((x - cx) * (x - cx) + (y - cy) * (y - cy));
+                m[y * W + x] = d <= r0 ? 1 : 0;
+            }
+        }
+        return m;
+    }
+
     const tool = new ImageTool({
         process: async (canvas) => {
-            const mode    = document.querySelector('input[name="blurMode"]:checked')?.value || 'bg';
-            const radius  = parseInt(document.getElementById('strength')?.value || document.getElementById('blurAmount')?.value || 15, 10);
-            const shape   = document.querySelector('input[name="blurShape"]:checked')?.value || 'gaussian';
+            const mode    = document.querySelector('input[name="blurMode"]:checked')?.value || 'center';
+            const radius  = parseInt(document.getElementById('blurAmount')?.value || 15, 10);
+            const keepPct = parseInt(document.getElementById('keepRadius')?.value || 35, 10);
 
-            // 马赛克模式：直接像素化整图
-            if (shape === 'mosaic') {
-                return mosaicCanvas(canvas, Math.max(2, Math.round(radius / 2)));
-            }
-
-            // 整图模糊
-            if (mode === 'all') {
-                return PicSeg.boxBlur(canvas, radius);
+            /* ① 全局虚化：整张图一起模糊，不做任何主体保护 */
+            if (mode === 'full') {
+                return PicSeg.boxBlur(canvas, Math.max(2, radius));
             }
 
             /* 背景虚化：仅在「AI 已探测完成且真的可用」时才走 AI。
              * 否则直接用本地算法出图，绝不为了等模型下载而阻塞。
              * 首次访问会在后台静默预热，下次处理即可用上 AI。 */
-            if (mode !== 'all' && window.AILab &&
+            /* ② 中心清晰：AI 可用时按真实主体分割，效果最好 */
+            if (mode === 'center' && window.AILab &&
                 window.AILab.isSettled && window.AILab.isSettled() && window.AILab.aiAvailable()) {
                 try {
                     const out = await window.AILab.portraitBlur(canvas, {
@@ -333,16 +344,11 @@
             // 首次进入：后台静默预热，供后续使用
             if (window.AILab && window.AILab.warm) window.AILab.warm();
 
-            // 本地方案：先分割出主体，再按距离分层模糊（真实景深）
-            const ctx = canvas.getContext('2d');
-            const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            // 在低分辨率上算 mask 即可，省时且足够准
-            const work = PicSeg.downsampleImageData(imgData.data, canvas.width, canvas.height, 600);
-            const alpha = PicSeg.segmentAlpha(work.data, work.W, work.H, { maxSide: 600 });
-            const smallMask = new Uint8Array(work.W * work.H);
-            for (let i = 0; i < smallMask.length; i++) smallMask[i] = alpha[i] > 0.5 ? 1 : 0;
-            const mask = PicSeg.upsampleMask(smallMask, work.W, work.H, canvas.width, canvas.height);
-
+            /* ③ 本地径向方案。
+             *    center：中心 keepRadius% 半径内保持清晰，向外越远越模糊
+             *    edge  ：只虚化最外圈，清晰区比 center 更大一圈 */
+            const keep = mode === 'edge' ? Math.min(90, keepPct + 35) : keepPct;
+            const mask = radialMask(canvas.width, canvas.height, keep);
             return PicSeg.depthBlur(canvas, mask, { maxRadius: radius, layers: 4 });
         },
         downloadOptions: { filename: 'picstudio-blur', format: 'png' }
