@@ -264,10 +264,17 @@ function handleFile(file){
   var isJpeg=/\.(jpe?g)$/i.test(file.name)||file.type==='image/jpeg';
   var r=new FileReader();
   r.onload=function(e){
+    /* 注意：e.target.result 是 ArrayBuffer，不能直接赋给 img.src（会导致 onload 永不触发，
+     * 表现为「上传了但预览区没反应」）。这里改用 blob URL 做预览。 */
     var im=new Image();
+    var objUrl=URL.createObjectURL(file);
     im.onload=function(){
-      curImg=im;previewImg.src=im.src;previewBox.classList.add('active');resultBox.classList.add('active');};
-    im.src=e.target.result;
+      curImg=im;previewImg.src=im.src;
+      previewBox.classList.add('active');resultBox.classList.add('active');};
+    im.onerror=function(){
+      /* 兜底：即使预览失败也要把结果区显示出来 */
+      previewBox.classList.add('active');resultBox.classList.add('active');};
+    im.src=objUrl;
     var buf=e.target.result;
     var meta=null;
     if(isJpeg){try{meta=Lab.parseExif(buf);}catch(err){meta=null;}}

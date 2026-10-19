@@ -350,11 +350,25 @@ function run(mode){
       var cv=Lab.cropTo(cut,w,h,bg);
       return cv;})
     .catch(function(e){
-      // AI 不可用时降级：用本地算法
+      // AI 不可用时降级：直接用本地算法（algo-seg.js 必定可用，不依赖任何网络）
       loadingText.textContent='AI 不可用，改用本地算法…';
-      return AILab.segment(srcCanvas,{tolerance:45}).then(function(m){
-        var cut=AILab.applyMask(srcCanvas,m,{feather:1});
-        return Lab.cropTo(cut,w,h,bg);});});}
+      if(typeof PicSeg!=='undefined'&&PicSeg.segmentAlpha){
+        var d=srcCanvas.getContext('2d').getImageData(0,0,srcCanvas.width,srcCanvas.height);
+        var alpha=PicSeg.segmentAlpha(d.data,srcCanvas.width,srcCanvas.height,{tolerance:45,maxSide:900});
+        var cut=Lab.alphaToCanvas?Lab.alphaToCanvas(alpha,srcCanvas,1):applyAlpha(srcCanvas,alpha);
+        return Lab.cropTo(cut,w,h,bg);
+      }
+      throw e;});}
+/* 本地兜底：把 alpha 套到原图上（生成透明 PNG） */
+function applyAlpha(src,alpha){
+  var W=src.width,H=src.height;
+  var d=src.getContext('2d').getImageData(0,0,W,H).data;
+  var out=new ImageData(W,H),o=out.data;
+  for(var i=0;i<W*H;i++){var j=i*4;
+    o[j]=d[j];o[j+1]=d[j+1];o[j+2]=d[j+2];
+    o[j+3]=Math.round(Math.max(0,Math.min(1,alpha[i]))*255);}
+  var c=document.createElement('canvas');c.width=W;c.height=H;
+  c.getContext('2d').putImageData(out,0,0);return c;}
 downloadBtn.addEventListener('click',function(){
   if(!outCanvas)return;
   var a=document.createElement('a');a.download='id-photo.png';

@@ -316,20 +316,22 @@
                 return PicSeg.boxBlur(canvas, radius);
             }
 
-            // 背景虚化：优先用 AI 分割出人像/主体，只虚化背景
-            if (mode !== 'all' && window.AILab) {
+            /* 背景虚化：仅在「AI 已探测完成且真的可用」时才走 AI。
+             * 否则直接用本地算法出图，绝不为了等模型下载而阻塞。
+             * 首次访问会在后台静默预热，下次处理即可用上 AI。 */
+            if (mode !== 'all' && window.AILab &&
+                window.AILab.isSettled && window.AILab.isSettled() && window.AILab.aiAvailable()) {
                 try {
-                    const txt = document.querySelector('.loading-text');
                     const out = await window.AILab.portraitBlur(canvas, {
-                        strength: radius,
-                        feather: 2,
-                        onProgress: (msg) => { if (txt) txt.textContent = msg; }
+                        strength: radius, feather: 2
                     });
                     if (out) return out;
                 } catch (err) {
                     console.warn('[blur] AI 分割失败，降级本地算法：', err);
                 }
             }
+            // 首次进入：后台静默预热，供后续使用
+            if (window.AILab && window.AILab.warm) window.AILab.warm();
 
             // 本地方案：先分割出主体，再按距离分层模糊（真实景深）
             const ctx = canvas.getContext('2d');

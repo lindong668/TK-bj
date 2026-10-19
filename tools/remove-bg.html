@@ -193,6 +193,7 @@
                 <div class="engine-badge" id="engineBadge" style="display:none;"></div>
                 <button class="btn btn-primary btn-lg" id="processBtn" style="width:100%;">开始抠图</button>
                 <button class="btn btn-secondary btn-lg" id="reprocessBtn" style="width:100%;margin-top:8px;display:none;">🔄 应用修补并重新抠图</button>
+                <button class="btn btn-secondary btn-sm" id="aiRetryBtn" style="width:100%;margin-top:8px;">🤖 重新加载 AI 模型（网络不通时可重试）</button>
             </div>
 
             <!-- Download -->
@@ -361,6 +362,7 @@
     document.getElementById('brushBg').onclick   = () => setBrush('bg');
 
     let lastImageData = null;   // 保留原图 ImageData 供重新计算
+    let runToken = 0;           // 处理批次令牌，防止旧的后台结果覆盖新结果
 
     /* ---------------- 引擎状态提示 ---------------- */
     const engineBadge = document.getElementById('engineBadge');
@@ -397,7 +399,7 @@
     }
 
     const tool = new ImageTool({
-        process: async (canvas) => {
+        process: async (canvas, self) => {
             const bgType = document.querySelector('input[name="bgType"]:checked').value;
             const tol = parseInt(tolSlider.value, 10);
             const featherPx = parseInt(feather.value, 10);
@@ -410,37 +412,48 @@
                 brush.bg = new Uint8Array(W * H);
             }
 
-            let alpha = null;
+            /* 本次运行的令牌：防止后台 AI 结果覆盖掉用户新一次的处理 */
+            const token = ++runToken;
 
-            /* ---- 优先：真正的神经网络分割（MODNet / MediaPipe） ---- */
-            if (window.AILab) {
+            const LOCAL_MSG = '⚙️ 本地算法抠图（GrabCut + 边缘细化）。效果不理想可调容差，或用修补笔涂抹。';
+
+            let alpha = null;
+            let usedAI = false;
+
+            /* ---- ① AI 已就绪才优先用（绝不为了等模型而阻塞出图） ---- */
+            if (window.AILab && window.AILab.isSettled && window.AILab.isSettled() && window.AILab.aiAvailable()) {
                 try {
-                    setEngine('正在准备识别模型…', 'loading');
+                    setEngine('AI 正在分析主体…', 'loading');
                     const mask = await window.AILab.segment(canvas, {
                         onProgress: (msg) => setEngine(msg, 'loading')
                     });
                     alpha = maskToAlpha(mask, W, H);
+                    usedAI = true;
                     const engine = window.AILab.getEngine();
-                    if (engine === 'modnet') {
-                        setEngine('✅ 已用 AI 分割模型（MODNet）识别主体', 'ai');
-                    } else if (engine === 'mediapipe') {
-                        setEngine('✅ 已用 AI 人像分割模型（MediaPipe）识别主体', 'ai');
-                    } else {
-                        setEngine('⚙️ AI 模型未加载成功，本次使用本地算法', 'local');
-                    }
+                    setEngine(engine === 'modnet'
+                        ? '✅ 已用 AI 分割模型（MODNet）识别主体'
+                        : '✅ 已用 AI 人像分割模型（MediaPipe）识别主体', 'ai');
                 } catch (err) {
-                    console.warn('[remove-bg] AI 分割失败，降级本地算法：', err);
+                    console.warn('[remove-bg] AI 分割失败，改用本地算法：', err);
                     alpha = null;
                 }
             }
 
-            /* ---- 降级：本地 GrabCut + 洪水填充（永不失效） ---- */
+            /* ---- ② 其余情况一律先用本地算法立刻出图 ---- */
+            let aiMessage = '';
             if (!alpha) {
                 alpha = PicSeg.segmentAlpha(
                     lastImageData.data, W, H,
                     { tolerance: tol, maxSide: 900, fgSeeds: brush.fg, bgSeeds: brush.bg }
                 );
-                setEngine('⚙️ 本地算法抠图（GrabCut + 边缘细化）。效果不理想可调容差，或用修补笔涂抹。', 'local');
+                if (window.AILab && window.AILab.isSettled && !window.AILab.isSettled()) {
+                    aiMessage = '⚙️ 本地算法已出图，正在后台尝试加载 AI 模型以提升精度…';
+                    setEngine(aiMessage, 'loading');
+                } else if (window.AILab && window.AILab.isSettled() && !window.AILab.aiAvailable()) {
+                    setEngine('⚙️ AI 模型在当前网络下不可用，已使用本地算法。可点下方「重新加载 AI 模型」再试。', 'local');
+                } else {
+                    setEngine(LOCAL_MSG, 'local');
+                }
             }
 
             const result = alphaToCanvas(alpha, canvas, featherPx);
@@ -448,6 +461,34 @@
             // 显示修补按钮
             document.getElementById('reprocessBtn').style.display = 'block';
             setupBrushCanvas();
+
+            /* ---- ③ 后台加载 AI，成功后自动升级结果（不阻塞） ---- */
+            if (!usedAI && window.AILab && window.AILab.isSettled && !window.AILab.isSettled()) {
+                window.AILab.warm();
+                window.AILab.init().then(function (eng) {
+                    if (token !== runToken) return;                 // 用户已重新处理，丢弃旧结果
+                    if (!window.AILab.aiAvailable()) {
+                        setEngine('⚙️ AI 模型在当前网络下不可用，已使用本地算法。可点「重新加载 AI 模型」再试。', 'local');
+                        return;
+                    }
+                    return window.AILab.segment(canvas).then(function (mask) {
+                        if (token !== runToken) return;
+                        const a2 = maskToAlpha(mask, W, H);
+                        const r2 = alphaToCanvas(a2, canvas, featherPx);
+                        const out2 = (bgType === 'white') ? applyBackgroundColor(r2, '#FFFFFF')
+                                   : (bgType === 'custom') ? applyBackgroundColor(r2, document.getElementById('bgColor').value)
+                                   : r2;
+                        if (self) self.processedCanvas = out2;
+                        document.getElementById('processedPreview').src = out2.toDataURL('image/png');
+                        setEngine(eng === 'modnet'
+                            ? '✅ 已用 AI 分割模型（MODNet）重新抠图，结果已更新'
+                            : '✅ 已用 AI 人像分割模型（MediaPipe）重新抠图，结果已更新', 'ai');
+                    });
+                }).catch(function () {
+                    if (token !== runToken) return;
+                    setEngine('⚙️ AI 模型在当前网络下不可用，已使用本地算法。可点「重新加载 AI 模型」再试。', 'local');
+                });
+            }
 
             if (bgType === 'white') return applyBackgroundColor(result, '#FFFFFF');
             if (bgType === 'custom') return applyBackgroundColor(result, document.getElementById('bgColor').value);
@@ -457,6 +498,18 @@
     });
 
     document.getElementById('processBtn').addEventListener('click', () => tool.process());
+    document.getElementById('aiRetryBtn').addEventListener('click', () => {
+        if (!window.AILab) return;
+        window.AILab.reset();
+        setEngine('正在重新加载 AI 模型…', 'loading');
+        window.AILab.init((msg) => setEngine(msg, 'loading')).then(function (eng) {
+            if (window.AILab.aiAvailable()) {
+                setEngine('✅ AI 模型已就绪，点「开始抠图」使用它', 'ai');
+            } else {
+                setEngine('⚙️ 仍然加载不到 AI 模型（多为网络限制），将使用本地算法', 'local');
+            }
+        });
+    });
     document.getElementById('reprocessBtn').addEventListener('click', () => tool.process());
 
     /* ---------------- alpha → canvas ---------------- */
@@ -577,6 +630,35 @@
     /**
      * 把抠出的透明图合成到指定背景色上（保留原图 RGB，只替换透明区）
      */
+    function applyBackgroundColor(srcCanvas, color) {
+        const W = srcCanvas.width, H = srcCanvas.height;
+        const srcData = srcCanvas.getContext('2d').getImageData(0, 0, W, H);
+        const d = srcData.data;
+
+        /* 解析 #RGB / #RRGGBB */
+        let br = 255, bg = 255, bb = 255;
+        if (typeof color === 'string' && color.charAt(0) === '#') {
+            let hex = color.slice(1);
+            if (hex.length === 3) hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+            const n = parseInt(hex, 16);
+            if (!isNaN(n)) { br = (n>>16)&255; bg = (n>>8)&255; bb = n&255; }
+        }
+
+        const out = new ImageData(W, H);
+        const o = out.data;
+        for (let i = 0; i < W * H; i++) {
+            const j = i * 4;
+            const a = d[j+3] / 255;
+            o[j]   = Math.round(d[j]   * a + br * (1 - a));
+            o[j+1] = Math.round(d[j+1] * a + bg * (1 - a));
+            o[j+2] = Math.round(d[j+2] * a + bb * (1 - a));
+            o[j+3] = 255;
+        }
+        const c = document.createElement('canvas');
+        c.width = W; c.height = H;
+        c.getContext('2d').putImageData(out, 0, 0);
+        return c;
+    }
     </script>
 </body>
 </html>

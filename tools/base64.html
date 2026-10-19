@@ -187,6 +187,7 @@
                 </div>
                 <div id="sizeInfo" style="margin-top:10px;font-size:.85rem;color:#64748b;"></div>
             </div>
+            <div class="gen-box" id="resultBox" style="display:none;"></div>
             <div class="preview-box" id="previewBox">
                 <h3>图片预览</h3>
                 <img id="previewImg" src="" alt="图片预览">
@@ -268,8 +269,9 @@ function handleFile(file){
   r.onload=function(e){
     curDataUrl=e.target.result;
     ta.value=curDataUrl;
-    previewImg.src=curDataUrl;previewBox.classList.add('active');
-    resultBox.classList.add('active');
+    if(previewImg)previewImg.src=curDataUrl;
+    if(previewBox)previewBox.classList.add('active');
+    if(resultBox)resultBox.classList.add('active');
     $('sizeInfo').textContent='Base64 长度：'+curDataUrl.length+' 字符（约 '+
       (curDataUrl.length*0.75/1024).toFixed(1)+' KB）';};
   r.readAsDataURL(file);}
@@ -284,7 +286,9 @@ $('toImgBtn').addEventListener('click',function(){
   if(!/^data:image\//.test(v))v='data:image/png;base64,'+v;
   var im=new Image();
   im.onload=function(){
-    previewImg.src=im.src;previewBox.classList.add('active');resultBox.classList.add('active');
+    if(previewImg)previewImg.src=im.src;
+  if(previewBox)previewBox.classList.add('active');
+  if(resultBox)resultBox.classList.add('active');
     $('sizeInfo').textContent='图片尺寸：'+im.naturalWidth+' × '+im.naturalHeight;
     curDataUrl=im.src;};
   im.onerror=function(){$('sizeInfo').textContent='';alert('无法解析：这段内容不是有效的图片 Base64');};

@@ -36,7 +36,9 @@
         mpSegmenter: null,    // MediaPipe 分割器
         loading: null,        // 进行中的加载 Promise
         engine: null,         // 实际使用的引擎名
-        error: null
+        error: null,
+        settled: false,       // 探测是否已结束（结束即永久缓存，不再重复尝试）
+        probe: null           // 探测 Promise（全程只跑一次）
     };
 
     function log() {
@@ -84,7 +86,7 @@
         if (state.pipeline) return Promise.resolve(state.pipeline);
         if (state.loading) return state.loading;
 
-        state.loading = tryImport(MODEL_SOURCES.transformers, 15000)
+        state.loading = tryImport(MODEL_SOURCES.transformers, 8000)
             .then(function (mod) {
                 log('Transformers.js 已加载');
                 if (mod.env) {
@@ -127,12 +129,12 @@
      * ============================================================ */
     function loadMediaPipe(onProgress) {
         if (state.mpSegmenter) return Promise.resolve(state.mpSegmenter);
-        return tryImport(MODEL_SOURCES.mediapipe, 15000).then(function (mod) {
+        return tryImport(MODEL_SOURCES.mediapipe, 8000).then(function (mod) {
             if (onProgress) onProgress('正在加载轻量分割模型…');
             var fileset = mod.FilesetResolver.forVisionTasks(
                 'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm'
             );
-            return withTimeout(fileset, 20000, 'WASM 加载').then(function (vision) {
+            return withTimeout(fileset, 12000, 'WASM 加载').then(function (vision) {
                 return withTimeout(
                     mod.ImageSegmenter.createFromOptions(vision, {
                         baseOptions: {
@@ -143,7 +145,7 @@
                         runningMode: 'IMAGE',
                         outputCategoryMasks: true
                     }),
-                    30000, '分割器初始化'
+                    20000, '分割器初始化'
                 );
             });
         }).then(function (seg) {
@@ -161,11 +163,16 @@
      * 统一入口：初始化 AI（自动选引擎）
      * @returns {Promise<string>} 引擎名：'modnet' | 'mediapipe' | 'local'
      * ============================================================ */
+    /**
+     * 探测可用引擎。
+     * 关键：无论成功还是失败，探测只跑一次并永久缓存结果。
+     * 否则每次点击处理都会重新尝试加载 CDN，在网络不通时会卡满超时（表现为「点了没反应」）。
+     */
     function init(onProgress) {
-        if (state.engine && (state.pipeline || state.mpSegmenter)) {
-            return Promise.resolve(state.engine);
-        }
-        return loadTransformers(onProgress)
+        if (state.settled) return Promise.resolve(state.engine || 'local');
+        if (state.probe) return state.probe;
+
+        state.probe = loadTransformers(onProgress)
             .then(function () { return 'modnet'; })
             .catch(function () {
                 if (onProgress) onProgress('高级模型不可用，改用轻量人像模型…');
@@ -176,7 +183,44 @@
                         state.engine = 'local';
                         return 'local';
                     });
+            })
+            .then(function (eng) {
+                state.engine = eng;
+                state.settled = true;
+                log('引擎确定：', eng);
+                return eng;
+            })
+            .catch(function (e) {
+                state.engine = 'local';
+                state.settled = true;
+                state.error = e && e.message;
+                return 'local';
             });
+
+        return state.probe;
+    }
+
+    /** 后台预热：不阻塞，失败也无所谓 */
+    function warm(onProgress) {
+        try { init(onProgress).catch(function () { }); }
+        catch (e) { /* 忽略 */ }
+    }
+
+    /** 手动重试（用户点「重新加载 AI 模型」时用） */
+    function reset() {
+        state.probe = null;
+        state.settled = false;
+        state.engine = null;
+        state.error = null;
+        state.pipeline = null;
+        state.mpSegmenter = null;
+        state.loading = null;
+    }
+
+    /** AI 是否真的可用（modnet / mediapipe） */
+    function aiAvailable() {
+        return !!((state.engine === 'modnet' && state.pipeline) ||
+                  (state.engine === 'mediapipe' && state.mpSegmenter));
     }
 
     /* ============================================================
@@ -416,11 +460,15 @@
 
     global.AILab = {
         init: init,
+        warm: warm,
+        reset: reset,
         segment: segment,
         applyMask: applyMask,
         portraitBlur: portraitBlur,
         getEngine: function () { return state.engine || 'local'; },
         getError: function () { return state.error; },
+        isSettled: function () { return state.settled; },
+        aiAvailable: aiAvailable,
         MODEL_SOURCES: MODEL_SOURCES
     };
 })(window);
