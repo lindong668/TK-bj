@@ -1068,3 +1068,30 @@ table.spec tr:last-child td { border-bottom: none; }
         font-size: 26px;
     }
 }
+
+/* 颜色选择器：浏览器默认外壳是浅灰白，在深色主题下会突兀发白 */
+input[type="color"] {
+    width: 100%;
+    height: 42px;
+    padding: 3px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg-dark);
+    cursor: pointer;
+    outline: none;
+    transition: var(--transition);
+}
+
+input[type="color"]:hover { border-color: var(--primary); }
+
+input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+
+input[type="color"]::-webkit-color-swatch {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+}
+
+input[type="color"]::-moz-color-swatch {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+}
