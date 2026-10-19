@@ -9,7 +9,13 @@
  * @param {Object} config.downloadOptions - { filename, format, quality }
  */
 class ImageTool {
+    /** 本地逐像素运算的性能上限：单边最大像素数 */
+    static MAX_SIDE = 3000;
+
     constructor(config) {
+        this.originalWidth = 0;
+        this.originalHeight = 0;
+        this.downscaleRatio = 1;
         this.config = config;
         this.originalImage = null;
         this.originalCanvas = null;
@@ -86,15 +92,48 @@ class ImageTool {
         // Show original
         this.originalPreview.src = img.src;
 
+        // ---- 大图保护：超过上限先降采样，避免逐像素运算把浏览器卡死 ----
+        const rawW = img.naturalWidth;
+        const rawH = img.naturalHeight;
+        const w = Math.min(rawW, ImageTool.MAX_SIDE);
+        const h = Math.min(rawH, ImageTool.MAX_SIDE);
+
+        let scale = 1;
+        if (rawW > w || rawH > h) {
+            scale = Math.min(w / rawW, h / rawH);
+        }
+        this.originalWidth = rawW;
+        this.originalHeight = rawH;
+        this.downscaleRatio = scale;
+        const canvasW = scale < 1 ? Math.round(rawW * scale) : rawW;
+        const canvasH = scale < 1 ? Math.round(rawH * scale) : rawH;
+
         // Create original canvas
         this.originalCanvas = document.createElement('canvas');
-        this.originalCanvas.width = img.naturalWidth;
-        this.originalCanvas.height = img.naturalHeight;
+        this.originalCanvas.width = canvasW;
+        this.originalCanvas.height = canvasH;
         const ctx = this.originalCanvas.getContext('2d');
-        ctx.drawImage(img, 0, 0);
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(img, 0, 0, canvasW, canvasH);
+
+        // 提示用户图片已被缩放（诚实告知，避免输出尺寸与预期不符）
+        if (scale < 1 && this.downscaleNotice) {
+            this.downscaleNotice(
+                `图片较大，已自动缩放到 ${canvasW} × ${canvasH} 进行处理（原图 ${rawW} × ${rawH}）。` +
+                `若需要原始尺寸输出，请先用「尺寸调整」工具分步处理。`
+            );
+        }
 
         // Show preview area
         this.previewArea.classList.add('active');
+    }
+
+    /**
+     * 供工具页自定义提示方式（页面可在 new ImageTool({...}) 后覆盖）
+     */
+    downscaleNotice(msg) {
+        console.info('[PicStudio] ' + msg);
     }
 
     showControls() {
@@ -308,6 +347,34 @@ const ImageUtils = {
         ctx.imageSmoothingQuality = 'high';
         ctx.drawImage(canvas, 0, 0, width, height);
         return result;
+    },
+
+    /**
+     * 逐像素处理（分片让出主线程，避免大图时页面假死）
+     */
+    applyFilterChunked(canvas, filterFn, onDone) {
+        const ctx = canvas.getContext('2d');
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imageData.data;
+        const total = data.length;
+        const CHUNK = 400000; // 每片 10 万像素
+
+        let i = 0;
+        const step = () => {
+            const end = Math.min(i + CHUNK, total);
+            for (; i < end; i += 4) {
+                const [r, g, b] = filterFn(data[i], data[i + 1], data[i + 2]);
+                data[i] = r; data[i + 1] = g; data[i + 2] = b;
+            }
+            if (i < total) {
+                setTimeout(step, 0);
+            } else {
+                ctx.putImageData(imageData, 0, 0);
+                if (onDone) onDone(canvas);
+            }
+        };
+        step();
+        return canvas;
     },
 
     /**

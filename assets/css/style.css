@@ -759,3 +759,245 @@ select:focus, input[type="number"]:focus, input[type="text"]:focus {
         padding: 20px;
     }
 }
+
+/* ==================== Content Sections (SEO / 内容深度) ==================== */
+.content-section {
+    padding: 48px 0 0;
+}
+
+.content-block {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px;
+    margin-bottom: 24px;
+}
+
+.content-block h2 {
+    font-size: clamp(20px, 3vw, 26px);
+    font-weight: 800;
+    margin-bottom: 18px;
+    letter-spacing: -0.01em;
+}
+
+.content-block h3 {
+    font-size: 17px;
+    font-weight: 700;
+    margin: 22px 0 10px;
+    color: var(--text-primary);
+}
+
+.content-block p {
+    color: var(--text-secondary);
+    font-size: 15px;
+    line-height: 1.85;
+    margin-bottom: 14px;
+}
+
+.content-block p:last-child { margin-bottom: 0; }
+
+.content-block ul.plain {
+    list-style: none;
+    padding: 0;
+}
+
+.content-block ul.plain li {
+    position: relative;
+    padding-left: 20px;
+    color: var(--text-secondary);
+    font-size: 15px;
+    line-height: 1.8;
+    margin-bottom: 8px;
+}
+
+.content-block ul.plain li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 11px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--primary);
+}
+
+/* Numbered steps */
+.steps {
+    list-style: none;
+    counter-reset: step;
+    padding: 0;
+}
+
+.steps li {
+    position: relative;
+    padding-left: 46px;
+    margin-bottom: 18px;
+    color: var(--text-secondary);
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+.steps li::before {
+    counter-increment: step;
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 1px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--gradient);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.steps li strong {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* Use cases */
+.usecases {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.usecase {
+    padding: 20px;
+    border-radius: var(--radius-sm);
+    background: var(--bg-dark);
+    border: 1px solid var(--border);
+    transition: var(--transition);
+}
+
+.usecase:hover { border-color: var(--primary); }
+
+.usecase strong {
+    display: block;
+    color: var(--text-primary);
+    font-size: 15px;
+    margin-bottom: 6px;
+}
+
+.usecase span {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* Spec table */
+.table-wrap { overflow-x: auto; }
+
+table.spec {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    min-width: 420px;
+}
+
+table.spec th,
+table.spec td {
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+    vertical-align: top;
+}
+
+table.spec th {
+    color: var(--text-primary);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+table.spec td { color: var(--text-secondary); }
+
+table.spec tr:last-child td { border-bottom: none; }
+
+/* Note box */
+.note-box {
+    border-left: 3px solid var(--primary);
+    background: var(--gradient-soft);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 16px 20px;
+    margin-top: 18px;
+}
+
+.note-box p {
+    font-size: 14px;
+    margin-bottom: 0;
+    color: var(--text-secondary);
+}
+
+.note-box strong { color: var(--primary-light); }
+
+/* Related tools */
+.related-tools {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 14px;
+}
+
+.related-tool {
+    display: block;
+    padding: 16px;
+    border-radius: var(--radius-sm);
+    background: var(--bg-dark);
+    border: 1px solid var(--border);
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.related-tool span { display: block; font-size: 24px; margin-bottom: 6px; }
+
+.related-tool:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+}
+
+/* Tool page navigation */
+.tool-nav {
+    display: flex;
+    gap: 22px;
+    flex-wrap: wrap;
+}
+
+.tool-nav a {
+    font-size: 14px;
+    color: var(--text-secondary);
+    transition: var(--transition);
+}
+
+.tool-nav a:hover { color: var(--primary-light); }
+
+/* Footer links row */
+.footer-links {
+    display: flex;
+    gap: 22px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 18px 0 0;
+}
+
+.footer-links a {
+    color: var(--text-secondary);
+    font-size: 14px;
+    transition: var(--transition);
+}
+
+.footer-links a:hover { color: var(--primary-light); }
+
+/* FAQ answer needs room for longer explanations */
+.faq-item.open .faq-answer { max-height: 1000px; }
+
+@media (max-width: 768px) {
+    .tool-nav { display: none; }
+    .content-block { padding: 22px 18px; }
+    .content-section { padding: 32px 0 0; }
+}

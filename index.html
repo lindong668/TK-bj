@@ -8,8 +8,43 @@
     <meta name="description" content="PicStudio 提供免费的在线图片处理工具：AI抠图、背景虚化、格式转换、尺寸调整、图标制作等。无需注册，本地处理，保护隐私。">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>">
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="canonical" href="https://piccalc.com/">
+    <meta name="robots" content="index,follow,max-image-preview:large">
+    <meta name="author" content="PicStudio">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="PicStudio">
+    <meta property="og:locale" content="zh_CN">
+    <meta property="og:title" content="PicStudio - 免费在线图片处理工具">
+    <meta property="og:description" content="在线抠图、背景虚化、格式转换、尺寸调整、图片压缩、滤镜与圆角裁剪。全部在浏览器本地完成，图片不上传服务器，无需注册。">
+    <meta property="og:url" content="https://piccalc.com/">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="PicStudio - 免费在线图片处理工具">
+    <meta name="twitter:description" content="在线抠图、背景虚化、格式转换、尺寸调整、图片压缩。本地处理，图片不上传服务器。">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8915931557404979"
      crossorigin="anonymous"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://piccalc.com/#website",
+          "url": "https://piccalc.com/",
+          "name": "PicStudio",
+          "description": "免费在线图片处理工具，所有处理在浏览器本地完成",
+          "inLanguage": "zh-CN"
+        },
+        {
+          "@type": "Organization",
+          "@id": "https://piccalc.com/#organization",
+          "name": "PicStudio",
+          "url": "https://piccalc.com/",
+          "email": "feng91111@gmail.com",
+          "description": "提供在线图片处理工具的免费站点"
+        }
+      ]
+    }
+    </script>
 </head>
 <body>
     <!-- 顶部导航 -->
@@ -40,7 +75,7 @@
         <div class="container">
             <h1 class="hero-title">
                 免费在线图片处理工具<br>
-                <span class="gradient-text">AI 抠图 · 格式转换 · 图片编辑</span>
+                <span class="gradient-text">智能抠图 · 格式转换 · 图片编辑</span>
             </h1>
             <p class="hero-desc">无需安装软件，打开浏览器即可使用。所有处理在本地完成，100% 保护您的隐私。</p>
             <a href="#tools" class="btn btn-primary btn-lg">开始使用 →</a>
@@ -54,8 +89,8 @@
                 <!-- AI 抠图 -->
                 <a href="tools/remove-bg.html" class="tool-card">
                     <div class="tool-icon">✂️</div>
-                    <h3 class="tool-name">AI 智能抠图</h3>
-                    <p class="tool-desc">一键去除图片背景，AI 自动识别主体，支持人像、商品、动物等</p>
+                    <h3 class="tool-name">智能抠图</h3>
+                    <p class="tool-desc">去除纯色背景，导出透明 PNG，适合证件照换底色与商品图</p>
                     <span class="tool-tag">热门</span>
                 </a>
                 <!-- 背景虚化 -->
@@ -123,12 +158,12 @@
                 <div class="feature-item">
                     <div class="feature-icon">⚡</div>
                     <h3>极速处理</h3>
-                    <p>利用 WebAssembly 技术，处理速度快如本地软件</p>
+                    <p>纯浏览器本地运算，省去上传与下载等待</p>
                 </div>
                 <div class="feature-item">
                     <div class="feature-icon">💰</div>
                     <h3>完全免费</h3>
-                    <p>无需注册，无广告，无使用次数限制</p>
+                    <p>无需注册，无使用次数限制，不要求登录</p>
                 </div>
                 <div class="feature-item">
                     <div class="feature-icon">📱</div>
@@ -159,6 +194,26 @@
                     <div class="faq-question">有使用次数限制吗？</div>
                     <div class="faq-answer">没有限制，您可以无限次使用所有工具。</div>
                 </div>
+                <div class="faq-item">
+                    <div class="faq-question">处理后的图片会保存在服务器吗？</div>
+                    <div class="faq-answer">不会。处理结果只存在于你当前浏览器标签页的内存里，关闭页面即消失。请及时点击下载按钮保存到本地，我们不保留任何副本。</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">可以给图片加水印吗？</div>
+                    <div class="faq-answer">不会。PicStudio 所有工具输出的图片都不带水印。</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">支持多大的图片？</div>
+                    <div class="faq-answer">建议单张小于 5MB、边长不超过 4000 像素。图片越大，浏览器本地运算越久，也越容易触发内存限制。手机拍摄的高清照片通常可以直接处理。</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">抠图为什么对有些照片效果不好？</div>
+                    <div class="faq-answer">本站抠图基于画面四角的背景色采样与边缘分析，对纯色背景（白墙、纯色幕布、商品白底图）效果最好。遇到渐变背景、发丝、半透明物体或主体与背景颜色接近的情况，边缘容易残留或缺失，这类复杂图片建议使用专业抠图软件。</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">手机上能用吗？</div>
+                    <div class="faq-answer">可以。页面为移动端做了自适应，手机浏览器可以直接上传相册照片并处理。不过大图在手机上处理会明显慢于电脑。</div>
+                </div>
             </div>
         </div>
     </section>
@@ -172,11 +227,20 @@
                 </div>
                 <p class="footer-desc">免费的在线图片处理工具，让每个人都能轻松编辑图片</p>
             </div>
-           <div class="footer-bottom">
-                <p>&copy; 2024 PicStudio. 保留所有权利。</p>
-            
-        </div>
-            
+            <div class="footer-links">
+                <a href="/tools/remove-bg.html">智能抠图</a>
+                <a href="/tools/convert.html">格式转换</a>
+                <a href="/tools/compress.html">图片压缩</a>
+                <a href="/tools/resize.html">尺寸调整</a>
+                <a href="/about.html">关于我们</a>
+                <a href="/contact.html">联系我们</a>
+                <a href="/faq.html">常见问题</a>
+                <a href="/privacy.html">隐私政策</a>
+                <a href="/terms.html">使用条款</a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 PicStudio. 保留所有权利。所有图片处理均在你的浏览器本地完成。</p>
+            </div>
         </div>
     </footer>
     

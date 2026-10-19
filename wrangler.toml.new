@@ -1,0 +1,14 @@
+# ============================================================
+# PicStudio（piccalc.com）静态站点 —— Cloudflare Workers + Assets
+# ⚠️ 请勿在 oil-data-worker 目录复用本文件，两者完全不同
+# ============================================================
+name = "picstudio"
+compatibility_date = "2026-09-01"
+main = "src/index.js"
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+
+# 路由：在 CF 控制台 → Workers → picstudio → Triggers → Routes
+# 添加 piccalc.com/* 与 www.piccalc.com/*

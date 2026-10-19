@@ -3,7 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>图片压缩 - PicStudio</title>
+    <title>图片压缩 - 在线减小图片体积（可指定宽度） | PicStudio</title>
+    <meta name="description" content="在线压缩图片体积，可调质量参数与最大宽度，实时显示压缩前后大小对比。适合网页配图加速、邮件附件、突破上传大小限制。本地处理。">
+    <meta name="keywords" content="图片压缩,减小图片体积,图片瘦身,压缩照片大小,在线压缩图片,图片太大怎么办">
+    <link rel="canonical" href="https://piccalc.com/tools/compress.html">
+    <meta name="robots" content="index,follow,max-image-preview:large">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="PicStudio">
+    <meta property="og:locale" content="zh_CN">
+    <meta property="og:title" content="图片压缩 - 在线减小图片体积（可指定宽度） | PicStudio">
+    <meta property="og:description" content="在线压缩图片体积，可调质量参数与最大宽度，实时显示压缩前后大小对比。适合网页配图加速、邮件附件、突破上传大小限制。本地处理。">
+    <meta property="og:url" content="https://piccalc.com/tools/compress.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="图片压缩 - 在线减小图片体积（可指定宽度） | PicStudio">
+    <meta name="twitter:description" content="在线压缩图片体积，可调质量参数与最大宽度，实时显示压缩前后大小对比。适合网页配图加速、邮件附件、突破上传大小限制。本地处理。">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "图片压缩",
+  "url": "https://piccalc.com/tools/compress.html",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "任意（浏览器）",
+  "browserRequirements": "需要支持 Canvas 的现代浏览器",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "CNY"
+  },
+  "description": "在线压缩图片体积，可调质量参数与最大宽度，实时显示压缩前后大小对比。适合网页配图加速、邮件附件、突破上传大小限制。本地处理。"
+}
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "为什么压缩后反而变大了？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "因为原图本身已经是高度压缩的（比如已经压过的 JPG，或微信传过的图）。再压一次不但压不掉东西，还可能因为重新编码而略微变大。这时正确做法是限制最大宽度，而不是继续调低质量。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "质量设多少合适？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "网页配图 70–80 通常兼顾体积与观感；如果要严格控制在某个 KB 以内，先试 75，不够再逐步下调，同时放大检查文字边缘是否出现块状。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "压缩会保留透明背景吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "压缩输出为 JPEG，不支持透明，透明区域会被填充成白色或黑色。需要保留透明的话请改用 PNG 并配合「尺寸调整」减小体积。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "压缩后画质损失能恢复吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "不能。有损压缩丢弃的信息无法找回，请保留原图。"
+      }
+    }
+  ]
+}
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "PicStudio",
+      "item": "https://piccalc.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "图片压缩",
+      "item": "https://piccalc.com/tools/compress.html"
+    }
+  ]
+}
+    </script>
+
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>">
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
@@ -14,6 +105,12 @@
                 <span class="logo-icon">🎨</span>
                 <span class="logo-text">Pic<span class="accent">Studio</span></span>
             </a>
+            <nav class="tool-nav">
+                <a href="../index.html#tools">全部工具</a>
+                <a href="/privacy.html">隐私政策</a>
+                <a href="/faq.html">常见问题</a>
+                <a href="/contact.html">联系我们</a>
+            </nav>
         </div>
     </header>
 
@@ -22,7 +119,7 @@
             <a href="../index.html" class="back-link">← 返回首页</a>
             <div class="tool-header">
                 <h1>🗜️ 图片压缩</h1>
-                <p>智能压缩图片体积，保持画质，加快网页加载</p>
+                <p>调低质量参数或限制最大宽度，减小图片体积，实时对比压缩效果</p>
             </div>
 
             <div class="upload-area" id="uploadArea">
@@ -67,6 +164,117 @@
         </div>
     </section>
 
+
+    <!-- ========== 内容区：使用教程 / 原理 / 场景 / FAQ ========== -->
+    <section class="content-section">
+        <div class="container">
+
+            <div class="content-block">
+                <h2>图片压缩怎么用</h2>
+                <ol class="steps">
+                        <li><strong>上传图片：</strong>选择或拖入图片，页面会显示原始文件大小作为对比基准。</li>
+                        <li><strong>设置质量参数：</strong>拖动滑块选择质量百分比。网页配图一般 70–80，要求体积小时可降到 60。</li>
+                        <li><strong>可选：限制最大宽度：</strong>填入最大宽度，超过的图片会被等比缩小，这一步减体积效果通常最明显。</li>
+                        <li><strong>开始压缩并对比：</strong>处理后会显示压缩后大小与节省比例，确认画质可接受再下载。</li>
+                </ol>
+                <div class="note-box">
+                    <p><strong>提示：</strong>所有处理都在你的浏览器本地完成，图片不会上传到服务器。结果只在当前页面保留，请及时下载。</p>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h2>它的原理是什么</h2>
+                    <p>图片压缩分有损与无损两类。无损压缩只是用更聪明的编码方式重新描述同样的像素，能减小一些体积但幅度有限；有损压缩则直接丢弃一部分视觉上不敏感的信息，换来体积的大幅下降。本站的压缩属于后者，通过 JPEG 的质量参数控制丢弃多少。</p>
+                    <p>质量参数决定了量化表的粗细：数值越低，颜色与细节的量化越粗糙，文件越小，但会出现块状伪影，在高对比边缘（比如文字周围）最明显。</p>
+                    <p>限制最大宽度其实是另一种更有效的减体积手段。一张 4000 像素宽的照片缩到 1600 像素，像素总数降到原来的约六分之一，体积通常也随之大幅下降，而在这个尺寸下观看往往察觉不到区别。</p>
+            </div>
+
+            <div class="content-block">
+                <h2>常见使用场景</h2>
+                <div class="usecases">
+                    <div class="usecase"><strong>网页配图加速</strong><span>把配图压到 100KB 以内，显著提升页面加载速度。</span></div>
+                    <div class="usecase"><strong>突破上传大小限制</strong><span>报名、政务、招聘系统常限制 200KB 或 500KB。</span></div>
+                    <div class="usecase"><strong>邮件附件</strong><span>减小体积避免被邮件服务拒收。</span></div>
+                    <div class="usecase"><strong>手机相册瘦身</strong><span>批量压缩不常看的照片，节省存储空间。</span></div>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h2>规格与参数说明</h2>
+                <div class="table-wrap">
+                    <table class="spec">
+                        <tbody>
+                        <tr><th>质量 90–100</th><td>几乎看不出差别，体积下降有限</td></tr>
+                        <tr><th>质量 70–85</th><td>肉眼基本无损，体积明显下降，推荐日常使用</td></tr>
+                        <tr><th>质量 50–70</th><td>体积大幅下降，细节开始变糊，适合缩略图</td></tr>
+                        <tr><th>质量 50 以下</th><td>体积很小，块状伪影明显，仅应急使用</td></tr>
+                        <tr><th>限制宽度</th><td>通常比调质量更有效，建议长边 1200–2000 px</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="note-box">
+                    <p>已经压过的图片再压收益很小。遇到「越压越大」时，改用限制最大宽度通常更有效。</p>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h2>关于图片压缩的常见问题</h2>
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <div class="faq-question">为什么压缩后反而变大了？</div>
+                        <div class="faq-answer">因为原图本身已经是高度压缩的（比如已经压过的 JPG，或微信传过的图）。再压一次不但压不掉东西，还可能因为重新编码而略微变大。这时正确做法是限制最大宽度，而不是继续调低质量。</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">质量设多少合适？</div>
+                        <div class="faq-answer">网页配图 70–80 通常兼顾体积与观感；如果要严格控制在某个 KB 以内，先试 75，不够再逐步下调，同时放大检查文字边缘是否出现块状。</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">压缩会保留透明背景吗？</div>
+                        <div class="faq-answer">压缩输出为 JPEG，不支持透明，透明区域会被填充成白色或黑色。需要保留透明的话请改用 PNG 并配合「尺寸调整」减小体积。</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">压缩后画质损失能恢复吗？</div>
+                        <div class="faq-answer">不能。有损压缩丢弃的信息无法找回，请保留原图。</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h2>试试其它工具</h2>
+                <div class="related-tools">
+                    <a class="related-tool" href="resize.html"><span>📐</span>尺寸调整</a>
+                    <a class="related-tool" href="convert.html"><span>🔄</span>格式转换</a>
+                    <a class="related-tool" href="blur.html"><span>🌫️</span>背景虚化</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ========== 页脚 ========== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="logo-icon">🎨</span>
+                    <span class="logo-text">Pic<span class="accent">Studio</span></span>
+                </div>
+                <p class="footer-desc">免费的在线图片处理工具，所有处理在浏览器本地完成</p>
+            </div>
+            <div class="footer-links">
+                <a href="../index.html#tools">全部工具</a>
+                <a href="/about.html">关于我们</a>
+                <a href="/contact.html">联系我们</a>
+                <a href="/faq.html">常见问题</a>
+                <a href="/privacy.html">隐私政策</a>
+                <a href="/terms.html">使用条款</a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 PicStudio. 保留所有权利。</p>
+            </div>
+        </div>
+    </footer>
+
     <div class="loading-overlay" id="loadingOverlay">
         <div class="spinner"></div>
         <div class="loading-text">正在压缩中，请稍候...</div>
@@ -101,11 +309,22 @@
             const dataUrl = workingCanvas.toDataURL('image/jpeg', quality);
             const compressedSize = Math.round(dataUrl.length * 3 / 4);
 
-            // Show comparison
-            const savedPercent = Math.round((1 - compressedSize / originalFileSize) * 100);
-            document.getElementById('resultInfo').innerHTML =
-                `压缩后：${(compressedSize / 1024).toFixed(1)} KB<br>` +
-                `<span style="color:var(--accent);font-weight:600;">节省了 ${savedPercent}%</span>`;
+            // Show comparison —— 修正：压完反而变大时不能显示负数
+            const infoEl = document.getElementById('resultInfo');
+            let line2;
+            if (!originalFileSize || originalFileSize <= 0) {
+                line2 = `<span>原图大小未知，无法计算节省比例</span>`;
+            } else if (compressedSize < originalFileSize) {
+                const savedPercent = Math.round((1 - compressedSize / originalFileSize) * 100);
+                line2 = `<span style="color:var(--accent);font-weight:600;">节省了 ${savedPercent}%</span>`;
+            } else {
+                const growPercent = Math.round((compressedSize / originalFileSize - 1) * 100);
+                line2 = `<span style="color:#fbbf24;font-weight:600;">体积未减小（+${growPercent}%）</span>` +
+                        `<span style="display:block;margin-top:6px;font-size:13px;">原图已高度压缩，继续调低质量收益很小。` +
+                        `建议在上方填入「最大宽度」（如 1600 或 1200）后重新处理。</span>`;
+            }
+            infoEl.innerHTML =
+                `压缩后：${(compressedSize / 1024).toFixed(1)} KB<br>` + line2;
 
             return new Promise((resolve) => {
                 const img = new Image();
