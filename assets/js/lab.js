@@ -1094,11 +1094,18 @@
         /* ---- 生成目标底色（支持纯色 / 渐变） ---- */
         var bgCv = makeCanvas(w, h);
         var bx = bgCv.getContext('2d');
-        if (targetSpec && targetSpec.type === 'gradient') {
+        /* ★ v12 修复：底色规格有两种形态，必须都认
+         *   - 对象：{type:'gradient',from,to} 或 {color:'#ff0000'}
+         *   - 字符串：'#ff0000'（currentBgSpec() 预设按钮返回的就是这个）
+         * 之前只认对象，字符串进来时 targetSpec.color 是 undefined，
+         * 于是**不管选红底还是蓝底，统统填成白色** —— 换底色完全失效。 */
+        if (targetSpec && typeof targetSpec === 'object' && targetSpec.type === 'gradient') {
             var g = bx.createLinearGradient(0, 0, 0, h);
             g.addColorStop(0, targetSpec.from);
             g.addColorStop(1, targetSpec.to);
             bx.fillStyle = g;
+        } else if (typeof targetSpec === 'string' && targetSpec) {
+            bx.fillStyle = targetSpec;
         } else {
             bx.fillStyle = (targetSpec && targetSpec.color) ? targetSpec.color : '#ffffff';
         }
