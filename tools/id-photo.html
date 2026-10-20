@@ -416,6 +416,20 @@ function localCut(w,h,bg){
      *   强力(portrait)      能抠掉那些断开的背景，代价是人物铺满画面时可能伤到主体
      * 所以不做自动切换，交给用户在界面上选；默认走安全的标准模式。 */
     var strong = (typeof strongSeg !== 'undefined') && strongSeg;
+
+    /* ★ 优先走「纯色背景换底」——证件照最优解（v11）
+     *
+     * 证件照绝大多数是纯色背景（白墙/蓝布/红布）。这种情况用抠图反而最差：
+     * 白底+浅色衣服时颜色模型分不清，人容易被啃出斑块（正是用户截图里的现象）；
+     * 人物占满画面时背景与边界断开，只换掉一圈。
+     * 改成先检测纯色背景，命中就直接做**连通颜色替换**，又快又干净。
+     * 检测不到纯色背景才退回抠图。 */
+    var flat = Lab.detectFlatBg(srcCanvas);
+    if (flat && !strong) {
+      var replaced = Lab.replaceBg(srcCanvas, flat, bg, {tolerance:46});
+      if (replaced) { window.__lastMode='flat'; return Lab.composeOn(replaced,w,h,bg); }
+    }
+
     var alpha = PicSeg.segmentAlpha(d.data,srcCanvas.width,srcCanvas.height,
       strong ? {tolerance:45,maxSide:900,seedMode:'portrait',iters:8}
              : {tolerance:45,maxSide:900});

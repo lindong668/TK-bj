@@ -144,14 +144,23 @@
         for (var i = 0; i < ms.length; i++) { if (ms[i].parentElement) ms[i].parentElement.removeChild(ms[i]); }
     };
 
-    function showMsg(t, text) {
+    /* 提示条样式：v11 改为**中性灰蓝**而非刺眼红
+     *
+     * 用户实测反馈：预览失败时处理功能其实照样能用，
+     * 但满屏红字让人以为工具坏了 —— 红字本身制造了假故障。
+     * 预览只是「看」，不是「处理」，不该用错误级别告警。
+     * 这里降级为温和提示，并明确告诉用户处理不受影响。 */
+    function showMsg(t, text, tone) {
         var box = t.parentElement; if (!box) return;
-        if (box.querySelector('.__pvmsg')) return;
+        var old = box.querySelector('.__pvmsg'); if (old) old.remove();
         var d = document.createElement('div');
         d.className = '__pvmsg';
+        var bg = (tone === 'warn') ? '#7f1d1d' : 'rgba(51,65,85,0.94)';
+        var fg = (tone === 'warn') ? '#fee2e2' : '#cbd5e1';
+        var bd = (tone === 'warn') ? '#b91c1c' : '#475569';
         d.style.cssText = 'position:absolute;left:8px;right:8px;top:50%;transform:translateY(-50%);' +
-            'background:#7f1d1d;color:#fee2e2;padding:10px 12px;border-radius:8px;font-size:12px;' +
-            'line-height:1.6;text-align:center;z-index:5';
+            'background:' + bg + ';color:' + fg + ';padding:10px 12px;border-radius:8px;font-size:12px;' +
+            'line-height:1.6;text-align:center;z-index:5;border:1px solid ' + bd;
         d.textContent = text;
         if (getComputedStyle(box).position === 'static') box.style.position = 'relative';
         box.appendChild(d);
@@ -183,6 +192,21 @@
 
         var file = window.__lastPreviewFile;
 
+        /* 拿不到 file 时，直接从页面的 file input 里取（v11 修正）
+         *
+         * 有些页面用自己的上传逻辑，没走 __setPreview，
+         * __lastPreviewFile 就是空的 —— 于是兜底重试无从下手，
+         * 只能干报一句「请换一张图片试试」，用户看着像功能坏了。
+         * 这里补上从 input.files 直接取，兜底重试才能真正生效。 */
+        if (!file) {
+            try {
+                var ins = document.querySelectorAll('input[type=file]');
+                for (var ii = 0; ii < ins.length; ii++) {
+                    if (ins[ii].files && ins[ii].files[0]) { file = ins[ii].files[0]; break; }
+                }
+            } catch (e) { file = null; }
+        }
+
         /* 延迟复查再报错：缩图重试是异步的，很可能此刻已经救回来了。
          * 立刻弹红字会造成「图已显示、提示仍在」的假故障。 */
         setTimeout(function () {
@@ -193,7 +217,7 @@
         return;
 
         function realFail() {
-        if (!file) { if (t.dataset) t.dataset.__pvFail = '1'; showMsg(t, '图片预览失败，请换一张图片试试。'); return; }
+        if (!file) { if (t.dataset) t.dataset.__pvFail = '1'; showMsg(t, '预览未显示（图片较大或格式特殊），不影响下方处理功能，可直接点处理。'); return; }
 
         /* 已经显示过本次的重试标记就别重复来 */
         if (t.dataset) t.dataset.__pvBusy = '1';
@@ -218,11 +242,11 @@
                                 return;
                             }
                             if (t.dataset) t.dataset.__pvFail = '1';
-                            showMsg(t, '图片预览失败：该格式可能不受此浏览器支持（如 iPhone 的 HEIC）。请在相册里导出为 JPG 后再试。');
+                            showMsg(t, '预览未显示：该格式可能不受支持（如 HEIC）。处理功能可能同样受限，建议导出为 JPG。', 'warn');
                         }, 'image/jpeg', 0.9);
                     } catch (err) {
                         if (t.dataset) t.dataset.__pvFail = '1';
-                        showMsg(t, '图片预览失败，请换一张图片试试。');
+                        showMsg(t, '预览未显示，不影响下方处理功能，可直接点处理。');
                     }
                 } else {
                     if (t.dataset) t.dataset.__pvFail = '1';
