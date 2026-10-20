@@ -257,6 +257,7 @@
             </div>
         </div>
     </footer>
+    <script src="../assets/js/preview.js"></script>
     <script src="../assets/js/lab.js"></script>
 <script>
 (function(){
@@ -283,7 +284,7 @@ function handleFile(file){
   if(!file||!file.type.startsWith('image/')){alert('请选择图片文件');return;}
   loadImage(file).then(function(img){
     srcImage=img;srcCanvas=toCanvas(img);
-    originalPreview.src=srcCanvas.toDataURL();
+    window.__pu=null;if(window.__setPreview){window.__setPreview(originalPreview,file,function(u,h){window.__pu=(h==='objectURL'||h==='bitmap')?u:null;});}else{window.__pu=URL.createObjectURL(file);originalPreview.src=window.__pu;}
     previewArea.classList.add('active');controls.classList.add('active');
     outCanvas=null;downloadSection.classList.remove('active');
     if(window.onImageReady)window.onImageReady(srcCanvas,img);
@@ -321,7 +322,7 @@ var QUALITY=0.92;
 /* 在原图上拖拽画框 */
 var boxes=[];var drawing=false,sx=0,sy=0;
 var op=$('originalPreview');
-var ov=document.createElement('canvas');ov.style.position='absolute';ov.style.pointerEvents='none';
+var ov=document.createElement('canvas');ov.className='pv-overlay';ov.style.position='absolute';ov.style.pointerEvents='none';
 /* 定位必须用 offsetLeft/offsetTop（相对已定位的父元素），
  * 不能用 getBoundingClientRect()（那是视口坐标）：
  * 手机上下滑动时地址栏收起/展开会不断触发 resize，

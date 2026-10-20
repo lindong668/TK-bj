@@ -266,6 +266,7 @@
             </div>
         </div>
     </footer>
+    <script src="../assets/js/preview.js"></script>
     <script src="../assets/js/lab.js"></script>
 <script>
 (function(){
@@ -287,7 +288,7 @@ function handleFile(file){
     c.width=Math.round(img.naturalWidth*s);c.height=Math.round(img.naturalHeight*s);
     var x=c.getContext('2d');x.imageSmoothingEnabled=true;x.imageSmoothingQuality='high';
     x.drawImage(img,0,0,c.width,c.height);
-    srcCanvas=c;originalPreview.src=c.toDataURL();
+    srcCanvas=c;if(window.__pu)try{URL.revokeObjectURL(window.__pu);}catch(e){}window.__pu=URL.createObjectURL(file);originalPreview.onerror=function(){alert('图片预览失败：该格式可能不受浏览器支持（如 iPhone 的 HEIC）。请先在手机相册里导出为 JPG，或用「格式转换」工具转成 JPG/PNG 再试。');};originalPreview.src=window.__pu;
     previewArea.classList.add('active');controls.classList.add('active');
     $('infoSize').textContent='原图尺寸：'+c.width+' × '+c.height;
   }).catch(function(e){alert(e.message);});}

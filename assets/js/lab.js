@@ -504,12 +504,67 @@
     };
 
     /* ============================================================
+     * 6.5 JPEG 输出前的透明处理
+     * ============================================================ */
+    /**
+     * JPEG 不支持 alpha 通道。canvas 直接 toDataURL('image/jpeg') 时，
+     * 透明区域会被浏览器填成**黑色** —— 用户看到的就是「一片黑」，
+     * 还以为工具把图弄坏了。
+     *
+     * 这里在输出前把透明区铺成白色（更接近纸张/网页背景的预期观感），
+     * 只在确实存在半透明/透明像素时才执行，避免无谓的开销。
+     */
+    LAB.flattenForJpeg = function (cv, bgColor) {
+        if (!cv || !cv.width || !cv.height) return cv;
+        var ctx = cv.getContext('2d', { willReadFrequently: true });
+        var w = cv.width, h = cv.height;
+        // 采样检测是否含透明像素（全图扫描太慢，取样足够判断）
+        var step = Math.max(1, Math.floor(Math.min(w, h) / 60));
+        var need = false;
+        try {
+            var probe = ctx.getImageData(0, 0, w, h).data;
+            for (var y = 0; y < h && !need; y += step) {
+                for (var x = 0; x < w; x += step) {
+                    if (probe[(y * w + x) * 4 + 3] < 250) { need = true; break; }
+                }
+            }
+        } catch (e) { return cv; }
+        if (!need) return cv;
+
+        var out = makeCanvas(w, h);
+        var octx = out.getContext('2d');
+        octx.fillStyle = bgColor || '#ffffff';
+        octx.fillRect(0, 0, w, h);
+        octx.drawImage(cv, 0, 0);
+        return out;
+    };
+
+    /* ============================================================
      * 7. 去噪（保边：双边滤波近似）
      * ============================================================ */
+    /* 双边滤波的工作分辨率上限。
+     * 原实现在原始分辨率上逐像素遍历 3×3 邻域并对每个邻居算一次 Math.exp：
+     * 3000×2250 的图就是 675 万像素 × 9 ≈ 6000 万次指数运算，
+     * 单这一步就要跑几十秒，叠加自动色阶与锐化后页面直接崩溃。
+     * 降噪是局部平滑，降采样处理再放大回去，观感几乎无损。 */
+    var DENOISE_MAX_SIDE = 1400;
+
     LAB.denoise = function (srcCanvas, strength) {
         strength = strength == null ? 3 : strength;
-        var w = srcCanvas.width, h = srcCanvas.height;
-        var ctx = srcCanvas.getContext('2d', { willReadFrequently: true });
+        var fullW = srcCanvas.width, fullH = srcCanvas.height;
+        var work = srcCanvas, scale = 1;
+        if (Math.max(fullW, fullH) > DENOISE_MAX_SIDE) {
+            scale = DENOISE_MAX_SIDE / Math.max(fullW, fullH);
+            var ww = Math.max(1, Math.round(fullW * scale));
+            var wh = Math.max(1, Math.round(fullH * scale));
+            work = makeCanvas(ww, wh);
+            var wc = work.getContext('2d', { willReadFrequently: true });
+            wc.imageSmoothingEnabled = true;
+            wc.imageSmoothingQuality = 'high';
+            wc.drawImage(srcCanvas, 0, 0, ww, wh);
+        }
+        var w = work.width, h = work.height;
+        var ctx = work.getContext('2d', { willReadFrequently: true });
         var im = ctx.getImageData(0, 0, w, h), d = im.data;
         var src = new Uint8ClampedArray(d);
         var r = 1;
@@ -539,7 +594,17 @@
             }
         }
         ctx.putImageData(im, 0, 0);
-        return srcCanvas;
+        if (scale < 1) {
+            /* 在工作分辨率上完成滤波后，放大回原始尺寸。
+             * 降噪是局部平滑，放大不会引入可见损失。 */
+            var back = srcCanvas.getContext('2d', { willReadFrequently: true });
+            back.imageSmoothingEnabled = true;
+            back.imageSmoothingQuality = 'high';
+            back.drawImage(work, 0, 0, fullW, fullH);
+            work.width = 0; work.height = 0;
+        }
+        if (scale < 1) return srcCanvas;
+        return work;
     };
 
     /* ============================================================
@@ -811,7 +876,7 @@
 
         pages.forEach(function (cv, i) {
             var iid = 5 + i * 2;
-            var jpeg = cv.toDataURL('image/jpeg', o.quality || 0.85);
+            var jpeg = LAB.flattenForJpeg(cv).toDataURL('image/jpeg', o.quality || 0.85);
             var bin = atob(jpeg.split(',')[1]);
             offsets[iid] = pos;
             var head = iid + ' 0 obj\n<< /Type /XObject /Subtype /Image /Width ' + cv.width +

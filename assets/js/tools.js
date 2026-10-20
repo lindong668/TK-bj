@@ -75,6 +75,24 @@ class ImageTool {
             return;
         }
 
+        /* 原图预览直接用 object URL —— 浏览器原生解码，零转码、零内存开销。
+         *
+         * 旧实现把原图读成 dataURL 再赋给 img.src：一张几百万像素的照片，
+         * base64 字符串动辄几十 MB，生成慢、占内存，
+         * 一旦超限或解码失败，img 只会露出 CSS 的棋盘格背景 ——
+         * 用户在深色主题下看到的就是「一片黑」/「一片方格」，还以为工具坏了。
+         * object URL 只是一个指向本地文件的引用，几乎不可能失败。 */
+        if (this._previewURL) {
+            try { URL.revokeObjectURL(this._previewURL); } catch (e) {}
+        }
+        /* 四重回退预览：objectURL → createImageBitmap → dataURL → 明确提示 */
+        if (this._previewURL) { try { URL.revokeObjectURL(this._previewURL); } catch (e) {} }
+        this._previewURL = null;   // 关键：先置空，失败时才允许 dataURL 顶上来
+        window.__setPreview(this.originalPreview, file, (url, how) => {
+            this._previewURL = (how === 'objectURL' || how === 'bitmap') ? url : null;
+            this._previewHow = how;
+        });
+
         const reader = new FileReader();
         reader.onload = (e) => {
             const img = new Image();
@@ -89,8 +107,14 @@ class ImageTool {
     }
 
     showPreview(img) {
-        // Show original
-        this.originalPreview.src = img.src;
+        /* 只有当预览确实成功显示时才保留原 src；
+         * 若 objectURL/bitmap 都失败（_previewURL 为空），用 dataURL 顶上，
+         * 避免 <img> 空白 → 露出棋盘格 → 深色主题下看着像「一片黑格」。 */
+        var pv = this.originalPreview;
+        var shown = pv && pv.complete && pv.naturalWidth > 0;
+        if (!shown && img && img.src) {
+            try { pv.src = img.src; } catch (e) {}
+        }
 
         // ---- 大图保护：超过上限先降采样，避免逐像素运算把浏览器卡死 ----
         const rawW = img.naturalWidth;

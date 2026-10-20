@@ -548,7 +548,41 @@ img {
     max-width: 100%;
     max-height: 400px;
     border-radius: var(--radius-sm);
+}
+
+/* 棋盘格只在「确实还没图」时显示，作为空状态提示。
+ * 之前无条件加在 img 上，导致图片一旦加载失败，
+ * 用户看到的就是一整片深色方格 —— 在深色主题下看起来就是「图片变黑了」，
+ * 完全掩盖了真正的问题（格式不支持 / 解码失败）。 */
+.preview-box img[src=""],
+.preview-box img:not([src]) {
     background: repeating-conic-gradient(#1e293b 0% 25%, #0f172a 0% 50%) 50% / 20px 20px;
+    min-width: 160px;
+    min-height: 120px;
+}
+
+/* canvas 上的棋盘格是功能需要：用于显示抠图后的透明区域 */
+.preview-box canvas {
+    background: repeating-conic-gradient(#1e293b 0% 25%, #0f172a 0% 50%) 50% / 20px 20px;
+}
+
+/* 覆盖层 canvas（马赛克画框、抠图修补笔刷）必须完全透明。
+ * 它 absolute 盖在原图 <img> 上，若带棋盘格背景，
+ * 即使画布内容为空，背景也会把底下的图片**整个遮住** ——
+ * 用户看到的就是「一片黑格，啥也看不到」。
+ * 注意：这类 canvas 通常设了 pointer-events:none，
+ * 所以 elementsFromPoint 检测不到它，必须用截图才能发现。 */
+.preview-box canvas.pv-overlay,
+canvas.pv-overlay {
+    background: transparent !important;
+}
+
+/* 图片加载/解码失败时给出可见的提示，而不是静默显示空背景 */
+.preview-box img.img-error {
+    min-width: 200px;
+    min-height: 140px;
+    background: rgba(239, 68, 68, .08);
+    border: 1px dashed #ef4444;
 }
 
 /* Controls */

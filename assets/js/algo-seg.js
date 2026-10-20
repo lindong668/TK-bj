@@ -283,6 +283,43 @@ function depthBlur(canvas, mask, opts) {
   var layers = opts.layers || 4;
   var W = canvas.width, H = canvas.height;
 
+  /* ---- 内存保护 ----
+   * 原实现在原始分辨率上一次性生成 layers 层全尺寸 canvas，
+   * 再对每一层各取一份完整 ImageData。3000×2250 的图下：
+   *   4 层 canvas 108MB + 4 份 ImageData 108MB + 距离场 27MB + 源/输出 54MB ≈ 300MB
+   * 浏览器直接 OOM 崩溃（页面白屏 / 结果一片黑）。
+   *
+   * 虚化本来就是模糊效果，降分辨率对最终观感几乎无损。
+   * 这里统一在工作分辨率（最长边 ≤ MAX_WORK）上完成距离场、分层模糊与合成，
+   * 最后一次性放大回原尺寸，内存降到原来的 1/4 以下。 */
+  var MAX_WORK = opts.maxWork || 1600;
+  var workScale = Math.min(1, MAX_WORK / Math.max(W, H));
+  var wW = Math.max(1, Math.round(W * workScale));
+  var wH = Math.max(1, Math.round(H * workScale));
+
+  var work = canvas;
+  var workMask = mask;
+  if (workScale < 1) {
+    work = document.createElement('canvas');
+    work.width = wW; work.height = wH;
+    var wctx = work.getContext('2d');
+    wctx.imageSmoothingEnabled = true;
+    wctx.imageSmoothingQuality = 'high';
+    wctx.drawImage(canvas, 0, 0, wW, wH);
+    // mask 也要同步缩放（用最近邻采样，保持 0/1 语义）
+    workMask = new Uint8Array(wW * wH);
+    for (var my = 0; my < wH; my++) {
+      var sy = Math.min(H - 1, Math.floor(my / workScale));
+      for (var mx = 0; mx < wW; mx++) {
+        var sx = Math.min(W - 1, Math.floor(mx / workScale));
+        workMask[my * wW + mx] = mask[sy * W + sx];
+      }
+    }
+  }
+
+  W = wW; H = wH;
+  var outW = canvas.width, outH = canvas.height;
+
   // 1) 生成"距离场"：背景像素到最近前景的距离（简易 BFS 近似）
   var N = W*H;
   var dist = new Float32Array(N);
@@ -311,18 +348,25 @@ function depthBlur(canvas, mask, opts) {
   for (var i2=0;i2<N;i2++) if (dist[i2]!==Infinity && dist[i2]>maxD) maxD = dist[i2];
   if (maxD === 0) maxD = 1;
 
-  // 2) 预生成不同强度的模糊层
+  // 2) 预生成不同强度的模糊层（在工作分辨率上算）
   var blurred = [];
   for (var L=0; L<layers; L++) {
     var r = Math.max(1, Math.round(maxRadius * (L+1) / layers));
-    blurred.push(boxBlur(canvas, r));
+    blurred.push(boxBlur(work, r));
   }
 
   // 3) 按距离选层 + 层间融合
-  var src = canvas.getContext('2d').getImageData(0,0,W,H).data;
+  var src = work.getContext('2d').getImageData(0,0,W,H).data;
   var out = new ImageData(W,H);
   var od = out.data;
-  var layersData = blurred.map(function(c){ return c.getContext('2d').getImageData(0,0,W,H).data; });
+  /* 逐层取 ImageData 后立刻释放该层 canvas（把宽高设为 0 交还内存），
+   * 避免 layers 份全尺寸位图同时驻留。 */
+  var layersData = [];
+  for (var li=0; li<blurred.length; li++) {
+    layersData.push(blurred[li].getContext('2d').getImageData(0,0,W,H).data);
+    blurred[li].width = 0; blurred[li].height = 0;
+  }
+  blurred.length = 0;
 
   for (var p3=0; p3<N; p3++) {
     var o = p3*4;
@@ -347,6 +391,18 @@ function depthBlur(canvas, mask, opts) {
   var res = document.createElement('canvas');
   res.width = W; res.height = H;
   res.getContext('2d').putImageData(out, 0, 0);
+
+  // 若曾降采样，把结果放大回原始尺寸（虚化是模糊效果，放大无可见损失）
+  if (workScale < 1) {
+    var fin = document.createElement('canvas');
+    fin.width = outW; fin.height = outH;
+    var fctx = fin.getContext('2d');
+    fctx.imageSmoothingEnabled = true;
+    fctx.imageSmoothingQuality = 'high';
+    fctx.drawImage(res, 0, 0, outW, outH);
+    res.width = 0; res.height = 0;
+    return fin;
+  }
   return res;
 }
 

@@ -291,6 +291,7 @@
             </div>
         </div>
     </footer>
+    <script src="../assets/js/preview.js"></script>
     <script src="../assets/js/lab.js"></script>
 <script src="../assets/js/algo-seg.js"></script><script src="../assets/js/ai-core.js"></script><script>
 (function(){
@@ -312,7 +313,7 @@ function handleFile(file){
     c.width=Math.round(img.naturalWidth*s);c.height=Math.round(img.naturalHeight*s);
     var x=c.getContext('2d');x.imageSmoothingEnabled=true;x.imageSmoothingQuality='high';
     x.drawImage(img,0,0,c.width,c.height);
-    srcCanvas=c;originalPreview.src=c.toDataURL();
+    srcCanvas=c;window.__pu=null;if(window.__setPreview){window.__setPreview(originalPreview,file,function(u,h){window.__pu=(h==='objectURL'||h==='bitmap')?u:null;});}else{window.__pu=URL.createObjectURL(file);originalPreview.src=window.__pu;}
     previewArea.classList.add('active');controls.classList.add('active');
   }).catch(function(e){alert(e.message);});}
 uploadArea.addEventListener('click',function(){fileInput.click();});
@@ -377,29 +378,54 @@ processBtn.addEventListener('click',function(){
     outCanvas=c;processedPreview.src=c.toDataURL();
     downloadSection.classList.add('active');loadingOverlay.classList.remove('active');
   }).catch(function(e){loadingOverlay.classList.remove('active');alert('处理失败：'+(e.message||e));});},40);});
+/* 本地算法抠图 + 合成（不依赖任何网络，必定可用） */
+function localCut(w,h,bg){
+  loadingText.textContent='正在用本地算法处理…';
+  if(typeof PicSeg!=='undefined'&&PicSeg.segmentAlpha){
+    var d=srcCanvas.getContext('2d').getImageData(0,0,srcCanvas.width,srcCanvas.height);
+    var alpha=PicSeg.segmentAlpha(d.data,srcCanvas.width,srcCanvas.height,{tolerance:45,maxSide:900});
+    var cut=Lab.alphaToCanvas?Lab.alphaToCanvas(alpha,srcCanvas,1):applyAlpha(srcCanvas,alpha);
+    return Lab.composeOn(cut,w,h,bg);
+  }
+  // 连本地算法都没加载出来：至少保证能裁剪出图，不报错
+  return Lab.composeOn(srcCanvas,w,h,bg);
+}
+
+/* 给 AI 分割加超时竞速。
+ * 原实现无条件 await AILab.segment()，而 AI 模型要下载几十 MB，
+ * 网络不通时会一直等到 CDN 超时（实测可达 90 秒以上）——
+ * 用户看到的就是「点了没反应 / 一直转圈」，还以为工具坏了。 */
+function segWithTimeout(cv, ms){
+  return new Promise(function(resolve,reject){
+    var done=false;
+    var timer=setTimeout(function(){
+      if(!done){done=true;reject(new Error('AI_TIMEOUT'));}
+    }, ms);
+    AILab.segment(cv,{onProgress:function(t){loadingText.textContent=t;}})
+      .then(function(m){ if(!done){done=true;clearTimeout(timer);resolve(m);} })
+      .catch(function(e){ if(!done){done=true;clearTimeout(timer);reject(e);} });
+  });
+}
+
 function run(mode){
   var w=Math.round(num('idW',295)),h=Math.round(num('idH',413));
   var bg=currentBgSpec();
   if(mode==='keep'){
     // 不换背景：直接裁剪到目标比例，留白填充
     return Promise.resolve(Lab.composeOn(srcCanvas,w,h,bg));}
-  // 换背景：先抠图
-  return AILab.segment(srcCanvas,{onProgress:function(t){loadingText.textContent=t;}})
+
+  /* 已探测过且确认 AI 不可用 → 直接本地出图，不再傻等 */
+  if(window.AILab&&window.AILab.isSettled&&window.AILab.isSettled()&&!window.AILab.aiAvailable()){
+    return Promise.resolve(localCut(w,h,bg));
+  }
+  /* 尚未探测完：只给 AI 4 秒机会，超时立刻本地出图，不让用户干等 */
+  return segWithTimeout(srcCanvas,4000)
     .then(function(mask){
       var cut=AILab.applyMask(srcCanvas,mask,{feather:1});
-      // 放到纯色背景上并裁剪到目标尺寸
-      var cv=Lab.composeOn(cut,w,h,bg);
-      return cv;})
+      return Lab.composeOn(cut,w,h,bg);})
     .catch(function(e){
-      // AI 不可用时降级：直接用本地算法（algo-seg.js 必定可用，不依赖任何网络）
       loadingText.textContent='AI 不可用，改用本地算法…';
-      if(typeof PicSeg!=='undefined'&&PicSeg.segmentAlpha){
-        var d=srcCanvas.getContext('2d').getImageData(0,0,srcCanvas.width,srcCanvas.height);
-        var alpha=PicSeg.segmentAlpha(d.data,srcCanvas.width,srcCanvas.height,{tolerance:45,maxSide:900});
-        var cut=Lab.alphaToCanvas?Lab.alphaToCanvas(alpha,srcCanvas,1):applyAlpha(srcCanvas,alpha);
-        return Lab.composeOn(cut,w,h,bg);
-      }
-      throw e;});}
+      return localCut(w,h,bg);});}
 /* 本地兜底：把 alpha 套到原图上（生成透明 PNG） */
 function applyAlpha(src,alpha){
   var W=src.width,H=src.height;

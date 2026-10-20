@@ -246,6 +246,7 @@
             </div>
         </div>
     </footer>
+    <script src="../assets/js/preview.js"></script>
     <script src="../assets/js/lab.js"></script>
 <script>
 (function(){
@@ -272,7 +273,7 @@ function handleFile(file){
   if(!file||!file.type.startsWith('image/')){alert('请选择图片文件');return;}
   loadImage(file).then(function(img){
     srcImage=img;srcCanvas=toCanvas(img);
-    originalPreview.src=srcCanvas.toDataURL();
+    window.__pu=null;if(window.__setPreview){window.__setPreview(originalPreview,file,function(u,h){window.__pu=(h==='objectURL'||h==='bitmap')?u:null;});}else{window.__pu=URL.createObjectURL(file);originalPreview.src=window.__pu;}
     previewArea.classList.add('active');controls.classList.add('active');
     outCanvas=null;downloadSection.classList.remove('active');
     if(window.onImageReady)window.onImageReady(srcCanvas,img);

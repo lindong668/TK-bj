@@ -284,6 +284,7 @@
         <div class="loading-text">正在转换中，请稍候...</div>
     </div>
 
+    <script src="../assets/js/preview.js"></script>
     <script src="../assets/js/tools.js"></script>
     <script>
     const qualitySlider = document.getElementById('quality');
@@ -308,7 +309,10 @@
             const quality = parseInt(qualitySlider.value) / 100;
 
             const mimeType = `image/${format === 'jpeg' ? 'jpeg' : format}`;
-            const dataUrl = canvas.toDataURL(mimeType, quality);
+            /* 目标为 JPEG 时先铺白，避免透明区变黑块 */
+            const outCv = (/jpe?g/i.test(mimeType) && window.Lab && Lab.flattenForJpeg)
+                ? Lab.flattenForJpeg(canvas) : canvas;
+            const dataUrl = outCv.toDataURL(mimeType, quality);
 
             // Show result info
             const sizeKB = Math.round(dataUrl.length * 3 / 4 / 1024);
