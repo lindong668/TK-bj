@@ -252,6 +252,7 @@
         </div>
     </footer>
     <script src="../assets/js/preview.js"></script>
+<script src="../assets/js/download.js"></script>
     <script src="../assets/js/lab.js"></script>
 <script src="../assets/js/lab.js"></script><script>
 (function(){
@@ -267,15 +268,24 @@ function handleFile(file){
   r.onload=function(e){
     /* 注意：e.target.result 是 ArrayBuffer，不能直接赋给 img.src（会导致 onload 永不触发，
      * 表现为「上传了但预览区没反应」）。这里改用 blob URL 做预览。 */
+    /* 预览统一走 __setPreview（四重回退 + 缩图重试），
+     * 不再直接塞 blob URL —— 手机端大图解码失败时会留下黑格。 */
     var im=new Image();
-    var objUrl=URL.createObjectURL(file);
-    im.onload=function(){
-      curImg=im;previewImg.src=im.src;
-      previewBox.classList.add('active');resultBox.classList.add('active');};
-    im.onerror=function(){
-      /* 兜底：即使预览失败也要把结果区显示出来 */
-      previewBox.classList.add('active');resultBox.classList.add('active');};
-    im.src=objUrl;
+    function showBoxes(){previewBox.classList.add('active');resultBox.classList.add('active');}
+    if(window.__setPreview){
+      window.__setPreview(previewImg,file,function(url,how){
+        var im2=new Image();
+        im2.onload=function(){curImg=im2;};
+        im2.onerror=function(){curImg=null;};
+        im2.src=url;
+        showBoxes();
+      },function(){curImg=null;showBoxes();});
+    }else{
+      var objUrl=URL.createObjectURL(file);
+      im.onload=function(){curImg=im;previewImg.src=im.src;showBoxes();};
+      im.onerror=function(){curImg=null;showBoxes();};
+      im.src=objUrl;
+    }
     var buf=e.target.result;
     var meta=null;
     if(isJpeg){try{meta=Lab.parseExif(buf);}catch(err){meta=null;}}
@@ -312,10 +322,7 @@ $('stripBtn').addEventListener('click',function(){
   c.getContext('2d').drawImage(curImg,0,0);
   var fmtEl=document.querySelector('input[name="outFmt"]:checked');
   var fmt=fmtEl?fmtEl.value:'png';
-  var a=document.createElement('a');
-  a.download='clean.'+(fmt==='jpeg'?'jpg':'png');
-  a.href=c.toDataURL('image/'+(fmt==='jpeg'?'jpeg':'png'),0.92);
-  a.click();
+  if(window.__download){window.__download(c,'clean.'+(fmt==='jpeg'?'jpg':'png'));}else{var a=document.createElement('a');a.download='clean.'+(fmt==='jpeg'?'jpg':'png');a.href=c.toDataURL('image/'+(fmt==='jpeg'?'jpeg':'png'),0.92);a.click();}
   $('stripMsg').innerHTML='<div class="ok-box">已导出不含元数据的图片。'+
     '原理是重新绘制到画布再导出，画布导出的图片天然不包含 EXIF。</div>';});
 })();

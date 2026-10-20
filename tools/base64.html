@@ -256,6 +256,7 @@
         </div>
     </footer>
     <script src="../assets/js/preview.js"></script>
+<script src="../assets/js/download.js"></script>
     <script src="../assets/js/lab.js"></script>
 <script>
 (function(){
@@ -302,7 +303,8 @@ $('copyBtn').addEventListener('click',function(){
       setTimeout(function(){$('copyBtn').textContent='复制 Base64';},1800);});}});
 $('dlBtn').addEventListener('click',function(){
   if(!curDataUrl){alert('没有可下载的图片');return;}
-  var a=document.createElement('a');a.href=curDataUrl;a.download='image.png';a.click();});
+  if(window.__download){window.__download(curDataUrl,'image.png');}
+  else{var a=document.createElement('a');a.href=curDataUrl;a.download='image.png';a.click();}});
 $('clearBtn').addEventListener('click',function(){ta.value='';$('sizeInfo').textContent='';});
 })();
 </script>

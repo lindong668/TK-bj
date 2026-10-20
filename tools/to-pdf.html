@@ -263,6 +263,7 @@
         </div>
     </footer>
     <script src="../assets/js/preview.js"></script>
+<script src="../assets/js/download.js"></script>
     <script src="../assets/js/lab.js"></script>
 <script>
 (function(){
@@ -323,6 +324,12 @@ processBtn.addEventListener('click',function(){
 downloadBtn.addEventListener('click',function(){
   if(!pdfBlob)return;
   var url=URL.createObjectURL(pdfBlob);var a=document.createElement('a');
+  if(window.__download){
+    var fr=new FileReader();
+    fr.onload=function(ev){window.__download(ev.target.result,'images.pdf');};
+    fr.readAsDataURL(pdfBlob);
+    return;
+  }
   a.href=url;a.download='images.pdf';document.body.appendChild(a);a.click();
   document.body.removeChild(a);setTimeout(function(){URL.revokeObjectURL(url);},2000);});
 })();

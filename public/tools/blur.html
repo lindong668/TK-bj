@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>背景虚化 - 在线给图片加景深模糊效果 | PicStudio</title>
+    <meta name="description" content="在线给图片添加背景虚化，模拟大光圈镜头的景深效果，也可用于遮挡背景中的门牌、车牌等隐私信息。本地处理，图片不上传。">
+    <meta name="keywords" content="背景虚化,图片模糊,景深效果,马赛克,隐私打码,在线模糊工具">
+    <link rel="canonical" href="https://piccalc.com/tools/blur.html">
+    <meta name="robots" content="index,follow,max-image-preview:large">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="PicStudio">
+    <meta property="og:locale" content="zh_CN">
+    <meta property="og:title" content="背景虚化 - 在线给图片加景深模糊效果 | PicStudio">
+    <meta property="og:description" content="在线给图片添加背景虚化，模拟大光圈镜头的景深效果，也可用于遮挡背景中的门牌、车牌等隐私信息。本地处理，图片不上传。">
+    <meta property="og:url" content="https://piccalc.com/tools/blur.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="背景虚化 - 在线给图片加景深模糊效果 | PicStudio">
+    <meta name="twitter:description" content="在线给图片添加背景虚化，模拟大光圈镜头的景深效果，也可用于遮挡背景中的门牌、车牌等隐私信息。本地处理，图片不上传。">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "背景虚化",
+  "url": "https://piccalc.com/tools/blur.html",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "任意（浏览器）",
+  "browserRequirements": "需要支持 Canvas 的现代浏览器",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "CNY"
+  },
+  "description": "在线给图片添加背景虚化，模拟大光圈镜头的景深效果，也可用于遮挡背景中的门牌、车牌等隐私信息。本地处理，图片不上传。"
+}
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "虚化后还能恢复清晰吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "不能。模糊是把相邻像素的颜色做平均，原始细节已经丢失，无法从结果反推。请务必保存原图。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "想遮住车牌，强度设多少合适？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "一般 30 以上比较稳妥。判断标准是放大看还能不能辨认字符——只要还能猜出来就继续加大，或者改用马赛克类工具。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "整张图和只虚化背景有什么区别？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "整图模糊会让主体一起变糊，适合做背景板；只虚化背景需要工具判断哪里是主体，本站采用中心区域保留的方式，主体居中时效果最好。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "处理很慢怎么办？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "大图会显著变慢。可以先用「尺寸调整」把长边缩到 2000 像素以内，再用本工具虚化，速度会快很多。"
+      }
+    }
+  ]
+}
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "PicStudio",
+      "item": "https://piccalc.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "背景虚化",
+      "item": "https://piccalc.com/tools/blur.html"
+    }
+  ]
+}
+    </script>
+
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <a href="../index.html" class="logo">
+                <span class="logo-icon">🎨</span>
+                <span class="logo-text">Pic<span class="accent">Studio</span></span>
+            </a>
+            <nav class="tool-nav">
+                <a href="../index.html#tools">全部工具</a>
+                <a href="/privacy.html">隐私政策</a>
+                <a href="/faq.html">常见问题</a>
+                <a href="/contact.html">联系我们</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="tool-page">
+        <div class="container">
+            <a href="../index.html" class="back-link">← 返回首页</a>
+            <div class="tool-header">
+                <h1>🌫️ 背景虚化</h1>
+                <p>给图片添加局部虚化，突出主体、弱化背景，也可用于遮挡隐私信息</p>
+            </div>
+
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-icon">📁</div>
+                <div class="upload-text">点击或拖拽图片到这里</div>
+                <div class="upload-hint">支持 PNG / JPG / WebP</div>
+                <input type="file" id="fileInput" accept="image/*">
+            </div>
+
+            <div class="preview-area" id="previewArea">
+                <div class="preview-box">
+                    <h3>原始图片</h3>
+                    <img id="originalPreview" src="" alt="原始图片">
+                </div>
+                <div class="preview-box">
+                    <h3>虚化结果</h3>
+                    <img id="processedPreview" src="" alt="处理结果">
+                </div>
+            </div>
+
+            <div class="controls" id="controls">
+                <div class="control-group">
+                    <label class="control-label">虚化程度</label>
+                    <input type="range" id="blurAmount" min="1" max="50" value="15">
+                    <div class="control-hint">值越大，背景越模糊</div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">保留区域（中心半径 %）</label>
+                    <input type="range" id="keepRadius" min="10" max="80" value="35">
+                    <div class="control-hint">中心区域保持清晰的范围</div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">虚化模式</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" name="blurMode" id="modeCenter" value="center" checked>
+                            <label for="modeCenter">中心清晰</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="blurMode" id="modeFull" value="full">
+                            <label for="modeFull">全局虚化</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="blurMode" id="modeEdge" value="edge">
+                            <label for="modeEdge">边缘虚化</label>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary btn-lg" id="processBtn" style="width:100%;">应用虚化</button>
+            </div>
+
+            <div class="download-section" id="downloadSection">
+                <button class="btn btn-primary btn-lg" id="downloadBtn">⬇️ 下载结果</button>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ========== 内容区：使用教程 / 原理 / 场景 / FAQ ========== -->
+    <section class="content-section">
+        <div class="container">
+
+            <div class="content-block">
+                <h2>背景虚化怎么用</h2>
+                <ol class="steps">
+                        <li><strong>上传图片：</strong>选择或拖入一张图片，建议小于 5MB。</li>
+                        <li><strong>设置虚化强度：</strong>拖动强度滑块，数值越大模糊越重。人像一般 10–20，遮挡信息可到 30 以上。</li>
+                        <li><strong>选择虚化区域：</strong>可选整图模糊，或保留主体清晰、只虚化背景。</li>
+                        <li><strong>开始处理并下载：</strong>点击处理后左右对比效果，满意即可下载。建议保存 PNG 以保留画质。</li>
+                </ol>
+                <div class="note-box">
+                    <p><strong>提示：</strong>所有处理都在你的浏览器本地完成，图片不会上传到服务器。结果只在当前页面保留，请及时下载。</p>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h2>它的原理是什么</h2>
+                    <p>虚化在实现上是让每个像素的颜色被它周围一片区域的颜色平均掉。区域越大、平均次数越多，画面就越模糊。本站采用的做法是先把图片按半径比例缩小，在小图上做多次方框模糊（box blur），再平滑放大回原尺寸。</p>
+                    <p>为什么要先缩小？因为模糊大图需要遍历的像素量非常巨大。把图缩到几分之一，运算量就降到几十分之一，而放大回原图的平滑处理本身又会带来一部分模糊效果——这在视觉上反而更接近真实镜头的弥散圆。多次方框模糊叠加的结果在数学上逼近高斯模糊，这是图形学中常用的近似手段。</p>
+                    <p>需要注意的是，虚化是不可逆的。一旦把细节平均掉，就无法从结果图恢复出原来的清晰画面，所以务必保留原图。</p>
+            </div>
+
+            <div class="content-block">
+                <h2>常见使用场景</h2>
+                <div class="usecases">
+                    <div class="usecase"><strong>人像突出主体</strong><span>手机拍的人像没有光斑，后期加虚化让主体聚焦。</span></div>
+                    <div class="usecase"><strong>遮挡隐私信息</strong><span>虚化背景中的门牌号、车牌、电脑屏幕内容。</span></div>
+                    <div class="usecase"><strong>封面图弱化背景</strong><span>让文字压在虚化背景上更容易阅读。</span></div>
+                    <div class="usecase"><strong>产品图氛围感</strong><span>轻微虚化边缘，营造浅景深的质感。</span></div>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h2>规格与参数说明</h2>
+                <div class="table-wrap">
+                    <table class="spec">
+                        <tbody>
+                        <tr><th>支持输入</th><td>PNG / JPG / JPEG / WebP / BMP / GIF</td></tr>
+                        <tr><th>建议尺寸</th><td>单张小于 5MB，过大图片处理会明显变慢</td></tr>
+                        <tr><th>输出格式</th><td>PNG（推荐，无损）或 JPG</td></tr>
+                        <tr><th>处理方式</th><td>浏览器本地运算，不上传服务器</td></tr>
+                        <tr><th>可逆性</th><td>不可逆，请保留原图</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="note-box">
+                    <p>虚化不可逆。若用于遮挡真实隐私信息，请在处理后放大检查确认关键信息已无法辨认。</p>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h2>关于背景虚化的常见问题</h2>
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <div class="faq-question">虚化后还能恢复清晰吗？</div>
+                        <div class="faq-answer">不能。模糊是把相邻像素的颜色做平均，原始细节已经丢失，无法从结果反推。请务必保存原图。</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">想遮住车牌，强度设多少合适？</div>
+                        <div class="faq-answer">一般 30 以上比较稳妥。判断标准是放大看还能不能辨认字符——只要还能猜出来就继续加大，或者改用马赛克类工具。</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">整张图和只虚化背景有什么区别？</div>
+                        <div class="faq-answer">整图模糊会让主体一起变糊，适合做背景板；只虚化背景需要工具判断哪里是主体，本站采用中心区域保留的方式，主体居中时效果最好。</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">处理很慢怎么办？</div>
+                        <div class="faq-answer">大图会显著变慢。可以先用「尺寸调整」把长边缩到 2000 像素以内，再用本工具虚化，速度会快很多。</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h2>试试其它工具</h2>
+                <div class="related-tools">
+                    <a class="related-tool" href="remove-bg.html"><span>✂️</span>智能抠图</a>
+                    <a class="related-tool" href="compress.html"><span>🗜️</span>图片压缩</a>
+                    <a class="related-tool" href="filter.html"><span>🌈</span>滤镜美化</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ========== 页脚 ========== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="logo-icon">🎨</span>
+                    <span class="logo-text">Pic<span class="accent">Studio</span></span>
+                </div>
+                <p class="footer-desc">免费的在线图片处理工具，所有处理在浏览器本地完成</p>
+            </div>
+            <div class="footer-links">
+                <a href="../index.html#tools">全部工具</a>
+                <a href="/about.html">关于我们</a>
+                <a href="/contact.html">联系我们</a>
+                <a href="/faq.html">常见问题</a>
+                <a href="/privacy.html">隐私政策</a>
+                <a href="/terms.html">使用条款</a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 PicStudio. 保留所有权利。</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <div class="loading-text">正在处理中，请稍候...</div>
+    </div>
+
+    <script src="../assets/js/tools.js"></script>
+    <script>
+    const tool = new ImageTool({
+        process: async (canvas) => {
+            const blurAmount = parseInt(document.getElementById('blurAmount').value);
+            const keepRadius = parseInt(document.getElementById('keepRadius').value) / 100;
+            const blurMode = document.querySelector('input[name="blurMode"]:checked').value;
+
+            return applyBlur(canvas, blurAmount, keepRadius, blurMode);
+        },
+        downloadOptions: { filename: 'picstudio-blur', format: 'png' }
+    });
+
+    document.getElementById('processBtn').addEventListener('click', () => tool.process());
+
+    function applyBlur(canvas, amount, radius, mode) {
+        const w = canvas.width;
+        const h = canvas.height;
+        const cx = w / 2;
+        const cy = h / 2;
+        const maxDist = Math.sqrt(cx * cx + cy * cy);
+
+        // Create blurred version
+        const blurred = ImageUtils.gaussianBlur(canvas, amount);
+
+        if (mode === 'full') {
+            return blurred;
+        }
+
+        // Create result canvas
+        const result = document.createElement('canvas');
+        result.width = w;
+        result.height = h;
+        const ctx = result.getContext('2d');
+
+        if (mode === 'center') {
+            // Center clear, edges blurred
+            const scaledRadius = radius * Math.min(w, h) / 2;
+
+            // Draw original
+            ctx.drawImage(canvas, 0, 0);
+
+            // Create gradient mask for blur
+            const gradient = ctx.createRadialGradient(cx, cy, scaledRadius * 0.5, cx, cy, scaledRadius * 1.5);
+            gradient.addColorStop(0, 'rgba(0,0,0,0)');
+            gradient.addColorStop(1, 'rgba(0,0,0,1)');
+
+            // Use composite operation to blend
+            ctx.globalCompositeOperation = 'source-over';
+
+            // Draw blurred on top with gradient mask
+            ctx.save();
+            ctx.globalCompositeOperation = 'destination-out';
+            // This approach won't work directly, let's use a different method
+
+            // Simpler approach: pixel by pixel blending
+            const origData = canvas.getContext('2d').getImageData(0, 0, w, h);
+            const blurData = blurred.getContext('2d').getImageData(0, 0, w, h);
+            const resultData = ctx.createImageData(w, h);
+            const origPixels = origData.data;
+            const blurPixels = blurData.data;
+            const resultPixels = resultData.data;
+
+            for (let y = 0; y < h; y++) {
+                for (let x = 0; x < w; x++) {
+                    const dx = x - cx;
+                    const dy = y - cy;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    const normalizedDist = dist / scaledRadius;
+
+                    let blend = 0;
+                    if (normalizedDist > 1) {
+                        blend = 1;
+                    } else if (normalizedDist > 0.5) {
+                        blend = (normalizedDist - 0.5) * 2;
+                    }
+
+                    const idx = (y * w + x) * 4;
+                    resultPixels[idx] = origPixels[idx] * (1 - blend) + blurPixels[idx] * blend;
+                    resultPixels[idx + 1] = origPixels[idx + 1] * (1 - blend) + blurPixels[idx + 1] * blend;
+                    resultPixels[idx + 2] = origPixels[idx + 2] * (1 - blend) + blurPixels[idx + 2] * blend;
+                    resultPixels[idx + 3] = 255;
+                }
+            }
+
+            ctx.putImageData(resultData, 0, 0);
+        } else if (mode === 'edge') {
+            // Edge clear, center blurred
+            const scaledRadius = radius * Math.min(w, h) / 2;
+
+            const origData = canvas.getContext('2d').getImageData(0, 0, w, h);
+            const blurData = blurred.getContext('2d').getImageData(0, 0, w, h);
+            const resultData = ctx.createImageData(w, h);
+            const origPixels = origData.data;
+            const blurPixels = blurData.data;
+            const resultPixels = resultData.data;
+
+            for (let y = 0; y < h; y++) {
+                for (let x = 0; x < w; x++) {
+                    const dx = x - cx;
+                    const dy = y - cy;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    const normalizedDist = dist / scaledRadius;
+
+                    let blend = 0;
+                    if (normalizedDist < 0.5) {
+                        blend = 1 - (normalizedDist / 0.5);
+                    }
+
+                    const idx = (y * w + x) * 4;
+                    resultPixels[idx] = blurPixels[idx] * (1 - blend) + origPixels[idx] * blend;
+                    resultPixels[idx + 1] = blurPixels[idx + 1] * (1 - blend) + origPixels[idx + 1] * blend;
+                    resultPixels[idx + 2] = blurPixels[idx + 2] * (1 - blend) + origPixels[idx + 2] * blend;
+                    resultPixels[idx + 3] = 255;
+                }
+            }
+
+            ctx.putImageData(resultData, 0, 0);
+        }
+
+        return result;
+    }
+    </script>
+</body>
+</html>

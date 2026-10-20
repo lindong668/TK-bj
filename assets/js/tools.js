@@ -209,9 +209,11 @@ class ImageTool {
 
         if (!this.processedCanvas) return;
 
+        var cv = this.processedCanvas, fn = filename + '.' + format;
+        if (window.__download) { window.__download(cv, fn); return; }
         const link = document.createElement('a');
-        link.download = `${filename}.${format}`;
-        link.href = this.processedCanvas.toDataURL(`image/${format}`, quality);
+        link.download = fn;
+        link.href = cv.toDataURL(`image/${format}`, quality);
         link.click();
     }
 

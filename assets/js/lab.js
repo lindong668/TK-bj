@@ -400,26 +400,35 @@
                 y += s.h + gap;
             });
         } else {
-            // 网格：每格统一为该列最大宽、该行最大高
+            /* 网格：所有格子统一尺寸。
+             *
+             * 注意（v10 修正）：原来取「该列最大宽 / 该行最大高」，
+             * 九张图尺寸不一致时，每列宽、每行高都不一样，
+             * 拼出来格子大小参差 —— 就是用户说的「不规则」。
+             * 改成全局统一格宽格高，格子才是规整的；
+             * 图片按 cover 裁切填满格子，不留参差空隙。 */
             var rows = Math.ceil(imgs.length / cols);
-            var colW = [], rowH = [];
-            for (var c = 0; c < cols; c++) colW[c] = 0;
-            for (var r = 0; r < rows; r++) rowH[r] = 0;
+            var cellW = Math.max.apply(null, sizes.map(function (s) { return s.w; }));
+            var cellH = Math.max.apply(null, sizes.map(function (s) { return s.h; }));
+            /* o.square 为真时强制正方形格子（朋友圈/小红书九宫格的常见诉求） */
+            if (o.square) { cellW = cellH = Math.max(cellW, cellH); }
+
+            W = cellW * cols + gap * (cols - 1);
+            H = cellH * rows + gap * (rows - 1);
+
             sizes.forEach(function (s, i) {
                 var cc = i % cols, rr = Math.floor(i / cols);
-                if (s.w > colW[cc]) colW[cc] = s.w;
-                if (s.h > rowH[rr]) rowH[rr] = s.h;
-            });
-            W = colW.reduce(function (a, b) { return a + b; }, 0) + gap * (cols - 1);
-            H = rowH.reduce(function (a, b) { return a + b; }, 0) + gap * (rows - 1);
-            sizes.forEach(function (s, i) {
-                var cc = i % cols, rr = Math.floor(i / cols);
-                var ox = 0; for (var k = 0; k < cc; k++) ox += colW[k] + gap;
-                var oy = 0; for (var k2 = 0; k2 < rr; k2++) oy += rowH[k2] + gap;
+                var ox = cc * (cellW + gap);
+                var oy = rr * (cellH + gap);
+                /* cover：等比放大到铺满格子，多出的部分居中裁掉 */
+                var sc = Math.max(cellW / s.w, cellH / s.h);
+                var dw = s.w * sc, dh = s.h * sc;
                 positions.push({
-                    x: align === 'start' ? ox : align === 'end' ? ox + colW[cc] - s.w : ox + (colW[cc] - s.w) / 2,
-                    y: align === 'start' ? oy : align === 'end' ? oy + rowH[rr] - s.h : oy + (rowH[rr] - s.h) / 2,
-                    w: s.w, h: s.h
+                    x: ox + (cellW - dw) / 2,
+                    y: oy + (cellH - dh) / 2,
+                    w: dw, h: dh,
+                    /* 裁切：只画格子范围内的部分 */
+                    clipX: ox, clipY: oy, clipW: cellW, clipH: cellH
                 });
             });
         }
@@ -429,7 +438,16 @@
         if (bg !== 'transparent') { ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H); }
         imgs.forEach(function (im, i) {
             var p = positions[i];
-            ctx.drawImage(im, p.x, p.y, p.w, p.h);
+            if (p.clipW) {
+                ctx.save();
+                ctx.beginPath();
+                ctx.rect(p.clipX, p.clipY, p.clipW, p.clipH);
+                ctx.clip();
+                ctx.drawImage(im, p.x, p.y, p.w, p.h);
+                ctx.restore();
+            } else {
+                ctx.drawImage(im, p.x, p.y, p.w, p.h);
+            }
         });
         return cv;
     };
@@ -939,6 +957,7 @@
      * ============================================================ */
     LAB.downloadCanvas = function (cv, filename, format, quality) {
         return new Promise(function (res) {
+            if (window.__download) { window.__download(cv, filename); res(); return; }
             cv.toBlob(function (blob) {
                 var url = URL.createObjectURL(blob);
                 var a = document.createElement('a');
@@ -952,6 +971,12 @@
     };
 
     LAB.downloadBlob = function (blob, filename) {
+        if (window.__download) {
+            var fr = new FileReader();
+            fr.onload = function (ev) { window.__download(ev.target.result, filename); };
+            fr.readAsDataURL(blob);
+            return;
+        }
         var url = URL.createObjectURL(blob);
         var a = document.createElement('a');
         a.href = url; a.download = filename;

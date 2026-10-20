@@ -2,109 +2,244 @@
  * preview.js —— 图片预览健壮化（独立，不依赖任何库）
  * ------------------------------------------------------------
  * 为什么需要它：
- *   objectURL 在部分手机浏览器 / 无痕模式 / HEIC 格式下会失败，
- *   失败时 <img> 露出底层棋盘格背景，深色主题下看着就是「一片黑」。
- *   旧实现只设 onerror 弹 alert，不会换别的加载方式，
- *   更糟的是 _previewURL 一旦赋值就非空，导致 dataURL 永远顶不上来。
+ *   <img> 直接加载原图 blob URL 时，手机端（尤其 iOS 无痕模式）
+ *   常因内存上限解码失败，露出底层棋盘格 —— 深色主题下看着就是「一片黑」。
+ *
+ * 关键认知（v10 修正，务必保留）：
+ *   预览失败 ≠ 图片有问题。同样的文件在「处理流程」里往往能正常出图，
+ *   因为处理走的是降采样后的 canvas。差别就在**预览没有降采样**：
+ *   一张 1170×2532 的手机照片，原图解码约需 11.8MB 内存，
+ *   降采样到 1200 后约 2.7MB，手机浏览器就能稳稳拿下。
+ *   所以正确的修法不是「提示用户换格式」，而是**预览前先缩图**。
+ *
  * 用法：window.__setPreview(imgEl, file, onOk, onFail)
  * ============================================================ */
-(function(){
-'use strict';
-window.__setPreview = function (imgEl, file, onOk, onFail) {
-    if (!imgEl || !file) return;
-    var steps = [];
-    var settled = false;
+(function () {
+    'use strict';
 
-    function finish(ok, url, how) {
-        if (settled) return; settled = true;
-        if (ok) { if (onOk) onOk(url, how); }
-        else { if (onFail) onFail(steps); }
-    }
-    function note(t) { steps.push(t); }
+    /* 预览最大边长。原图直接给 <img> 在手机上很容易解码失败，
+     * 统一缩到这个尺寸再显示：既省内存，视觉上也看不出差别。 */
+    var PREVIEW_MAX = 1200;
+    /* 超过多少像素才需要缩图（小图缩了反而多一次编码开销） */
+    var SHRINK_THRESHOLD = 1200 * 1200;
 
-    /* --- 方式1: objectURL --- */
-    function tryObjectURL() {
-        var url;
-        try { url = URL.createObjectURL(file); }
-        catch (e) { note('objectURL创建失败:' + e.message); return tryBitmap(); }
-        var im = new Image();
-        var t = setTimeout(function () {
-            note('objectURL超时8s'); tryBitmap();
-        }, 8000);
-        im.onload = function () {
-            clearTimeout(t);
-            if (im.naturalWidth > 0 && im.naturalHeight > 0) {
-                imgEl.src = url; note('objectURL成功');
-                finish(true, url, 'objectURL');
-            } else { note('objectURL解码尺寸为0'); tryBitmap(); }
-        };
-        im.onerror = function () { clearTimeout(t); note('objectURL onerror'); tryBitmap(); };
-        im.src = url;
+    /* 把任意可绘制源缩到 PREVIEW_MAX，返回 blob URL。
+     * 失败时回调 null，由调用方决定退回原图。 */
+    function shrinkToURL(src, sw, sh, cb) {
+        try {
+            var sc = Math.min(1, PREVIEW_MAX / Math.max(sw, sh));
+            var c = document.createElement('canvas');
+            c.width = Math.max(1, Math.round(sw * sc));
+            c.height = Math.max(1, Math.round(sh * sc));
+            c.getContext('2d').drawImage(src, 0, 0, c.width, c.height);
+            if (!c.toBlob) { cb(null); return; }
+            c.toBlob(function (blob) {
+                if (!blob) { cb(null); return; }
+                try { cb(URL.createObjectURL(blob)); } catch (e) { cb(null); }
+            }, 'image/jpeg', 0.9);
+        } catch (e) { cb(null); }
     }
 
-    /* --- 方式2: createImageBitmap 降采样后转 blob URL --- */
-    function tryBitmap() {
-        if (typeof createImageBitmap !== 'function') { note('无createImageBitmap'); return tryDataURL(); }
-        var t = setTimeout(function () { note('bitmap超时10s'); tryDataURL(); }, 10000);
-        createImageBitmap(file).then(function (bm) {
-            clearTimeout(t);
-            try {
-                var c = document.createElement('canvas');
-                var MAX = 1600;
-                var sc = Math.min(1, MAX / Math.max(bm.width, bm.height));
-                c.width = Math.round(bm.width * sc); c.height = Math.round(bm.height * sc);
-                c.getContext('2d').drawImage(bm, 0, 0, c.width, c.height);
-                if (c.toBlob) {
+    window.__setPreview = function (imgEl, file, onOk, onFail) {
+        if (!imgEl || !file) return;
+        var steps = [];
+        var settled = false;
+
+        /* 记下最近一次文件：全局兜底重试时要用到 */
+        window.__lastPreviewFile = file;
+
+        function finish(ok, url, how) {
+            if (settled) return; settled = true;
+            if (ok) { if (onOk) onOk(url, how); }
+            else { if (onFail) onFail(steps); }
+        }
+        function note(t) { steps.push(t); }
+
+        /* 统一出口：先缩图再显示；缩图失败就退回原 URL */
+        function deliver(okUrl, probe, how) {
+            var sw = probe.naturalWidth || probe.width;
+            var sh = probe.naturalHeight || probe.height;
+            if (sw * sh > SHRINK_THRESHOLD && sw > 0 && sh > 0) {
+                shrinkToURL(probe, sw, sh, function (smallUrl) {
+                    /* 缩图成功用缩图，失败就用原 URL —— 电脑端原图本来就够用 */
+                    imgEl.src = smallUrl || okUrl;
+                    note((smallUrl ? '缩图成功' : '缩图失败退回原图') + ':' + how);
+                    finish(true, imgEl.src, how);
+                });
+            } else {
+                imgEl.src = okUrl; note('小图直出:' + how);
+                finish(true, okUrl, how);
+            }
+        }
+
+        /* --- 方式1: objectURL --- */
+        function tryObjectURL() {
+            var url;
+            try { url = URL.createObjectURL(file); }
+            catch (e) { note('objectURL创建失败:' + e.message); return tryBitmap(); }
+            var im = new Image();
+            var t = setTimeout(function () {
+                note('objectURL超时8s'); tryBitmap();
+            }, 8000);
+            im.onload = function () {
+                clearTimeout(t);
+                if (im.naturalWidth > 0 && im.naturalHeight > 0) {
+                    note('objectURL解码成功');
+                    deliver(url, im, 'objectURL');
+                } else { note('objectURL解码尺寸为0'); tryBitmap(); }
+            };
+            im.onerror = function () { clearTimeout(t); note('objectURL onerror'); tryBitmap(); };
+            im.src = url;
+        }
+
+        /* --- 方式2: createImageBitmap 降采样 --- */
+        function tryBitmap() {
+            if (typeof createImageBitmap !== 'function') { note('无createImageBitmap'); return tryDataURL(); }
+            var t = setTimeout(function () { note('bitmap超时10s'); tryDataURL(); }, 10000);
+            createImageBitmap(file).then(function (bm) {
+                clearTimeout(t);
+                try {
+                    var sc = Math.min(1, PREVIEW_MAX / Math.max(bm.width, bm.height));
+                    var c = document.createElement('canvas');
+                    c.width = Math.max(1, Math.round(bm.width * sc));
+                    c.height = Math.max(1, Math.round(bm.height * sc));
+                    c.getContext('2d').drawImage(bm, 0, 0, c.width, c.height);
+                    if (!c.toBlob) { note('无toBlob'); return tryDataURL(); }
                     c.toBlob(function (blob) {
                         if (!blob) { note('bitmap转blob失败'); return tryDataURL(); }
                         var u = URL.createObjectURL(blob);
-                        imgEl.src = u; note('bitmap成功');
+                        imgEl.src = u; note('bitmap缩图成功');
                         finish(true, u, 'bitmap');
                     }, 'image/jpeg', 0.9);
-                } else { note('无toBlob'); tryDataURL(); }
-            } catch (e) { note('bitmap异常:' + e.message); tryDataURL(); }
-        }).catch(function (e) { clearTimeout(t); note('bitmap失败:' + e.message); tryDataURL(); });
+                } catch (e) { note('bitmap异常:' + e.message); tryDataURL(); }
+            }).catch(function (e) { clearTimeout(t); note('bitmap失败:' + e.message); tryDataURL(); });
+        }
+
+        /* --- 方式3: dataURL（慢但兼容性最好） --- */
+        function tryDataURL() {
+            var r = new FileReader();
+            r.onload = function (ev) {
+                var im = new Image();
+                im.onload = function () {
+                    if (im.naturalWidth > 0) {
+                        imgEl.src = ev.target.result; note('dataURL成功');
+                        finish(true, ev.target.result, 'dataURL');
+                    } else { note('dataURL尺寸为0'); finish(false); }
+                };
+                im.onerror = function () { note('dataURL onerror'); finish(false); };
+                im.src = ev.target.result;
+            };
+            r.onerror = function () { note('readAsDataURL失败'); finish(false); };
+            r.readAsDataURL(file);
+        }
+
+        tryObjectURL();
+    };
+
+    /* 移除某张图上的预览失败提示 */
+    window.__clearPreviewMsg = function (imgEl) {
+        var scope = imgEl ? imgEl.parentElement : document;
+        if (!scope) return;
+        var ms = scope.querySelectorAll('.__pvmsg');
+        for (var i = 0; i < ms.length; i++) { if (ms[i].parentElement) ms[i].parentElement.removeChild(ms[i]); }
+    };
+
+    function showMsg(t, text) {
+        var box = t.parentElement; if (!box) return;
+        if (box.querySelector('.__pvmsg')) return;
+        var d = document.createElement('div');
+        d.className = '__pvmsg';
+        d.style.cssText = 'position:absolute;left:8px;right:8px;top:50%;transform:translateY(-50%);' +
+            'background:#7f1d1d;color:#fee2e2;padding:10px 12px;border-radius:8px;font-size:12px;' +
+            'line-height:1.6;text-align:center;z-index:5';
+        d.textContent = text;
+        if (getComputedStyle(box).position === 'static') box.style.position = 'relative';
+        box.appendChild(d);
     }
 
-    /* --- 方式3: dataURL（慢但兼容性最好） --- */
-    function tryDataURL() {
+    /* 预览一旦真的加载成功，就把之前的红字提示撤掉。
+     *
+     * v10.3 修正：缩图重试往往能救回预览，但红字是在失败那一刻就弹出的，
+     * 重试成功后没人管它 —— 结果图片明明显示出来了，红字还挂在那儿，
+     * 用户自然以为功能坏了。这里补上「成功即撤除」。 */
+    window.addEventListener('load', function (e) {
+        var t = e.target;
+        if (!(t && t.tagName === 'IMG' && t.id && /Preview|preview/.test(t.id))) return;
+        if (!(t.naturalWidth > 0)) return;
+        if (t.dataset) { delete t.dataset.__pvFail; delete t.dataset.__pvBusy; }
+        window.__clearPreviewMsg(t);
+    }, true);
+
+    /* 全局兜底：任何页面的预览 <img> 加载失败都不再静默留黑格。
+     *
+     * v10 关键改动：失败后**先用缩图重试用一次再报错**。
+     * 之前一失败就弹红字，而实际处理流程往往能正常出图
+     * —— 那说明文件本身没问题，只是原图太大解码被拒，缩图就能救回来。
+     * 直接报错等于冤枉了用户的照片，还让他以为工具坏了。 */
+    window.addEventListener('error', function (e) {
+        var t = e.target;
+        if (!(t && t.tagName === 'IMG' && t.id && /Preview|preview/.test(t.id))) return;
+        if (t.dataset && t.dataset.__pvFail) return;
+
+        var file = window.__lastPreviewFile;
+
+        /* 延迟复查再报错：缩图重试是异步的，很可能此刻已经救回来了。
+         * 立刻弹红字会造成「图已显示、提示仍在」的假故障。 */
+        setTimeout(function () {
+            if (t.naturalWidth > 0) { window.__clearPreviewMsg(t); if (t.dataset) delete t.dataset.__pvFail; return; }
+            if (document.body.contains(t) === false) return;
+            realFail();
+        }, 1200);
+        return;
+
+        function realFail() {
+        if (!file) { if (t.dataset) t.dataset.__pvFail = '1'; showMsg(t, '图片预览失败，请换一张图片试试。'); return; }
+
+        /* 已经显示过本次的重试标记就别重复来 */
+        if (t.dataset) t.dataset.__pvBusy = '1';
+
         var r = new FileReader();
         r.onload = function (ev) {
-            var im = new Image();
-            im.onload = function () {
-                if (im.naturalWidth > 0) { imgEl.src = ev.target.result; note('dataURL成功'); finish(true, ev.target.result, 'dataURL'); }
-                else { note('dataURL尺寸为0'); finish(false); }
+            var probe = new Image();
+            probe.onload = function () {
+                if (probe.naturalWidth > 0) {
+                    /* 缩图后重试显示 */
+                    var sc = Math.min(1, 1200 / Math.max(probe.naturalWidth, probe.naturalHeight));
+                    try {
+                        var c = document.createElement('canvas');
+                        c.width = Math.max(1, Math.round(probe.naturalWidth * sc));
+                        c.height = Math.max(1, Math.round(probe.naturalHeight * sc));
+                        c.getContext('2d').drawImage(probe, 0, 0, c.width, c.height);
+                        c.toBlob(function (blob) {
+                            if (blob) {
+                                t.src = URL.createObjectURL(blob);
+                                window.__clearPreviewMsg(t);
+                                if (t.dataset) { delete t.dataset.__pvBusy; }
+                                return;
+                            }
+                            if (t.dataset) t.dataset.__pvFail = '1';
+                            showMsg(t, '图片预览失败：该格式可能不受此浏览器支持（如 iPhone 的 HEIC）。请在相册里导出为 JPG 后再试。');
+                        }, 'image/jpeg', 0.9);
+                    } catch (err) {
+                        if (t.dataset) t.dataset.__pvFail = '1';
+                        showMsg(t, '图片预览失败，请换一张图片试试。');
+                    }
+                } else {
+                    if (t.dataset) t.dataset.__pvFail = '1';
+                    showMsg(t, '图片预览失败：该格式可能不受此浏览器支持（如 iPhone 的 HEIC）。请在相册里导出为 JPG 后再试。');
+                }
             };
-            im.onerror = function () { note('dataURL onerror'); finish(false); };
-            im.src = ev.target.result;
+            probe.onerror = function () {
+                if (t.dataset) t.dataset.__pvFail = '1';
+                showMsg(t, '图片预览失败：该格式可能不受此浏览器支持（如 iPhone 的 HEIC）。请在相册里导出为 JPG 后再试。');
+            };
+            probe.src = ev.target.result;
         };
-        r.onerror = function () { note('readAsDataURL失败'); finish(false); };
+        r.onerror = function () {
+            if (t.dataset) t.dataset.__pvFail = '1';
+            showMsg(t, '图片预览失败，请换一张图片试试。');
+        };
         r.readAsDataURL(file);
-    }
-
-    tryObjectURL();
-};
-
-/* 全局兜底：任何页面的 <img> 加载失败都不再静默留黑格 */
-window.addEventListener('error', function (e) {
-    var t = e.target;
-    if (t && t.tagName === 'IMG' && t.id && /Preview|preview/.test(t.id)) {
-        if (t.dataset && t.dataset.__pvFail) return;
-        if (t.dataset) t.dataset.__pvFail = '1';
-        var box = t.parentElement;
-        if (box && !box.querySelector('.__pvmsg')) {
-            var d = document.createElement('div');
-            d.className = '__pvmsg';
-            d.style.cssText = 'position:absolute;left:8px;right:8px;top:50%;transform:translateY(-50%);' +
-                'background:#7f1d1d;color:#fee2e2;padding:10px 12px;border-radius:8px;font-size:12px;' +
-                'line-height:1.6;text-align:center;z-index:5';
-            d.textContent = '图片预览失败：该格式可能不受此浏览器支持（如 iPhone 的 HEIC）。' +
-                '请在相册里导出为 JPG 后再试。';
-            if (getComputedStyle(box).position === 'static') box.style.position = 'relative';
-            box.appendChild(d);
         }
-    }
-}, true);
-
-
+    }, true);
 })();

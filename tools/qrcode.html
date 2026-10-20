@@ -297,6 +297,7 @@
         </div>
     </footer>
     <script src="../assets/js/preview.js"></script>
+<script src="../assets/js/download.js"></script>
     <script src="../assets/js/lab.js"></script>
 <script src="../assets/js/qrcode.js"></script><script>
 (function(){
@@ -389,7 +390,7 @@ $('logoInput').addEventListener('change',function(e){
 $('clearLogo').addEventListener('click',function(){logoImg=null;$('logoInput').value='';generate();});
 downloadBtn.addEventListener('click',function(){
   if(!lastQR)return;
-  var a=document.createElement('a');a.download='qrcode.png';a.href=canvas.toDataURL('image/png');a.click();});
+  if(window.__download){window.__download(canvas,'qrcode.png');}else{var a=document.createElement('a');a.download='qrcode.png';a.href=canvas.toDataURL('image/png');a.click();}});
 renderTabs();renderFields();generate();
 })();
 </script>

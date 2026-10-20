@@ -216,6 +216,14 @@ background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.4);color:#fde6
                     </div>
                     <div class="control-hint">原图已是纯色背景时，选「保留原背景」更快且不会损伤边缘</div>
                 </div>
+                <div class="control-group" id="strengthGroup">
+                    <label class="control-label">抠图力度</label>
+                    <div class="radio-group">
+                        <div class="radio-option"><input type="radio" name="segMode" id="smStd" value="std" checked><label for="smStd">标准（保人物）</label></div>
+                        <div class="radio-option"><input type="radio" name="segMode" id="smStrong" value="strong"><label for="smStrong">强力去背景</label></div>
+                    </div>
+                    <div class="control-hint">背景只换掉边缘一圈时，改选「强力去背景」，可抠掉与画面边缘断开的背景块；若人物被抠缺，请切回「标准」</div>
+                </div>
                 <div class="control-group">
                     <label class="control-label">底色</label>
                     <div class="radio-group">
@@ -297,6 +305,7 @@ background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.4);color:#fde6
         </div>
     </footer>
     <script src="../assets/js/preview.js"></script>
+<script src="../assets/js/download.js"></script>
     <script src="../assets/js/lab.js"></script>
 <script src="../assets/js/algo-seg.js"></script><script src="../assets/js/ai-core.js"></script><script>
 (function(){
@@ -305,6 +314,19 @@ var fileInput=$('fileInput'),uploadArea=$('uploadArea'),previewArea=$('previewAr
     originalPreview=$('originalPreview'),processedPreview=$('processedPreview'),
     controls=$('controls'),downloadSection=$('downloadSection'),downloadBtn=$('downloadBtn'),
     processBtn=$('processBtn'),loadingOverlay=$('loadingOverlay'),loadingText=$('loadingText');
+  /* 抠图力度：仅在选择「AI 抠人像换底色」时才有意义 */
+  var strongSeg=false;
+  function syncStrength(){
+    var ai=document.querySelector('input[name="bgMode"]:checked');
+    var isAi=!ai||ai.value==='ai';
+    var sm=document.querySelector('input[name="segMode"]:checked');
+    strongSeg=isAi&&!!sm&&sm.value==='strong';
+    var g=$('strengthGroup'); if(g) g.style.display=isAi?'':'none';
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('input[name="bgMode"],input[name="segMode"]'),function(el){
+    el.addEventListener('change',syncStrength);
+  });
+  syncStrength();
 var srcCanvas=null,outCanvas=null;
 function loadImage(file){return new Promise(function(res,rej){
   var r=new FileReader();
@@ -389,7 +411,25 @@ function localCut(w,h,bg){
   loadingText.textContent='正在用本地算法处理…';
   if(typeof PicSeg!=='undefined'&&PicSeg.segmentAlpha){
     var d=srcCanvas.getContext('2d').getImageData(0,0,srcCanvas.width,srcCanvas.height);
-    var alpha=PicSeg.segmentAlpha(d.data,srcCanvas.width,srcCanvas.height,{tolerance:45,maxSide:900});
+    /* 两套种子各有胜负（实测）：
+     *   标准(defaultSeeds)  人物安全，但人物身后/两侧与边界不连通的背景抠不掉
+     *   强力(portrait)      能抠掉那些断开的背景，代价是人物铺满画面时可能伤到主体
+     * 所以不做自动切换，交给用户在界面上选；默认走安全的标准模式。 */
+    var strong = (typeof strongSeg !== 'undefined') && strongSeg;
+    var alpha = PicSeg.segmentAlpha(d.data,srcCanvas.width,srcCanvas.height,
+      strong ? {tolerance:45,maxSide:900,seedMode:'portrait',iters:8}
+             : {tolerance:45,maxSide:900});
+    var tot=srcCanvas.width*srcCanvas.height, keep=0,qi;
+    for(qi=0;qi<tot;qi++) if(alpha[qi]>0.5) keep++;
+    /* 安全网：强力模式若把人抠没了（前景不足 8%），自动退回标准模式重来 */
+    if(strong && keep < tot*0.08){
+      alpha = PicSeg.segmentAlpha(d.data,srcCanvas.width,srcCanvas.height,{tolerance:45,maxSide:900});
+      keep=0; for(qi=0;qi<tot;qi++) if(alpha[qi]>0.5) keep++;
+    }
+    /* 仍然保不住人：说明这张图本地算法处理不了，保底返回裁剪原图，不让用户拿到空图 */
+    if(keep < tot*0.05){
+      return Lab.composeOn(srcCanvas,w,h,bg);
+    }
     window.__lastAlpha=alpha;
     var cut=Lab.alphaToCanvas?Lab.alphaToCanvas(alpha,srcCanvas,1):applyAlpha(srcCanvas,alpha);
     return Lab.composeOn(cut,w,h,bg);
@@ -466,8 +506,7 @@ function applyAlpha(src,alpha){
   c.getContext('2d').putImageData(out,0,0);return c;}
 downloadBtn.addEventListener('click',function(){
   if(!outCanvas)return;
-  var a=document.createElement('a');a.download='id-photo.png';
-  a.href=outCanvas.toDataURL('image/png');a.click();});
+  if(window.__download){window.__download(outCanvas,'id-photo.png');}else{var a=document.createElement('a');a.download='id-photo.png';a.href=outCanvas.toDataURL('image/png');a.click();}});
 })();
 </script>
 </body>

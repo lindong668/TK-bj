@@ -260,6 +260,7 @@
         </div>
     </footer>
     <script src="../assets/js/preview.js"></script>
+<script src="../assets/js/download.js"></script>
     <script src="../assets/js/lab.js"></script>
 <script>
 (function(){
@@ -314,8 +315,7 @@ processBtn.addEventListener('click',function(){
   },30);});
 downloadBtn.addEventListener('click',function(){
   if(!outCanvas)return;
-  var a=document.createElement('a');
-  a.download=FILENAME;a.href=outCanvas.toDataURL(FORMAT,QUALITY);a.click();});
+  if(window.__download){window.__download(outCanvas,FILENAME);}else{var a=document.createElement('a');a.download=FILENAME;a.href=outCanvas.toDataURL(FORMAT,QUALITY);a.click();}});
 var LOADING_TEXT='正在修复老照片…';
 var FILENAME='restored.png';
 var FORMAT='png';
