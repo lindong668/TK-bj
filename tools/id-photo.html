@@ -407,6 +407,93 @@ processBtn.addEventListener('click',function(){
     downloadSection.classList.add('active');loadingOverlay.classList.remove('active');
   }).catch(function(e){loadingOverlay.classList.remove('active');alert('处理失败：'+(e.message||e));});},40);});
 /* 本地算法抠图 + 合成（不依赖任何网络，必定可用） */
+/* 证件照专用合成：按证件照规范留边，别让人物占满整张
+ *
+ * ★ v15 修复：之前直接调 Lab.composeOn —— 它只是"等比缩放居中"，
+ *   原图人物一大（手机半身照很常见），缩到 295x413 后人物几乎铺满整张，
+ *   底色只在上下留一条缝。用户看到的就是「一片衣服颜色」，
+ *   根本看不出这是红底还是蓝底证件照，还以为换底色失效了。
+ *
+ *   证件照规范：人物四周必须留白，头顶留 3~5mm、下巴到下沿留 6~8mm。
+ *   这里按目标尺寸的百分比统一留边，让底色在四边都清晰可见。 */
+/* 衣物与底色撞色时，沿人物轮廓描一圈极淡的深色线
+ *
+ * ★ v15：红衣服配红底、白衬衫配白底这类情况，算法其实换对了底色，
+ *   但人眼在小图上根本分不出人物边界 —— 看起来就是「人被底色吞了」。
+ *   这是同色系的物理限制，改不了衣服颜色，只能让轮廓可辨：
+ *   在羽化过渡带上叠一层底色的深色版，形成一条很细的分离线。
+ *   对比度足够时（dist>62）完全不动，正常照片不受任何影响。 */
+function outlineIfClash(fg, bgSpec){
+  var mask = fg.__bgMask, mw = fg.__maskW, mh = fg.__maskH;
+  if (!mask || !mw || !mh) return fg;
+  if (typeof bgSpec !== 'string' || !bgSpec) return fg;   // 渐变底不处理
+  var bm = /^#?([0-9a-f]{6})$/i.exec(bgSpec.trim());
+  if (!bm) return fg;
+  var bv = parseInt(bm[1], 16);
+  var br = (bv >> 16) & 255, bgg = (bv >> 8) & 255, bb = bv & 255;
+
+  var d;
+  try { d = fg.getContext('2d').getImageData(0, 0, mw, mh); }
+  catch (e) { return fg; }
+  var px = d.data, N = mw * mh;
+  var sr = 0, sg = 0, sb = 0, sn = 0, i, o;
+  for (i = 0; i < N; i++) {
+    if (mask[i] < 0.15) { o = i * 4; sr += px[o]; sg += px[o + 1]; sb += px[o + 2]; sn++; }
+  }
+  if (sn < N * 0.02) return fg;
+  var pr = sr / sn, pg = sg / sn, pb = sb / sn;
+  /* 加权 RGB 距离，近似人眼对明度的敏感度 */
+  var dr = pr - br, dg = pg - bgg, db = pb - bb;
+  var dist = Math.sqrt(0.30 * dr * dr + 0.59 * dg * dg + 0.11 * db * db);
+  window.__clashDist = dist;
+  if (dist > 62) return fg;
+
+  var lr = Math.round(br * 0.42), lg = Math.round(bgg * 0.42), lb = Math.round(bb * 0.42);
+  var oc = document.createElement('canvas');
+  oc.width = mw; oc.height = mh;
+  var octx = oc.getContext('2d');
+  var od = octx.createImageData(mw, mh), op = od.data;
+  for (i = 0; i < N; i++) {
+    var a = mask[i];
+    if (a <= 0.12 || a >= 0.88) continue;
+    var t = 1 - Math.abs(a - 0.5) * 2;
+    o = i * 4;
+    op[o] = lr; op[o + 1] = lg; op[o + 2] = lb;
+    op[o + 3] = Math.round(t * 150);
+  }
+  octx.putImageData(od, 0, 0);
+  var out = document.createElement('canvas');
+  out.width = mw; out.height = mh;
+  var ox2 = out.getContext('2d');
+  ox2.drawImage(fg, 0, 0);
+  ox2.drawImage(oc, 0, 0);
+  return out;
+}
+
+function composeIdPhoto(fg, tw, th, bgSpec){
+  var w = fg.naturalWidth || fg.width, h = fg.naturalHeight || fg.height;
+  if(!w || !h) return Lab.composeOn(fg, tw, th, bgSpec);
+  var INSET_X = 0.10, INSET_Y = 0.085;
+  var availW = tw * (1 - INSET_X * 2), availH = th * (1 - INSET_Y * 2);
+  var s = Math.min(availW / w, availH / h);
+  var dw = Math.round(w * s), dh = Math.round(h * s);
+  var cv;
+  if (typeof bgSpec === 'object' && bgSpec && bgSpec.type === 'gradient') {
+    cv = Lab.gradientCanvas(tw, th, bgSpec.from, bgSpec.to);
+  } else {
+    cv = document.createElement('canvas');
+    cv.width = tw; cv.height = th;
+    var cx = cv.getContext('2d');
+    cx.fillStyle = (typeof bgSpec === 'string' && bgSpec) ? bgSpec : '#ffffff';
+    cx.fillRect(0, 0, tw, th);
+  }
+  /* 人物整体略微上移：证件照头顶留白少于下方留白，重心更自然 */
+  var ox = Math.round((tw - dw) / 2);
+  var oy = Math.round((th - dh) * 0.42);
+  cv.getContext('2d').drawImage(outlineIfClash(fg, bgSpec), ox, oy, dw, dh);
+  return cv;
+}
+
 function localCut(w,h,bg){
   loadingText.textContent='正在用本地算法处理…';
   if(typeof PicSeg!=='undefined'&&PicSeg.segmentAlpha){
@@ -427,7 +514,7 @@ function localCut(w,h,bg){
     var flat = Lab.detectFlatBg(srcCanvas);
     if (flat && !strong) {
       var replaced = Lab.replaceBg(srcCanvas, flat, bg, {tolerance:46});
-      if (replaced) { window.__lastMode='flat'; return Lab.composeOn(replaced,w,h,bg); }
+      if (replaced) { window.__lastMode='flat'; return composeIdPhoto(replaced,w,h,bg); }
     }
 
     var alpha = PicSeg.segmentAlpha(d.data,srcCanvas.width,srcCanvas.height,
@@ -442,14 +529,14 @@ function localCut(w,h,bg){
     }
     /* 仍然保不住人：说明这张图本地算法处理不了，保底返回裁剪原图，不让用户拿到空图 */
     if(keep < tot*0.05){
-      return Lab.composeOn(srcCanvas,w,h,bg);
+      return composeIdPhoto(srcCanvas,w,h,bg);
     }
     window.__lastAlpha=alpha;
     var cut=Lab.alphaToCanvas?Lab.alphaToCanvas(alpha,srcCanvas,1):applyAlpha(srcCanvas,alpha);
-    return Lab.composeOn(cut,w,h,bg);
+    return composeIdPhoto(cut,w,h,bg);
   }
   // 连本地算法都没加载出来：至少保证能裁剪出图，不报错
-  return Lab.composeOn(srcCanvas,w,h,bg);
+  return composeIdPhoto(srcCanvas,w,h,bg);
 }
 
 /* 给 AI 分割加超时竞速。
@@ -494,7 +581,7 @@ function run(mode){
   var bg=currentBgSpec();
   if(mode==='keep'){
     // 不换背景：直接裁剪到目标比例，留白填充
-    return Promise.resolve(Lab.composeOn(srcCanvas,w,h,bg));}
+    return Promise.resolve(composeIdPhoto(srcCanvas,w,h,bg));}
 
   /* 已探测过且确认 AI 不可用 → 直接本地出图，不再傻等 */
   if(window.AILab&&window.AILab.isSettled&&window.AILab.isSettled()&&!window.AILab.aiAvailable()){
@@ -504,7 +591,7 @@ function run(mode){
   return segWithTimeout(srcCanvas,4000)
     .then(function(mask){
       var cut=AILab.applyMask(srcCanvas,mask,{feather:1});
-      return Lab.composeOn(cut,w,h,bg);})
+      return composeIdPhoto(cut,w,h,bg);})
     .catch(function(e){
       loadingText.textContent='AI 不可用，改用本地算法…';
       return localCut(w,h,bg);});}

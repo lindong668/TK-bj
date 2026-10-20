@@ -1122,6 +1122,11 @@
             d[o3 + 2] = d[o3 + 2] * na + bd[o3 + 2] * ia;
         }
         ctx.putImageData(img, 0, 0);
+        /* ★ v15：把背景掩码带出去。证件照要在衣服颜色和底色接近时
+         * 沿着人物边缘描一圈细线，否则人跟底色糊成一片分不出轮廓。 */
+        cv.__bgMask = soft;
+        cv.__maskW = w;
+        cv.__maskH = h;
         return cv;
     };
 
