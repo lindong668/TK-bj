@@ -322,9 +322,12 @@ var QUALITY=0.92;
 var boxes=[];var drawing=false,sx=0,sy=0;
 var op=$('originalPreview');
 var ov=document.createElement('canvas');ov.style.position='absolute';ov.style.pointerEvents='none';
+/* 定位必须用 offsetLeft/offsetTop（相对已定位的父元素），
+ * 不能用 getBoundingClientRect()（那是视口坐标）：
+ * 手机上下滑动时地址栏收起/展开会不断触发 resize，
+ * 用视口坐标每次重算出的 left/top 都不一样，遮挡框就会跟着乱跳、盖住图片。 */
 function syncOverlay(){
-  var r=op.getBoundingClientRect();
-  ov.style.left=r.left+'px';ov.style.top=r.top+'px';
+  ov.style.left=op.offsetLeft+'px';ov.style.top=op.offsetTop+'px';
   ov.width=op.clientWidth;ov.height=op.clientHeight;}
 function drawBoxes(){
   var c=ov.getContext('2d');c.clearRect(0,0,ov.width,ov.height);
@@ -333,29 +336,54 @@ function drawBoxes(){
     c.strokeRect(b.x*ov.width,b.y*ov.height,b.w*ov.width,b.h*ov.height);
     c.fillStyle='rgba(239,68,68,.12)';
     c.fillRect(b.x*ov.width,b.y*ov.height,b.w*ov.width,b.h*ov.height);});}
+function isSel(){return radio('msScope')==='sel';}
+/* 统一取相对图片的比例坐标，鼠标与触摸共用 */
+function relPos(e){
+  var t=e;
+  if(e.touches&&e.touches.length)t=e.touches[0];
+  else if(e.changedTouches&&e.changedTouches.length)t=e.changedTouches[0];
+  var r=op.getBoundingClientRect();
+  return {x:(t.clientX-r.left)/op.clientWidth,y:(t.clientY-r.top)/op.clientHeight};}
+function onDown(e){
+  if(!isSel())return;
+  var p=relPos(e);drawing=true;sx=p.x;sy=p.y;
+  if(e.cancelable)e.preventDefault();}
+function onMove(e){
+  if(!drawing)return;
+  if(e.cancelable)e.preventDefault();   /* 画框时阻止页面跟着滚动 */
+  var p=relPos(e);
+  drawBoxes();
+  var c=ov.getContext('2d');
+  c.strokeStyle='#ef4444';c.lineWidth=2;c.setLineDash([]);
+  c.strokeRect(Math.min(sx,p.x)*ov.width,Math.min(sy,p.y)*ov.height,
+    Math.abs(p.x-sx)*ov.width,Math.abs(p.y-sy)*ov.height);}
+function onUp(e){
+  if(!drawing)return;drawing=false;
+  var p=relPos(e);
+  var w=Math.abs(p.x-sx),h=Math.abs(p.y-sy);
+  if(w>0.01&&h>0.01)boxes.push({x:Math.min(sx,p.x),y:Math.min(sy,p.y),w:w,h:h});
+  drawBoxes();}
+op.addEventListener('mousedown',onDown);
+op.addEventListener('mousemove',onMove);
+window.addEventListener('mouseup',onUp);
+/* 触摸：passive:false 才能在画框时 preventDefault，否则手指拖动变成页面滚动 */
+op.addEventListener('touchstart',onDown,{passive:false});
+op.addEventListener('touchmove',onMove,{passive:false});
+op.addEventListener('touchend',onUp,{passive:false});
+op.addEventListener('touchcancel',onUp,{passive:false});
 op.addEventListener('load',function(){syncOverlay();drawBoxes();});
 window.addEventListener('resize',function(){syncOverlay();drawBoxes();});
-op.addEventListener('mousedown',function(e){
-  if(radio('msScope')!=='sel')return;
-  var r=op.getBoundingClientRect();drawing=true;
-  sx=(e.clientX-r.left)/op.clientWidth;sy=(e.clientY-r.top)/op.clientHeight;});
-op.addEventListener('mousemove',function(e){
-  if(!drawing)return;var r=op.getBoundingClientRect();
-  var cx=(e.clientX-r.left)/op.clientWidth,cy=(e.clientY-r.top)/op.clientHeight;
-  boxes.push({x:Math.min(sx,cx),y:Math.min(sy,cy),w:Math.abs(cx-sx),h:Math.abs(cy-sy)});
-  boxes.pop();
-  var c=ov.getContext('2d');drawBoxes();
-  c.strokeStyle='#ef4444';c.lineWidth=2;
-  c.strokeRect(Math.min(sx,cx)*ov.width,Math.min(sy,cy)*ov.height,
-    Math.abs(cx-sx)*ov.width,Math.abs(cy-sy)*ov.height);});
-op.addEventListener('mouseup',function(e){
-  if(!drawing)return;drawing=false;var r=op.getBoundingClientRect();
-  var cx=(e.clientX-r.left)/op.clientWidth,cy=(e.clientY-r.top)/op.clientHeight;
-  var w=Math.abs(cx-sx),h=Math.abs(cy-sy);
-  if(w>0.01&&h>0.01)boxes.push({x:Math.min(sx,cx),y:Math.min(sy,cy),w:w,h:h});
-  drawBoxes();});
+window.addEventListener('scroll',function(){syncOverlay();},{passive:true});
 if(op.parentElement){op.parentElement.style.position='relative';op.parentElement.appendChild(ov);}
 $('clearBoxes').addEventListener('click',function(){boxes=[];drawBoxes();});
+/* 切换遮挡范围时同步交互状态，并清掉非框选模式下遗留的框 */
+Array.prototype.forEach.call(document.querySelectorAll('input[name="msScope"]'),function(el){
+  el.addEventListener('change',function(){
+    var s=isSel();
+    op.style.cursor=s?'crosshair':'default';
+    op.style.touchAction=s?'none':'auto';
+    if(!s){boxes=[];drawBoxes();}
+  });});
 op.style.cursor='crosshair';
 function process(src){
   var c=document.createElement('canvas');c.width=src.width;c.height=src.height;

@@ -501,24 +501,47 @@ function buildBgPalette(data, W, H, rs, gs, bs) {
   return out;
 }
 
-function floodFillBackground(data, W, H, tolerance) {
+function floodFillBackground(data, W, H, tolerance, protectCenter) {
   tolerance = tolerance == null ? 32 : tolerance;
   var N = W*H;
   var isBg = new Uint8Array(N);
   var visited = new Uint8Array(N);
+  var cx0 = W * 0.12, cx1 = W * 0.88, cy0 = H * 0.12, cy1 = H * 0.88;
+  function inCenter(p){
+    var x = p % W, y = (p / W) | 0;
+    return x >= cx0 && x <= cx1 && y >= cy0 && y <= cy1;
+  }
 
-  /* 边框背景建模。
-   * 旧实现取「边框颜色中位数」作为唯一背景色 —— 遇到渐变背景或双色背景时，
-   * 单一中位数代表不了整个背景，渐变区域会整片抠不掉。
-   * 新实现：把边框像素聚成若干类，得到一组「背景代表色」，
-   * 像素只要与其中任意一个接近，就认为是背景。 */
+  /* 背景建模 —— 采样位置是关键，这里踩过一个很严重的坑。
+   *
+   * 旧实现沿「整条边框」采样。真实拍照时主体常常顶到画面边缘
+   * （比如拍沙发、拍车，沙发/车身横贯左右边缘），此时边框样本里混进了大量主体色，
+   * k-means 会把主体色当成背景代表色，洪水填充便沿主体一路生长，
+   * 结果主体被整片吞掉 —— 实测该场景主体保留率 0%，只剩碎片残影。
+   *
+   * 新实现改为「四角优先」：背景几乎总是出现在画面四角，主体通常在中间。
+   * 四角各取 15% 边长的方块采样，主体顶边时也不会污染背景模型。
+   * 同时保留少量边框采样作为补充，覆盖「背景只出现在某一条边」的情况，
+   * 但边框样本必须通过四角模型的宽松检验，避免再次引入主体色。 */
   var rs=[], gs=[], bs=[];
   var st = Math.max(1, Math.floor(Math.min(W,H)/80));
   function px(x,y){ var o=(y*W+x)*4; rs.push(data[o]); gs.push(data[o+1]); bs.push(data[o+2]); }
-  for (var x1=0;x1<W;x1+=st){ px(x1,0); px(x1,H-1); }
-  for (var y1=0;y1<H;y1+=st){ px(0,y1); px(W-1,y1); }
+
+  // ① 四角采样（主）
+  var cs = Math.max(6, Math.round(Math.min(W,H) * 0.15));
+  var cst = Math.max(1, Math.floor(cs / 18));
+  for (var cy = 0; cy < cs; cy += cst) {
+    for (var cx = 0; cx < cs; cx += cst) {
+      px(cx, cy);                  // 左上
+      px(W-1-cx, cy);              // 右上
+      px(cx, H-1-cy);              // 左下
+      px(W-1-cx, H-1-cy);          // 右下
+    }
+  }
+  var cornerCount = rs.length;
   function med(a){ if(!a.length) return 0; a=a.slice().sort(function(m,n){return m-n;}); return a[a.length>>1]; }
-  var bR=med(rs), bG=med(gs), bB=med(bs);
+  var cr_ = rs.slice(0, cornerCount), cg_ = gs.slice(0, cornerCount), cb_ = bs.slice(0, cornerCount);
+  var bR=med(cr_), bG=med(cg_), bB=med(cb_);
 
   // 背景代表色集合（多中心，覆盖渐变 / 多色背景）
   var BG = buildBgPalette(data, W, H, rs, gs, bs);
@@ -562,11 +585,20 @@ function floodFillBackground(data, W, H, tolerance) {
     return (dr*dr+dg*dg+db*db) <= tl2;
   }
 
+  /* 失控保护：主体顶到画面边缘时（拍沙发、拍车、拍人像特写都常见），
+   * 无论四角还是边框采样都会混进主体色，背景模型被污染，
+   * 洪水填充会沿主体一路长满整张图 —— 实测主体保留率 0%，抠出来只剩碎片。
+   * 判据很直接：背景不可能占满整张图（用户要抠图，就意味着主体值得保留）。
+   * 一旦填充面积失控，就重来一轮并禁止侵入画面中心区域，优先保住主体。
+   * 代价是背景可能抠不干净（残留一角），但「主体没了」远比「背景没抠净」严重。 */
+  var guard = protectCenter ? 1 : 0;
+
   var queue = new Int32Array(N), head=0, tail=0;
   function seed(x,y){
     var p=y*W+x;
     if (visited[p]) return;
     visited[p]=1;
+    if (guard && inCenter(p)) return;
     if (nearGlobal(p)) { isBg[p]=1; queue[tail++]=p; }
   }
   for (var x2=0;x2<W;x2++){ seed(x2,0); seed(x2,H-1); }
@@ -583,7 +615,16 @@ function floodFillBackground(data, W, H, tolerance) {
   function tryPush(np, src){
     if (visited[np]) return;
     visited[np]=1;
+    if (guard && inCenter(np)) return;
     if (nearLocal(np, src) && nearGlobal(np)) { isBg[np]=1; queue[tail++]=np; }
+  }
+
+  /* 覆盖率检查：背景不可能占满整张图。
+   * 超过 92% 几乎必然是背景模型被主体污染、主体正被整片吞掉，
+   * 此时重跑一轮并开启中心保护（只做一次，避免无限递归）。 */
+  var cnt=0; for (var i=0;i<N;i++) if (isBg[i]) cnt++;
+  if (cnt > N * 0.92 && !protectCenter) {
+    return floodFillBackground(data, W, H, tolerance, true);
   }
 
   /* 安全网：防止「整张图就一个颜色」时把主体一起吞掉，此时只保留最外一圈。
