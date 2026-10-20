@@ -283,6 +283,8 @@
             </div>
         </div>
     </footer>
+    <script src="../assets/js/preview.js"></script>
+<script src="../assets/js/download.js"></script>
     <script src="../assets/js/lab.js"></script>
 <script>
 (function(){
@@ -309,7 +311,7 @@ function handleFile(file){
   if(!file||!file.type.startsWith('image/')){alert('请选择图片文件');return;}
   loadImage(file).then(function(img){
     srcImage=img;srcCanvas=toCanvas(img);
-    if(window.__pu)try{URL.revokeObjectURL(window.__pu);}catch(e){}window.__pu=URL.createObjectURL(file);originalPreview.onerror=function(){alert('图片预览失败：该格式可能不受浏览器支持（如 iPhone 的 HEIC）。请先在手机相册里导出为 JPG，或用「格式转换」工具转成 JPG/PNG 再试。');};originalPreview.src=window.__pu;
+    window.__pu=null;if(window.__setPreview){window.__setPreview(originalPreview,file,function(u,h){window.__pu=(h==='objectURL'||h==='bitmap')?u:null;});}else{window.__pu=URL.createObjectURL(file);originalPreview.src=window.__pu;}
     previewArea.classList.add('active');controls.classList.add('active');
     outCanvas=null;downloadSection.classList.remove('active');
     if(window.onImageReady)window.onImageReady(srcCanvas,img);
@@ -337,8 +339,7 @@ processBtn.addEventListener('click',function(){
   },30);});
 downloadBtn.addEventListener('click',function(){
   if(!outCanvas)return;
-  var a=document.createElement('a');
-  a.download=FILENAME;a.href=outCanvas.toDataURL(FORMAT,QUALITY);a.click();});
+  if(window.__download){window.__download(outCanvas,FILENAME);}else{var a=document.createElement('a');a.download=FILENAME;a.href=outCanvas.toDataURL(FORMAT,QUALITY);a.click();}});
 var LOADING_TEXT='正在添加水印…';
 var FILENAME='watermarked.png';
 var FORMAT='png';

@@ -557,6 +557,30 @@ function buildBgPalette(data, W, H, rs, gs, bs) {
   return out;
 }
 
+/* 前景最大连通块面积（4 邻域，BFS，避免递归爆栈）
+ * 用于判断「留下的前景是一整块主体，还是被洪水填充打碎的零散碎片」。 */
+function largestForegroundBlob(isBg, W, H) {
+  var N = W*H;
+  var seen = new Uint8Array(N);
+  var q = new Int32Array(N);
+  var best = 0;
+  for (var p0=0; p0<N; p0++) {
+    if (isBg[p0] || seen[p0]) continue;
+    var head=0, tail=0, size=0;
+    q[tail++] = p0; seen[p0] = 1;
+    while (head < tail) {
+      var p = q[head++]; size++;
+      var x = p % W, y = (p / W) | 0;
+      if (x > 0)     { var n1=p-1; if(!isBg[n1] && !seen[n1]){seen[n1]=1;q[tail++]=n1;} }
+      if (x < W - 1) { var n2=p+1; if(!isBg[n2] && !seen[n2]){seen[n2]=1;q[tail++]=n2;} }
+      if (y > 0)     { var n3=p-W; if(!isBg[n3] && !seen[n3]){seen[n3]=1;q[tail++]=n3;} }
+      if (y < H - 1) { var n4=p+W; if(!isBg[n4] && !seen[n4]){seen[n4]=1;q[tail++]=n4;} }
+    }
+    if (size > best) best = size;
+  }
+  return best;
+}
+
 function floodFillBackground(data, W, H, tolerance, protectCenter) {
   tolerance = tolerance == null ? 32 : tolerance;
   var N = W*H;
@@ -683,6 +707,26 @@ function floodFillBackground(data, W, H, tolerance, protectCenter) {
     return floodFillBackground(data, W, H, tolerance, true);
   }
 
+  /* 前景碎片化检测 —— 证件照 / 人像特写最大的坑，改动前务必先跑 extreme.js。
+   *
+   * 当主体铺满整张画面时（人像特写、证件照、商品特写），
+   * 四角采到的其实是主体本身的颜色，洪水填充便沿着主体一路长满全图。
+   * 主体内部的纹理、花纹因为颜色不匹配会被留下来，
+   * 于是「前景」变成一堆零散碎片，而不是一整块主体。
+   * 实测该场景主体只剩 25% —— 用户看到的就是「人没了，只剩几块碎片」。
+   *
+   * 判据：留下的前景总面积不大，却碎成很多小块，
+   *      即「最大连通块 / 前景总面积」偏低 → 判定没有可抠的背景，
+   *      直接什么都不抠（返回全 0），保住整张图。
+   * 正常抠图时前景就是主体那一整块，连通块占比很高，不会误伤。 */
+  var fgCnt = N - cnt;
+  if (fgCnt > 0 && fgCnt < N * 0.65 && !protectCenter) {
+    var blob = largestForegroundBlob(isBg, W, H);
+    if (blob / fgCnt < 0.40) {
+      return new Uint8Array(N);          // 全 0 = 无背景可抠，整张保留
+    }
+  }
+
   /* 安全网：防止「整张图就一个颜色」时把主体一起吞掉，此时只保留最外一圈。
    * 判据必须加上「画面本身很均匀」这个条件 ——
    * 否则颗粒感/噪点背景会让填充覆盖率虚高，被误判成纯色图，
@@ -791,6 +835,138 @@ function defaultSeeds(W, H, data, tolerance) {
   return { initFg: init, bg: bg, floodBg: bg };
 }
 
+/**
+ * 人像/证件照专用种子（v10 新增）
+ * ------------------------------------------------------------
+ * 为什么需要它：
+ *   证件照的典型构图是「人物占满画面，真正的背景只剩边缘一圈或几块」。
+ *   defaultSeeds 完全依赖 floodFillBackground —— 而洪水填充只能到达
+ *   **与边界连通**的背景。人物一旦横着占满左右边缘，人物两侧、身后的
+ *   背景就与边界断开，永远填不到，于是换底色时「只换掉上下一点点」。
+ *
+ *   解法：不靠连通性，改用**空间先验 + GrabCut 颜色模型**：
+ *     - 中心区域锁定前景（人物主体，保证不会被吞）
+ *     - 边缘环带 + 洪水填充结果锁定背景
+ *   剩下的交给 GrabCut：它会用颜色分布做**全局**判断，
+ *   人物两侧那块与边缘同色的背景，即使不连通也能被判成背景。
+ *
+ * @returns { bg, fg, initFg } 均为 Uint8Array
+ */
+function portraitSeeds(W, H, data, tolerance) {
+  var N = W * H;
+  var fg = new Uint8Array(N);
+  var bg = new Uint8Array(N);
+  var init = new Uint8Array(N);
+
+  var flood = floodFillBackground(data, W, H, tolerance);
+  var floodN = 0, i;
+  for (i = 0; i < N; i++) if (flood[i]) floodN++;
+  var floodRatio = floodN / N;
+
+  /* 洪水填充几乎没填到东西，说明人物确实铺满了画面 —— 更依赖空间先验 */
+  var floodUsable = floodRatio > 0.03 && floodRatio < 0.97;
+
+  /* 前景先验：中心区域（证件照人物通常居中，下沿可到脚） */
+  var fx0 = Math.round(W * 0.18), fx1 = Math.round(W * 0.82);
+  var fy0 = Math.round(H * 0.10), fy1 = Math.round(H * 0.97);
+  /* 背景先验：边缘环带 */
+  var bw = Math.max(2, Math.round(Math.min(W, H) * 0.06));
+
+  /* ---- 第一步：已知背景 = 洪水填充区（唯一可信来源）----
+   *
+   * v10.2 修正：原本把「边缘环带」也算作背景种子。人物一旦占满左右，
+   * 那圈环带其实就是人物本身，红衣服被当成背景样本喂给颜色模型，
+   * 结果整个人被判成背景抠光（实测主体保留率直接掉到 0%）。
+   * 边缘环带只在洪水填充可用时才**辅助**使用，且必须位于填充区内部。 */
+  var y, x, idx;
+  for (y = 0; y < H; y++) {
+    for (x = 0; x < W; x++) {
+      idx = y * W + x;
+      if (floodUsable && flood[idx]) bg[idx] = 1;
+    }
+  }
+  /* 洪水填充拿不到东西（人物彻底铺满）时，退而用边缘环带做种子，
+   * 但只取环带里彼此接近的那部分 —— 避免整圈都是主体时胡乱建模。 */
+  if (!floodUsable) {
+    var ring = [];
+    var rs = Math.max(1, Math.floor(Math.sqrt(N) / 80));
+    for (y = 0; y < H; y += rs) {
+      for (x = 0; x < W; x += rs) {
+        var isB = (x < bw || x >= W - bw || y < bw || y >= H - bw);
+        if (!isB) continue;
+        var ro = (y * W + x) * 4;
+        ring.push(data[ro], data[ro + 1], data[ro + 2]);
+      }
+    }
+    if (ring.length >= 30) {
+      var rk = kmeans3d(ring, 3, 8);
+      /* 取占比最大的簇当作背景代表色 */
+      var top = 0, topN = -1;
+      for (var c2 = 0; c2 < rk.k; c2++) if (rk.counts[c2] > topN) { topN = rk.counts[c2]; top = c2; }
+      var tc = top * 3;
+      var tthr = (tolerance || 45) * (tolerance || 45);
+      for (y = 0; y < H; y++) {
+        for (x = 0; x < W; x++) {
+          idx = y * W + x;
+          var io = idx * 4;
+          var dr2 = data[io] - rk.centers[tc], dg2 = data[io + 1] - rk.centers[tc + 1], db2 = data[io + 2] - rk.centers[tc + 2];
+          if (dr2 * dr2 + dg2 * dg2 + db2 * db2 < tthr) bg[idx] = 1;
+        }
+      }
+    }
+  }
+
+  /* ---- 第二步：颜色模型补判，救回「与边界断开」的背景 ----
+   *
+   * 只在第一步之后做，且**覆盖中心区域**。
+   * 顺序很关键（v10.1 修正）：最初我把中心区先锁成前景，
+   * 结果人物身后那块不连通的背景因为在中心区里被锁死，
+   * 颜色模型根本救不回来 —— 换底色时就只换掉边缘一圈。
+   * 改成先按颜色认背景，剩下的再锁主体，才两头都保住。 */
+  var bgSamples = [];
+  var step = Math.max(1, Math.floor(Math.sqrt(N) / 60));
+  for (var sy = 0; sy < H; sy += step) {
+    for (var sx = 0; sx < W; sx += step) {
+      var si = sy * W + sx;
+      if (bg[si]) {
+        var so = si * 4;
+        bgSamples.push(data[so], data[so + 1], data[so + 2]);
+      }
+    }
+  }
+
+  var tol = tolerance || 45;
+  if (bgSamples.length >= 30) {
+    var km = kmeans3d(bgSamples, 3, 8);
+    var thr2 = tol * tol * 1.35;
+    for (var pi = 0; pi < N; pi++) {
+      if (bg[pi]) continue;
+      var po = pi * 4;
+      var r = data[po], g2 = data[po + 1], b2 = data[po + 2];
+      var best = Infinity;
+      for (var c = 0; c < km.k; c++) {
+        var c3 = c * 3;
+        var dr = r - km.centers[c3], dg = g2 - km.centers[c3 + 1], db = b2 - km.centers[c3 + 2];
+        var d2 = dr * dr + dg * dg + db * db;
+        if (d2 < best) best = d2;
+      }
+      if (best < thr2) bg[pi] = 1;
+    }
+  }
+
+  /* ---- 第三步：中心区锁前景，其余交 GrabCut（初值偏背景）---- */
+  for (y = 0; y < H; y++) {
+    for (x = 0; x < W; x++) {
+      idx = y * W + x;
+      if (bg[idx]) continue;
+      if (x >= fx0 && x < fx1 && y >= fy0 && y < fy1) { fg[idx] = 1; init[idx] = 1; }
+      else init[idx] = 0;
+    }
+  }
+
+  return { bg: bg, fg: fg, initFg: init, floodBg: flood };
+}
+
 /* ---------- 降采样 / 上采样：大图先在低分辨率分割，再还原 ---------- */
 function downsampleImageData(data, W, H, maxSide) {
   var scale = Math.min(1, maxSide / Math.max(W, H));
@@ -829,7 +1005,10 @@ function segmentAlpha(data, W, H, opts) {
   var maxSide = opts.maxSide || 800;      // 分割工作分辨率
   var small = downsampleImageData(data, W, H, maxSide);
 
-  var seeds = opts.seeds || defaultSeeds(small.W, small.H, small.data, opts.tolerance);
+  var seeds = opts.seeds ||
+    (opts.seedMode === 'portrait'
+      ? portraitSeeds(small.W, small.H, small.data, opts.tolerance)
+      : defaultSeeds(small.W, small.H, small.data, opts.tolerance));
   var sm = grabcut(small.data, small.W, small.H, {
     bgSeeds: seeds.bg, fgSeeds: seeds.fg, initFg: seeds.initFg,
     iters: opts.iters || 5, lambda: opts.lambda || 35
@@ -858,6 +1037,7 @@ global.PicSeg = {
   depthBlur: depthBlur,
   boxBlur: boxBlur,
   defaultSeeds: defaultSeeds,
+  portraitSeeds: portraitSeeds,
   kmeans3d: kmeans3d
 };
 })(window);

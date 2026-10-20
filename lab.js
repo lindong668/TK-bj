@@ -400,26 +400,35 @@
                 y += s.h + gap;
             });
         } else {
-            // 网格：每格统一为该列最大宽、该行最大高
+            /* 网格：所有格子统一尺寸。
+             *
+             * 注意（v10 修正）：原来取「该列最大宽 / 该行最大高」，
+             * 九张图尺寸不一致时，每列宽、每行高都不一样，
+             * 拼出来格子大小参差 —— 就是用户说的「不规则」。
+             * 改成全局统一格宽格高，格子才是规整的；
+             * 图片按 cover 裁切填满格子，不留参差空隙。 */
             var rows = Math.ceil(imgs.length / cols);
-            var colW = [], rowH = [];
-            for (var c = 0; c < cols; c++) colW[c] = 0;
-            for (var r = 0; r < rows; r++) rowH[r] = 0;
+            var cellW = Math.max.apply(null, sizes.map(function (s) { return s.w; }));
+            var cellH = Math.max.apply(null, sizes.map(function (s) { return s.h; }));
+            /* o.square 为真时强制正方形格子（朋友圈/小红书九宫格的常见诉求） */
+            if (o.square) { cellW = cellH = Math.max(cellW, cellH); }
+
+            W = cellW * cols + gap * (cols - 1);
+            H = cellH * rows + gap * (rows - 1);
+
             sizes.forEach(function (s, i) {
                 var cc = i % cols, rr = Math.floor(i / cols);
-                if (s.w > colW[cc]) colW[cc] = s.w;
-                if (s.h > rowH[rr]) rowH[rr] = s.h;
-            });
-            W = colW.reduce(function (a, b) { return a + b; }, 0) + gap * (cols - 1);
-            H = rowH.reduce(function (a, b) { return a + b; }, 0) + gap * (rows - 1);
-            sizes.forEach(function (s, i) {
-                var cc = i % cols, rr = Math.floor(i / cols);
-                var ox = 0; for (var k = 0; k < cc; k++) ox += colW[k] + gap;
-                var oy = 0; for (var k2 = 0; k2 < rr; k2++) oy += rowH[k2] + gap;
+                var ox = cc * (cellW + gap);
+                var oy = rr * (cellH + gap);
+                /* cover：等比放大到铺满格子，多出的部分居中裁掉 */
+                var sc = Math.max(cellW / s.w, cellH / s.h);
+                var dw = s.w * sc, dh = s.h * sc;
                 positions.push({
-                    x: align === 'start' ? ox : align === 'end' ? ox + colW[cc] - s.w : ox + (colW[cc] - s.w) / 2,
-                    y: align === 'start' ? oy : align === 'end' ? oy + rowH[rr] - s.h : oy + (rowH[rr] - s.h) / 2,
-                    w: s.w, h: s.h
+                    x: ox + (cellW - dw) / 2,
+                    y: oy + (cellH - dh) / 2,
+                    w: dw, h: dh,
+                    /* 裁切：只画格子范围内的部分 */
+                    clipX: ox, clipY: oy, clipW: cellW, clipH: cellH
                 });
             });
         }
@@ -429,7 +438,16 @@
         if (bg !== 'transparent') { ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H); }
         imgs.forEach(function (im, i) {
             var p = positions[i];
-            ctx.drawImage(im, p.x, p.y, p.w, p.h);
+            if (p.clipW) {
+                ctx.save();
+                ctx.beginPath();
+                ctx.rect(p.clipX, p.clipY, p.clipW, p.clipH);
+                ctx.clip();
+                ctx.drawImage(im, p.x, p.y, p.w, p.h);
+                ctx.restore();
+            } else {
+                ctx.drawImage(im, p.x, p.y, p.w, p.h);
+            }
         });
         return cv;
     };
@@ -939,6 +957,7 @@
      * ============================================================ */
     LAB.downloadCanvas = function (cv, filename, format, quality) {
         return new Promise(function (res) {
+            if (window.__download) { window.__download(cv, filename); res(); return; }
             cv.toBlob(function (blob) {
                 var url = URL.createObjectURL(blob);
                 var a = document.createElement('a');
@@ -952,6 +971,12 @@
     };
 
     LAB.downloadBlob = function (blob, filename) {
+        if (window.__download) {
+            var fr = new FileReader();
+            fr.onload = function (ev) { window.__download(ev.target.result, filename); };
+            fr.readAsDataURL(blob);
+            return;
+        }
         var url = URL.createObjectURL(blob);
         var a = document.createElement('a');
         a.href = url; a.download = filename;
@@ -959,6 +984,217 @@
         document.body.removeChild(a);
         setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
     };
+
+    /* ============================================================
+     * 15. 纯色背景检测 + 换底（证件照最优解）
+     * ------------------------------------------------------------
+     * 为什么单独做这一条路：
+     *   证件照大多是**纯色背景**（白墙 / 蓝布 / 红布）。
+     *   这种情况下用抠图（GrabCut / 洪水填充）反而是最差选择：
+     *     - 白色背景 + 浅色衣服，颜色模型分不清，人容易被啃掉
+     *     - 人物占满画面时，背景与边界断开，只换掉边缘一圈
+     *   而**颜色替换**才是正解：只要认准背景色，从边缘连通扩散，
+     *   把连通的同色区域换成目标色，边缘羽化一下即可 —— 又快又干净。
+     *
+     * 安全性：只替换**与画面边缘连通**的同色区域。
+     *   主体内部的同色块（比如白衬衫上的白）因为不连通，天然被保留。
+     *
+     * @returns {null} 不是纯色背景，调用方应改用抠图
+     * @returns {canvas} 换底成功
+     * ============================================================ */
+    LAB.detectFlatBg = function (src, opts) {
+        opts = opts || {};
+        var w = src.naturalWidth || src.width, h = src.naturalHeight || src.height;
+        if (!w || !h) return null;
+        var sw = Math.min(w, 160), sh = Math.round(h * (sw / w));
+        var c = makeCanvas(sw, sh);
+        c.getContext('2d').drawImage(src, 0, 0, sw, sh);
+        var d;
+        try { d = c.getContext('2d').getImageData(0, 0, sw, sh).data; }
+        catch (e) { return null; }
+
+        /* 采样四条边的像素，求主色与离散度 */
+        var band = Math.max(2, Math.round(Math.min(sw, sh) * 0.06));
+        var samples = [];
+        var xi, yi, o;
+        for (yi = 0; yi < sh; yi++) {
+            for (xi = 0; xi < sw; xi++) {
+                var edge = (xi < band || xi >= sw - band || yi < band || yi >= sh - band);
+                if (!edge) continue;
+                o = (yi * sw + xi) * 4;
+                samples.push(d[o], d[o + 1], d[o + 2]);
+            }
+        }
+        if (samples.length < 30) return null;
+
+        /* 用 k-means 找边缘主色，再看多数像素离主色多近 */
+        var km = kmeansLite(samples, 3, 6);
+        var top = 0, topN = -1, i2;
+        for (i2 = 0; i2 < km.k; i2++) if (km.counts[i2] > topN) { topN = km.counts[i2]; top = i2; }
+        var c3 = top * 3;
+        var br = km.centers[c3], bg = km.centers[c3 + 1], bb = km.centers[c3 + 2];
+
+        var near = 0, totN = samples.length / 3;
+        for (i2 = 0; i2 < samples.length; i2 += 3) {
+            var dr = samples[i2] - br, dg = samples[i2 + 1] - bg, db = samples[i2 + 2] - bb;
+            if (dr * dr + dg * dg + db * db < 40 * 40) near++;
+        }
+        var ratio = near / totN;
+        /* 边缘有 >=72% 的像素集中在同一颜色 → 判定为纯色背景 */
+        if (ratio < 0.72) return null;
+
+        return { r: br, g: bg, b: bb, ratio: ratio };
+    };
+
+    /* 从边缘连通扩散，把背景色区域换成目标底色 */
+    LAB.replaceBg = function (src, bgRGB, targetSpec, opts) {
+        opts = opts || {};
+        var w = src.naturalWidth || src.width, h = src.naturalHeight || src.height;
+        var tol = opts.tolerance || 46;
+        var cv = makeCanvas(w, h);
+        var ctx = cv.getContext('2d');
+        ctx.drawImage(src, 0, 0);
+        var img;
+        try { img = ctx.getImageData(0, 0, w, h); }
+        catch (e) { return cv; }
+        var d = img.data, N = w * h;
+
+        /* ---- 从边缘出发做连通扩散，得到背景掩码 ----
+         * 连通性是安全性的关键：主体内部同色块不连通，不会被换掉 */
+        var mask = new Uint8Array(N);
+        var stack = new Int32Array(N);
+        var sp = 0;
+        var x, y, idx;
+        for (x = 0; x < w; x++) { stack[sp++] = x; stack[sp++] = (h - 1) * w + x; }
+        for (y = 0; y < h; y++) { stack[sp++] = y * w; stack[sp++] = y * w + (w - 1); }
+
+        var thr2 = tol * tol;
+        var br = bgRGB.r, bg2 = bgRGB.g, bb = bgRGB.b;
+        var visited = new Uint8Array(N);
+        var i3;
+        for (i3 = 0; i3 < sp; i3++) { if (!visited[stack[i3]]) visited[stack[i3]] = 1; }
+
+        while (sp > 0) {
+            idx = stack[--sp];
+            if (mask[idx]) continue;
+            var o2 = idx * 4;
+            var dr2 = d[o2] - br, dg2 = d[o2 + 1] - bg2, db2 = d[o2 + 2] - bb;
+            if (dr2 * dr2 + dg2 * dg2 + db2 * db2 > thr2) continue;
+            mask[idx] = 1;
+            var xi2 = idx % w, yi2 = (idx / w) | 0;
+            if (xi2 > 0) { var lf = idx - 1; if (!mask[lf] && !visited[lf]) { visited[lf] = 1; stack[sp++] = lf; } }
+            if (xi2 < w - 1) { var rt = idx + 1; if (!mask[rt] && !visited[rt]) { visited[rt] = 1; stack[sp++] = rt; } }
+            if (yi2 > 0) { var up = idx - w; if (!mask[up] && !visited[up]) { visited[up] = 1; stack[sp++] = up; } }
+            if (yi2 < h - 1) { var dn = idx + w; if (!mask[dn] && !visited[dn]) { visited[dn] = 1; stack[sp++] = dn; } }
+        }
+
+        /* ---- 掩码羽化：边缘过渡自然，不会有硬锯齿 ---- */
+        var soft = featherMask(mask, w, h, Math.max(1, Math.round(Math.min(w, h) / 220)));
+
+        /* ---- 生成目标底色（支持纯色 / 渐变） ---- */
+        var bgCv = makeCanvas(w, h);
+        var bx = bgCv.getContext('2d');
+        /* ★ v12 修复：底色规格有两种形态，必须都认
+         *   - 对象：{type:'gradient',from,to} 或 {color:'#ff0000'}
+         *   - 字符串：'#ff0000'（currentBgSpec() 预设按钮返回的就是这个）
+         * 之前只认对象，字符串进来时 targetSpec.color 是 undefined，
+         * 于是**不管选红底还是蓝底，统统填成白色** —— 换底色完全失效。 */
+        if (targetSpec && typeof targetSpec === 'object' && targetSpec.type === 'gradient') {
+            var g = bx.createLinearGradient(0, 0, 0, h);
+            g.addColorStop(0, targetSpec.from);
+            g.addColorStop(1, targetSpec.to);
+            bx.fillStyle = g;
+        } else if (typeof targetSpec === 'string' && targetSpec) {
+            bx.fillStyle = targetSpec;
+        } else {
+            bx.fillStyle = (targetSpec && targetSpec.color) ? targetSpec.color : '#ffffff';
+        }
+        bx.fillRect(0, 0, w, h);
+        var bd = bx.getImageData(0, 0, w, h).data;
+
+        for (i3 = 0; i3 < N; i3++) {
+            var a = soft[i3];
+            if (a <= 0) continue;
+            var o3 = i3 * 4;
+            var ia = a, na = 1 - a;
+            d[o3] = d[o3] * na + bd[o3] * ia;
+            d[o3 + 1] = d[o3 + 1] * na + bd[o3 + 1] * ia;
+            d[o3 + 2] = d[o3 + 2] * na + bd[o3 + 2] * ia;
+        }
+        ctx.putImageData(img, 0, 0);
+        return cv;
+    };
+
+    /* 掩码羽化（简单的可分离盒模糊，值域 0..1） */
+    function featherMask(mask, w, h, r) {
+        if (r <= 0) {
+            var f0 = new Float32Array(w * h);
+            for (var i = 0; i < w * h; i++) f0[i] = mask[i];
+            return f0;
+        }
+        var tmp = new Float32Array(w * h), out = new Float32Array(w * h);
+        var x, y, i, sum, cnt;
+        for (y = 0; y < h; y++) {
+            sum = 0; cnt = 0;
+            for (x = 0; x < w; x++) {
+                var idx = y * w + x;
+                if (mask[idx]) { sum += 1; cnt++; }
+                var xo = x - r - 1;
+                if (xo >= 0 && mask[y * w + xo]) { sum -= 1; cnt--; }
+                tmp[idx] = cnt ? sum / cnt : 0;
+            }
+        }
+        for (x = 0; x < w; x++) {
+            sum = 0; cnt = 0;
+            for (y = 0; y < h; y++) {
+                var id2 = y * w + x;
+                sum += tmp[id2]; cnt++;
+                var yo = y - r - 1;
+                if (yo >= 0) { sum -= tmp[yo * w + x]; cnt--; }
+                out[id2] = cnt ? sum / cnt : 0;
+            }
+        }
+        return out;
+    }
+
+    /* 轻量 k-means（3 维），供纯色检测用 */
+    function kmeansLite(data, k, iters) {
+        var n = data.length / 3;
+        var centers = new Float64Array(k * 3);
+        var counts = new Int32Array(k);
+        var i, c;
+        for (c = 0; c < k; c++) {
+            var pick = Math.floor(n * (c + 0.5) / k) * 3;
+            centers[c * 3] = data[pick]; centers[c * 3 + 1] = data[pick + 1]; centers[c * 3 + 2] = data[pick + 2];
+        }
+        var assign = new Int32Array(n);
+        for (var it = 0; it < (iters || 6); it++) {
+            for (i = 0; i < n; i++) {
+                var o = i * 3, best = Infinity, bc = 0;
+                for (c = 0; c < k; c++) {
+                    var c3 = c * 3;
+                    var dr = data[o] - centers[c3], dg = data[o + 1] - centers[c3 + 1], db = data[o + 2] - centers[c3 + 2];
+                    var d2 = dr * dr + dg * dg + db * db;
+                    if (d2 < best) { best = d2; bc = c; }
+                }
+                assign[i] = bc;
+            }
+            var sx = new Float64Array(k * 3); counts.fill(0);
+            for (i = 0; i < n; i++) {
+                var cc = assign[i] * 3, oo = i * 3;
+                sx[cc] += data[oo]; sx[cc + 1] += data[oo + 1]; sx[cc + 2] += data[oo + 2];
+                counts[assign[i]]++;
+            }
+            for (c = 0; c < k; c++) {
+                if (counts[c]) {
+                    centers[c * 3] = sx[c * 3] / counts[c];
+                    centers[c * 3 + 1] = sx[c * 3 + 1] / counts[c];
+                    centers[c * 3 + 2] = sx[c * 3 + 2] / counts[c];
+                }
+            }
+        }
+        return { centers: centers, counts: counts, k: k };
+    }
 
     global.Lab = LAB;
 })(window);

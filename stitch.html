@@ -277,6 +277,8 @@
             </div>
         </div>
     </footer>
+    <script src="../assets/js/preview.js"></script>
+<script src="../assets/js/download.js"></script>
     <script src="../assets/js/lab.js"></script>
 <script>
 (function(){
@@ -330,8 +332,7 @@ function finish(c){outCanvas=c;resultImg.src=c.toDataURL();resultBox.classList.a
   downloadSection.classList.add('active');loadingOverlay.classList.remove('active');}
 function fail(e){loadingOverlay.classList.remove('active');alert('处理失败：'+(e&&e.message||e));}
 downloadBtn.addEventListener('click',function(){
-  if(!outCanvas)return;var a=document.createElement('a');
-  a.download=FILENAME;a.href=outCanvas.toDataURL('image/png');a.click();});
+  if(!outCanvas)return;if(window.__download){window.__download(outCanvas,FILENAME);}else{var a=document.createElement('a');a.download=FILENAME;a.href=outCanvas.toDataURL('image/png');a.click();}});
 var LOADING_TEXT='正在拼接…';var FILENAME='stitched.png';
 
 document.querySelectorAll('input[name="stDir"]').forEach(function(el){

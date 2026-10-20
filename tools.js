@@ -85,12 +85,13 @@ class ImageTool {
         if (this._previewURL) {
             try { URL.revokeObjectURL(this._previewURL); } catch (e) {}
         }
-        this._previewURL = URL.createObjectURL(file);
-        this.originalPreview.onerror = () => {
-            alert('图片预览失败：该格式可能不受浏览器支持（如 iPhone 的 HEIC）。' +
-                  '请先在手机相册里导出为 JPG，或用「格式转换」工具转成 JPG/PNG 再试。');
-        };
-        this.originalPreview.src = this._previewURL;
+        /* 四重回退预览：objectURL → createImageBitmap → dataURL → 明确提示 */
+        if (this._previewURL) { try { URL.revokeObjectURL(this._previewURL); } catch (e) {} }
+        this._previewURL = null;   // 关键：先置空，失败时才允许 dataURL 顶上来
+        window.__setPreview(this.originalPreview, file, (url, how) => {
+            this._previewURL = (how === 'objectURL' || how === 'bitmap') ? url : null;
+            this._previewHow = how;
+        });
 
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -106,9 +107,13 @@ class ImageTool {
     }
 
     showPreview(img) {
-        // 原图预览已在 handleFile 用 object URL 设好，这里不要再用 dataURL 覆盖
-        if (!this._previewURL) {
-            this.originalPreview.src = img.src;
+        /* 只有当预览确实成功显示时才保留原 src；
+         * 若 objectURL/bitmap 都失败（_previewURL 为空），用 dataURL 顶上，
+         * 避免 <img> 空白 → 露出棋盘格 → 深色主题下看着像「一片黑格」。 */
+        var pv = this.originalPreview;
+        var shown = pv && pv.complete && pv.naturalWidth > 0;
+        if (!shown && img && img.src) {
+            try { pv.src = img.src; } catch (e) {}
         }
 
         // ---- 大图保护：超过上限先降采样，避免逐像素运算把浏览器卡死 ----
@@ -204,9 +209,11 @@ class ImageTool {
 
         if (!this.processedCanvas) return;
 
+        var cv = this.processedCanvas, fn = filename + '.' + format;
+        if (window.__download) { window.__download(cv, fn); return; }
         const link = document.createElement('a');
-        link.download = `${filename}.${format}`;
-        link.href = this.processedCanvas.toDataURL(`image/${format}`, quality);
+        link.download = fn;
+        link.href = cv.toDataURL(`image/${format}`, quality);
         link.click();
     }
 

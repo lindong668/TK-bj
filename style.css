@@ -566,6 +566,17 @@ img {
     background: repeating-conic-gradient(#1e293b 0% 25%, #0f172a 0% 50%) 50% / 20px 20px;
 }
 
+/* 覆盖层 canvas（马赛克画框、抠图修补笔刷）必须完全透明。
+ * 它 absolute 盖在原图 <img> 上，若带棋盘格背景，
+ * 即使画布内容为空，背景也会把底下的图片**整个遮住** ——
+ * 用户看到的就是「一片黑格，啥也看不到」。
+ * 注意：这类 canvas 通常设了 pointer-events:none，
+ * 所以 elementsFromPoint 检测不到它，必须用截图才能发现。 */
+.preview-box canvas.pv-overlay,
+canvas.pv-overlay {
+    background: transparent !important;
+}
+
 /* 图片加载/解码失败时给出可见的提示，而不是静默显示空背景 */
 .preview-box img.img-error {
     min-width: 200px;
