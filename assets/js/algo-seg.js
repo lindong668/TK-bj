@@ -557,6 +557,30 @@ function buildBgPalette(data, W, H, rs, gs, bs) {
   return out;
 }
 
+/* 前景最大连通块面积（4 邻域，BFS，避免递归爆栈）
+ * 用于判断「留下的前景是一整块主体，还是被洪水填充打碎的零散碎片」。 */
+function largestForegroundBlob(isBg, W, H) {
+  var N = W*H;
+  var seen = new Uint8Array(N);
+  var q = new Int32Array(N);
+  var best = 0;
+  for (var p0=0; p0<N; p0++) {
+    if (isBg[p0] || seen[p0]) continue;
+    var head=0, tail=0, size=0;
+    q[tail++] = p0; seen[p0] = 1;
+    while (head < tail) {
+      var p = q[head++]; size++;
+      var x = p % W, y = (p / W) | 0;
+      if (x > 0)     { var n1=p-1; if(!isBg[n1] && !seen[n1]){seen[n1]=1;q[tail++]=n1;} }
+      if (x < W - 1) { var n2=p+1; if(!isBg[n2] && !seen[n2]){seen[n2]=1;q[tail++]=n2;} }
+      if (y > 0)     { var n3=p-W; if(!isBg[n3] && !seen[n3]){seen[n3]=1;q[tail++]=n3;} }
+      if (y < H - 1) { var n4=p+W; if(!isBg[n4] && !seen[n4]){seen[n4]=1;q[tail++]=n4;} }
+    }
+    if (size > best) best = size;
+  }
+  return best;
+}
+
 function floodFillBackground(data, W, H, tolerance, protectCenter) {
   tolerance = tolerance == null ? 32 : tolerance;
   var N = W*H;
@@ -681,6 +705,26 @@ function floodFillBackground(data, W, H, tolerance, protectCenter) {
   var cnt=0; for (var i=0;i<N;i++) if (isBg[i]) cnt++;
   if (cnt > N * 0.92 && !protectCenter) {
     return floodFillBackground(data, W, H, tolerance, true);
+  }
+
+  /* 前景碎片化检测 —— 证件照 / 人像特写最大的坑，改动前务必先跑 extreme.js。
+   *
+   * 当主体铺满整张画面时（人像特写、证件照、商品特写），
+   * 四角采到的其实是主体本身的颜色，洪水填充便沿着主体一路长满全图。
+   * 主体内部的纹理、花纹因为颜色不匹配会被留下来，
+   * 于是「前景」变成一堆零散碎片，而不是一整块主体。
+   * 实测该场景主体只剩 25% —— 用户看到的就是「人没了，只剩几块碎片」。
+   *
+   * 判据：留下的前景总面积不大，却碎成很多小块，
+   *      即「最大连通块 / 前景总面积」偏低 → 判定没有可抠的背景，
+   *      直接什么都不抠（返回全 0），保住整张图。
+   * 正常抠图时前景就是主体那一整块，连通块占比很高，不会误伤。 */
+  var fgCnt = N - cnt;
+  if (fgCnt > 0 && fgCnt < N * 0.65 && !protectCenter) {
+    var blob = largestForegroundBlob(isBg, W, H);
+    if (blob / fgCnt < 0.40) {
+      return new Uint8Array(N);          // 全 0 = 无背景可抠，整张保留
+    }
   }
 
   /* 安全网：防止「整张图就一个颜色」时把主体一起吞掉，此时只保留最外一圈。

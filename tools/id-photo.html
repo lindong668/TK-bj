@@ -47,7 +47,11 @@
 .related-card .ricon{font-size:1.4rem;display:block;margin-bottom:6px}
 .related-card .rname{font-size:.92rem;color:var(--text-primary);font-weight:600}
 .related-card .rdesc{font-size:.8rem;color:var(--text-secondary);margin-top:4px;line-height:1.5}
-@media(max-width:640px){.content-section{padding:32px 0}.content-block h2{font-size:1.2rem}}</style>
+@media(max-width:640px){.content-section{padding:32px 0}.content-block h2{font-size:1.2rem}}/* 抠图结果提示：告诉用户「为什么没换底色」，避免看着全图以为工具坏了 */
+.cut-hint{margin-top:12px;padding:10px 12px;border-radius:8px;font-size:.82rem;line-height:1.6;
+background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.4);color:#fde68a;text-align:left}
+.cut-hint[hidden]{display:none}
+</style>
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -180,6 +184,7 @@
                 <div class="preview-box">
                     <h3>证件照结果</h3>
                     <img id="processedPreview" src="" alt="处理结果">
+                    <div id="cutHint" class="cut-hint" hidden></div>
                 </div>
             </div>
 
@@ -376,6 +381,7 @@ processBtn.addEventListener('click',function(){
   loadingOverlay.classList.add('active');
   setTimeout(function(){run(mode).then(function(c){
     outCanvas=c;processedPreview.src=c.toDataURL();
+    showCutHint(currentBgSpec());
     downloadSection.classList.add('active');loadingOverlay.classList.remove('active');
   }).catch(function(e){loadingOverlay.classList.remove('active');alert('处理失败：'+(e.message||e));});},40);});
 /* 本地算法抠图 + 合成（不依赖任何网络，必定可用） */
@@ -384,6 +390,7 @@ function localCut(w,h,bg){
   if(typeof PicSeg!=='undefined'&&PicSeg.segmentAlpha){
     var d=srcCanvas.getContext('2d').getImageData(0,0,srcCanvas.width,srcCanvas.height);
     var alpha=PicSeg.segmentAlpha(d.data,srcCanvas.width,srcCanvas.height,{tolerance:45,maxSide:900});
+    window.__lastAlpha=alpha;
     var cut=Lab.alphaToCanvas?Lab.alphaToCanvas(alpha,srcCanvas,1):applyAlpha(srcCanvas,alpha);
     return Lab.composeOn(cut,w,h,bg);
   }
@@ -405,6 +412,27 @@ function segWithTimeout(cv, ms){
       .then(function(m){ if(!done){done=true;clearTimeout(timer);resolve(m);} })
       .catch(function(e){ if(!done){done=true;clearTimeout(timer);reject(e);} });
   });
+}
+
+/* 抠图结果说明。
+ * 主体铺满画面时（人像特写很常见）算法会判定「没有可抠的背景」并保留整图，
+ * 此时底色只在留白处可见 —— 如果不说明，用户会以为换底色失效或工具坏了。 */
+function lastFgRatio(){
+  if(!window.__lastAlpha) return null;
+  var a=window.__lastAlpha, n=a.length, fg=0;
+  for(var i=0;i<n;i++) if(a[i]>0.5) fg++;
+  return fg/n;
+}
+function showCutHint(bg){
+  var el=$('cutHint'); if(!el) return;
+  var r=lastFgRatio();
+  if(r!==null && r>0.85){
+    el.hidden=false;
+    el.innerHTML='<b>未检测到可替换的背景</b>：照片里的人物几乎占满了整个画面，' +
+      '算法判断没有背景可抠，因此保留了原图 —— 这是为了避免把人一起抠掉。' +
+      '<br>想要纯色底证件照，请换一张<b>人物四周留有明显空白/简洁背景</b>的照片，' +
+      '或先用「智能抠图」处理好背景后再来制作。';
+  }else{ el.hidden=true; }
 }
 
 function run(mode){
