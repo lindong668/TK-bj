@@ -325,13 +325,47 @@
     <script src="../assets/js/ai-core.js"></script>
     <script src="../assets/js/tools.js"></script>
     <script>
-    // Toggle custom color picker
+    /* 保存「未合成背景」的抠图结果（透明底）。
+     * 有了它，切换背景选项时只需重新合成，不必重跑一遍抠图。 */
+    var lastBaseCanvas = null;
+
+    function currentBgColor() {
+        var t = document.querySelector('input[name="bgType"]:checked');
+        t = t ? t.value : 'transparent';
+        if (t === 'white') return '#FFFFFF';
+        if (t === 'custom') {
+            var el = document.getElementById('bgColor');
+            return el ? el.value : '#FFFFFF';
+        }
+        return null;   // 透明
+    }
+
+    /* 切换背景后即时重绘结果。
+     * 旧实现只切换了取色器的显示与否，结果图不会更新 ——
+     * 用户点「白色背景」后画面纹丝不动，仍显示透明棋盘格，看起来像抠图失败（一片黑）。 */
+    function refreshBackgroundPreview() {
+        if (!lastBaseCanvas) return;
+        var color = currentBgColor();
+        var out = color ? applyBackgroundColor(lastBaseCanvas, color) : lastBaseCanvas;
+        var pv = document.getElementById('processedPreview');
+        if (pv) pv.src = out.toDataURL('image/png');
+        if (typeof tool !== 'undefined' && tool) tool.processedCanvas = out;
+    }
+
     document.querySelectorAll('input[name="bgType"]').forEach(radio => {
         radio.addEventListener('change', (e) => {
             document.getElementById('customColorGroup').style.display =
                 e.target.value === 'custom' ? 'block' : 'none';
+            refreshBackgroundPreview();
         });
     });
+    (function () {
+        var bc = document.getElementById('bgColor');
+        if (bc) {
+            bc.addEventListener('input', refreshBackgroundPreview);
+            bc.addEventListener('change', refreshBackgroundPreview);
+        }
+    })();
 
     const tolSlider = document.getElementById('tolerance');
     const tolHint   = document.getElementById('tolHint');
@@ -457,6 +491,7 @@
             }
 
             const result = alphaToCanvas(alpha, canvas, featherPx);
+            lastBaseCanvas = result;   // 存下透明底，供切换背景时即时重绘
 
             // 显示修补按钮
             document.getElementById('reprocessBtn').style.display = 'block';
@@ -475,6 +510,7 @@
                         if (token !== runToken) return;
                         const a2 = maskToAlpha(mask, W, H);
                         const r2 = alphaToCanvas(a2, canvas, featherPx);
+                        lastBaseCanvas = r2;   // AI 结果也要更新透明底
                         const out2 = (bgType === 'white') ? applyBackgroundColor(r2, '#FFFFFF')
                                    : (bgType === 'custom') ? applyBackgroundColor(r2, document.getElementById('bgColor').value)
                                    : r2;
