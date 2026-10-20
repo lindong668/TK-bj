@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EXIF 查看与清除 - 在线查看并清除照片的拍摄信息与定位 | PicStudio</title>
+    <meta name="description" content="在线查看照片的 EXIF 信息（相机型号、拍摄时间、光圈快门、GPS 定位等），并可一键清除元数据保护隐私。本地处理，图片不上传。">
+    <meta name="keywords" content="EXIF查看,EXIF清除,照片元数据,删除GPS信息,查看拍摄参数,照片隐私清理,在线EXIF工具">
+    <link rel="canonical" href="https://piccalc.com/tools/exif.html">
+    <meta name="robots" content="index,follow,max-image-preview:large">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="PicStudio">
+    <meta property="og:locale" content="zh_CN">
+    <meta property="og:title" content="EXIF 查看与清除 - 在线查看并清除照片的拍摄信息与定位 | PicStudio">
+    <meta property="og:description" content="在线查看照片的 EXIF 信息（相机型号、拍摄时间、光圈快门、GPS 定位等），并可一键清除元数据保护隐私。本地处理，图片不上传。">
+    <meta property="og:url" content="https://piccalc.com/tools/exif.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="EXIF 查看与清除 - 在线查看并清除照片的拍摄信息与定位 | PicStudio">
+    <meta name="twitter:description" content="在线查看照片的 EXIF 信息（相机型号、拍摄时间、光圈快门、GPS 定位等），并可一键清除元数据保护隐私。本地处理，图片不上传。">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <style>.content-section{padding:48px 0;background:transparent;border-top:1px solid var(--border)}
+.content-section .container{max-width:860px}
+.content-block{margin-bottom:40px}
+.content-block h2{font-size:1.35rem;color:var(--text-primary);margin-bottom:16px;padding-left:12px;border-left:4px solid #6366f1}
+.content-block h3{font-size:1.05rem;color:var(--text-primary);margin:20px 0 8px}
+.content-block p{color:var(--text-secondary);line-height:1.85;margin-bottom:12px}
+.content-block ul,.content-block ol{color:var(--text-secondary);line-height:1.85;padding-left:22px;margin-bottom:12px}
+.content-block li{margin-bottom:6px}
+.steps-list{counter-reset:step;list-style:none;padding-left:0}
+.steps-list li{counter-increment:step;position:relative;padding-left:44px;margin-bottom:14px;color:var(--text-secondary);line-height:1.8}
+.steps-list li::before{content:counter(step);position:absolute;left:0;top:2px;width:28px;height:28px;background:#6366f1;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:600}
+.scenario-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:14px}
+.scenario-card{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:16px}
+.scenario-card h4{font-size:.98rem;color:var(--text-primary);margin-bottom:6px}
+.scenario-card p{font-size:.9rem;color:var(--text-secondary);margin:0;line-height:1.7}
+.spec-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:.92rem}
+.spec-table th,.spec-table td{border:1px solid var(--border);padding:10px 12px;text-align:left}
+.spec-table th{background:var(--bg-dark);color:var(--text-primary);font-weight:600;white-space:nowrap}
+.spec-table td{color:var(--text-secondary)}
+.faq-item{border-bottom:1px solid #e2e8f0;padding:16px 0}
+.faq-item:last-child{border-bottom:none}
+.faq-item h3{font-size:1rem;color:var(--text-primary);margin:0 0 8px}
+.faq-item p{color:var(--text-secondary);line-height:1.8;margin:0}
+.related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.related-card{display:block;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:14px;text-decoration:none;transition:.2s}
+.related-card:hover{border-color:#6366f1;transform:translateY(-2px)}
+.related-card .ricon{font-size:1.4rem;display:block;margin-bottom:6px}
+.related-card .rname{font-size:.92rem;color:var(--text-primary);font-weight:600}
+.related-card .rdesc{font-size:.8rem;color:var(--text-secondary);margin-top:4px;line-height:1.5}
+@media(max-width:640px){.content-section{padding:32px 0}.content-block h2{font-size:1.2rem}}</style>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "EXIF 查看与清除",
+  "url": "https://piccalc.com/tools/exif.html",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "任意（浏览器）",
+  "browserRequirements": "需要支持 Canvas 的现代浏览器",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "CNY"
+  },
+  "description": "在线查看照片的 EXIF 信息（相机型号、拍摄时间、光圈快门、GPS 定位等），并可一键清除元数据保护隐私。本地处理，图片不上传。"
+}
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "为什么我的照片读不出 EXIF？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "可能原因：图片是 PNG/WebP 格式（通常不含 EXIF）；照片已被微信、微博等平台压缩并清除过；或本身由软件生成而非相机拍摄。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "清除后画质会变差吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "选 PNG 导出是无损的，画质不变。选 JPG 会按 92% 质量重新压缩一次，肉眼几乎无差别，但严格来说有一次有损编码。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "清除后还能恢复吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "不能。元数据被彻底丢弃，导出的文件里不再包含这些数据。请确认后再操作，必要时保留原图。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "微信发图会清除 EXIF 吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "微信、微博等平台在上传时通常会压缩并清除大部分元数据，所以通过这些平台转发的图一般不含定位。但从网盘或邮件发送的原图会完整保留。"
+      }
+    }
+  ]
+}
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "首页",
+      "item": "https://piccalc.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "全部工具",
+      "item": "https://piccalc.com/#tools"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "EXIF 查看与清除",
+      "item": "https://piccalc.com/tools/exif.html"
+    }
+  ]
+}
+    </script>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <a href="../index.html" class="logo">
+                <span class="logo-icon">🎨</span>
+                <span class="logo-text">Pic<span class="accent">Studio</span></span>
+            </a>
+            <nav class="tool-nav">
+                <a href="../index.html#tools">全部工具</a>
+                <a href="/privacy.html">隐私政策</a>
+                <a href="/faq.html">常见问题</a>
+                <a href="/contact.html">联系我们</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="tool-page">
+        <div class="container">
+            <a href="../index.html" class="back-link">← 返回首页</a>
+            <div class="tool-header">
+                <h1>📷 EXIF 查看与清除</h1>
+                <p>看看照片里藏了哪些信息，一键清除定位和拍摄参数</p>
+            </div>
+
+<style>.gen-box{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:8px}
+.meta-table{width:100%;border-collapse:collapse;font-size:.88rem;margin-top:12px}
+.meta-table th,.meta-table td{border:1px solid var(--border);padding:8px 11px;text-align:left}
+.meta-table th{background:var(--bg-dark);color:var(--text-primary);font-weight:600;width:38%}
+.meta-table td{color:var(--text-secondary);word-break:break-all}
+.warn-box{background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.35);border-radius:10px;padding:12px 14px;color:#fcd34d;font-size:.88rem;line-height:1.7;margin-top:12px}
+.ok-box{background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.38);border-radius:10px;padding:12px 14px;color:#6ee7b7;font-size:.88rem;line-height:1.7;margin-top:12px}
+.preview-box{max-width:420px;margin:16px auto}</style>
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-icon">📁</div>
+                <div class="upload-text">点击或拖拽照片到这里</div>
+                <div class="upload-hint">查看 EXIF 需 JPEG 格式；清除支持任意图片格式</div>
+                <input type="file" id="fileInput" accept="image/*">
+            </div>
+            <div class="preview-box" id="previewBox">
+                <h3>照片预览</h3>
+                <img id="previewImg" src="" alt="照片预览">
+            </div>
+            <div class="gen-box" id="resultBox">
+                <h3>元数据信息</h3>
+                <div id="metaMsg"></div>
+                <div id="metaTable"></div>
+                <div style="margin-top:20px;padding-top:18px;border-top:1px solid #e2e8f0;">
+                    <h3 style="font-size:1rem;color:var(--text-primary);margin-bottom:10px;">清除元数据并导出</h3>
+                    <div class="control-group">
+                        <label class="control-label">导出格式</label>
+                        <div class="radio-group">
+                            <div class="radio-option"><input type="radio" name="outFmt" id="fmtPng" value="png" checked><label for="fmtPng">PNG（无损）</label></div>
+                            <div class="radio-option"><input type="radio" name="outFmt" id="fmtJpg" value="jpeg"><label for="fmtJpg">JPG（体积小）</label></div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-lg" id="stripBtn" style="width:100%;margin-top:10px;">清除元数据并下载</button>
+                    <div id="stripMsg"></div>
+                </div>
+            </div>
+
+            <div class="loading-overlay" id="loadingOverlay">
+                <div class="spinner"></div>
+                <div class="loading-text" id="loadingText">处理中…</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block">
+                <h2>EXIF 查看与清除怎么用</h2>
+                <ol class="steps-list"><li>上传一张照片（查看 EXIF 需 JPEG 格式）</li><li>页面会列出相机型号、拍摄时间、光圈、ISO 等信息，如果有 GPS 定位也会显示</li><li>确认其中有不想公开的内容后，选择导出格式</li><li>点「清除元数据并下载」，得到一张干净的图片</li></ol>
+            </div>
+            <div class="content-block">
+                <h2>它的原理是什么</h2>
+                <p>EXIF 是嵌入在 JPEG 文件头里的一段结构化数据，记录了拍摄时的相机参数、时间、甚至 GPS 坐标。它存在 APP1 标记段中，不影响画面显示，所以很多人不知道它的存在。</p><p>读取时程序按 TIFF 格式解析这段数据：先判断字节序（大端或小端），找到 IFD（图像文件目录）条目，再按标签号查出对应字段的含义。</p><p>清除的原理很直接：把图片重新绘制到 Canvas 上再导出。Canvas 导出的是纯粹的像素数据，不会携带原始文件的任何元数据区块，所以 GPS 和拍摄参数自然就消失了。</p>
+            </div>
+            <div class="content-block">
+                <h2>常见使用场景</h2>
+                <p>下面这些情况用它最顺手：</p>
+                <div class="scenario-grid"><div class="scenario-card"><h4>发朋友圈前</h4><p>清除定位信息，避免暴露家庭住址</p></div><div class="scenario-card"><h4>二手交易</h4><p>出售相机或发布样片前清理拍摄参数</p></div><div class="scenario-card"><h4>网盘分享</h4><p>分享原图前去掉隐私信息</p></div><div class="scenario-card"><h4>取证与核对</h4><p>查看照片的真实拍摄时间和设备</p></div></div>
+            </div>
+            <div class="content-block">
+                <h2>规格与参数说明</h2>
+                <table class="spec-table"><tbody><tr><th>查看支持</th><td>JPEG（PNG/WebP 通常不含 EXIF）</td></tr><tr><th>清除支持</th><td>所有图片格式</td></tr><tr><th>可读取字段</th><td>相机品牌型号、拍摄时间、光圈、快门、ISO、焦距、GPS 等</td></tr><tr><th>导出格式</th><td>PNG（无损）或 JPG（压缩）</td></tr><tr><th>隐私</th><td>本地解析，图片不上传</td></tr></tbody></table>
+            </div>
+            <div class="content-block">
+                <h2>关于EXIF 查看与清除的常见问题</h2>
+                <div class="faq-item"><h3>为什么我的照片读不出 EXIF？</h3><p>可能原因：图片是 PNG/WebP 格式（通常不含 EXIF）；照片已被微信、微博等平台压缩并清除过；或本身由软件生成而非相机拍摄。</p></div><div class="faq-item"><h3>清除后画质会变差吗？</h3><p>选 PNG 导出是无损的，画质不变。选 JPG 会按 92% 质量重新压缩一次，肉眼几乎无差别，但严格来说有一次有损编码。</p></div><div class="faq-item"><h3>清除后还能恢复吗？</h3><p>不能。元数据被彻底丢弃，导出的文件里不再包含这些数据。请确认后再操作，必要时保留原图。</p></div><div class="faq-item"><h3>微信发图会清除 EXIF 吗？</h3><p>微信、微博等平台在上传时通常会压缩并清除大部分元数据，所以通过这些平台转发的图一般不含定位。但从网盘或邮件发送的原图会完整保留。</p></div>
+            </div>
+            <div class="content-block">
+                <h2>试试其它工具</h2>
+                <div class="related-grid"><a class="related-card" href="base64.html"><span class="ricon">🔤</span><span class="rname">Base64转换</span><span class="rdesc">图片与编码互转</span></a><a class="related-card" href="compress.html"><span class="ricon">🗜️</span><span class="rname">图片压缩</span><span class="rdesc">减小文件体积</span></a><a class="related-card" href="convert.html"><span class="ricon">🔄</span><span class="rname">格式转换</span><span class="rdesc">PNG/JPG/WebP 互转</span></a><a class="related-card" href="remove-bg.html"><span class="ricon">🎭</span><span class="rname">智能抠图</span><span class="rdesc">去除图片背景</span></a></div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="logo-icon">🎨</span>
+                    <span class="logo-text">Pic<span class="accent">Studio</span></span>
+                </div>
+                <p class="footer-desc">免费的在线图片处理工具，所有处理在浏览器本地完成</p>
+            </div>
+            <div class="footer-links">
+                <a href="../index.html#tools">全部工具</a>
+                <a href="/about.html">关于我们</a>
+                <a href="/contact.html">联系我们</a>
+                <a href="/faq.html">常见问题</a>
+                <a href="/privacy.html">隐私政策</a>
+                <a href="/terms.html">使用条款</a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 PicStudio. 保留所有权利。</p>
+            </div>
+        </div>
+    </footer>
+    <script src="../assets/js/lab.js"></script>
+<script src="../assets/js/lab.js"></script><script>
+(function(){
+var $=function(id){return document.getElementById(id);};
+var fileInput=$('fileInput'),uploadArea=$('uploadArea'),
+    resultBox=$('resultBox'),previewBox=$('previewBox'),previewImg=$('previewImg');
+var curFile=null,curImg=null;
+function handleFile(file){
+  if(!file){return;}
+  curFile=file;
+  var isJpeg=/\.(jpe?g)$/i.test(file.name)||file.type==='image/jpeg';
+  var r=new FileReader();
+  r.onload=function(e){
+    /* 注意：e.target.result 是 ArrayBuffer，不能直接赋给 img.src（会导致 onload 永不触发，
+     * 表现为「上传了但预览区没反应」）。这里改用 blob URL 做预览。 */
+    var im=new Image();
+    var objUrl=URL.createObjectURL(file);
+    im.onload=function(){
+      curImg=im;previewImg.src=im.src;
+      previewBox.classList.add('active');resultBox.classList.add('active');};
+    im.onerror=function(){
+      /* 兜底：即使预览失败也要把结果区显示出来 */
+      previewBox.classList.add('active');resultBox.classList.add('active');};
+    im.src=objUrl;
+    var buf=e.target.result;
+    var meta=null;
+    if(isJpeg){try{meta=Lab.parseExif(buf);}catch(err){meta=null;}}
+    renderMeta(meta,isJpeg,file);};
+  r.readAsArrayBuffer(file);}
+function renderMeta(meta,isJpeg,file){
+  var box=$('metaTable');box.innerHTML='';
+  var msg=$('metaMsg');msg.innerHTML='';
+  if(!isJpeg){
+    msg.innerHTML='<div class="warn-box">当前只支持读取 JPEG 格式照片的 EXIF 信息。'+
+      'PNG 和 WebP 通常不保存这类拍摄参数。<br>不过你仍然可以用下面的「清除元数据」功能处理任意格式。</div>';
+  }else if(!meta||!Object.keys(meta).length){
+    msg.innerHTML='<div class="ok-box">这张 JPEG 照片没有检测到 EXIF 信息，可能已被清除过，或由软件生成。</div>';
+  }else{
+    var keys=Object.keys(meta);
+    msg.innerHTML='<div class="ok-box">共读取到 '+keys.length+' 项元数据。'+
+      '其中可能包含拍摄时间、相机型号，甚至 GPS 定位——分享前建议清除。</div>';
+    var t=document.createElement('table');t.className='meta-table';
+    keys.forEach(function(k){
+      var tr=document.createElement('tr');
+      var th=document.createElement('th');th.textContent=k;
+      var td=document.createElement('td');td.textContent=String(meta[k]);
+      tr.appendChild(th);tr.appendChild(td);t.appendChild(tr);});
+    box.appendChild(t);}}
+uploadArea.addEventListener('click',function(){fileInput.click();});
+fileInput.addEventListener('change',function(e){handleFile(e.target.files[0]);});
+uploadArea.addEventListener('dragover',function(e){e.preventDefault();uploadArea.classList.add('dragover');});
+uploadArea.addEventListener('dragleave',function(){uploadArea.classList.remove('dragover');});
+uploadArea.addEventListener('drop',function(e){e.preventDefault();uploadArea.classList.remove('dragover');handleFile(e.dataTransfer.files[0]);});
+$('stripBtn').addEventListener('click',function(){
+  if(!curImg){alert('请先选择图片');return;}
+  var c=document.createElement('canvas');
+  c.width=curImg.naturalWidth;c.height=curImg.naturalHeight;
+  c.getContext('2d').drawImage(curImg,0,0);
+  var fmtEl=document.querySelector('input[name="outFmt"]:checked');
+  var fmt=fmtEl?fmtEl.value:'png';
+  var a=document.createElement('a');
+  a.download='clean.'+(fmt==='jpeg'?'jpg':'png');
+  a.href=c.toDataURL('image/'+(fmt==='jpeg'?'jpeg':'png'),0.92);
+  a.click();
+  $('stripMsg').innerHTML='<div class="ok-box">已导出不含元数据的图片。'+
+    '原理是重新绘制到画布再导出，画布导出的图片天然不包含 EXIF。</div>';});
+})();
+</script>
+</body>
+</html>

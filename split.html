@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>长图分割 - 在线把长图切成多段 | PicStudio</title>
+    <meta name="description" content="在线把超长截图、聊天记录长图按份数或固定高度切成多张，便于分段发送和上传。浏览器本地处理，图片不上传。">
+    <meta name="keywords" content="长图分割,长图切图,截图分割,图片切片,长图分段,在线切图工具">
+    <link rel="canonical" href="https://piccalc.com/tools/split.html">
+    <meta name="robots" content="index,follow,max-image-preview:large">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="PicStudio">
+    <meta property="og:locale" content="zh_CN">
+    <meta property="og:title" content="长图分割 - 在线把长图切成多段 | PicStudio">
+    <meta property="og:description" content="在线把超长截图、聊天记录长图按份数或固定高度切成多张，便于分段发送和上传。浏览器本地处理，图片不上传。">
+    <meta property="og:url" content="https://piccalc.com/tools/split.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="长图分割 - 在线把长图切成多段 | PicStudio">
+    <meta name="twitter:description" content="在线把超长截图、聊天记录长图按份数或固定高度切成多张，便于分段发送和上传。浏览器本地处理，图片不上传。">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <style>.content-section{padding:48px 0;background:transparent;border-top:1px solid var(--border)}
+.content-section .container{max-width:860px}
+.content-block{margin-bottom:40px}
+.content-block h2{font-size:1.35rem;color:var(--text-primary);margin-bottom:16px;padding-left:12px;border-left:4px solid #6366f1}
+.content-block h3{font-size:1.05rem;color:var(--text-primary);margin:20px 0 8px}
+.content-block p{color:var(--text-secondary);line-height:1.85;margin-bottom:12px}
+.content-block ul,.content-block ol{color:var(--text-secondary);line-height:1.85;padding-left:22px;margin-bottom:12px}
+.content-block li{margin-bottom:6px}
+.steps-list{counter-reset:step;list-style:none;padding-left:0}
+.steps-list li{counter-increment:step;position:relative;padding-left:44px;margin-bottom:14px;color:var(--text-secondary);line-height:1.8}
+.steps-list li::before{content:counter(step);position:absolute;left:0;top:2px;width:28px;height:28px;background:#6366f1;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:600}
+.scenario-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:14px}
+.scenario-card{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:16px}
+.scenario-card h4{font-size:.98rem;color:var(--text-primary);margin-bottom:6px}
+.scenario-card p{font-size:.9rem;color:var(--text-secondary);margin:0;line-height:1.7}
+.spec-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:.92rem}
+.spec-table th,.spec-table td{border:1px solid var(--border);padding:10px 12px;text-align:left}
+.spec-table th{background:var(--bg-dark);color:var(--text-primary);font-weight:600;white-space:nowrap}
+.spec-table td{color:var(--text-secondary)}
+.faq-item{border-bottom:1px solid #e2e8f0;padding:16px 0}
+.faq-item:last-child{border-bottom:none}
+.faq-item h3{font-size:1rem;color:var(--text-primary);margin:0 0 8px}
+.faq-item p{color:var(--text-secondary);line-height:1.8;margin:0}
+.related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.related-card{display:block;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:14px;text-decoration:none;transition:.2s}
+.related-card:hover{border-color:#6366f1;transform:translateY(-2px)}
+.related-card .ricon{font-size:1.4rem;display:block;margin-bottom:6px}
+.related-card .rname{font-size:.92rem;color:var(--text-primary);font-weight:600}
+.related-card .rdesc{font-size:.8rem;color:var(--text-secondary);margin-top:4px;line-height:1.5}
+@media(max-width:640px){.content-section{padding:32px 0}.content-block h2{font-size:1.2rem}}</style>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "长图分割",
+  "url": "https://piccalc.com/tools/split.html",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "任意（浏览器）",
+  "browserRequirements": "需要支持 Canvas 的现代浏览器",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "CNY"
+  },
+  "description": "在线把超长截图、聊天记录长图按份数或固定高度切成多张，便于分段发送和上传。浏览器本地处理，图片不上传。"
+}
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "分割后画质会变差吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "不会。分割是纯粹的像素复制，不做缩放或压缩重编码，每段都与原图对应区域完全一致。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "能横向分割吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "当前版本只支持纵向（按高度）分割，这是长图最常见的需求。横向需求可以先用「智能裁剪」处理。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "一次下载全部会漏文件吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "浏览器对连续下载有频率限制，所以工具在每段之间加了 350 毫秒间隔。如果浏览器提示\"是否允许下载多个文件\"，请选择允许。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "最多能切多少份？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "按份数最多 20 份；按高度则取决于原图总高度，理论上没有上限。"
+      }
+    }
+  ]
+}
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "首页",
+      "item": "https://piccalc.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "全部工具",
+      "item": "https://piccalc.com/#tools"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "长图分割",
+      "item": "https://piccalc.com/tools/split.html"
+    }
+  ]
+}
+    </script>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <a href="../index.html" class="logo">
+                <span class="logo-icon">🎨</span>
+                <span class="logo-text">Pic<span class="accent">Studio</span></span>
+            </a>
+            <nav class="tool-nav">
+                <a href="../index.html#tools">全部工具</a>
+                <a href="/privacy.html">隐私政策</a>
+                <a href="/faq.html">常见问题</a>
+                <a href="/contact.html">联系我们</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="tool-page">
+        <div class="container">
+            <a href="../index.html" class="back-link">← 返回首页</a>
+            <div class="tool-header">
+                <h1>📏 长图分割</h1>
+                <p>把超长截图按份数或固定高度切成多段，方便分段发送</p>
+            </div>
+
+<style>.thumb-list{display:flex;flex-wrap:wrap;gap:12px;margin:18px 0}
+.thumb-item{width:140px;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.thumb-item img{width:100%;height:100px;object-fit:cover;display:block;background:var(--bg-dark)}
+.thumb-bar{display:flex;align-items:center;gap:2px;padding:6px 8px;background:var(--bg-dark);font-size:.72rem;color:var(--text-secondary);flex-wrap:wrap}
+.thumb-bar span{flex:1;min-width:60px}
+.thumb-btn{border:1px solid var(--border);background:var(--bg-dark);color:var(--text-secondary);border-radius:5px;width:22px;height:22px;cursor:pointer;font-size:.72rem;line-height:1;padding:0}
+.thumb-btn:hover{border-color:#6366f1;color:#6366f1}
+.thumb-btn.danger:hover{border-color:#ef4444;color:#ef4444}
+.result-box{margin-top:20px;text-align:center}
+.result-box h3{font-size:1rem;color:var(--text-primary);margin-bottom:10px}
+.result-box img{max-width:100%;max-height:480px;border-radius:10px;border:1px solid var(--border);background:var(--bg-dark)}
+@media(max-width:640px){.thumb-item{width:calc(50% - 6px)}}</style>
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-icon">📁</div>
+                <div class="upload-text">点击或拖拽长图到这里</div>
+                <div class="upload-hint">支持 PNG / JPG / WebP</div>
+                <input type="file" id="fileInput" accept="image/*">
+            </div>
+            <div class="preview-area" id="previewArea">
+                <div class="preview-box">
+                    <h3>原始长图</h3>
+                    <img id="originalPreview" src="" alt="原始图片">
+                    <div class="control-hint" id="infoSize" style="margin-top:8px;"></div>
+                </div>
+            </div>
+            <div class="controls" id="controls">
+                <div class="control-group">
+                    <label class="control-label">分割方式</label>
+                    <div class="radio-group">
+                        <div class="radio-option"><input type="radio" name="spMode" id="spC" value="count" checked><label for="spC">按份数均分</label></div>
+                        <div class="radio-option"><input type="radio" name="spMode" id="spH" value="height"><label for="spH">按固定高度</label></div>
+                    </div>
+                </div>
+                <div class="control-group" id="countGroup">
+                    <label class="control-label">切成几份</label>
+                    <input type="range" id="spCount" min="2" max="20" value="3">
+                    <div class="control-hint">当前：<b id="cntVal">3</b> 份</div>
+                </div>
+                <div class="control-group" id="heightGroup" style="display:none;">
+                    <label class="control-label">每段高度（像素）</label>
+                    <input type="number" id="spHeight" value="1000" min="100" max="8000" style="width:100%;padding:10px;border:1px solid #e2e8f0;border-radius:8px;">
+                    <div class="control-hint">超出部分会自动追加最后一段</div>
+                </div>
+                <button class="btn btn-primary btn-lg" id="processBtn" style="width:100%;">开始分割</button>
+            </div>
+            <div class="download-section" id="downloadSection">
+                <div id="outInfo" style="text-align:center;color:#475569;margin-bottom:12px;"></div>
+                <div class="thumb-list" id="outGrid"></div>
+                <button class="btn btn-primary btn-lg" id="downloadAllBtn" style="width:100%;">下载全部片段</button>
+            </div>
+
+            <div class="loading-overlay" id="loadingOverlay">
+                <div class="spinner"></div>
+                <div class="loading-text" id="loadingText">处理中…</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block">
+                <h2>长图分割怎么用</h2>
+                <ol class="steps-list"><li>上传长图（聊天记录截图、网页长截图等）</li><li>选择分割方式：按份数均分，或指定每段高度</li><li>点「开始分割」，下方会列出所有片段</li><li>可单独下载某一段，或点「下载全部片段」一次性保存</li></ol>
+            </div>
+            <div class="content-block">
+                <h2>它的原理是什么</h2>
+                <p>按份数均分时，程序用总高度除以份数得到每段高度，最后一段会自动吸收除法产生的余数，所以各段高度可能相差 1–2 像素。</p><p>按固定高度分割时，从顶部开始逐段截取，最后不足一段的部分会单独成为一段，不会丢失画面内容。</p><p>分割只是从原画布上按纵向区间复制像素，不做缩放和重采样，因此每一段都保持原始清晰度。</p>
+            </div>
+            <div class="content-block">
+                <h2>常见使用场景</h2>
+                <p>下面这些情况用它最顺手：</p>
+                <div class="scenario-grid"><div class="scenario-card"><h4>微信长图转发</h4><p>长截图切成几段分别发送</p></div><div class="scenario-card"><h4>小红书长图</h4><p>超长图切成符合比例的若干张</p></div><div class="scenario-card"><h4>打印分页</h4><p>长图分段后分别打印</p></div><div class="scenario-card"><h4>上传尺寸限制</h4><p>突破平台对单张图片的高度限制</p></div></div>
+            </div>
+            <div class="content-block">
+                <h2>规格与参数说明</h2>
+                <table class="spec-table"><tbody><tr><th>输入格式</th><td>PNG / JPG / WebP</td></tr><tr><th>输出格式</th><td>PNG（每段一张）</td></tr><tr><th>分割方式</th><td>按份数（2–20）/ 按高度（100–8000px）</td></tr><tr><th>下载方式</th><td>单段下载 / 一键下载全部</td></tr><tr><th>画面质量</th><td>原样切割，不缩放不损失</td></tr></tbody></table>
+            </div>
+            <div class="content-block">
+                <h2>关于长图分割的常见问题</h2>
+                <div class="faq-item"><h3>分割后画质会变差吗？</h3><p>不会。分割是纯粹的像素复制，不做缩放或压缩重编码，每段都与原图对应区域完全一致。</p></div><div class="faq-item"><h3>能横向分割吗？</h3><p>当前版本只支持纵向（按高度）分割，这是长图最常见的需求。横向需求可以先用「智能裁剪」处理。</p></div><div class="faq-item"><h3>一次下载全部会漏文件吗？</h3><p>浏览器对连续下载有频率限制，所以工具在每段之间加了 350 毫秒间隔。如果浏览器提示"是否允许下载多个文件"，请选择允许。</p></div><div class="faq-item"><h3>最多能切多少份？</h3><p>按份数最多 20 份；按高度则取决于原图总高度，理论上没有上限。</p></div>
+            </div>
+            <div class="content-block">
+                <h2>试试其它工具</h2>
+                <div class="related-grid"><a class="related-card" href="stitch.html"><span class="ricon">🖼️</span><span class="rname">图片拼接</span><span class="rdesc">多图合成一张</span></a><a class="related-card" href="crop.html"><span class="ricon">✂️</span><span class="rname">智能裁剪</span><span class="rdesc">按平台尺寸裁剪</span></a><a class="related-card" href="compress.html"><span class="ricon">🗜️</span><span class="rname">图片压缩</span><span class="rdesc">减小文件体积</span></a><a class="related-card" href="to-pdf.html"><span class="ricon">📄</span><span class="rname">图片转PDF</span><span class="rdesc">转成 PDF 文档</span></a></div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="logo-icon">🎨</span>
+                    <span class="logo-text">Pic<span class="accent">Studio</span></span>
+                </div>
+                <p class="footer-desc">免费的在线图片处理工具，所有处理在浏览器本地完成</p>
+            </div>
+            <div class="footer-links">
+                <a href="../index.html#tools">全部工具</a>
+                <a href="/about.html">关于我们</a>
+                <a href="/contact.html">联系我们</a>
+                <a href="/faq.html">常见问题</a>
+                <a href="/privacy.html">隐私政策</a>
+                <a href="/terms.html">使用条款</a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 PicStudio. 保留所有权利。</p>
+            </div>
+        </div>
+    </footer>
+    <script src="../assets/js/lab.js"></script>
+<script>
+(function(){
+var $=function(id){return document.getElementById(id);};
+var fileInput=$('fileInput'),uploadArea=$('uploadArea'),previewArea=$('previewArea'),
+    originalPreview=$('originalPreview'),controls=$('controls'),processBtn=$('processBtn'),
+    loadingOverlay=$('loadingOverlay'),loadingText=$('loadingText'),
+    outGrid=$('outGrid'),downloadSection=$('downloadSection');
+var srcCanvas=null,pieces=[];
+function loadImage(file){return new Promise(function(res,rej){
+  var r=new FileReader();
+  r.onload=function(e){var im=new Image();im.onload=function(){res(im);};im.onerror=function(){rej(new Error('解码失败'));};im.src=e.target.result;};
+  r.onerror=function(){rej(new Error('读取失败'));};r.readAsDataURL(file);});}
+function handleFile(file){
+  if(!file||!file.type.startsWith('image/')){alert('请选择图片文件');return;}
+  loadImage(file).then(function(img){
+    var s=Math.min(1,4000/Math.max(img.naturalWidth,img.naturalHeight));
+    var c=document.createElement('canvas');
+    c.width=Math.round(img.naturalWidth*s);c.height=Math.round(img.naturalHeight*s);
+    var x=c.getContext('2d');x.imageSmoothingEnabled=true;x.imageSmoothingQuality='high';
+    x.drawImage(img,0,0,c.width,c.height);
+    srcCanvas=c;if(window.__pu)try{URL.revokeObjectURL(window.__pu);}catch(e){}window.__pu=URL.createObjectURL(file);originalPreview.onerror=function(){alert('图片预览失败：该格式可能不受浏览器支持（如 iPhone 的 HEIC）。请先在手机相册里导出为 JPG，或用「格式转换」工具转成 JPG/PNG 再试。');};originalPreview.src=window.__pu;
+    previewArea.classList.add('active');controls.classList.add('active');
+    $('infoSize').textContent='原图尺寸：'+c.width+' × '+c.height;
+  }).catch(function(e){alert(e.message);});}
+uploadArea.addEventListener('click',function(){fileInput.click();});
+fileInput.addEventListener('change',function(e){handleFile(e.target.files[0]);});
+uploadArea.addEventListener('dragover',function(e){e.preventDefault();uploadArea.classList.add('dragover');});
+uploadArea.addEventListener('dragleave',function(){uploadArea.classList.remove('dragover');});
+uploadArea.addEventListener('drop',function(e){e.preventDefault();uploadArea.classList.remove('dragover');handleFile(e.dataTransfer.files[0]);});
+function num(id,d){var el=$(id);var v=el?parseFloat(el.value):NaN;return isNaN(v)?d:v;}
+function radio(name){var el=document.querySelector('input[name="'+name+'"]:checked');return el?el.value:null;}
+document.querySelectorAll('input[name="spMode"]').forEach(function(el){
+  el.addEventListener('change',function(){
+    var m=radio('spMode');
+    $('countGroup').style.display=m==='count'?'':'none';
+    $('heightGroup').style.display=m==='height'?'':'none';});});
+$('downloadAllBtn').addEventListener('click',function(){
+  if(!pieces.length)return;
+  pieces.forEach(function(cv,i){
+    setTimeout(function(){
+      var a=document.createElement('a');
+      a.download='split-'+(i+1)+'.png';a.href=cv.toDataURL('image/png');a.click();},i*350);});});
+processBtn.addEventListener('click',function(){
+  if(!srcCanvas){alert('请先选择图片');return;}
+  loadingText.textContent='正在分割…';loadingOverlay.classList.add('active');
+  setTimeout(function(){
+    try{
+      var mode=radio('spMode');
+      var o=mode==='count'?{mode:'count',count:Math.max(2,Math.round(num('spCount',3)))}
+                          :{mode:'height',sliceHeight:Math.max(100,Math.round(num('spHeight',1000)))};
+      pieces=Lab.split(srcCanvas,o);
+      outGrid.innerHTML='';
+      pieces.forEach(function(cv,i){
+        var d=document.createElement('div');d.className='thumb-item';
+        var img=document.createElement('img');img.src=cv.toDataURL();
+        var bar=document.createElement('div');bar.className='thumb-bar';
+        var no=document.createElement('span');no.textContent='第'+(i+1)+'段 '+cv.width+'×'+cv.height;
+        var dl=document.createElement('button');dl.textContent='↓';dl.className='thumb-btn';
+        dl.onclick=function(){var a=document.createElement('a');
+          a.download='split-'+(i+1)+'.png';a.href=cv.toDataURL('image/png');a.click();};
+        bar.appendChild(no);bar.appendChild(dl);d.appendChild(img);d.appendChild(bar);
+        outGrid.appendChild(d);});
+      downloadSection.classList.add('active');
+      $('outInfo').textContent='共分割成 '+pieces.length+' 段';
+      loadingOverlay.classList.remove('active');
+    }catch(e){loadingOverlay.classList.remove('active');alert('分割失败：'+e.message);}
+  },30);});
+})();
+</script>
+<script>document.getElementById('spCount').addEventListener('input',function(){
+  document.getElementById('cntVal').textContent=this.value;});</script>
+</body>
+</html>

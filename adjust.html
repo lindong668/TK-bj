@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>调色增强 - 在线调整亮度对比度饱和度色温 | PicStudio</title>
+    <meta name="description" content="在线调整图片亮度、对比度、饱和度、色温、伽马与锐化，支持黑白、复古、反相一键滤镜，实时预览。浏览器本地处理，图片不上传。">
+    <meta name="keywords" content="图片调色,调整对比度,调整饱和度,色温调节,图片锐化,在线调色工具,照片调色">
+    <link rel="canonical" href="https://piccalc.com/tools/adjust.html">
+    <meta name="robots" content="index,follow,max-image-preview:large">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="PicStudio">
+    <meta property="og:locale" content="zh_CN">
+    <meta property="og:title" content="调色增强 - 在线调整亮度对比度饱和度色温 | PicStudio">
+    <meta property="og:description" content="在线调整图片亮度、对比度、饱和度、色温、伽马与锐化，支持黑白、复古、反相一键滤镜，实时预览。浏览器本地处理，图片不上传。">
+    <meta property="og:url" content="https://piccalc.com/tools/adjust.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="调色增强 - 在线调整亮度对比度饱和度色温 | PicStudio">
+    <meta name="twitter:description" content="在线调整图片亮度、对比度、饱和度、色温、伽马与锐化，支持黑白、复古、反相一键滤镜，实时预览。浏览器本地处理，图片不上传。">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <style>.content-section{padding:48px 0;background:transparent;border-top:1px solid var(--border)}
+.content-section .container{max-width:860px}
+.content-block{margin-bottom:40px}
+.content-block h2{font-size:1.35rem;color:var(--text-primary);margin-bottom:16px;padding-left:12px;border-left:4px solid #6366f1}
+.content-block h3{font-size:1.05rem;color:var(--text-primary);margin:20px 0 8px}
+.content-block p{color:var(--text-secondary);line-height:1.85;margin-bottom:12px}
+.content-block ul,.content-block ol{color:var(--text-secondary);line-height:1.85;padding-left:22px;margin-bottom:12px}
+.content-block li{margin-bottom:6px}
+.steps-list{counter-reset:step;list-style:none;padding-left:0}
+.steps-list li{counter-increment:step;position:relative;padding-left:44px;margin-bottom:14px;color:var(--text-secondary);line-height:1.8}
+.steps-list li::before{content:counter(step);position:absolute;left:0;top:2px;width:28px;height:28px;background:#6366f1;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:600}
+.scenario-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:14px}
+.scenario-card{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:16px}
+.scenario-card h4{font-size:.98rem;color:var(--text-primary);margin-bottom:6px}
+.scenario-card p{font-size:.9rem;color:var(--text-secondary);margin:0;line-height:1.7}
+.spec-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:.92rem}
+.spec-table th,.spec-table td{border:1px solid var(--border);padding:10px 12px;text-align:left}
+.spec-table th{background:var(--bg-dark);color:var(--text-primary);font-weight:600;white-space:nowrap}
+.spec-table td{color:var(--text-secondary)}
+.faq-item{border-bottom:1px solid #e2e8f0;padding:16px 0}
+.faq-item:last-child{border-bottom:none}
+.faq-item h3{font-size:1rem;color:var(--text-primary);margin:0 0 8px}
+.faq-item p{color:var(--text-secondary);line-height:1.8;margin:0}
+.related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.related-card{display:block;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:14px;text-decoration:none;transition:.2s}
+.related-card:hover{border-color:#6366f1;transform:translateY(-2px)}
+.related-card .ricon{font-size:1.4rem;display:block;margin-bottom:6px}
+.related-card .rname{font-size:.92rem;color:var(--text-primary);font-weight:600}
+.related-card .rdesc{font-size:.8rem;color:var(--text-secondary);margin-top:4px;line-height:1.5}
+@media(max-width:640px){.content-section{padding:32px 0}.content-block h2{font-size:1.2rem}}</style>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "调色增强",
+  "url": "https://piccalc.com/tools/adjust.html",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "任意（浏览器）",
+  "browserRequirements": "需要支持 Canvas 的现代浏览器",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "CNY"
+  },
+  "description": "在线调整图片亮度、对比度、饱和度、色温、伽马与锐化，支持黑白、复古、反相一键滤镜，实时预览。浏览器本地处理，图片不上传。"
+}
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "调坏了能撤销吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "能。所有操作都作用在图片副本上，原图没有被修改。直接把滑块调回 0 或重新上传即可。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "伽马和亮度有什么区别？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "亮度是整体加减，容易让最亮和最暗的部分丢失细节；伽马是非线性的，主要提亮中间调，对高光和暗部影响小，处理发灰的照片更自然。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "为什么锐化后噪点变多了？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "锐化放大的是像素间差异，噪点本身也是差异，所以会被一起放大。如果照片噪点多，建议先用「图片去噪」处理再锐化。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "调色会损失画质吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "导出为 PNG 是无损的。但调色本身会改变像素值，过度调整（比如亮度拉满）会让细节不可逆地丢失，建议小幅度多次调整。"
+      }
+    }
+  ]
+}
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "首页",
+      "item": "https://piccalc.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "全部工具",
+      "item": "https://piccalc.com/#tools"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "调色增强",
+      "item": "https://piccalc.com/tools/adjust.html"
+    }
+  ]
+}
+    </script>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <a href="../index.html" class="logo">
+                <span class="logo-icon">🎨</span>
+                <span class="logo-text">Pic<span class="accent">Studio</span></span>
+            </a>
+            <nav class="tool-nav">
+                <a href="../index.html#tools">全部工具</a>
+                <a href="/privacy.html">隐私政策</a>
+                <a href="/faq.html">常见问题</a>
+                <a href="/contact.html">联系我们</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="tool-page">
+        <div class="container">
+            <a href="../index.html" class="back-link">← 返回首页</a>
+            <div class="tool-header">
+                <h1>🎨 调色增强</h1>
+                <p>亮度、对比度、饱和度、色温一整套调节，外加一键黑白与复古</p>
+            </div>
+
+
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-icon">📁</div>
+                <div class="upload-text">点击或拖拽图片到这里</div>
+                <div class="upload-hint">支持 PNG / JPG / WebP</div>
+                <input type="file" id="fileInput" accept="image/*">
+            </div>
+
+            <div class="preview-area" id="previewArea">
+                <div class="preview-box">
+                    <h3>原始图片</h3>
+                    <img id="originalPreview" src="" alt="原始图片">
+                </div>
+                <div class="preview-box">
+                    <h3>调色结果</h3>
+                    <img id="processedPreview" src="" alt="处理结果">
+                </div>
+            </div>
+
+            <div class="controls" id="controls">
+                <div class="control-group">
+                    <label class="control-label">亮度</label>
+                    <input type="range" id="adjBright" min="-100" max="100" value="0">
+                </div>
+                <div class="control-group">
+                    <label class="control-label">对比度</label>
+                    <input type="range" id="adjContrast" min="-100" max="100" value="0">
+                    <div class="control-hint">提高会让亮的更亮、暗的更暗，画面更通透</div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">饱和度</label>
+                    <input type="range" id="adjSat" min="-100" max="100" value="0">
+                    <div class="control-hint">拉到 -100 即变为黑白</div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">色温</label>
+                    <input type="range" id="adjTemp" min="-100" max="100" value="0">
+                    <div class="control-hint">正值偏暖（黄），负值偏冷（蓝）</div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">伽马（中间调）</label>
+                    <input type="range" id="adjGamma" min="30" max="300" value="100">
+                    <div class="control-hint">只提亮中间调，比直接加亮度更自然</div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">锐化</label>
+                    <input type="range" id="adjSharpen" min="0" max="100" value="0">
+                    <div class="control-hint">让边缘更清晰，扫文档建议 30–60</div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">暗角</label>
+                    <input type="range" id="adjVig" min="0" max="100" value="0">
+                    <div class="control-hint">四周压暗，突出中心主体</div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">一键滤镜</label>
+                    <div class="radio-group">
+                        <div class="radio-option"><input type="radio" name="adjFx" id="fxNone" value="none" checked><label for="fxNone">无</label></div>
+                        <div class="radio-option"><input type="radio" name="adjFx" id="fxBw" value="bw"><label for="fxBw">黑白</label></div>
+                        <div class="radio-option"><input type="radio" name="adjFx" id="fxSepia" value="sepia"><label for="fxSepia">复古</label></div>
+                        <div class="radio-option"><input type="radio" name="adjFx" id="fxInv" value="invert"><label for="fxInv">反相</label></div>
+                    </div>
+                </div>
+                <button class="btn btn-primary btn-lg" id="processBtn" style="width:100%;">应用调色</button>
+            </div>
+            <div class="download-section" id="downloadSection">
+                <button class="btn btn-primary btn-lg" id="downloadBtn" style="width:100%;">下载调色后的图片</button>
+            </div>
+
+            <div class="loading-overlay" id="loadingOverlay">
+                <div class="spinner"></div>
+                <div class="loading-text" id="loadingText">处理中…</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+            <div class="content-block">
+                <h2>调色增强怎么用</h2>
+                <ol class="steps-list"><li>上传需要调整的照片</li><li>拖动各项滑块：亮度管整体明暗，对比度管通透感，饱和度管鲜艳程度</li><li>需要偏色校正就调色温，照片发灰就提高对比度或调伽马</li><li>点「应用调色」查看效果，不满意改参数重做即可（原图不受影响）</li></ol>
+            </div>
+            <div class="content-block">
+                <h2>它的原理是什么</h2>
+                <p>亮度是把每个像素的 RGB 值统一加或减一个量，简单直接，但容易让高光过曝、暗部死黑。</p><p>对比度用的是线性映射公式：新值 = 系数 ×(原值-128)+128。系数大于 1 时，亮的更亮、暗的更暗，画面立刻"通透"起来。</p><p>饱和度先算出每个像素的亮度（0.299R+0.587G+0.114B），再把颜色朝远离或靠近这个灰点的方向拉伸，所以拉到 -100 就完全变成灰度图。</p><p>锐化用的是 USM（非锐化掩蔽）：先做一份模糊副本，然后用「原图 +(原图-模糊)×强度」放大像素间的差异，边缘就变清晰了。</p>
+            </div>
+            <div class="content-block">
+                <h2>常见使用场景</h2>
+                <p>下面这些情况用它最顺手：</p>
+                <div class="scenario-grid"><div class="scenario-card"><h4>手机照片救回</h4><p>阴天发灰、逆光发暗的照片，提对比度加亮度立刻好转</p></div><div class="scenario-card"><h4>扫描文档优化</h4><p>提高锐化 + 对比度，让文字更清楚便于识别</p></div><div class="scenario-card"><h4>统一商品图风格</h4><p>批量调成相同色温与饱和度，让店铺页面更整齐</p></div><div class="scenario-card"><h4>黑白人像</h4><p>降饱和度到 -100，或加暗角营造氛围</p></div></div>
+            </div>
+            <div class="content-block">
+                <h2>规格与参数说明</h2>
+                <table class="spec-table"><tbody><tr><th>输入格式</th><td>PNG / JPG / WebP</td></tr><tr><th>输出格式</th><td>PNG（无损）</td></tr><tr><th>可调参数</th><td>亮度 / 对比度 / 饱和度 / 色温 / 伽马 / 锐化 / 暗角</td></tr><tr><th>一键滤镜</th><td>黑白 / 复古 / 反相</td></tr><tr><th>最大尺寸</th><td>单边 3000 像素</td></tr></tbody></table>
+            </div>
+            <div class="content-block">
+                <h2>关于调色增强的常见问题</h2>
+                <div class="faq-item"><h3>调坏了能撤销吗？</h3><p>能。所有操作都作用在图片副本上，原图没有被修改。直接把滑块调回 0 或重新上传即可。</p></div><div class="faq-item"><h3>伽马和亮度有什么区别？</h3><p>亮度是整体加减，容易让最亮和最暗的部分丢失细节；伽马是非线性的，主要提亮中间调，对高光和暗部影响小，处理发灰的照片更自然。</p></div><div class="faq-item"><h3>为什么锐化后噪点变多了？</h3><p>锐化放大的是像素间差异，噪点本身也是差异，所以会被一起放大。如果照片噪点多，建议先用「图片去噪」处理再锐化。</p></div><div class="faq-item"><h3>调色会损失画质吗？</h3><p>导出为 PNG 是无损的。但调色本身会改变像素值，过度调整（比如亮度拉满）会让细节不可逆地丢失，建议小幅度多次调整。</p></div>
+            </div>
+            <div class="content-block">
+                <h2>试试其它工具</h2>
+                <div class="related-grid"><a class="related-card" href="denoise.html"><span class="ricon">✨</span><span class="rname">图片去噪</span><span class="rdesc">消除噪点颗粒</span></a><a class="related-card" href="restore.html"><span class="ricon">🕰️</span><span class="rname">老照片修复</span><span class="rdesc">自动修复泛黄旧照</span></a><a class="related-card" href="mosaic.html"><span class="ricon">🔲</span><span class="rname">马赛克打码</span><span class="rdesc">遮挡隐私区域</span></a><a class="related-card" href="crop.html"><span class="ricon">✂️</span><span class="rname">智能裁剪</span><span class="rdesc">按平台尺寸裁剪</span></a></div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="logo-icon">🎨</span>
+                    <span class="logo-text">Pic<span class="accent">Studio</span></span>
+                </div>
+                <p class="footer-desc">免费的在线图片处理工具，所有处理在浏览器本地完成</p>
+            </div>
+            <div class="footer-links">
+                <a href="../index.html#tools">全部工具</a>
+                <a href="/about.html">关于我们</a>
+                <a href="/contact.html">联系我们</a>
+                <a href="/faq.html">常见问题</a>
+                <a href="/privacy.html">隐私政策</a>
+                <a href="/terms.html">使用条款</a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 PicStudio. 保留所有权利。</p>
+            </div>
+        </div>
+    </footer>
+    <script src="../assets/js/lab.js"></script>
+<script>
+(function(){
+var $=function(id){return document.getElementById(id);};
+var fileInput=$('fileInput'),uploadArea=$('uploadArea'),previewArea=$('previewArea'),
+    originalPreview=$('originalPreview'),processedPreview=$('processedPreview'),
+    controls=$('controls'),downloadSection=$('downloadSection'),
+    downloadBtn=$('downloadBtn'),processBtn=$('processBtn'),
+    loadingOverlay=$('loadingOverlay'),loadingText=$('loadingText');
+var srcCanvas=null,outCanvas=null,srcImage=null;
+var MAXSIDE=3000;
+function loadImage(file){return new Promise(function(res,rej){
+  var r=new FileReader();
+  r.onload=function(e){var im=new Image();im.onload=function(){res(im);};im.onerror=function(){rej(new Error('图片解码失败'));};im.src=e.target.result;};
+  r.onerror=function(){rej(new Error('文件读取失败'));};r.readAsDataURL(file);});}
+function toCanvas(img){
+  var w=img.naturalWidth,h=img.naturalHeight,s=Math.min(1,MAXSIDE/Math.max(w,h));
+  var c=document.createElement('canvas');
+  c.width=Math.round(w*s);c.height=Math.round(h*s);
+  var x=c.getContext('2d');x.imageSmoothingEnabled=true;x.imageSmoothingQuality='high';
+  x.drawImage(img,0,0,c.width,c.height);
+  return c;}
+function handleFile(file){
+  if(!file||!file.type.startsWith('image/')){alert('请选择图片文件');return;}
+  loadImage(file).then(function(img){
+    srcImage=img;srcCanvas=toCanvas(img);
+    if(window.__pu)try{URL.revokeObjectURL(window.__pu);}catch(e){}window.__pu=URL.createObjectURL(file);originalPreview.onerror=function(){alert('图片预览失败：该格式可能不受浏览器支持（如 iPhone 的 HEIC）。请先在手机相册里导出为 JPG，或用「格式转换」工具转成 JPG/PNG 再试。');};originalPreview.src=window.__pu;
+    previewArea.classList.add('active');controls.classList.add('active');
+    outCanvas=null;downloadSection.classList.remove('active');
+    if(window.onImageReady)window.onImageReady(srcCanvas,img);
+  }).catch(function(e){alert(e.message);});}
+uploadArea.addEventListener('click',function(){fileInput.click();});
+fileInput.addEventListener('change',function(e){handleFile(e.target.files[0]);});
+uploadArea.addEventListener('dragover',function(e){e.preventDefault();uploadArea.classList.add('dragover');});
+uploadArea.addEventListener('dragleave',function(){uploadArea.classList.remove('dragover');});
+uploadArea.addEventListener('drop',function(e){e.preventDefault();uploadArea.classList.remove('dragover');handleFile(e.dataTransfer.files[0]);});
+function num(id,d){var el=$(id);var v=el?parseFloat(el.value):NaN;return isNaN(v)?d:v;}
+function val(id){var el=$(id);return el?el.value:null;}
+function radio(name){var el=document.querySelector('input[name="'+name+'"]:checked');return el?el.value:null;}
+function checked(id){var el=$(id);return el?el.checked:false;}
+function showLoading(t){loadingText.textContent=t||'处理中…';loadingOverlay.classList.add('active');}
+function hideLoading(){loadingOverlay.classList.remove('active');}
+function finish(c){outCanvas=c;processedPreview.src=c.toDataURL();downloadSection.classList.add('active');hideLoading();}
+function fail(e){hideLoading();alert('处理失败：'+(e&&e.message||e));}
+processBtn.addEventListener('click',function(){
+  if(!srcCanvas){alert('请先选择一张图片');return;}
+  showLoading(LOADING_TEXT);
+  setTimeout(function(){
+    try{var r=process(srcCanvas);
+      if(r&&typeof r.then==='function'){r.then(finish).catch(fail);}else{finish(r);}
+    }catch(e){fail(e);}
+  },30);});
+downloadBtn.addEventListener('click',function(){
+  if(!outCanvas)return;
+  var a=document.createElement('a');
+  a.download=FILENAME;a.href=outCanvas.toDataURL(FORMAT,QUALITY);a.click();});
+var LOADING_TEXT='正在调色…';
+var FILENAME='adjusted.png';
+var FORMAT='png';
+var QUALITY=0.92;
+
+function process(src){
+  var c=document.createElement('canvas');c.width=src.width;c.height=src.height;
+  c.getContext('2d').drawImage(src,0,0);
+  var fx=radio('adjFx')||'none';
+  return Lab.adjust(c,{
+    brightness:num('adjBright',0), contrast:num('adjContrast',0),
+    saturation:num('adjSat',0), temperature:num('adjTemp',0),
+    gamma:num('adjGamma',100)/100, sharpen:num('adjSharpen',0),
+    vignette:num('adjVig',0),
+    grayscale:fx==='bw', sepia:fx==='sepia', invert:fx==='invert'});
+}
+})();
+</script>
+</body>
+</html>
