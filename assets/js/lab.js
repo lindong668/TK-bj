@@ -1071,15 +1071,17 @@
         try { d = cx.getImageData(0, 0, sw, sh).data; }
         catch (e) { return null; }
 
-        var tol = opts.tolerance || 42, thr2 = tol * tol;
+        var thr2 = 0;
         var N = sw * sh;
 
         /* 某个种子点能扩散出多大区域？同时记录是否触及顶边 */
-        function probe(sx, sy) {
+        function probe(sx, sy, tolOverride) {
+            var tol = tolOverride || opts.tolerance || 42;
             sx = Math.min(Math.max(sx | 0, 0), sw - 1);
             sy = Math.min(Math.max(sy | 0, 0), sh - 1);
             var so = (sy * sw + sx) * 4;
             var br = d[so], bg2 = d[so + 1], bb = d[so + 2];
+            thr2 = tol * tol;
             var mask = new Uint8Array(N), seen = new Uint8Array(N);
             var stack = new Int32Array(N), sp = 0;
             stack[sp++] = sy * sw + sx; seen[sy * sw + sx] = 1;
@@ -1115,6 +1117,17 @@
             if (!best || r0.area > best.area) best = r0;
         }
         if (!best) return null;
+        /* v17：墙面常有明暗渐变（本例左侧 208 → 右侧 227），单一容差容易卡住。
+         * 首轮回退到较大容差再探一次，保证渐变墙面也能完整识别。 */
+        if (best.area < N * 0.18) {
+            var best2 = null;
+            for (i4 = 0; i4 < pts.length; i4++) {
+                var r1 = probe(pts[i4][0], pts[i4][1], 58);
+                if (!r1.top || r1.area < N * 0.12) continue;
+                if (!best2 || r1.area > best2.area) best2 = r1;
+            }
+            if (best2 && best2.area > best.area) best = best2;
+        }
         return { r: best.r, g: best.g, b: best.b, ratio: best.area / N };
     };
 
