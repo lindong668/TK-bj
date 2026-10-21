@@ -19,6 +19,47 @@ export default {
 
     let pathname = url.pathname;
 
+    /* ★ Adsense ads.txt 硬拦截（双保险）
+     *
+     * 背景：AdSense 抓取器对 Content-Type 极其严格 —— 必须是 text/plain，
+     * 一旦被猜成 text/html 就会判定「ads.txt 无效」，审核卡住。
+     * _headers 那条规则在部分 Workers Assets 版本下不一定生效，
+     * 所以这里在 Worker 层直接接管，绕过静态资源的 MIME 猜测，
+     * 无论 assets 怎么返回，AdSense 拿到的永远是正确的内容与类型。 */
+    if (pathname === '/ads.txt') {
+      return new Response(
+        'google.com, pub-8915931557404979, DIRECT, f08c47fec0942fa0\n',
+        { status: 200, headers: {
+            'content-type': 'text/plain; charset=utf-8',
+            'cache-control': 'public, max-age=3600'
+        } }
+      );
+    }
+
+    /* ★ 谷歌站长验证文件硬拦截
+     * 同理：直接返回固定内容 + text/html，并禁用缓存，
+     * 保证 Google 每次来复查都能立刻拿到最新内容。 */
+    if (pathname === '/google6474e28bb6098302.html') {
+      return new Response(
+        'google-site-verification: google6474e28bb6098302.html\n',
+        { status: 200, headers: {
+            'content-type': 'text/html; charset=utf-8',
+            'cache-control': 'no-cache, must-revalidate'
+        } }
+      );
+    }
+
+
+    if (pathname === '/robots.txt') {
+      return new Response(
+        'User-agent: *\nAllow: /\n\nSitemap: https://piccalc.com/sitemap.xml\n',
+        { status: 200, headers: {
+            'content-type': 'text/plain; charset=utf-8',
+            'cache-control': 'public, max-age=3600'
+        } }
+      );
+    }
+
     // 形如 /tools/palette、/about 这类无扩展名路径，尝试补 .html
     const noExt = !/\.[a-zA-Z0-9]+$/.test(pathname);
     if (noExt && pathname !== '/' && !pathname.endsWith('/')) {
