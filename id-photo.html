@@ -164,10 +164,12 @@ background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.4);color:#fde6
         <div class="container">
             <a href="../index.html" class="back-link">← 返回首页</a>
             <div class="tool-header">
-                <h1>🪪 证件照制作</h1>
+                <h1>🪪 证件照制作 <span style="display:inline-block;font-size:.62rem;background:#2563eb;color:#fff;padding:2px 8px;border-radius:10px;vertical-align:middle;margin-left:6px;letter-spacing:.5px;">HTML v22</span></h1>
                 <p>自动抠人像换标准底色，裁剪成一寸、二寸、签证尺寸</p>
             </div>
 
+
+            <div id="bootInfo" style="margin:0 0 14px;padding:8px 12px;border-radius:8px;background:#eff6ff;color:#1e40af;font-size:.8rem;line-height:1.6;border:1px solid #bfdbfe;" hidden></div>
 
             <div class="upload-area" id="uploadArea">
                 <div class="upload-icon">📁</div>
@@ -428,6 +430,26 @@ function showDiag(){
   el.textContent=txt;
   el.hidden=!txt;
 }
+
+/* ★ 启动时自检：把「HTML 版本」和「lab 算法文件版本」分两行显示出来。
+ * 这两行不依赖任何处理流程，打开页面就能看到 ——
+ * 用于一眼区分到底是文件没部署上去，还是算法算错了。 */
+(function(){
+  function boot(){
+    var box=document.getElementById('bootInfo');
+    if(!box) return;
+    var h='HTML 版本：v22';
+    var L=window.Lab;
+    var f = L ? (L.shrinkHQ ? (L.faceGuard ? 'lab 算法文件：v22（含领口保护+规范裁剪）'
+                                          : 'lab 算法文件：部分新') 
+                            : 'lab 算法文件：旧版 ⚠') 
+              : 'lab 算法文件：未加载 ⚠';
+    box.textContent = h + ' ｜ ' + f;
+    box.hidden=false;
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot);
+  else boot();
+})();
 
 /* 本地算法抠图 + 合成（不依赖任何网络，必定可用） */
 /* 证件照专用合成：按证件照规范留边，别让人物占满整张
