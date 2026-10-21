@@ -1,3 +1,5 @@
+# wrangler.toml
+name = 'tk-bj'
 # ============================================================
 # PicStudio（piccalc.com）静态站点 —— Cloudflare Workers + Assets
 # ⚠️ 请勿在 oil-data-worker 目录复用本文件，两者完全不同
