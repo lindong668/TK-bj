@@ -1353,12 +1353,25 @@
         var stack = new Int32Array(N);
         var sp = 0;
 
+        /* ★ v25：局部背景色场
+         *
+         * 旧合成式 out = p + a*(newBg - br) 里的 br 是**全局单一**背景估计值，
+         * 而真实墙面必有光照衰减与暗角（实测顶部 250 → 底部 205）。
+         * 底部像素拿 249 去减，结果比应有的底色暗 40+ 个色阶 ——
+         * 用户看到的就是「肩部/下摆一圈发暗发脏，像抠图没抠干净」。
+         *
+         * 这里在洪水扩散时顺手记下每个背景像素的**局部参考色**（=父像素颜色），
+         * 再做一次带权羽化得到平滑的底色场，合成时用它取代全局 br。
+         * 这样换出来的底色处处一致，真正是纯色证件照底。 */
+        var bgR = new Float32Array(N), bgG = new Float32Array(N), bgB = new Float32Array(N);
+
         function pushSeed(i) {
             if (mask[i] || (block && block[i])) return;
             var o = i * 4;
             var sr = d[o] - br, sg = d[o + 1] - bgg, sb = d[o + 2] - bb;
             if (sr * sr + sg * sg + sb * sb > thr2) return;
             mask[i] = 1; stack[sp++] = i;
+            bgR[i] = d[o]; bgG[i] = d[o + 1]; bgB[i] = d[o + 2];
         }
         function tryGrow(n, pr, pg, pb) {
             if (mask[n] || (block && block[n])) return;
@@ -1368,6 +1381,7 @@
             var gr2 = d[o] - br, gg2 = d[o + 1] - bgg, gb2 = d[o + 2] - bb;
             if (gr2 * gr2 + gg2 * gg2 + gb2 * gb2 > thrM) return;
             mask[n] = 1; stack[sp++] = n;
+            bgR[n] = pr; bgG[n] = pg; bgB[n] = pb;
         }
         for (x = 0; x < w; x++) { pushSeed(x); pushSeed((h - 1) * w + x); }
         for (y = 0; y < h; y++) { pushSeed(y * w); pushSeed(y * w + (w - 1)); }
@@ -1415,7 +1429,10 @@
                     if (un >= 10) continue;
                     var o4 = idx * 4;
                     var e1 = d[o4] - br, e2 = d[o4 + 1] - bgg, e3 = d[o4 + 2] - bb;
-                    if (e1 * e1 + e2 * e2 + e3 * e3 <= thr2) { mask[idx] = 1; added++; }
+                    if (e1 * e1 + e2 * e2 + e3 * e3 <= thr2) {
+                        mask[idx] = 1; added++;
+                        bgR[idx] = d[o4]; bgG[idx] = d[o4 + 1]; bgB[idx] = d[o4 + 2];
+                    }
                 }
             }
         }
@@ -1429,6 +1446,12 @@
 
         /* ---- 掩码羽化：边缘过渡自然，不会有硬锯齿 ---- */
         var soft = featherMask(mask, w, h, Math.max(1, Math.round(Math.min(w, h) / 220)));
+        /* 局部底色场：过渡带像素本身没被扩散到，靠邻居的背景像素补出局部基色。
+         * 半径取羽化的 3 倍，保证过渡带取得到周围真实背景的色值。 */
+        var fRad = Math.max(2, Math.round(Math.min(w, h) / 220) * 3);
+        var softR = featherField(bgR, mask, w, h, fRad, br);
+        var softG = featherField(bgG, mask, w, h, fRad, bgg);
+        var softB = featherField(bgB, mask, w, h, fRad, bb);
 
         /* ---- 生成目标底色（支持纯色 / 渐变） ---- */
         var bgCv = makeCanvas(w, h);
@@ -1487,9 +1510,9 @@
             if (a <= 0) continue;
             if (skinPx[i3] && a > 0.12) a = 0.12;
             var o3 = i3 * 4;
-            var nr = d[o3] + a * (bd[o3] - br);
-            var ng = d[o3 + 1] + a * (bd[o3 + 1] - bgg);
-            var nb = d[o3 + 2] + a * (bd[o3 + 2] - bb);
+            var nr = d[o3] + a * (bd[o3] - softR[i3]);
+            var ng = d[o3 + 1] + a * (bd[o3 + 1] - softG[i3]);
+            var nb = d[o3 + 2] + a * (bd[o3 + 2] - softB[i3]);
             d[o3] = nr < 0 ? 0 : (nr > 255 ? 255 : nr);
             d[o3 + 1] = ng < 0 ? 0 : (ng > 255 ? 255 : ng);
             d[o3 + 2] = nb < 0 ? 0 : (nb > 255 ? 255 : nb);
@@ -1535,6 +1558,44 @@
         }
         return out;
     }
+
+    /* 带权局部场羽化（v25）
+     *
+     * 与 featherMask 同构，但处理的是**连续值**（局部背景色）而不是 0/1 掩码：
+     * 每个像素取邻域内「已确认是背景」的像素的平均值；
+     * 一个有效邻居都没有时退回 fallback（全局背景估计）。
+     * 这样人物轮廓的过渡带也能拿到贴近真实的局部基色。 */
+    function featherField(field, valid, w, h, r, fallback) {
+        var out = new Float32Array(w * h);
+        if (r <= 0) {
+            for (var q = 0; q < w * h; q++) out[q] = valid[q] ? field[q] : fallback;
+            return out;
+        }
+        var tmpS = new Float32Array(w * h), tmpC = new Float32Array(w * h);
+        var x, y, i, idx;
+        for (y = 0; y < h; y++) {
+            var sum = 0, cnt = 0;
+            for (x = 0; x < w; x++) {
+                idx = y * w + x;
+                if (valid[idx]) { sum += field[idx]; cnt++; }
+                var xo = x - r - 1;
+                if (xo >= 0 && valid[y * w + xo]) { sum -= field[y * w + xo]; cnt--; }
+                tmpS[idx] = sum; tmpC[idx] = cnt;
+            }
+        }
+        for (x = 0; x < w; x++) {
+            var s2 = 0, c2 = 0;
+            for (y = 0; y < h; y++) {
+                idx = y * w + x;
+                s2 += tmpS[idx]; c2 += tmpC[idx];
+                var yo = y - r - 1;
+                if (yo >= 0) { s2 -= tmpS[yo * w + x]; c2 -= tmpC[yo * w + x]; }
+                out[idx] = c2 > 0 ? (s2 / c2) : fallback;
+            }
+        }
+        return out;
+    }
+    LAB.featherField = featherField;
 
     /* 轻量 k-means（3 维），供纯色检测用 */
     function kmeansLite(data, k, iters) {
