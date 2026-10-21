@@ -1143,7 +1143,15 @@
      *   实测：你那张图上这个区域救回 17918 个像素，
      *   而保护区之外的墙面仍被替换 98.9%，几乎没有副作用。 */
     LAB.faceGuard = function (src, w, h) {
-        var sw = Math.min(w, 220), sh = Math.max(1, Math.round(h * (sw / w)));
+        /* ★ 必须用源图自身的宽高比，不能用传入的目标尺寸。
+         * 之前传入的是证件照目标尺寸 295×413（比例 0.714），
+         * 而手机原图常见 1440×1920（比例 0.75）—— 比例对不上，
+         * 采样网格被纵向拉伸，算出来的脸位置和脸高全偏了，
+         * 保护区和裁剪框自然也就跟着错。 */
+        var iw = src.naturalWidth || src.width || w;
+        var ih = src.naturalHeight || src.height || h;
+        if (!iw || !ih) return null;
+        var sw = Math.min(iw, 220), sh = Math.max(1, Math.round(ih * (sw / iw)));
         var c = makeCanvas(sw, sh);
         var cx = c.getContext('2d');
         cx.drawImage(src, 0, 0, sw, sh);
