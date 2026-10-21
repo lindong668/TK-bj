@@ -1046,6 +1046,78 @@
         return { r: br, g: bg, b: bb, ratio: ratio };
     };
 
+    /* 证件照背景识别（v16 重写）
+     *
+     * ★ 之前的 detectFlatBg 错在哪：
+     *   它采样「四条边整条带」的像素做 k-means，取最大簇当背景色。
+     *   手机半身照的肩膀经常顶到左右边缘 —— 左右两条带里塞满了衣服，
+     *   红衣服反而成了最大簇，于是**把衣服当成背景换掉**，人物躯干直接消失。
+     *   这正是用户截图里「人糊成一片」的真正原因，跟衣服颜色本身无关。
+     *
+     * ★ 正确判据：证件照人像，头顶上方必定是背景。
+     *   所以背景区域一定连通到画面顶部；衣服在下半身，永远连不到顶边。
+     *   做法：取若干候选种子，各自做连通扩散，
+     *   只保留「触及顶边 且 面积≥12%」的，取其中面积最大者。
+     *   实测肩膀占满画面宽度时，白墙 26% 触及顶边、红衣 67% 不触顶 —— 命中白墙。 */
+    LAB.detectIdBg = function (src, opts) {
+        opts = opts || {};
+        var w = src.naturalWidth || src.width, h = src.naturalHeight || src.height;
+        if (!w || !h) return null;
+        var sw = Math.min(w, 200), sh = Math.max(1, Math.round(h * (sw / w)));
+        var c = makeCanvas(sw, sh);
+        var cx = c.getContext('2d');
+        cx.drawImage(src, 0, 0, sw, sh);
+        var d;
+        try { d = cx.getImageData(0, 0, sw, sh).data; }
+        catch (e) { return null; }
+
+        var tol = opts.tolerance || 42, thr2 = tol * tol;
+        var N = sw * sh;
+
+        /* 某个种子点能扩散出多大区域？同时记录是否触及顶边 */
+        function probe(sx, sy) {
+            sx = Math.min(Math.max(sx | 0, 0), sw - 1);
+            sy = Math.min(Math.max(sy | 0, 0), sh - 1);
+            var so = (sy * sw + sx) * 4;
+            var br = d[so], bg2 = d[so + 1], bb = d[so + 2];
+            var mask = new Uint8Array(N), seen = new Uint8Array(N);
+            var stack = new Int32Array(N), sp = 0;
+            stack[sp++] = sy * sw + sx; seen[sy * sw + sx] = 1;
+            var area = 0, touchTop = false;
+            while (sp > 0) {
+                var idx = stack[--sp];
+                if (mask[idx]) continue;
+                var o2 = idx * 4;
+                var dr = d[o2] - br, dg = d[o2 + 1] - bg2, db = d[o2 + 2] - bb;
+                if (dr * dr + dg * dg + db * db > thr2) continue;
+                mask[idx] = 1; area++;
+                var xi2 = idx % sw, yi2 = (idx / sw) | 0;
+                if (yi2 <= 1) touchTop = true;
+                if (xi2 > 0) { var lf = idx - 1; if (!mask[lf] && !seen[lf]) { seen[lf] = 1; stack[sp++] = lf; } }
+                if (xi2 < sw - 1) { var rt = idx + 1; if (!mask[rt] && !seen[rt]) { seen[rt] = 1; stack[sp++] = rt; } }
+                if (yi2 > 0) { var up = idx - sw; if (!mask[up] && !seen[up]) { seen[up] = 1; stack[sp++] = up; } }
+                if (yi2 < sh - 1) { var dn = idx + sw; if (!mask[dn] && !seen[dn]) { seen[dn] = 1; stack[sp++] = dn; } }
+            }
+            return { area: area, top: touchTop, r: br, g: bg2, b: bb };
+        }
+
+        var m = Math.max(2, Math.round(Math.min(sw, sh) * 0.09));
+        var pts = [
+            [m, m], [sw - 1 - m, m],                       // 左上、右上
+            [sw >> 1, 1], [sw >> 2, 1], [(sw * 3) >> 2, 1], // 顶边三个点
+            [m, sh - 1 - m], [sw - 1 - m, sh - 1 - m]       // 左下、右下
+        ];
+        var best = null, i4;
+        for (i4 = 0; i4 < pts.length; i4++) {
+            var r0 = probe(pts[i4][0], pts[i4][1]);
+            /* 硬约束：必须触及顶边，且面积不低于 12% */
+            if (!r0.top || r0.area < N * 0.12) continue;
+            if (!best || r0.area > best.area) best = r0;
+        }
+        if (!best) return null;
+        return { r: best.r, g: best.g, b: best.b, ratio: best.area / N };
+    };
+
     /* 从边缘连通扩散，把背景色区域换成目标底色 */
     LAB.replaceBg = function (src, bgRGB, targetSpec, opts) {
         opts = opts || {};
@@ -1122,6 +1194,12 @@
             d[o3 + 2] = d[o3 + 2] * na + bd[o3 + 2] * ia;
         }
         ctx.putImageData(img, 0, 0);
+        /* v16 安全网：统计被替换面积。背景不可能占满整张图，
+         * 超过 88% 说明种子色选错（选中了衣服），人物被一起换掉。
+         * 宁可返回 null 让上层退回抠图，也不能交出一张「人没了」的图。 */
+        var cnt = 0;
+        for (i3 = 0; i3 < N; i3++) if (mask[i3]) cnt++;
+        if (cnt > N * 0.88) return null;
         /* ★ v15：把背景掩码带出去。证件照要在衣服颜色和底色接近时
          * 沿着人物边缘描一圈细线，否则人跟底色糊成一片分不出轮廓。 */
         cv.__bgMask = soft;

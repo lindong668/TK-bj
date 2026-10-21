@@ -496,6 +496,7 @@ function composeIdPhoto(fg, tw, th, bgSpec){
 
 function localCut(w,h,bg){
   loadingText.textContent='正在用本地算法处理…';
+  window.__clashDist=null;   /* 每次重算，避免沿用上一次的判定结果 */
   if(typeof PicSeg!=='undefined'&&PicSeg.segmentAlpha){
     var d=srcCanvas.getContext('2d').getImageData(0,0,srcCanvas.width,srcCanvas.height);
     /* 两套种子各有胜负（实测）：
@@ -511,11 +512,16 @@ function localCut(w,h,bg){
      * 人物占满画面时背景与边界断开，只换掉一圈。
      * 改成先检测纯色背景，命中就直接做**连通颜色替换**，又快又干净。
      * 检测不到纯色背景才退回抠图。 */
-    var flat = Lab.detectFlatBg(srcCanvas);
-    if (flat && !strong) {
-      var replaced = Lab.replaceBg(srcCanvas, flat, bg, {tolerance:46});
-      if (replaced) { window.__lastMode='flat'; return composeIdPhoto(replaced,w,h,bg); }
+    /* v16：改用 detectIdBg（头顶连通判据），并且强力模式也先走这条路。
+     * 旧版 detectFlatBg 会在肩膀顶边时把衣服当背景，
+     * 而 `&& !strong` 又让强力模式完全跳过纯色替换、直接上激进抠图 ——
+     * 两个缺陷叠加，就是「选强力整片糊、选标准只是套个框」。 */
+    var flat = Lab.detectIdBg ? Lab.detectIdBg(srcCanvas) : Lab.detectFlatBg(srcCanvas);
+    if (flat) {
+      var replaced = Lab.replaceBg(srcCanvas, flat, bg, {tolerance:strong?52:46});
+      if (replaced) { window.__lastMode='flat'; window.__flatRatio=flat.ratio; return composeIdPhoto(replaced,w,h,bg); }
     }
+    window.__lastMode='seg';
 
     var alpha = PicSeg.segmentAlpha(d.data,srcCanvas.width,srcCanvas.height,
       strong ? {tolerance:45,maxSide:900,seedMode:'portrait',iters:8}
@@ -567,13 +573,33 @@ function lastFgRatio(){
 function showCutHint(bg){
   var el=$('cutHint'); if(!el) return;
   var r=lastFgRatio();
+  /* v16：抠图和纯色替换都失败了 —— 现在返回的是「原图缩一缩放到底色上」，
+   * 那不是证件照，必须明说，不能默默给用户一张套框的图。 */
+  if(window.__lastMode==='seg' && (r===null || r<0.05)){
+    el.hidden=false;
+    el.innerHTML='<b>这张照片没能自动抠出人像</b>：既没检测到纯色背景，' +
+      '本地抠图也没能保住人物，所以现在只是把原图缩小放在底色上 —— <b>这不是合格的证件照</b>。' +
+      '<br>建议：换一张<b>正面、肩膀两侧留有明显空白、背景干净</b>的照片重拍；' +
+      '或先用「智能抠图」把背景去掉、保存成透明 PNG，再回来选「保留原背景，仅裁剪」。';
+    return;
+  }
   if(r!==null && r>0.85){
     el.hidden=false;
     el.innerHTML='<b>未检测到可替换的背景</b>：照片里的人物几乎占满了整个画面，' +
       '算法判断没有背景可抠，因此保留了原图 —— 这是为了避免把人一起抠掉。' +
       '<br>想要纯色底证件照，请换一张<b>人物四周留有明显空白/简洁背景</b>的照片，' +
       '或先用「智能抠图」处理好背景后再来制作。';
-  }else{ el.hidden=true; }
+    return;
+  }
+  /* v16：纯色背景替换成功，但底色和衣服颜色太接近 */
+  if(window.__clashDist!=null && window.__clashDist<=62){
+    el.hidden=false;
+    el.innerHTML='<b>底色与衣服颜色接近</b>：背景已经换成你选的颜色了，' +
+      '但两者色差太小，人物轮廓不明显（已自动描了一圈细边）。' +
+      '想要更清晰的证件照，建议换一件<b>与底色反差大的上衣</b>，或改用白底。';
+    return;
+  }
+  el.hidden=true;
 }
 
 function run(mode){
