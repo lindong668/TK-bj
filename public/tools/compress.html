@@ -96,7 +96,7 @@
     </script>
 
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>">
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/style.css?v=20261021c">
 </head>
 <body>
     <header class="header">
@@ -280,7 +280,10 @@
         <div class="loading-text">正在压缩中，请稍候...</div>
     </div>
 
-    <script src="../assets/js/tools.js"></script>
+    <script src="../assets/js/preview.js?v=20261021c"></script>
+<script src="../assets/js/download.js?v=20261021c"></script>
+    <script src="../assets/js/lab.js?v=20261021c"></script>
+    <script src="../assets/js/tools.js?v=20261021c"></script>
     <script>
     const qualitySlider = document.getElementById('quality');
     const qualityHint = document.getElementById('qualityHint');
@@ -306,7 +309,11 @@
             }
 
             // Compress as JPEG
-            const dataUrl = workingCanvas.toDataURL('image/jpeg', quality);
+            /* JPEG 不支持透明，透明区会被浏览器填成黑色 ——
+             * 用户看到的就是「图片一片黑」。输出前先把透明区铺成白色。 */
+            const flatCanvas = (window.Lab && Lab.flattenForJpeg)
+                ? Lab.flattenForJpeg(workingCanvas) : workingCanvas;
+            const dataUrl = flatCanvas.toDataURL('image/jpeg', quality);
             const compressedSize = Math.round(dataUrl.length * 3 / 4);
 
             // Show comparison —— 修正：压完反而变大时不能显示负数

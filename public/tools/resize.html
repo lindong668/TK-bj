@@ -96,7 +96,7 @@
     </script>
 
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>">
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/style.css?v=20261021c">
 </head>
 <body>
     <header class="header">
@@ -320,7 +320,9 @@
         <div class="loading-text">正在调整中，请稍候...</div>
     </div>
 
-    <script src="../assets/js/tools.js"></script>
+    <script src="../assets/js/preview.js?v=20261021c"></script>
+<script src="../assets/js/download.js?v=20261021c"></script>
+    <script src="../assets/js/tools.js?v=20261021c"></script>
     <script>
     const modeRadios = document.querySelectorAll('input[name="resizeMode"]');
     const percentGroup = document.getElementById('percentGroup');
@@ -395,18 +397,22 @@
     // Override to show original size
     const origHandleFile = tool.handleFile.bind(tool);
     tool.handleFile = function(file) {
-        origHandleFile(file).then(() => {
-            // Update displayed size after image loads
-            setTimeout(() => {
+        origHandleFile(file);
+        // handleFile 内部走 FileReader，是异步的，这里轮询等待 originalCanvas 就绪
+        var tries = 0;
+        (function waitCanvas() {
+            if (tool.originalCanvas || tries++ > 100) {
                 if (tool.originalCanvas) {
                     origWidth = tool.originalCanvas.width;
                     origHeight = tool.originalCanvas.height;
-                    document.getElementById('originalSize').textContent = `${origWidth} × ${origHeight} px`;
-                    document.getElementById('targetWidth').placeholder = `原图 ${origWidth}`;
-                    document.getElementById('targetHeight').placeholder = `原图 ${origHeight}`;
+                    document.getElementById('originalSize').textContent = origWidth + ' × ' + origHeight + ' px';
+                    document.getElementById('targetWidth').placeholder = '原图 ' + origWidth;
+                    document.getElementById('targetHeight').placeholder = '原图 ' + origHeight;
                 }
-            }, 100);
-        });
+                return;
+            }
+            setTimeout(waitCanvas, 50);
+        })();
     };
 
     document.getElementById('processBtn').addEventListener('click', () => tool.process());

@@ -1,7 +1,12 @@
 /**
  * PicStudio 静态资源服务
- * 仅负责把 /public 下的文件吐出去，顺便补几个安全与 SEO 响应头。
- * 没有任何业务逻辑，也没有 KV / 密钥依赖。
+ * 负责把 /public 下的文件吐出去，补安全与 SEO 响应头。
+ *
+ * 新增（本次）：无后缀 URL 自动补 .html
+ *   例：/tools/palette  →  /tools/palette.html （301）
+ *   作用：Google 已收录过一批不带 .html 的 URL，
+ *        直接放开会变成 404 并被逐步移出索引，
+ *        这样可以把旧收录的权重和平转移到正式 URL。
  */
 export default {
   async fetch(request, env) {
@@ -10,6 +15,19 @@ export default {
     // 统一走 https + 主域名，避免 piccalc.com 与 www 双份索引
     if (url.hostname === 'www.piccalc.com') {
       return Response.redirect('https://piccalc.com' + url.pathname + url.search, 301);
+    }
+
+    let pathname = url.pathname;
+
+    // 形如 /tools/palette、/about 这类无扩展名路径，尝试补 .html
+    const noExt = !/\.[a-zA-Z0-9]+$/.test(pathname);
+    if (noExt && pathname !== '/' && !pathname.endsWith('/')) {
+      const probe = new Request(url.origin + pathname + '.html', request);
+      const probeRes = await env.ASSETS.fetch(probe);
+      if (probeRes.status === 200) {
+        // 301 永久重定向，把旧收录权重转移到带 .html 的正式地址
+        return Response.redirect(url.origin + pathname + '.html' + url.search, 301);
+      }
     }
 
     const res = await env.ASSETS.fetch(request);

@@ -86,11 +86,18 @@
         <div class="container">
             <h2 class="section-title">选择工具</h2>
             <div class="tools-grid">
-                <!-- AI 抠图 -->
+                <!-- 智能抠图 -->
                 <a href="tools/remove-bg.html" class="tool-card">
                     <div class="tool-icon">✂️</div>
                     <h3 class="tool-name">智能抠图</h3>
                     <p class="tool-desc">去除纯色背景，导出透明 PNG，适合证件照换底色与商品图</p>
+                    <span class="tool-tag">热门</span>
+                </a>
+                <!-- 证件照制作 -->
+                <a href="tools/id-photo.html" class="tool-card">
+                    <div class="tool-icon">🪪</div>
+                    <h3 class="tool-name">证件照制作</h3>
+                    <p class="tool-desc">自动抠人像换标准底色，裁剪成一寸、二寸、签证尺寸</p>
                     <span class="tool-tag">热门</span>
                 </a>
                 <!-- 背景虚化 -->
@@ -114,6 +121,13 @@
                     <p class="tool-desc">按比例缩放、指定像素、裁剪，适配各种平台</p>
                     <span class="tool-tag">常用</span>
                 </a>
+                <!-- 图片压缩 -->
+                <a href="tools/compress.html" class="tool-card">
+                    <div class="tool-icon">🗜️</div>
+                    <h3 class="tool-name">图片压缩</h3>
+                    <p class="tool-desc">智能压缩图片体积，保持画质，加快网页加载</p>
+                    <span class="tool-tag">常用</span>
+                </a>
                 <!-- 图标制作 -->
                 <a href="tools/icon-maker.html" class="tool-card">
                     <div class="tool-icon">🎯</div>
@@ -121,27 +135,126 @@
                     <p class="tool-desc">一键生成 App 图标、Favicon，支持多种尺寸输出</p>
                     <span class="tool-tag">实用</span>
                 </a>
-                <!-- 图片压缩 -->
-                <a href="tools/compress.html" class="tool-card">
-                    <div class="tool-icon">🗜️</div>
-                    <h3 class="tool-name">图片压缩</h3>
-                    <p class="tool-desc">智能压缩图片体积，保持画质，加快网页加载</p>
-                    <span class="tool-tag">实用</span>
-                </a>
-                <!-- 滤镜美化 -->
+                <!-- 图片滤镜 -->
                 <a href="tools/filter.html" class="tool-card">
-                    <div class="tool-icon">🌈</div>
-                    <h3 class="tool-name">滤镜美化</h3>
-                    <p class="tool-desc">黑白、复古、冷调、暖调等多种滤镜一键应用</p>
-                    <span class="tool-tag">趣味</span>
+                    <div class="tool-icon">🎨</div>
+                    <h3 class="tool-name">图片滤镜</h3>
+                    <p class="tool-desc">黑白、复古、冷暖调等多种滤镜一键应用</p>
+                    <span class="tool-tag">实用</span>
                 </a>
                 <!-- 圆角裁剪 -->
                 <a href="tools/rounded.html" class="tool-card">
-                    <div class="tool-icon">⬜</div>
+                    <div class="tool-icon">⭕</div>
                     <h3 class="tool-name">圆角裁剪</h3>
-                    <p class="tool-desc">给图片添加圆角或圆形遮罩，适合头像和卡片</p>
-                    <span class="tool-tag">趣味</span>
+                    <p class="tool-desc">给图片加圆角或圆形遮罩，适合头像与卡片</p>
+                    <span class="tool-tag">实用</span>
                 </a>
+                <!-- 调色增强 -->
+                <a href="tools/adjust.html" class="tool-card">
+                    <div class="tool-icon">☀️</div>
+                    <h3 class="tool-name">调色增强</h3>
+                    <p class="tool-desc">调整亮度、对比度、饱和度与色温</p>
+                    <span class="tool-tag">实用</span>
+                </a>
+                <!-- 智能裁剪 -->
+                <a href="tools/crop.html" class="tool-card">
+                    <div class="tool-icon">🖼️</div>
+                    <h3 class="tool-name">智能裁剪</h3>
+                    <p class="tool-desc">按社交平台预设尺寸一键裁剪图片</p>
+                    <span class="tool-tag">实用</span>
+                </a>
+                <!-- 图片加水印 -->
+                <a href="tools/watermark.html" class="tool-card">
+                    <div class="tool-icon">💧</div>
+                    <h3 class="tool-name">图片加水印</h3>
+                    <p class="tool-desc">批量添加文字或图片水印，保护版权</p>
+                    <span class="tool-tag">实用</span>
+                </a>
+                <!-- 图片放大 -->
+                <a href="tools/upscale.html" class="tool-card">
+                    <div class="tool-icon">🔍</div>
+                    <h3 class="tool-name">图片放大</h3>
+                    <p class="tool-desc">高质量放大图片，保持清晰不模糊</p>
+                    <span class="tool-tag">实用</span>
+                </a>
+                <!-- 颜色提取 -->
+                <a href="tools/palette.html" class="tool-card">
+                    <div class="tool-icon">🎨</div>
+                    <h3 class="tool-name">颜色提取</h3>
+                    <p class="tool-desc">从图片中提取主色调与配色方案</p>
+                    <span class="tool-tag">实用</span>
+                </a>
+                <!-- 图片去噪 -->
+                <a href="tools/denoise.html" class="tool-card">
+                    <div class="tool-icon">🧹</div>
+                    <h3 class="tool-name">图片去噪</h3>
+                    <p class="tool-desc">消除照片噪点颗粒，让画面更干净</p>
+                    <span class="tool-tag">实用</span>
+                </a>
+                <!-- 老照片修复 -->
+                <a href="tools/restore.html" class="tool-card">
+                    <div class="tool-icon">🕰️</div>
+                    <h3 class="tool-name">老照片修复</h3>
+                    <p class="tool-desc">修复泛黄褪色的老照片，还原色彩</p>
+                    <span class="tool-tag">实用</span>
+                </a>
+                <!-- 马赛克打码 -->
+                <a href="tools/mosaic.html" class="tool-card">
+                    <div class="tool-icon">🟦</div>
+                    <h3 class="tool-name">马赛克打码</h3>
+                    <p class="tool-desc">给图片局部或整体打马赛克，保护隐私</p>
+                    <span class="tool-tag">实用</span>
+                </a>
+                <!-- 图片拼接 -->
+                <a href="tools/stitch.html" class="tool-card">
+                    <div class="tool-icon">🧩</div>
+                    <h3 class="tool-name">图片拼接</h3>
+                    <p class="tool-desc">把多张图片拼成一张长图</p>
+                    <span class="tool-tag">实用</span>
+                </a>
+                <!-- 长图分割 -->
+                <a href="tools/split.html" class="tool-card">
+                    <div class="tool-icon">✂️</div>
+                    <h3 class="tool-name">长图分割</h3>
+                    <p class="tool-desc">把长图切成多段，方便分享</p>
+                    <span class="tool-tag">实用</span>
+                </a>
+                <!-- 图片转PDF -->
+                <a href="tools/to-pdf.html" class="tool-card">
+                    <div class="tool-icon">📄</div>
+                    <h3 class="tool-name">图片转PDF</h3>
+                    <p class="tool-desc">把多张图片合成一个 PDF 文档</p>
+                    <span class="tool-tag">实用</span>
+                </a>
+                <!-- EXIF 查看与清除 -->
+                <a href="tools/exif.html" class="tool-card">
+                    <div class="tool-icon">🔎</div>
+                    <h3 class="tool-name">EXIF 查看与清除</h3>
+                    <p class="tool-desc">查看并清除照片的拍摄信息与定位</p>
+                    <span class="tool-tag">实用</span>
+                </a>
+                <!-- Base64 转换 -->
+                <a href="tools/base64.html" class="tool-card">
+                    <div class="tool-icon">🔤</div>
+                    <h3 class="tool-name">Base64 转换</h3>
+                    <p class="tool-desc">图片与 Base64 编码互转</p>
+                    <span class="tool-tag">实用</span>
+                </a>
+                <!-- 二维码生成 -->
+                <a href="tools/qrcode.html" class="tool-card">
+                    <div class="tool-icon">📱</div>
+                    <h3 class="tool-name">二维码生成</h3>
+                    <p class="tool-desc">生成二维码，支持 Logo 与自定义颜色</p>
+                    <span class="tool-tag">实用</span>
+                </a>
+                <!-- 二维码识别 -->
+                <a href="tools/qr-reader.html" class="tool-card">
+                    <div class="tool-icon">🔍</div>
+                    <h3 class="tool-name">二维码识别</h3>
+                    <p class="tool-desc">解析二维码图片中的文字与链接</p>
+                    <span class="tool-tag">实用</span>
+                </a>
+            
             </div>
         </div>
     </section>

@@ -96,7 +96,7 @@
     </script>
 
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>">
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/style.css?v=20261021c">
 </head>
 <body>
     <header class="header">
@@ -296,18 +296,102 @@
         <div class="loading-text">正在处理中，请稍候...</div>
     </div>
 
-    <script src="../assets/js/tools.js"></script>
+    <script src="../assets/js/preview.js?v=20261021c"></script>
+<script src="../assets/js/download.js?v=20261021c"></script>
+    <script src="../assets/js/algo-seg.js?v=20261021c"></script>
+    <script src="../assets/js/tools.js?v=20261021c"></script>
     <script>
+    /* 生成「中心清晰、外围模糊」的径向遮罩。
+     * keepPct = 清晰区直径占图片短边的百分比（10~90） */
+    function radialMask(W, H, keepPct) {
+        const cx = W / 2, cy = H / 2;
+        const r0 = (Math.min(W, H) * (keepPct / 100)) / 2;
+        const m = new Uint8Array(W * H);
+        for (let y = 0; y < H; y++) {
+            for (let x = 0; x < W; x++) {
+                const d = Math.sqrt((x - cx) * (x - cx) + (y - cy) * (y - cy));
+                m[y * W + x] = d <= r0 ? 1 : 0;
+            }
+        }
+        return m;
+    }
+
     const tool = new ImageTool({
         process: async (canvas) => {
-            const blurAmount = parseInt(document.getElementById('blurAmount').value);
-            const keepRadius = parseInt(document.getElementById('keepRadius').value) / 100;
-            const blurMode = document.querySelector('input[name="blurMode"]:checked').value;
+            const mode    = document.querySelector('input[name="blurMode"]:checked')?.value || 'center';
+            const radius  = parseInt(document.getElementById('blurAmount')?.value || 15, 10);
+            const keepPct = parseInt(document.getElementById('keepRadius')?.value || 35, 10);
 
-            return applyBlur(canvas, blurAmount, keepRadius, blurMode);
+            /* ① 全局虚化：整张图一起模糊，不做任何主体保护 */
+            if (mode === 'full') {
+                return PicSeg.boxBlur(canvas, Math.max(2, radius));
+            }
+
+            /* 背景虚化：仅在「AI 已探测完成且真的可用」时才走 AI。
+             * 否则直接用本地算法出图，绝不为了等模型下载而阻塞。
+             * 首次访问会在后台静默预热，下次处理即可用上 AI。 */
+            /* ② 中心清晰：AI 可用时按真实主体分割，效果最好 */
+            if (mode === 'center' && window.AILab &&
+                window.AILab.isSettled && window.AILab.isSettled() && window.AILab.aiAvailable()) {
+                try {
+                    const out = await window.AILab.portraitBlur(canvas, {
+                        strength: radius, feather: 2
+                    });
+                    if (out) return out;
+                } catch (err) {
+                    console.warn('[blur] AI 分割失败，降级本地算法：', err);
+                }
+            }
+            // 首次进入：后台静默预热，供后续使用
+            if (window.AILab && window.AILab.warm) window.AILab.warm();
+
+            /* ③ 本地径向方案。
+             *    center：中心 keepRadius% 半径内保持清晰，向外越远越模糊
+             *    edge  ：只虚化最外圈，清晰区比 center 更大一圈 */
+            const keep = mode === 'edge' ? Math.min(90, keepPct + 35) : keepPct;
+            const mask = radialMask(canvas.width, canvas.height, keep);
+            return PicSeg.depthBlur(canvas, mask, { maxRadius: radius, layers: 4 });
         },
         downloadOptions: { filename: 'picstudio-blur', format: 'png' }
     });
+
+    // 处理结束后把加载文案还原，避免下次显示上一条进度
+    document.getElementById('processBtn')?.addEventListener('click', () => {
+        const txt = document.querySelector('.loading-text');
+        if (txt) txt.textContent = '正在处理中，请稍候...';
+    });
+
+    /** 马赛克（像素化） */
+    function mosaicCanvas(canvas, block) {
+        const W = canvas.width, H = canvas.height;
+        const ctx = canvas.getContext('2d');
+        const img = ctx.getImageData(0, 0, W, H);
+        const d = img.data;
+        for (let y = 0; y < H; y += block) {
+            for (let x = 0; x < W; x += block) {
+                let r = 0, g = 0, b = 0, n = 0;
+                const y1 = Math.min(H, y + block), x1 = Math.min(W, x + block);
+                for (let yy = y; yy < y1; yy++) {
+                    for (let xx = x; xx < x1; xx++) {
+                        const o = (yy * W + xx) * 4;
+                        r += d[o]; g += d[o+1]; b += d[o+2]; n++;
+                    }
+                }
+                r = r/n; g = g/n; b = b/n;
+                for (let yy = y; yy < y1; yy++) {
+                    for (let xx = x; xx < x1; xx++) {
+                        const o = (yy * W + xx) * 4;
+                        d[o] = r; d[o+1] = g; d[o+2] = b;
+                    }
+                }
+            }
+        }
+        ctx.putImageData(img, 0, 0);
+        const out = document.createElement('canvas');
+        out.width = W; out.height = H;
+        out.getContext('2d').drawImage(canvas, 0, 0);
+        return out;
+    }
 
     document.getElementById('processBtn').addEventListener('click', () => tool.process());
 
