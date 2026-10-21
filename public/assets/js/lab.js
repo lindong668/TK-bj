@@ -196,6 +196,12 @@
 
     /* ============================================================
      * 2. 水印
+     * ★ 重写（修复位置错位 / 缺角 / 白底看不见）：
+     *   1) 位置支持九宫格 tl tc tr / ml mc mr / bl bc br + 正中间 + 全图平铺，
+     *      原来缺了「左上角、上中、左中、右中、下中」五个位置
+     *   2) 边距按图片短边比例算，小图不会顶到边、大图不会贴死角
+     *   3) 文字水印自动描一层对比色描边，白底白字、黑底黑字都看得清
+     *   4) 非平铺模式也支持旋转角度
      * ============================================================ */
     LAB.watermark = function (srcCanvas, o) {
         var w = srcCanvas.width, h = srcCanvas.height;
@@ -206,8 +212,12 @@
         o = o || {};
         var mode = o.mode || 'text';       // text | image
         var opacity = o.opacity == null ? 0.35 : o.opacity;
-        var pos = o.position || 'tile';    // tile | center | tl | tr | bl | br
+        var pos = o.position || 'tile';    // tl tc tr ml mc mr bl bc br center tile
         var scale = o.scale || 1;
+        var pad = Math.max(10, Math.round(Math.min(w, h) * 0.035));
+
+        var color = o.color || '#ffffff';
+        var stroke = (o.outline === false) ? null : contrastColor(color);
 
         ctx.save();
         ctx.globalAlpha = opacity;
@@ -225,15 +235,26 @@
                     }
                 }
             } else {
-                var pt = anchorPoint(pos, w, h, iw, ih, 24);
+                var pt = anchorPoint(pos, w, h, iw, ih, pad);
+                if (o.rotate) {
+                    ctx.translate(pt.x + iw / 2, pt.y + ih / 2);
+                    ctx.rotate(o.rotate * Math.PI / 180);
+                    ctx.translate(-(pt.x + iw / 2), -(pt.y + ih / 2));
+                }
                 ctx.drawImage(o.image, pt.x, pt.y, iw, ih);
             }
         } else {
             var text = o.text || 'PicStudio';
             var fs = Math.max(12, Math.round(Math.min(w, h) / 18 * scale));
             ctx.font = (o.bold ? 'bold ' : '') + fs + 'px "PingFang SC","Microsoft YaHei",sans-serif';
-            ctx.fillStyle = o.color || '#ffffff';
+            ctx.fillStyle = color;
             ctx.textBaseline = 'middle';
+            if (stroke) {
+                ctx.strokeStyle = stroke;
+                ctx.lineWidth = Math.max(1, Math.round(fs / 10));
+                ctx.lineJoin = 'round';
+                ctx.miterLimit = 2;
+            }
 
             if (pos === 'tile') {
                 ctx.translate(w / 2, h / 2);
@@ -243,29 +264,56 @@
                 var stepX = tw + fs * 1.6, stepY = fs * 3;
                 for (var y4 = 0; y4 < h * 2.2; y4 += stepY) {
                     for (var x4 = 0; x4 < w * 2.2; x4 += stepX) {
+                        if (stroke) ctx.strokeText(text, x4, y4);
                         ctx.fillText(text, x4, y4);
                     }
                 }
             } else {
                 var tw2 = ctx.measureText(text).width;
-                var p2 = anchorPoint(pos, w, h, tw2, fs, 24);
-                ctx.fillText(text, p2.x, p2.y + fs / 2);
+                var p2 = anchorPoint(pos, w, h, tw2, fs, pad);
+                var bx = p2.x, by = p2.y + fs / 2;
+                if (o.rotate) {
+                    ctx.translate(bx + tw2 / 2, by);
+                    ctx.rotate(o.rotate * Math.PI / 180);
+                    ctx.translate(-(bx + tw2 / 2), -by);
+                }
+                if (stroke) ctx.strokeText(text, bx, by);
+                ctx.fillText(text, bx, by);
             }
         }
         ctx.restore();
         return cv;
     };
 
+    /* 九宫格锚点：横向 left/center/right × 纵向 top/middle/bottom */
     function anchorPoint(pos, w, h, iw, ih, pad) {
+        var x, y;
         switch (pos) {
-            case 'tl': return { x: pad, y: pad };
-            case 'tr': return { x: w - iw - pad, y: pad };
-            case 'bl': return { x: pad, y: h - ih - pad };
-            case 'br': return { x: w - iw - pad, y: h - ih - pad };
-            default: return { x: (w - iw) / 2, y: (h - ih) / 2 };
+            case 'tl': case 'ml': case 'bl': x = pad; break;
+            case 'tr': case 'mr': case 'br': x = w - iw - pad; break;
+            default: x = (w - iw) / 2;
         }
+        switch (pos) {
+            case 'tl': case 'tc': case 'tr': y = pad; break;
+            case 'bl': case 'bc': case 'br': y = h - ih - pad; break;
+            default: y = (h - ih) / 2;
+        }
+        return { x: x, y: y };
     }
     LAB.anchorPoint = anchorPoint;
+
+    /* 按水印色亮度取反色，用于描边，保证任何底色上都能看清 */
+    function contrastColor(hex) {
+        var c = String(hex || '').replace('#', '').trim();
+        if (c.length === 3) c = c[0] + c[0] + c[1] + c[1] + c[2] + c[2];
+        if (!/^[0-9a-fA-F]{6}$/.test(c)) return 'rgba(0,0,0,0.6)';
+        var r = parseInt(c.substr(0, 2), 16),
+            g = parseInt(c.substr(2, 2), 16),
+            b = parseInt(c.substr(4, 2), 16);
+        var lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+        return lum > 0.5 ? 'rgba(0,0,0,0.55)' : 'rgba(255,255,255,0.65)';
+    }
+    LAB.contrastColor = contrastColor;
 
     /* ============================================================
      * 3. 裁剪（含社交平台预设）
