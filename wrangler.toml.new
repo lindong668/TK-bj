@@ -1,10 +1,8 @@
-# wrangler.toml
-name = 'tk-bj'
 # ============================================================
 # PicStudio（piccalc.com）静态站点 —— Cloudflare Workers + Assets
 # ⚠️ 请勿在 oil-data-worker 目录复用本文件，两者完全不同
 # ============================================================
-name = "picstudio"
+name = "tk-bj"
 compatibility_date = "2026-09-01"
 main = "src/index.js"
 

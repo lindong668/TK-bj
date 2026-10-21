@@ -1,8 +1,9 @@
 # ============================================================
-# PicStudio（piccalc.com）静态站点 —— Cloudflare Workers + Assets
-# ⚠️ 请勿在 oil-data-worker 目录复用本文件，两者完全不同
+# PicStudio（piccalc.com）—— Cloudflare Workers + Assets
+# Worker 名称必须与 CF 上的 Worker 一致，否则控制台会出现
+# "需更新 wrangler.toml 以保持一致设置" 的红色提示。
 # ============================================================
-name = "picstudio"
+name = "tk-bj"
 compatibility_date = "2026-09-01"
 main = "src/index.js"
 
@@ -10,5 +11,5 @@ main = "src/index.js"
 directory = "./public"
 binding = "ASSETS"
 
-# 路由：在 CF 控制台 → Workers → picstudio → Triggers → Routes
-# 添加 piccalc.com/* 与 www.piccalc.com/*
+# 路由在 CF 控制台配置：Workers → tk-bj → 设置 → 域和路由
+# piccalc.com/* 与 www.piccalc.com/*
