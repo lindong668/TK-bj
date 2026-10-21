@@ -307,7 +307,7 @@ background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.4);color:#fde6
     </footer>
     <script src="../assets/js/preview.js?v=20261021g"></script>
 <script src="../assets/js/download.js?v=20261021g"></script>
-    <script src="../assets/js/lab.js?v=20261021g"></script>
+    <script src="../assets/js/lab.v22.js"></script>
 <script src="../assets/js/algo-seg.js?v=20261021g"></script><script>
 (function(){
 var $=function(id){return document.getElementById(id);};
@@ -422,6 +422,8 @@ function showDiag(){
   }else{
     txt='';
   }
+  var labOk = !!(window.Lab && window.Lab.shrinkHQ && window.Lab.faceGuard);
+  txt += labOk ? ' ｜算法文件已更新' : ' ｜⚠算法文件仍是旧的，请清缓存';
   if(window.__lastMode==='seg') txt+='（走的是抠图路径）';
   el.textContent=txt;
   el.hidden=!txt;
@@ -534,7 +536,7 @@ function composeIdPhoto(fg, tw, th, bgSpec, face){
   if (!face && window.__faceGuard) face = window.__faceGuard;
   /* ★ 诊断：把本次实际走了哪条路径记下来，页面上直接显示，
    *   方便一眼确认「新代码到底有没有加载」。 */
-  window.__diag = { ver: '20261021g', mode: 'fallback', face: !!face };
+  window.__diag = { ver: 'v22', mode: 'fallback', face: !!face };
   if (face && face.fh > 0) {
     window.__diag.mode = 'idcrop';
     var HEAD_RATIO = 0.56, TOP_INSET = 0.085;
