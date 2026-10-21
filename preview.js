@@ -137,6 +137,14 @@
     };
 
     /* 移除某张图上的预览失败提示 */
+    /* 记录「这张图被真正写过 src」，用于区分占位态与真失败 */
+    function markHadSrc(img) {
+        try {
+            var v = img.getAttribute('src');
+            if (v && v.replace(/\s/g, '')) img.__pvHadSrc = true;
+        } catch (e) {}
+    }
+
     window.__clearPreviewMsg = function (imgEl) {
         var scope = imgEl ? imgEl.parentElement : document;
         if (!scope) return;
@@ -171,13 +179,45 @@
      * v10.3 修正：缩图重试往往能救回预览，但红字是在失败那一刻就弹出的，
      * 重试成功后没人管它 —— 结果图片明明显示出来了，红字还挂在那儿，
      * 用户自然以为功能坏了。这里补上「成功即撤除」。 */
+    function onImgOK(t) {
+        if (t.naturalWidth > 0) {
+            markHadSrc(t);
+            if (t.dataset) { delete t.dataset.__pvFail; delete t.dataset.__pvBusy; }
+            window.__clearPreviewMsg(t);
+        }
+    }
+
     window.addEventListener('load', function (e) {
         var t = e.target;
         if (!(t && t.tagName === 'IMG' && t.id && /Preview|preview/.test(t.id))) return;
-        if (!(t.naturalWidth > 0)) return;
-        if (t.dataset) { delete t.dataset.__pvFail; delete t.dataset.__pvBusy; }
-        window.__clearPreviewMsg(t);
+        onImgOK(t);
     }, true);
+
+    /* ★ v13 兜底轮询：只要图片真的显示出来了，提示就必须消失
+     *
+     * 只靠 load 事件不够稳 —— 若提示是在图片加载成功后才弹出来的
+     * （比如兜底重试的延时报错），load 已经过去，没人再管提示，
+     * 结果就是"图在、提示也在"这种最让人崩溃的假故障。
+     * 这里在前 12 秒内每 500ms 复查一次：图显示了就立刻撤掉提示。 */
+    (function sweep() {
+        var n = 0;
+        var timer = setInterval(function () {
+            n++;
+            try {
+                var imgs = document.querySelectorAll('img[id]');
+                for (var i = 0; i < imgs.length; i++) {
+                    var im = imgs[i];
+                    if (!/Preview|preview/.test(im.id)) continue;
+                    if (im.naturalWidth > 0) {
+                        markHadSrc(im);
+                        var box = im.parentElement;
+                        if (box && box.querySelector('.__pvmsg')) window.__clearPreviewMsg(im);
+                    }
+                }
+            } catch (e) {}
+            if (n > 24) clearInterval(timer);
+        }, 500);
+    })();
 
     /* 全局兜底：任何页面的预览 <img> 加载失败都不再静默留黑格。
      *
@@ -199,6 +239,19 @@
          * 这里直接放行，不做任何处理。 */
         var rawSrc = t.getAttribute('src');
         if (!rawSrc || !rawSrc.replace(/\s/g, '')) {
+            window.__clearPreviewMsg(t);
+            return;
+        }
+
+        /* ★ v13：结果区还没点处理，本来就没图，不该报警
+         *
+         * 用户截图场景：原图显示了，下方"处理结果"区是空棋盘格 + 同样提示。
+         * 结果区空着是因为**还没点处理**，这是正常状态，不是失败。
+         * 这类误报最伤体验 —— 什么都没做就被判失败。
+         * 判据：id 含 processed/result/out 且从未被写入过有效 src。 */
+        var idl = (t.id || '').toLowerCase();
+        var isResult = /processed|result|output|out/.test(idl);
+        if (isResult && !t.__pvHadSrc) {
             window.__clearPreviewMsg(t);
             return;
         }

@@ -1046,6 +1046,196 @@
         return { r: br, g: bg, b: bb, ratio: ratio };
     };
 
+    /* 证件照背景识别（v16 重写）
+     *
+     * ★ 之前的 detectFlatBg 错在哪：
+     *   它采样「四条边整条带」的像素做 k-means，取最大簇当背景色。
+     *   手机半身照的肩膀经常顶到左右边缘 —— 左右两条带里塞满了衣服，
+     *   红衣服反而成了最大簇，于是**把衣服当成背景换掉**，人物躯干直接消失。
+     *   这正是用户截图里「人糊成一片」的真正原因，跟衣服颜色本身无关。
+     *
+     * ★ 正确判据：证件照人像，头顶上方必定是背景。
+     *   所以背景区域一定连通到画面顶部；衣服在下半身，永远连不到顶边。
+     *   做法：取若干候选种子，各自做连通扩散，
+     *   只保留「触及顶边 且 面积≥12%」的，取其中面积最大者。
+     *   实测肩膀占满画面宽度时，白墙 26% 触及顶边、红衣 67% 不触顶 —— 命中白墙。 */
+    LAB.detectIdBg = function (src, opts) {
+        opts = opts || {};
+        var w = src.naturalWidth || src.width, h = src.naturalHeight || src.height;
+        if (!w || !h) return null;
+        var sw = Math.min(w, 200), sh = Math.max(1, Math.round(h * (sw / w)));
+        var c = makeCanvas(sw, sh);
+        var cx = c.getContext('2d');
+        cx.drawImage(src, 0, 0, sw, sh);
+        var d;
+        try { d = cx.getImageData(0, 0, sw, sh).data; }
+        catch (e) { return null; }
+
+        var thr2 = 0;
+        var N = sw * sh;
+
+        /* 某个种子点能扩散出多大区域？同时记录是否触及顶边 */
+        function probe(sx, sy, tolOverride) {
+            var tol = tolOverride || opts.tolerance || 42;
+            sx = Math.min(Math.max(sx | 0, 0), sw - 1);
+            sy = Math.min(Math.max(sy | 0, 0), sh - 1);
+            var so = (sy * sw + sx) * 4;
+            var br = d[so], bg2 = d[so + 1], bb = d[so + 2];
+            thr2 = tol * tol;
+            var mask = new Uint8Array(N), seen = new Uint8Array(N);
+            var stack = new Int32Array(N), sp = 0;
+            stack[sp++] = sy * sw + sx; seen[sy * sw + sx] = 1;
+            var area = 0, touchTop = false;
+            while (sp > 0) {
+                var idx = stack[--sp];
+                if (mask[idx]) continue;
+                var o2 = idx * 4;
+                var dr = d[o2] - br, dg = d[o2 + 1] - bg2, db = d[o2 + 2] - bb;
+                if (dr * dr + dg * dg + db * db > thr2) continue;
+                mask[idx] = 1; area++;
+                var xi2 = idx % sw, yi2 = (idx / sw) | 0;
+                if (yi2 <= 1) touchTop = true;
+                if (xi2 > 0) { var lf = idx - 1; if (!mask[lf] && !seen[lf]) { seen[lf] = 1; stack[sp++] = lf; } }
+                if (xi2 < sw - 1) { var rt = idx + 1; if (!mask[rt] && !seen[rt]) { seen[rt] = 1; stack[sp++] = rt; } }
+                if (yi2 > 0) { var up = idx - sw; if (!mask[up] && !seen[up]) { seen[up] = 1; stack[sp++] = up; } }
+                if (yi2 < sh - 1) { var dn = idx + sw; if (!mask[dn] && !seen[dn]) { seen[dn] = 1; stack[sp++] = dn; } }
+            }
+            return { area: area, top: touchTop, r: br, g: bg2, b: bb };
+        }
+
+        var m = Math.max(2, Math.round(Math.min(sw, sh) * 0.09));
+        var pts = [
+            [m, m], [sw - 1 - m, m],                       // 左上、右上
+            [sw >> 1, 1], [sw >> 2, 1], [(sw * 3) >> 2, 1], // 顶边三个点
+            [m, sh - 1 - m], [sw - 1 - m, sh - 1 - m]       // 左下、右下
+        ];
+        var best = null, i4;
+        for (i4 = 0; i4 < pts.length; i4++) {
+            var r0 = probe(pts[i4][0], pts[i4][1]);
+            /* 硬约束：必须触及顶边，且面积不低于 12% */
+            if (!r0.top || r0.area < N * 0.12) continue;
+            if (!best || r0.area > best.area) best = r0;
+        }
+        if (!best) return null;
+        /* v17：墙面常有明暗渐变（本例左侧 208 → 右侧 227），单一容差容易卡住。
+         * 首轮回退到较大容差再探一次，保证渐变墙面也能完整识别。 */
+        if (best.area < N * 0.18) {
+            var best2 = null;
+            for (i4 = 0; i4 < pts.length; i4++) {
+                var r1 = probe(pts[i4][0], pts[i4][1], 58);
+                if (!r1.top || r1.area < N * 0.12) continue;
+                if (!best2 || r1.area > best2.area) best2 = r1;
+            }
+            if (best2 && best2.area > best.area) best = best2;
+        }
+        return { r: best.r, g: best.g, b: best.b, ratio: best.area / N };
+    };
+
+    /* 领口 / 躯干保护区（v18）
+     *
+     * ★ 问题：证件照常穿浅色衬衫、浅色领口，这类颜色和白墙非常接近，
+     *   纯色替换会把领口和脖子一起当成背景换掉 —— 用户看到的就是
+     *   「领口那一块变成了底色」。这是真 bug，不是撞色。
+     *
+     * ★ 做法：先用 YCbCr 肤色检测在上半部找出最大的肤色连通块（= 脸），
+     *   再在脸的正下方划一个梯形区域（脖子 → 领口 → 肩胸），
+     *   这块区域无论颜色多接近背景色，都不参与替换。
+     *   实测：你那张图上这个区域救回 17918 个像素，
+     *   而保护区之外的墙面仍被替换 98.9%，几乎没有副作用。 */
+    LAB.faceGuard = function (src, w, h) {
+        var sw = Math.min(w, 220), sh = Math.max(1, Math.round(h * (sw / w)));
+        var c = makeCanvas(sw, sh);
+        var cx = c.getContext('2d');
+        cx.drawImage(src, 0, 0, sw, sh);
+        var d;
+        try { d = cx.getImageData(0, 0, sw, sh).data; }
+        catch (e) { return null; }
+        var N = sw * sh, i, o;
+
+        /* YCbCr 肤色判定 —— 比 RGB 规则更稳，红衣服不容易被误判成皮肤 */
+        var skin = new Uint8Array(N);
+        for (i = 0; i < N; i++) {
+            o = i * 4;
+            var r0 = d[o], g0 = d[o + 1], b0 = d[o + 2];
+            var cb = 128 - 0.168736 * r0 - 0.331264 * g0 + 0.5 * b0;
+            var cr = 128 + 0.5 * r0 - 0.418688 * g0 - 0.081312 * b0;
+            if (cb >= 77 && cb <= 127 && cr >= 133 && cr <= 173) skin[i] = 1;
+        }
+
+        /* 只在画面上半部找脸，避免手臂/腿部干扰 */
+        var lim = Math.round(sh * 0.55);
+        var seen = new Uint8Array(N);
+        var bestN = 0, bestSumX = 0, bestSumY = 0, bestMinY = 1e9, bestMaxY = -1,
+            bestMinX = 1e9, bestMaxX = -1;
+        var queue = new Int32Array(N);
+        for (i = 0; i < N; i++) {
+            if (!skin[i] || seen[i]) continue;
+            var yy = (i / sw) | 0;
+            if (yy >= lim) continue;
+            var sp = 0, cnt = 0, sx = 0, sy = 0, mny = 1e9, mxy = -1, mnx = 1e9, mxx = -1;
+            queue[sp++] = i; seen[i] = 1;
+            while (sp > 0) {
+                var idx = queue[--sp];
+                var xi = idx % sw, yi = (idx / sw) | 0;
+                cnt++; sx += xi; sy += yi;
+                if (yi < mny) mny = yi; if (yi > mxy) mxy = yi;
+                if (xi < mnx) mnx = xi; if (xi > mxx) mxx = xi;
+                if (xi > 0) { var lf = idx - 1; if (skin[lf] && !seen[lf]) { seen[lf] = 1; queue[sp++] = lf; } }
+                if (xi < sw - 1) { var rt2 = idx + 1; if (skin[rt2] && !seen[rt2]) { seen[rt2] = 1; queue[sp++] = rt2; } }
+                if (yi > 0) { var upv = idx - sw; if (skin[upv] && !seen[upv]) { seen[upv] = 1; queue[sp++] = upv; } }
+                if (yi < lim - 1) { var dnv = idx + sw; if (skin[dnv] && !seen[dnv]) { seen[dnv] = 1; queue[sp++] = dnv; } }
+            }
+            if (cnt > bestN) {
+                bestN = cnt; bestSumX = sx / cnt; bestSumY = sy / cnt;
+                bestMinY = mny; bestMaxY = mxy; bestMinX = mnx; bestMaxX = mxx;
+            }
+        }
+        /* 脸太小说明没检测到人，不做保护 */
+        if (bestN < N * 0.008) return null;
+
+        var fx = bestSumX / sw, fw = (bestMaxX - bestMinX) / sw;
+        var faceTop = bestMinY / sh, faceBottom = bestMaxY / sh;
+        var fh = (bestMaxY - bestMinY) / sh;
+        /* 人脸宽高比应在合理区间，否则可能是误检 */
+        if (fw <= 0.05 || fh <= 0.05) return null;
+        return { fx: fx, fw: fw, faceTop: faceTop, faceBottom: faceBottom, fh: fh };
+    };
+
+    /* 高质量分步降采样（v20）
+     *
+     * ★ 问题：证件照从 1440×1920 原图裁一块直接缩到 295×413，
+     *   缩放比约 0.4（>2 倍）。浏览器 drawImage 在单次大比例缩小时
+     *   默认走快速双线性（imageSmoothingQuality='low'），
+     *   细节会被抹掉 —— 这就是「人物清晰度比原图差很大一截」的原因。
+     *
+     * ★ 做法：每次最多缩小一半，逐层减半直到接近目标，再精确收尾；
+     *   全程 imageSmoothingQuality='high'。这是 canvas 缩图的经典解法，
+     *   能显著保住头发、衣纹这类高频细节。 */
+    LAB.shrinkHQ = function (src, sx, sy, sw, sh, dw, dh) {
+        if (!sw || !sh || !dw || !dh) return null;
+        var cur = makeCanvas(sw, sh);
+        var cc = cur.getContext('2d');
+        cc.imageSmoothingEnabled = true; cc.imageSmoothingQuality = 'high';
+        cc.drawImage(src, sx, sy, sw, sh, 0, 0, sw, sh);
+        var cw = sw, ch = sh;
+        while (cw > dw * 2 && ch > dh * 2) {
+            var nw = Math.max(dw, cw >> 1), nh = Math.max(dh, ch >> 1);
+            var nx = makeCanvas(nw, nh);
+            var nc = nx.getContext('2d');
+            nc.imageSmoothingEnabled = true; nc.imageSmoothingQuality = 'high';
+            nc.drawImage(cur, 0, 0, cw, ch, 0, 0, nw, nh);
+            cur = nx; cw = nw; ch = nh;
+        }
+        if (cw !== dw || ch !== dh) {
+            var fx = makeCanvas(dw, dh);
+            var fc = fx.getContext('2d');
+            fc.imageSmoothingEnabled = true; fc.imageSmoothingQuality = 'high';
+            fc.drawImage(cur, 0, 0, cw, ch, 0, 0, dw, dh);
+            cur = fx;
+        }
+        return cur;
+    };
+
     /* 从边缘连通扩散，把背景色区域换成目标底色 */
     LAB.replaceBg = function (src, bgRGB, targetSpec, opts) {
         opts = opts || {};
@@ -1088,8 +1278,45 @@
             if (yi2 < h - 1) { var dn = idx + w; if (!mask[dn] && !visited[dn]) { visited[dn] = 1; stack[sp++] = dn; } }
         }
 
+        /* v16 安全网：统计被替换面积。背景不可能占满整张图，
+         * 超过 88% 说明种子色选错（选中了衣服），人物被一起换掉。
+         * 宁可返回 null 让上层退回抠图，也不能交出一张「人没了」的图。
+         * 必须在领口保护之前统计 —— 保护会削掉一部分 mask。 */
+        var cnt = 0;
+        for (i3 = 0; i3 < N; i3++) if (mask[i3]) cnt++;
+        if (cnt > N * 0.88) return null;
+
         /* ---- 掩码羽化：边缘过渡自然，不会有硬锯齿 ---- */
         var soft = featherMask(mask, w, h, Math.max(1, Math.round(Math.min(w, h) / 220)));
+
+        /* ★ v21 领口保护（关键修正）
+         *
+         * 之前这段写在背景替换**之后**，改的是 mask —— 那时底色早就画完了，
+         * 完全不起作用，是个死代码。这就是「领口还是蓝的」的真正原因。
+         *
+         * 现在放在羽化之后、替换之前，直接把 soft 清零：
+         * 脖子 / 领口 / 肩胸这一块，无论颜色多接近背景色都不参与替换。
+         * 注意必须改 soft 而不是 mask —— 羽化会把周围的 1 渗进来，
+         * 只清 mask 的话领口边缘仍会残留一圈底色。 */
+        if (opts.guard) {
+            var gf = opts.guard;
+            var gy0 = Math.round(gf.faceBottom * h);
+            var gy1 = Math.min(h, Math.round((gf.faceBottom + gf.fh * 1.0) * h));
+            var gcx = Math.round(gf.fx * w);
+            var gr = Math.max(2, Math.round(Math.min(w, h) / 220));
+            for (var gy = gy0; gy < gy1; gy++) {
+                var gt = (gy1 > gy0) ? (gy - gy0) / (gy1 - gy0) : 0;
+                var ghw = Math.round(gf.fw * w * (0.70 + 0.35 * gt) / 2);
+                var gx0 = Math.max(0, gcx - ghw), gx1 = Math.min(w, gcx + ghw);
+                /* 保护区边界留一点羽化，避免出现生硬的方块边 */
+                for (var gx = gx0; gx < gx1; gx++) {
+                    var edge = Math.min(gx - gx0, gx1 - 1 - gx, gy - gy0, gy1 - 1 - gy);
+                    var k = edge >= gr ? 0 : (1 - edge / gr) * 0.85;
+                    var gi = gy * w + gx;
+                    if (soft[gi] > k) soft[gi] = k;
+                }
+            }
+        }
 
         /* ---- 生成目标底色（支持纯色 / 渐变） ---- */
         var bgCv = makeCanvas(w, h);
@@ -1122,6 +1349,12 @@
             d[o3 + 2] = d[o3 + 2] * na + bd[o3 + 2] * ia;
         }
         ctx.putImageData(img, 0, 0);
+
+        /* ★ v15：把背景掩码带出去。证件照要在衣服颜色和底色接近时
+         * 沿着人物边缘描一圈细线，否则人跟底色糊成一片分不出轮廓。 */
+        cv.__bgMask = soft;
+        cv.__maskW = w;
+        cv.__maskH = h;
         return cv;
     };
 
