@@ -61,9 +61,18 @@ export default {
     }
 
     // 形如 /tools/palette、/about 这类无扩展名路径，尝试补 .html
+    //
+    // ⚠️ 只对 GET/HEAD 做补后缀探测。
+    // 原因：new Request(url, request) 会复用原请求的 body 流，
+    // 之后再 env.ASSETS.fetch(request) 就会抛
+    //   "Cannot reconstruct a Request with a used body."
+    // （日志里 POST /wp-json/batch/v1 的 error 就是这么来的。）
+    // 补后缀本身就是为页面导航服务的，POST 没有补的必要，直接跳过。
     const noExt = !/\.[a-zA-Z0-9]+$/.test(pathname);
-    if (noExt && pathname !== '/' && !pathname.endsWith('/')) {
-      const probe = new Request(url.origin + pathname + '.html', request);
+    const isNav = request.method === 'GET' || request.method === 'HEAD';
+    if (isNav && noExt && pathname !== '/' && !pathname.endsWith('/')) {
+      // 用 clone 探测，确保原 request 的 body 完好无损
+      const probe = new Request(url.origin + pathname + '.html', request.clone());
       const probeRes = await env.ASSETS.fetch(probe);
       if (probeRes.status === 200) {
         // 301 永久重定向，把旧收录权重转移到带 .html 的正式地址
