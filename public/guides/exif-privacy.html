@@ -6,7 +6,7 @@
 <script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8915931557404979"></script>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>EXIF Data: The Location Privacy Risk in Your Photos | PicStudio</title>
+<title>EXIF Data: The Location Privacy Risk in Photos</title>
 <meta content="What EXIF metadata stores, which sharing methods leak your location, how to inspect it and how to strip it before you post." name="description"/>
 <meta content="exif data, remove exif, photo gps location, image metadata privacy, strip metadata" name="keywords"/>
 <link href="https://piccalc.com/guides/exif-privacy.html" hreflang="en" rel="alternate"/>
@@ -155,7 +155,7 @@
 <section class="tool-page">
 <div class="container">
 <div class="article-body">
-<div data-lang-block="en"><div class="crumb"><a data-i18n="k0971" href="../index.html"><span data-i18n="k0971">Home</span></a> › <a data-i18n="k0067" href="./index.html"><span data-i18n="k0067">Image Guides</span></a> › EXIF and privacy risks</div></div><div data-lang-block="zh"><div class="crumb"><a data-i18n="k0971" href="../index.html">首页</a> <a data-i18n="k0067" href="./index.html">图片指南</a> EXIF 信息与隐私</div></div>
+<div data-lang-block="en"><div class="crumb"><a data-i18n="k0971" href="../index.html"><span data-i18n="k0971">Home</span></a> › <a data-i18n="k0067" href="./index.html"><span data-i18n="k0067">Image Guides</span></a> › EXIF and privacy risks</div></div><div data-lang-block="zh"><div class="crumb"><a data-i18n="k0971" href="../index.html">Home</a> <a data-i18n="k0067" href="./index.html">Image Guides</a> EXIF 信息与隐私</div></div>
 <div data-lang-block="en">
 <h1>EXIF Data: The Location Privacy Risk Hidden in Your Photos</h1>
 <div class="lead">Post one original photo and you may publish your home address, workplace and daily routine along with it. This guide explains what EXIF stores, where the risk really is, how to check it and how to strip it.</div>
@@ -241,7 +241,7 @@
 <p>EXIF 是嵌入在图片文件里的一组元数据，相机或手机在按下快门时自动写入。常见内容：</p>
 <ul>
 <li><strong>GPS 坐标</strong>：精确到经纬度，换算成位置误差通常只有几米到几十米。</li>
-<li><strong data-i18n="k0972">拍摄时间</strong>：精确到秒，还带时区。</li>
+<li><strong data-i18n="k0972">Capture time</strong>：精确到秒，还带时区。</li>
 <li><strong>设备信息</strong>：手机或相机型号、镜头参数、厂商。</li>
 <li><strong>拍摄参数</strong>：光圈、快门、ISO、焦距、是否开闪光灯。</li>
 <li><strong>缩略图</strong>：部分文件还内嵌一张小图。</li>
@@ -257,7 +257,7 @@
 <li><strong>泄露设备与习惯。</strong>型号、参数等信息可被用于社会工程学攻击。</li>
 <li><strong>儿童相关风险。</strong>学校、补习班、常去公园的位置信息尤其敏感。</li>
 </ul>
-<div class="note-box"><p>关键点：<strong>多数社交平台会自动剥离 EXIF</strong>，所以主要风险在于<strong data-i18n="k0973">直接发送原图</strong>（聊天工具的文件传输、邮件附件、网盘分享、论坛上传原图）。</p></div>
+<div class="note-box"><p>关键点：<strong>多数社交平台会自动剥离 EXIF</strong>，所以主要风险在于<strong data-i18n="k0973">Send the original file directly</strong>（聊天工具的文件传输、邮件附件、网盘分享、论坛上传原图）。</p></div>
 </div>
 <!-- ===== AD SLOT 1 =====
      Once AdSense is approved: remove this comment marker and replace data-ad-slot with the real ad unit ID from your dashboard
@@ -275,12 +275,12 @@
 <h2>哪些场景会保留 EXIF</h2>
 <div class="table-wrap">
 <table class="spec">
-<thead><tr><th>发送方式</th><th>EXIF 是否保留</th><th data-i18n="k0974">说明</th></tr></thead>
+<thead><tr><th>发送方式</th><th>EXIF 是否保留</th><th data-i18n="k0974">Notes</th></tr></thead>
 <tbody>
 <tr><td>微信 / QQ 图片消息</td><td>通常会剥离</td><td>但选择「发送原图」时可能保留</td></tr>
-<tr><td>微信 / QQ 文件传输</td><td data-i18n="k0975">保留</td><td>以文件形式发送不做处理</td></tr>
-<tr><td data-i18n="k0827">邮件附件</td><td data-i18n="k0975">保留</td><td>完整保留原始数据</td></tr>
-<tr><td>网盘分享链接</td><td data-i18n="k0975">保留</td><td>下载者拿到的是原文件</td></tr>
+<tr><td>微信 / QQ 文件传输</td><td data-i18n="k0975">Keep</td><td>以文件形式发送不做处理</td></tr>
+<tr><td data-i18n="k0827">Email attachments</td><td data-i18n="k0975">Keep</td><td>完整保留原始数据</td></tr>
+<tr><td>网盘分享链接</td><td data-i18n="k0975">Keep</td><td>下载者拿到的是原文件</td></tr>
 <tr><td>微博 / 朋友圈</td><td>多数会剥离</td><td>以平台实际策略为准</td></tr>
 <tr><td>论坛 / 自建网站上传</td><td>取决于程序</td><td>很多程序不会主动清除</td></tr>
 <tr><td>打印 / 截图</td><td>不保留</td><td>截图不含原始 EXIF</td></tr>
@@ -333,7 +333,7 @@
 <div class="faq-list">
 <div class="faq-item">
 <div class="faq-question">社交平台发图会不会泄露位置？</div>
-<div class="faq-answer">多数主流平台会自动剥离 EXIF，风险较低。真正的风险在于<strong data-i18n="k0973">直接发送原图</strong>（文件传输、邮件附件、网盘分享），这些方式通常完整保留。</div>
+<div class="faq-answer">多数主流平台会自动剥离 EXIF，风险较低。真正的风险在于<strong data-i18n="k0973">Send the original file directly</strong>（文件传输、邮件附件、网盘分享），这些方式通常完整保留。</div>
 </div>
 <div class="faq-item">
 <div class="faq-question">清除 EXIF 会影响画质吗？</div>
@@ -396,6 +396,7 @@
 <a data-i18n="k0005" href="/terms.html"><span data-i18n="k0005">Terms of Use</span></a>
 </div>
 <div class="footer-bottom">
+<p style="margin-bottom:6px;">Contact: <a href="mailto:juju089@qq.com" style="color:#818cf8;">juju089@qq.com</a></p>
 <p data-i18n="k0028"><span data-i18n="k1312">© 2026 PicStudio. All rights reserved.</span></p>
 </div>
 </div>

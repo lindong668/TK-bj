@@ -7,7 +7,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Compress an Image to an Exact File Size (KB) | PicStudio</title>
-<meta content="Need a photo under 200 KB or an attachment under 500 KB? Learn why lowering quality fails, why capping width works better, and how to work backwards from a target file size." name="description"/>
+<meta content="Need a photo under 200 KB? Learn why lowering quality fails, why capping width works better, and how to hit an exact size." name="description"/>
 <meta content="compress image to size, reduce image to 200kb, compress photo to 500kb, image too large to upload" name="keywords"/>
 <link href="https://piccalc.com/guides/compress-to-size.html" hreflang="en" rel="alternate"/>
 <link href="https://piccalc.com/guides/compress-to-size.html" hreflang="zh-CN" rel="alternate"/>
@@ -155,7 +155,7 @@
 <section class="tool-page">
 <div class="container">
 <div class="article-body">
-<div data-lang-block="en"><div class="crumb"><a data-i18n="k0971" href="../index.html"><span data-i18n="k0971">Home</span></a> › <a data-i18n="k0067" href="./index.html"><span data-i18n="k0067">Image Guides</span></a> › Compress to a target size</div></div><div data-lang-block="zh"><div class="crumb"><a data-i18n="k0971" href="../index.html">首页</a> <a data-i18n="k0067" href="./index.html">图片指南</a> 压缩到指定大小</div></div>
+<div data-lang-block="en"><div class="crumb"><a data-i18n="k0971" href="../index.html"><span data-i18n="k0971">Home</span></a> › <a data-i18n="k0067" href="./index.html"><span data-i18n="k0067">Image Guides</span></a> › Compress to a target size</div></div><div data-lang-block="zh"><div class="crumb"><a data-i18n="k0971" href="../index.html">Home</a> <a data-i18n="k0067" href="./index.html">Image Guides</a> 压缩到指定大小</div></div>
 <div data-lang-block="en">
 <h1>Compress an Image to an Exact File Size: Beating Upload Limits</h1>
 <div class="lead">An application form demands a photo under 200 KB; an attachment is capped at 500 KB. This guide explains why lowering quality so often fails, why capping the width works better, and gives you a repeatable procedure for working backwards from a target size.</div>
@@ -229,7 +229,7 @@
 <h2>先搞清楚：限制的是文件体积，不是尺寸</h2>
 <p>很多人的第一反应是把图片「缩小」，但系统限制的是<strong>文件字节数（KB）</strong>，不是像素尺寸。这两者相关但不等于：</p>
 <ul>
-<li><strong data-i18n="k0977">像素尺寸</strong>：1920×1080 这样的分辨率。</li>
+<li><strong data-i18n="k0977">Pixel size</strong>：1920×1080 这样的分辨率。</li>
 <li><strong>文件体积</strong>：存储这些像素用了多少 KB。</li>
 </ul>
 <p>同样是 1920×1080，一张纯色背景的图标可能只有 50KB，一张细节丰富的风景照可能有 800KB。<strong>画面越复杂，同样尺寸下体积越大。</strong></p>
@@ -286,7 +286,7 @@
 <h2>常见限制与应对</h2>
 <div class="table-wrap">
 <table class="spec">
-<thead><tr><th>限制场景</th><th>推荐参数</th><th data-i18n="k0974">说明</th></tr></thead>
+<thead><tr><th>限制场景</th><th>推荐参数</th><th data-i18n="k0974">Notes</th></tr></thead>
 <tbody>
 <tr><td>报名 / 考试照片 20–100KB</td><td>先缩到要求尺寸（如 295×413），质量 70–80</td><td>尺寸对了基本一次过</td></tr>
 <tr><td>政务 / 招聘系统 200KB</td><td>长边缩到 1000–1500 px，质量 75</td><td>限制宽度比调质量快</td></tr>
@@ -310,11 +310,11 @@
 <h2>关于压缩到指定大小的常见问题</h2>
 <div class="faq-list">
 <div class="faq-item">
-<div class="faq-question" data-i18n="k0843">为什么压缩后反而变大了？</div>
+<div class="faq-question" data-i18n="k0843">Why did the file get bigger after compressing?</div>
 <div class="faq-answer">原图已经是高度压缩状态时，重新编码不但压不掉东西，还可能因为元数据或编码开销略微变大。此时应改用「限制最大宽度」而不是继续调低质量。</div>
 </div>
 <div class="faq-item">
-<div class="faq-question" data-i18n="k0845">质量设多少合适？</div>
+<div class="faq-question" data-i18n="k0845">What quality should I use?</div>
 <div class="faq-answer">网页配图 70–80；要求严格控制体积时先试 75，不够再逐步下调。低于 50 画质损失就很明显了，这时更该做的是缩小尺寸。</div>
 </div>
 <div class="faq-item">
@@ -322,11 +322,11 @@
 <div class="faq-answer">没有万能参数——每张图的复杂度不同。可靠做法是先锁定尺寸（按目标系统要求），再用质量做微调，两三次就能稳定压到目标以内。</div>
 </div>
 <div class="faq-item">
-<div class="faq-question" data-i18n="k0847">压缩会保留透明背景吗？</div>
+<div class="faq-question" data-i18n="k0847">Does compression keep transparency?</div>
 <div class="faq-answer">输出 JPG 不支持透明，透明区域会被填充成白色或黑色。需要保留透明请改用 PNG，并通过「尺寸调整」减小体积。</div>
 </div>
 <div class="faq-item">
-<div class="faq-question" data-i18n="k0849">压缩后画质损失能恢复吗？</div>
+<div class="faq-question" data-i18n="k0849">Can lost quality be recovered?</div>
 <div class="faq-answer">不能。有损压缩丢弃的信息无法找回，请务必保留原图，每次都从原图重新导出。</div>
 </div>
 </div>
@@ -374,6 +374,7 @@
 <a data-i18n="k0005" href="/terms.html"><span data-i18n="k0005">Terms of Use</span></a>
 </div>
 <div class="footer-bottom">
+<p style="margin-bottom:6px;">Contact: <a href="mailto:juju089@qq.com" style="color:#818cf8;">juju089@qq.com</a></p>
 <p data-i18n="k0028"><span data-i18n="k1312">© 2026 PicStudio. All rights reserved.</span></p>
 </div>
 </div>

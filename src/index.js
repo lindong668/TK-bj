@@ -52,7 +52,7 @@ export default {
 
     if (pathname === '/robots.txt') {
       return new Response(
-        'User-agent: *\nAllow: /\n\nSitemap: https://piccalc.com/sitemap.xml\n',
+        'User-agent: Mediapartners-Google\nAllow: /\n\nUser-agent: Googlebot\nAllow: /\n\nUser-agent: Bingbot\nAllow: /\n\nUser-agent: *\nAllow: /\n\nSitemap: https://piccalc.com/sitemap.xml\n',
         { status: 200, headers: {
             'content-type': 'text/plain; charset=utf-8',
             'cache-control': 'public, max-age=3600'
