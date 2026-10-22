@@ -80,6 +80,12 @@ export default {
       }
     }
 
+    // 目录根显式指向 index.html，避免部分版本下 /guides/ 落到兜底 404
+    if (pathname === '/guides' || pathname === '/guides/') {
+      const idx = await env.ASSETS.fetch(new Request(url.origin + '/guides/index.html', request.clone()));
+      if (idx.status === 200) return idx;
+    }
+
     const res = await env.ASSETS.fetch(request);
 
     // 404 兜底：给一个最简单的提示页，而不是空白

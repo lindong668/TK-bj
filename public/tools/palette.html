@@ -1,26 +1,30 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+
+<html lang="en">
 <head>
-<meta name="google-adsense-account" content="ca-pub-8915931557404979">
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8915931557404979" crossorigin="anonymous"></script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>颜色提取 - 在线从图片提取主色调与配色方案 | PicStudio</title>
-    <meta name="description" content="在线从图片中提取主色调，生成配色方案和色值（HEX / RGB），采用 K-means 聚类算法，适合设计师取色、做配色参考。本地处理，图片不上传。">
-    <meta name="keywords" content="颜色提取,图片取色,配色方案,提取主色调,色卡生成,kmeans聚类取色,在线取色器">
-    <link rel="canonical" href="https://piccalc.com/tools/palette.html">
-    <meta name="robots" content="index,follow,max-image-preview:large">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="PicStudio">
-    <meta property="og:locale" content="zh_CN">
-    <meta property="og:title" content="颜色提取 - 在线从图片提取主色调与配色方案 | PicStudio">
-    <meta property="og:description" content="在线从图片中提取主色调，生成配色方案和色值（HEX / RGB），采用 K-means 聚类算法，适合设计师取色、做配色参考。本地处理，图片不上传。">
-    <meta property="og:url" content="https://piccalc.com/tools/palette.html">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="颜色提取 - 在线从图片提取主色调与配色方案 | PicStudio">
-    <meta name="twitter:description" content="在线从图片中提取主色调，生成配色方案和色值（HEX / RGB），采用 K-means 聚类算法，适合设计师取色、做配色参考。本地处理，图片不上传。">
-    <link rel="stylesheet" href="../assets/css/style.css?v=20261024a">
-    <style>.content-section{padding:48px 0;background:transparent;border-top:1px solid var(--border)}
+<meta content="ca-pub-8915931557404979" name="google-adsense-account"/>
+<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8915931557404979"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Extract Colour Palette from Image Online | PicStudio</title>
+<meta content="Extract dominant colours from any image using K-means clustering. Get HEX and RGB values sorted by brightness, one click to copy." name="description"/>
+<meta content="colour palette, extract colours, colour picker from image, hex values" name="keywords"/>
+<link href="https://piccalc.com/tools/palette.html" hreflang="en" rel="alternate"/>
+<link href="https://piccalc.com/tools/palette.html" hreflang="zh-CN" rel="alternate"/>
+<link href="https://piccalc.com/tools/palette.html" hreflang="x-default" rel="alternate"/>
+<link href="https://piccalc.com/tools/palette.html" rel="canonical"/>
+<meta content="index,follow,max-image-preview:large" name="robots"/>
+<meta content="website" property="og:type"/>
+<meta content="PicStudio" property="og:site_name"/>
+<meta content="en_US" property="og:locale"/>
+<meta content="Extract Colour Palette from Image Online | PicStudio" property="og:title"/>
+<meta content="Extract dominant colours from any image using K-means clustering. Get HEX and RGB values sorted by brightness, one click to copy." property="og:description"/>
+<meta content="https://piccalc.com/tools/palette.html" property="og:url"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Extract Colour Palette from Image Online | PicStudio" name="twitter:title"/>
+<meta content="Extract dominant colours from any image using K-means clustering. Get HEX and RGB values sorted by brightness, one click to copy." name="twitter:description"/>
+<link href="../assets/css/style.css?v=20261024a" rel="stylesheet"/>
+<style>.content-section{padding:48px 0;background:transparent;border-top:1px solid var(--border)}
 .content-section .container{max-width:860px}
 .content-block{margin-bottom:40px}
 .content-block h2{font-size:1.35rem;color:var(--text-primary);margin-bottom:16px;padding-left:12px;border-left:4px solid #6366f1}
@@ -50,64 +54,64 @@
 .related-card .rname{font-size:.92rem;color:var(--text-primary);font-weight:600}
 .related-card .rdesc{font-size:.8rem;color:var(--text-secondary);margin-top:4px;line-height:1.5}
 @media(max-width:640px){.content-section{padding:32px 0}.content-block h2{font-size:1.2rem}}</style>
-    <script type="application/ld+json">
+<script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "颜色提取",
+  "name": "Color Picker",
   "url": "https://piccalc.com/tools/palette.html",
   "applicationCategory": "UtilityApplication",
-  "operatingSystem": "任意（浏览器）",
-  "browserRequirements": "需要支持 Canvas 的现代浏览器",
+  "operatingSystem": "Any (browser)",
+  "browserRequirements": "A modern browser with Canvas support",
   "offers": {
     "@type": "Offer",
     "price": "0",
     "priceCurrency": "CNY"
   },
-  "description": "在线从图片中提取主色调，生成配色方案和色值（HEX / RGB），采用 K-means 聚类算法，适合设计师取色、做配色参考。本地处理，图片不上传。"
+  "description": "Extract dominant colours from an image online and generate palettes with hex and RGB values using K-means clustering — built for designers picking colours. Local processing; no upload."
 }
     </script>
-    <script type="application/ld+json">
+<script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "提取的颜色不准怎么办？",
+      "name": "The colours look off — what can I do?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "K-means 的初始中心是随机的，同一张图多次提取可能略有差异。可以增减数量再试，或多次提取取稳定出现的颜色。"
+        "text": "K-means starts from random centres, so repeated runs on the same image can differ slightly. Try a different count, or run it a few times and keep the colours that appear consistently."
       }
     },
     {
       "@type": "Question",
-      "name": "为什么看不到很亮或很暗的颜色？",
+      "name": "Why are very bright or dark colours missing?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "算法按像素数量聚类，占比很小的颜色（比如画面里一点点高光）可能不会被单独聚成一类。这种情况可以增加提取数量。"
+        "text": "Clustering is driven by pixel counts, so colours with a tiny share (a small highlight, say) may not form their own cluster. Increase the number of colours in that case."
       }
     },
     {
       "@type": "Question",
-      "name": "透明区域会影响结果吗？",
+      "name": "Do transparent areas affect the result?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "不会。程序会跳过透明度低于 50% 的像素，只对可见部分取色。"
+        "text": "No. Pixels below 50% opacity are skipped, so only visible parts are sampled."
       }
     },
     {
       "@type": "Question",
-      "name": "能保存色卡图片吗？",
+      "name": "Can I save the swatch card as an image?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "当前版本只提供色值复制。需要图片可以截图，或用「图片拼接」把色块拼成一张。"
+        "text": "This version only copies values. For an image, take a screenshot or merge the swatches with the Merge tool."
       }
     }
   ]
 }
     </script>
-    <script type="application/ld+json">
+<script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
@@ -115,49 +119,66 @@
     {
       "@type": "ListItem",
       "position": 1,
-      "name": "首页",
+      "name": "Home",
       "item": "https://piccalc.com/"
     },
     {
       "@type": "ListItem",
       "position": 2,
-      "name": "全部工具",
+      "name": "All Tools",
       "item": "https://piccalc.com/#tools"
     },
     {
       "@type": "ListItem",
       "position": 3,
-      "name": "颜色提取",
+      "name": "Color Picker",
       "item": "https://piccalc.com/tools/palette.html"
     }
   ]
 }
     </script>
+<style>
+      html[data-lang="en"] [data-lang-block="zh"] { display: none !important; }
+      html[data-lang="zh"] [data-lang-block="en"] { display: none !important; }
+      .lang-toggle { background: transparent; border: 1px solid var(--border, #e2e8f0);
+        border-radius: 6px; padding: 4px 10px; font-size: 13px; cursor: pointer;
+        color: var(--text-secondary, #64748b); line-height: 1.6; }
+      .lang-toggle:hover { border-color: var(--primary, #6366f1); color: var(--primary, #6366f1); }
+    </style>
+<script>
+      (function () {
+        try {
+          var v = localStorage.getItem('ps_lang');
+          document.documentElement.setAttribute('data-lang', (v === 'zh') ? 'zh' : 'en');
+        } catch (e) { document.documentElement.setAttribute('data-lang', 'en'); }
+      })();
+    </script>
 </head>
 <body>
-    <header class="header">
-        <div class="container">
-            <a href="../index.html" class="logo">
-                <span class="logo-icon">🎨</span>
-                <span class="logo-text">Pic<span class="accent">Studio</span></span>
-            </a>
-            <nav class="tool-nav">
-                <a href="../index.html#tools">全部工具</a>
-                <a href="/privacy.html">隐私政策</a>
-                <a href="/faq.html">常见问题</a>
-                <a href="/contact.html">联系我们</a>
-            </nav>
-        </div>
-    </header>
-
-    <section class="tool-page">
-        <div class="container">
-            <a href="../index.html" class="back-link">← 返回首页</a>
-            <div class="tool-header">
-                <h1>🎨 颜色提取</h1>
-                <p>从照片里提取主色调，一键复制 HEX 色值，做配色参考</p>
-            </div>
-
+<header class="header">
+<div class="container">
+<a class="logo" href="../index.html">
+<span class="logo-icon">🎨</span>
+<span class="logo-text">Pic<span class="accent">Studio</span></span>
+</a>
+<nav class="tool-nav">
+<button class="lang-toggle" data-lang-toggle="" type="button">EN</button>
+<a data-i18n="k0025" href="../index.html#tools"><span data-i18n="k0025">All Tools</span></a>
+<a data-i18n="k0067" href="/guides/"><span data-i18n="k0067">Image Guides</span></a>
+<a data-i18n="k0004" href="/privacy.html"><span data-i18n="k0004">Privacy Policy</span></a>
+<a data-i18n="k0067" href="/guides/"><span data-i18n="k0067">Image Guides</span></a>
+<a data-i18n="k0003" href="/faq.html"><span data-i18n="k0003">FAQ</span></a>
+<a data-i18n="k0027" href="/contact.html"><span data-i18n="k0027">Contact</span></a>
+</nav>
+</div>
+</header>
+<section class="tool-page">
+<div class="container">
+<a class="back-link" data-i18n="k0162" href="../index.html"><span data-i18n="k0162">← Back to Home</span></a>
+<div class="tool-header">
+<h1 data-i18n="k1150">🎨 Colour Picker</h1>
+<p data-i18n="k1372">Extract dominant colours from a photo and copy hex values in one tap for palette reference</p>
+</div>
 <style>.gen-box{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:8px}
 .gen-out{margin-top:16px}
 .gen-out h3{font-size:1rem;color:var(--text-primary);margin-bottom:8px}
@@ -173,102 +194,97 @@
 .meta-table td{color:var(--text-secondary);word-break:break-all}
 .warn-box{background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.35);border-radius:10px;padding:12px 14px;color:#fcd34d;font-size:.88rem;line-height:1.7;margin-top:12px}
 .ok-box{background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.38);border-radius:10px;padding:12px 14px;color:#6ee7b7;font-size:.88rem;line-height:1.7;margin-top:12px}</style>
-            <div class="upload-area" id="uploadArea">
-                <div class="upload-icon">📁</div>
-                <div class="upload-text">点击或拖拽图片到这里</div>
-                <div class="upload-hint">支持 PNG / JPG / WebP</div>
-                <input type="file" id="fileInput" accept="image/*">
-            </div>
-
-            <div class="preview-area" id="previewArea">
-                <div class="preview-box">
-                    <h3>原始图片</h3>
-                    <img id="originalPreview" src="" alt="原始图片">
-                </div>
-                <div class="preview-box">
-                    <h3>（处理结果见下方色卡）</h3>
-                    <img id="processedPreview" src="" alt="处理结果">
-                </div>
-            </div>
-
-            <div class="controls" id="controls">
-                <div class="control-group">
-                    <label class="control-label">提取颜色数量</label>
-                    <input type="range" id="plN" min="3" max="16" value="8">
-                    <div class="control-hint">当前：<b id="plNVal">8</b> 种</div>
-                </div>
-                <button class="btn btn-primary btn-lg" id="processBtn" style="width:100%;">提取颜色</button>
-            </div>
-            <div class="gen-box" id="resultBox">
-                <h3>配色方案（点击色值可复制）</h3>
-                <div class="sw-list" id="swList"></div>
-            </div>
-            <div class="download-section" id="downloadSection">
-                <button class="btn btn-outline btn-lg" id="copyAllBtn" style="width:100%;">复制全部色值</button>
-            </div>
-
-            <div class="loading-overlay" id="loadingOverlay">
-                <div class="spinner"></div>
-                <div class="loading-text" id="loadingText">处理中…</div>
-            </div>
-        </div>
-    </section>
-
-    <section class="content-section">
-        <div class="container">
-            <div class="content-block">
-                <h2>颜色提取怎么用</h2>
-                <ol class="steps-list"><li>上传想要取色的图片</li><li>拖动滑块选择提取几种颜色（3–16）</li><li>点「提取颜色」，下方生成色卡</li><li>点击任意色值即可复制，或点「复制全部色值」一次性带走</li></ol>
-            </div>
-            <div class="content-block">
-                <h2>它的原理是什么</h2>
-                <p>提取主色调用的是 K-means 聚类：先把图片里所有像素的颜色看成三维空间中的点，然后随机放 K 个"中心"，反复把每个点归到最近的中心、再重新计算中心位置，直到稳定。</p><p>稳定后的 K 个中心就是图像的 K 个主色。为了让结果稳定，算法会采样（大图不会逐像素算）并迭代 12 次。</p><p>最后按亮度（0.299R+0.587G+0.114B）从暗到亮排序，方便你直接当作配色条使用。</p>
-            </div>
-            <div class="content-block">
-                <h2>常见使用场景</h2>
-                <p>下面这些情况用它最顺手：</p>
-                <div class="scenario-grid"><div class="scenario-card"><h4>设计师取色</h4><p>从参考图里提取配色，直接用到设计稿</p></div><div class="scenario-card"><h4>PPT 配色</h4><p>从公司 Logo 或产品图提取品牌色</p></div><div class="scenario-card"><h4>家居与穿搭</h4><p>从照片中提取主色，搭配软装或服饰</p></div><div class="scenario-card"><h4>前端开发</h4><p>快速拿到图片的 HEX 色值写进 CSS</p></div></div>
-            </div>
-            <div class="content-block">
-                <h2>规格与参数说明</h2>
-                <table class="spec-table"><tbody><tr><th>输入格式</th><td>PNG / JPG / WebP</td></tr><tr><th>提取数量</th><td>3–16 种可调</td></tr><tr><th>算法</th><td>K-means 聚类（迭代 12 次，自动采样）</td></tr><tr><th>输出色值</th><td>HEX 与 RGB，点击即复制</td></tr><tr><th>排序</th><td>按亮度从暗到亮</td></tr></tbody></table>
-            </div>
-            <div class="content-block">
-                <h2>关于颜色提取的常见问题</h2>
-                <div class="faq-item"><h3>提取的颜色不准怎么办？</h3><p>K-means 的初始中心是随机的，同一张图多次提取可能略有差异。可以增减数量再试，或多次提取取稳定出现的颜色。</p></div><div class="faq-item"><h3>为什么看不到很亮或很暗的颜色？</h3><p>算法按像素数量聚类，占比很小的颜色（比如画面里一点点高光）可能不会被单独聚成一类。这种情况可以增加提取数量。</p></div><div class="faq-item"><h3>透明区域会影响结果吗？</h3><p>不会。程序会跳过透明度低于 50% 的像素，只对可见部分取色。</p></div><div class="faq-item"><h3>能保存色卡图片吗？</h3><p>当前版本只提供色值复制。需要图片可以截图，或用「图片拼接」把色块拼成一张。</p></div>
-            </div>
-            <div class="content-block">
-                <h2>试试其它工具</h2>
-                <div class="related-grid"><a class="related-card" href="adjust.html"><span class="ricon">🎨</span><span class="rname">调色增强</span><span class="rdesc">调整图片色彩</span></a><a class="related-card" href="crop.html"><span class="ricon">✂️</span><span class="rname">智能裁剪</span><span class="rdesc">按平台尺寸裁剪</span></a><a class="related-card" href="icon-maker.html"><span class="ricon">🖼️</span><span class="rname">图标制作</span><span class="rdesc">生成应用图标</span></a><a class="related-card" href="restore.html"><span class="ricon">🕰️</span><span class="rname">老照片修复</span><span class="rdesc">修复泛黄旧照</span></a></div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <span class="logo-icon">🎨</span>
-                    <span class="logo-text">Pic<span class="accent">Studio</span></span>
-                </div>
-                <p class="footer-desc">免费的在线图片处理工具，所有处理在浏览器本地完成</p>
-            </div>
-            <div class="footer-links">
-                <a href="../index.html#tools">全部工具</a>
-                <a href="/about.html">关于我们</a>
-                <a href="/contact.html">联系我们</a>
-                <a href="/faq.html">常见问题</a>
-                <a href="/privacy.html">隐私政策</a>
-                <a href="/terms.html">使用条款</a>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 PicStudio. 保留所有权利。</p>
-            </div>
-        </div>
-    </footer>
-    <script src="../assets/js/preview.js?v=20261024a"></script>
+<div class="upload-area" id="uploadArea">
+<div class="upload-icon">📁</div>
+<div class="upload-text" data-i18n="k0210"><span data-i18n="k0210">Click or drag an image here</span></div>
+<div class="upload-hint" data-i18n="k0211"><span data-i18n="k0211">PNG / JPG / WebP supported</span></div>
+<input accept="image/*" id="fileInput" type="file"/>
+</div>
+<div class="preview-area" id="previewArea">
+<div class="preview-box">
+<h3 data-i18n="k0212"><span data-i18n="k0212">Original</span></h3>
+<img alt="Original" id="originalPreview" src=""/>
+</div>
+<div class="preview-box">
+<h3 data-i18n="k1236">(Results appear in the palette below)</h3>
+<img alt="Result" id="processedPreview" src=""/>
+</div>
+</div>
+<div class="controls" id="controls">
+<div class="control-group">
+<label class="control-label" data-i18n="k1151">Number of colours</label>
+<input id="plN" max="16" min="3" type="range" value="8"/>
+<div class="control-hint"><span data-i18n="k1014">Current:</span><b id="plNVal">8</b><span data-i18n="k0988">types</span></div>
+</div>
+<button class="btn btn-primary btn-lg" data-i18n="k1082" id="processBtn" style="width:100%;">Extract colours</button>
+</div>
+<div class="gen-box" id="resultBox">
+<h3 data-i18n="k1255">Palette (click a value to copy)</h3>
+<div class="sw-list" id="swList"></div>
+</div>
+<div class="download-section" id="downloadSection">
+<button class="btn btn-outline btn-lg" data-i18n="k1152" id="copyAllBtn" style="width:100%;">Copy all hex values</button>
+</div>
+<div class="loading-overlay" id="loadingOverlay">
+<div class="spinner"></div>
+<div class="loading-text" data-i18n="k0165" id="loadingText"><span data-i18n="k0165">Processing…</span></div>
+</div>
+</div>
+</section>
+<section class="content-section">
+<div class="container">
+<div class="content-block">
+<h2 data-i18n="k0625"><span data-i18n="k0625">How to extract colours</span></h2>
+<ol class="steps-list"><li data-i18n="k0626"><span data-i18n="k0626">Upload the image you want colours from</span></li><li data-i18n="k0627"><span data-i18n="k0627">Drag the slider to choose how many colours (3–16)</span></li><li data-i18n="k0628"><span data-i18n="k0628">Click "Extract" and a swatch card appears below</span></li><li data-i18n="k0629"><span data-i18n="k0629">Click any value to copy it, or "Copy all" to take the whole set</span></li></ol>
+</div>
+<div class="content-block">
+<h2 data-i18n="k0171"><span data-i18n="k0171">How it works</span></h2>
+<p data-i18n="k0630"><span data-i18n="k0630">Extraction uses K-means clustering. Treat every pixel colour as a point in 3D space, place K random centres, then repeatedly assign each point to its nearest centre and recompute the centres until they settle.</span></p><p data-i18n="k0631"><span data-i18n="k0631">The K settled centres are the image's K dominant colours. For stability the algorithm samples (large images are not computed pixel by pixel) and iterates 12 times.</span></p><p data-i18n="k0632"><span data-i18n="k0632">Finally the colours are sorted by luma (0.299R + 0.587G + 0.114B) from dark to light, ready to use as a palette strip.</span></p>
+</div>
+<div class="content-block">
+<h2 data-i18n="k0175"><span data-i18n="k0175">Common use cases</span></h2>
+<p data-i18n="k0176"><span data-i18n="k0176">It works best for:</span></p>
+<div class="scenario-grid"><div class="scenario-card"><h4 data-i18n="k0633"><span data-i18n="k0633">For designers</span></h4><p data-i18n="k0634"><span data-i18n="k0634">Pull a palette from a reference image straight into your design</span></p></div><div class="scenario-card"><h4 data-i18n="k0635"><span data-i18n="k0635">Slide palettes</span></h4><p data-i18n="k0636"><span data-i18n="k0636">Extract brand colours from a company logo or product shot</span></p></div><div class="scenario-card"><h4 data-i18n="k0637"><span data-i18n="k0637">Home decor and outfits</span></h4><p data-i18n="k0638"><span data-i18n="k0638">Take dominant colours from a photo to match furnishings or clothing</span></p></div><div class="scenario-card"><h4 data-i18n="k0639"><span data-i18n="k0639">Front-end development</span></h4><p data-i18n="k0640"><span data-i18n="k0640">Grab HEX values quickly for your CSS</span></p></div></div>
+</div>
+<div class="content-block">
+<h2 data-i18n="k0185"><span data-i18n="k0185">Specifications</span></h2>
+<table class="spec-table"><tbody><tr><th data-i18n="k0233"><span data-i18n="k0233">Input format</span></th><td>PNG / JPG / WebP</td></tr><tr><th data-i18n="k0641"><span data-i18n="k0641">Number of colours</span></th><td data-i18n="k0642"><span data-i18n="k0642">Adjustable from 3 to 16</span></td></tr><tr><th data-i18n="k0271"><span data-i18n="k0271">Algorithm</span></th><td data-i18n="k0643"><span data-i18n="k0643">K-means clustering (12 iterations, auto-sampling)</span></td></tr><tr><th data-i18n="k0644"><span data-i18n="k0644">Output values</span></th><td data-i18n="k0645"><span data-i18n="k0645">HEX and RGB — click to copy</span></td></tr><tr><th data-i18n="k0646"><span data-i18n="k0646">Ordering</span></th><td data-i18n="k0647"><span data-i18n="k0647">By brightness, dark to light</span></td></tr></tbody></table>
+</div>
+<div class="content-block">
+<h2 data-i18n="k0648"><span data-i18n="k0648">FAQ about colour extraction</span></h2>
+<div class="faq-item"><h3 data-i18n="k0649"><span data-i18n="k0649">The colours look off — what can I do?</span></h3><p data-i18n="k0650"><span data-i18n="k0650">K-means starts from random centres, so repeated runs on the same image can differ slightly. Try a different count, or run it a few times and keep the colours that appear consistently.</span></p></div><div class="faq-item"><h3 data-i18n="k0651"><span data-i18n="k0651">Why are very bright or dark colours missing?</span></h3><p data-i18n="k0652"><span data-i18n="k0652">Clustering is driven by pixel counts, so colours with a tiny share (a small highlight, say) may not form their own cluster. Increase the number of colours in that case.</span></p></div><div class="faq-item"><h3 data-i18n="k0653"><span data-i18n="k0653">Do transparent areas affect the result?</span></h3><p data-i18n="k0654"><span data-i18n="k0654">No. Pixels below 50% opacity are skipped, so only visible parts are sampled.</span></p></div><div class="faq-item"><h3 data-i18n="k0655"><span data-i18n="k0655">Can I save the swatch card as an image?</span></h3><p data-i18n="k0656"><span data-i18n="k0656">This version only copies values. For an image, take a screenshot or merge the swatches with the Merge tool.</span></p></div>
+</div>
+<div class="content-block">
+<h2 data-i18n="k0204"><span data-i18n="k0204">Try other tools</span></h2>
+<div class="related-grid"><a class="related-card" href="adjust.html"><span class="ricon">🎨</span><span class="rname" data-i18n="k0093"><span data-i18n="k0093">Color Adjust</span></span><span class="rdesc" data-i18n="k0657"><span data-i18n="k0657">Adjust image colours</span></span></a><a class="related-card" href="crop.html"><span class="ricon">✂️</span><span class="rname" data-i18n="k1041">Smart Crop</span><span class="rdesc" data-i18n="k0252"><span data-i18n="k0252">Crop</span></span></a><a class="related-card" href="icon-maker.html"><span class="ricon">🖼️</span><span class="rname" data-i18n="k0086"><span data-i18n="k0086">Icon Maker</span></span><span class="rdesc" data-i18n="k0658"><span data-i18n="k0658">Generate app icons</span></span></a><a class="related-card" href="restore.html"><span class="ricon">🕰️</span><span class="rname" data-i18n="k0104"><span data-i18n="k0104">Photo Restore</span></span><span class="rdesc" data-i18n="k0659"><span data-i18n="k0659">Restore yellowed old photos</span></span></a></div>
+</div>
+</div>
+</section>
+<footer class="footer">
+<div class="container">
+<div class="footer-content">
+<div class="footer-brand">
+<span class="logo-icon">🎨</span>
+<span class="logo-text">Pic<span class="accent">Studio</span></span>
+</div>
+<p class="footer-desc" data-i18n="k0024"><span data-i18n="k0024">Free online image tools — everything runs locally in your browser</span></p>
+</div>
+<div class="footer-links">
+<a data-i18n="k0025" href="../index.html#tools"><span data-i18n="k0025">All Tools</span></a>
+<a data-i18n="k0026" href="/about.html"><span data-i18n="k0026">About</span></a>
+<a data-i18n="k0027" href="/contact.html"><span data-i18n="k0027">Contact</span></a>
+<a data-i18n="k0003" href="/faq.html"><span data-i18n="k0003">FAQ</span></a>
+<a data-i18n="k0004" href="/privacy.html"><span data-i18n="k0004">Privacy Policy</span></a>
+<a data-i18n="k0005" href="/terms.html"><span data-i18n="k0005">Terms of Use</span></a>
+</div>
+<div class="footer-bottom">
+<p data-i18n="k0028"><span data-i18n="k1312">© 2026 PicStudio. All rights reserved.</span></p>
+</div>
+</div>
+</footer>
+<script src="../assets/js/preview.js?v=20261024a"></script>
 <script src="../assets/js/download.js?v=20261024a"></script>
-    <script src="../assets/js/lab.js?v=20261025id"></script>
+<script src="../assets/js/lab.js?v=20261025id"></script>
 <script>
 (function(){
 var $=function(id){return document.getElementById(id);};
@@ -365,5 +381,7 @@ function process(src){
   return src;}
 })();
 </script>
+<script src="../assets/js/i18n-dict.js"></script>
+<script src="../assets/js/i18n.js"></script>
 </body>
 </html>
