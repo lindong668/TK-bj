@@ -435,12 +435,89 @@
         return a;
     }
 
+    /* ---------------- 性能与鲁棒性辅助（v26 新增） ---------------- */
+    /* 大图直接在原分辨率跑 GrabCut + 边缘细化会长时间阻塞主线程（实测
+       3024×4032 手机照约 10 秒界面完全卡死）。这里先把工作图画布限制到
+       MAX_WORK_SIDE，算完再把 alpha 放大回原尺寸 —— 清晰度不受影响，
+       因为最终合成仍使用原图像素，只有遮罩是低分辨率的。 */
+    const MAX_WORK_SIDE = 1200;
+
+    function downscaleCanvas(src, maxSide) {
+        const longSide = Math.max(src.width, src.height);
+        if (longSide <= maxSide) return { canvas: src, scale: 1 };
+        const scale = maxSide / longSide;
+        const w = Math.max(1, Math.round(src.width * scale));
+        const h = Math.max(1, Math.round(src.height * scale));
+        const c = document.createElement('canvas');
+        c.width = w; c.height = h;
+        const ctx = c.getContext('2d');
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(src, 0, 0, w, h);
+        return { canvas: c, scale };
+    }
+
+    function downscaleMask(mask, W, H, w, h) {
+        const out = new Uint8Array(w * h);
+        const sx = W / w, sy = H / h;
+        for (let y = 0; y < h; y++) {
+            const my = Math.min(H - 1, Math.floor(y * sy));
+            for (let x = 0; x < w; x++) {
+                const mx = Math.min(W - 1, Math.floor(x * sx));
+                out[y * w + x] = mask[my * W + mx];
+            }
+        }
+        return out;
+    }
+
+    function upscaleAlpha(a, w, h, W, H) {
+        if (w === W && h === H) return a;
+        const out = new Float32Array(W * H);
+        const sx = w / W, sy = h / H;
+        for (let y = 0; y < H; y++) {
+            const sy0 = Math.min(h - 1, Math.floor(y * sy));
+            for (let x = 0; x < W; x++) {
+                const sx0 = Math.min(w - 1, Math.floor(x * sx));
+                out[y * W + x] = a[sy0 * w + sx0];
+            }
+        }
+        return out;
+    }
+
+    function fgRatio(a) {
+        let n = 0;
+        for (let i = 0; i < a.length; i++) if (a[i] > 0.5) n++;
+        return n / a.length;
+    }
+
+    /* 抠图彻底失败时的兜底：保留画面中心区域，至少不让整张图变透明棋盘格 */
+    function centerFallback(w, h) {
+        const a = new Float32Array(w * h);
+        const x0 = w * 0.12, x1 = w * 0.88, y0 = h * 0.08, y1 = h * 0.95;
+        for (let y = 0; y < h; y++) {
+            for (let x = 0; x < w; x++) {
+                a[y * w + x] = (x >= x0 && x <= x1 && y >= y0 && y <= y1) ? 1 : 0;
+            }
+        }
+        return a;
+    }
+
     const tool = new ImageTool({
         process: async (canvas, self) => {
             const bgType = document.querySelector('input[name="bgType"]:checked').value;
             const tol = parseInt(tolSlider.value, 10);
             const featherPx = parseInt(feather.value, 10);
             const W = canvas.width, H = canvas.height;
+
+            /* 忙碌状态：先让浏览器把「处理中」画出来，再开始重计算 */
+            const processBtn = document.getElementById('processBtn');
+            const processBtnLabel = processBtn ? processBtn.textContent : '';
+            if (processBtn) { processBtn.disabled = true; processBtn.textContent = '处理中…'; }
+            setEngine('⚙️ 正在分析图片…', 'loading');
+            await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+            const restoreBtn = () => {
+                if (processBtn) { processBtn.disabled = false; processBtn.textContent = processBtnLabel; }
+            };
 
             lastImageData = canvas.getContext('2d').getImageData(0, 0, W, H);
             brush.W = W; brush.H = H;
@@ -479,11 +556,35 @@
             /* ---- ② 其余情况一律先用本地算法立刻出图 ---- */
             let aiMessage = '';
             if (!alpha) {
-                alpha = PicSeg.segmentAlpha(
-                    lastImageData.data, W, H,
-                    { tolerance: tol, maxSide: 900, fgSeeds: brush.fg, bgSeeds: brush.bg }
-                );
-                if (window.AILab && window.AILab.isSettled && !window.AILab.isSettled()) {
+                /* 在工作尺寸上计算（避免大图长时间卡死界面） */
+                const work = downscaleCanvas(canvas, MAX_WORK_SIDE);
+                const ww = work.canvas.width, wh = work.canvas.height;
+                const wData = work.canvas.getContext('2d').getImageData(0, 0, ww, wh).data;
+                const wFg = (brush.fg && brush.fg.length === W * H) ? downscaleMask(brush.fg, W, H, ww, wh) : null;
+                const wBg = (brush.bg && brush.bg.length === W * H) ? downscaleMask(brush.bg, W, H, ww, wh) : null;
+
+                let a = PicSeg.segmentAlpha(wData, ww, wh,
+                    { tolerance: tol, maxSide: 700, fgSeeds: wFg, bgSeeds: wBg });
+                let ratio = fgRatio(a);
+
+                /* 结果保护：几乎全透明或几乎全不透明都说明判断失败 */
+                if (ratio < 0.01 || ratio > 0.995) {
+                    setEngine('⚙️ 首次判断不理想，正在换参数重试…', 'loading');
+                    await new Promise(r => setTimeout(r, 0));
+                    const retryTol = ratio < 0.01 ? Math.min(90, tol + 25) : Math.max(5, tol - 20);
+                    const a2 = PicSeg.segmentAlpha(wData, ww, wh,
+                        { tolerance: retryTol, maxSide: 700, seedMode: 'portrait' });
+                    const r2 = fgRatio(a2);
+                    if (Math.abs(r2 - 0.5) < Math.abs(ratio - 0.5)) { a = a2; ratio = r2; }
+                }
+
+                if (ratio < 0.01) {
+                    /* 两次都失败 —— 兜底保留中心区域，绝不输出整片透明 */
+                    a = centerFallback(ww, wh);
+                    setEngine('⚙️ 自动识别未成功，已保留画面中心区域。可拖「容差」滑块或直接用修补笔涂抹调整。', 'local');
+                } else if (ratio > 0.995) {
+                    setEngine('⚙️ 未找到明显主体（画面可能是纯色背景）。可用修补笔标记要保留的部分。', 'local');
+                } else if (window.AILab && window.AILab.isSettled && !window.AILab.isSettled()) {
                     aiMessage = '⚙️ 本地算法已出图，正在后台尝试加载 AI 模型以提升精度…';
                     setEngine(aiMessage, 'loading');
                 } else if (window.AILab && window.AILab.isSettled() && !window.AILab.aiAvailable()) {
@@ -491,6 +592,8 @@
                 } else {
                     setEngine(LOCAL_MSG, 'local');
                 }
+
+                alpha = upscaleAlpha(a, ww, wh, W, H);
             }
 
             const result = alphaToCanvas(alpha, canvas, featherPx);
@@ -529,6 +632,7 @@
                 });
             }
 
+            restoreBtn();
             if (bgType === 'white') return applyBackgroundColor(result, '#FFFFFF');
             if (bgType === 'custom') return applyBackgroundColor(result, document.getElementById('bgColor').value);
             return result;
@@ -538,7 +642,10 @@
 
     document.getElementById('processBtn').addEventListener('click', () => tool.process());
     document.getElementById('aiRetryBtn').addEventListener('click', () => {
-        if (!window.AILab) return;
+        if (!window.AILab) {
+            setEngine('⚙️ 本站使用本地算法抠图，完全在你的浏览器里运行，不需要联网下载模型、也不会上传图片。效果可用「容差」滑块和修补笔调整。', 'local');
+            return;
+        }
         window.AILab.reset();
         setEngine('正在重新加载 AI 模型…', 'loading');
         window.AILab.init((msg) => setEngine(msg, 'loading')).then(function (eng) {
@@ -573,36 +680,49 @@
         return c;
     }
 
-    /* 边缘羽化：对 alpha 做一次轻量模糊（只在边缘区生效） */
+    /* 边缘羽化：可分离滑动窗口模糊（O(N)，与原分辨率无关地快）
+       原实现是 O(N×半径)，在 3024×4032 上要跑上亿次加法，是卡顿主因之一 */
     function smoothAlpha(alpha, W, H, radius) {
         const src = alpha;
+        const r = Math.max(1, radius | 0);
         const tmp = new Float32Array(W * H);
         const out = new Float32Array(W * H);
-        const r = Math.max(1, radius);
-        // 水平
+
+        // 水平：滑动窗口
         for (let y = 0; y < H; y++) {
-            for (let x = 0; x < W; x++) {
-                let s = 0, n = 0;
-                for (let k = -r; k <= r; k++) {
-                    const xx = x + k; if (xx < 0 || xx >= W) continue;
-                    s += src[y*W+xx]; n++;
-                }
-                tmp[y*W+x] = s / n;
+            const row = y * W;
+            let sum = 0;
+            for (let k = -r; k <= r; k++) {
+                const xx = Math.min(W - 1, Math.max(0, k));
+                sum += src[row + xx];
+            }
+            let cnt = 0;
+            for (let k = -r; k <= r; k++) if (k >= 0 && k < W) cnt++;
+            tmp[row] = sum / cnt;
+            for (let x = 1; x < W; x++) {
+                const addX = x + r, subX = x - r - 1;
+                if (addX < W) { sum += src[row + addX]; cnt++; }
+                if (subX >= 0) { sum -= src[row + subX]; cnt--; }
+                tmp[row + x] = sum / cnt;
             }
         }
-        // 垂直
-        for (let y = 0; y < H; y++) {
-            for (let x = 0; x < W; x++) {
-                let s = 0, n = 0;
-                for (let k = -r; k <= r; k++) {
-                    const yy = y + k; if (yy < 0 || yy >= H) continue;
-                    s += tmp[yy*W+x]; n++;
-                }
-                out[y*W+x] = s / n;
+        // 垂直：滑动窗口
+        for (let x = 0; x < W; x++) {
+            let sum = 0, cnt = 0;
+            for (let k = -r; k <= r; k++) {
+                const yy = Math.min(H - 1, Math.max(0, k));
+                sum += tmp[yy * W + x]; cnt++;
+            }
+            out[x] = sum / cnt;
+            for (let y = 1; y < H; y++) {
+                const addY = y + r, subY = y - r - 1;
+                if (addY < H) { sum += tmp[addY * W + x]; cnt++; }
+                if (subY >= 0) { sum -= tmp[subY * W + x]; cnt--; }
+                out[y * W + x] = sum / cnt;
             }
         }
         // 只在原边缘带内应用（避免整体发虚）
-        for (let i = 0; i < W*H; i++) {
+        for (let i = 0; i < W * H; i++) {
             if (src[i] <= 0.001 || src[i] >= 0.999) out[i] = src[i];
         }
         return out;
