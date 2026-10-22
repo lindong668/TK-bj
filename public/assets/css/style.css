@@ -738,6 +738,26 @@ select:focus, input[type="number"]:focus, input[type="text"]:focus {
     display: none;
 }
 
+/* ------------------------------------------------------------
+   Mobile language switch
+   The .lang-toggle button lives INSIDE .nav / .tool-nav, and both of
+   those are display:none below 768px — so on phones the switch simply
+   disappeared. A second button is rendered outside the nav; hide it on
+   desktop (where the nav one is visible) and show it on mobile.
+   ------------------------------------------------------------ */
+.lang-toggle-m {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .lang-toggle-m {
+        display: inline-block;
+        margin-left: auto;
+        margin-right: 14px;
+        flex-shrink: 0;
+    }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .nav {
