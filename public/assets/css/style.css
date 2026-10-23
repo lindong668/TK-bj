@@ -486,6 +486,7 @@ img {
 
 /* Upload Area */
 .upload-area {
+    position: relative;
     border: 2px dashed var(--border);
     border-radius: var(--radius);
     padding: 60px 20px;
@@ -494,6 +495,69 @@ img {
     transition: var(--transition);
     background: var(--bg-card);
     margin-bottom: 32px;
+}
+
+/* 隐藏原生 file input，只保留拖拽/点击虚线框触发
+   --------------------------------------------------
+   问题：虚线框内原本裸露一个 <input type="file">，浏览器默认渲染成
+        「Choose files / 选择文件」按钮，出现在提示文字下方左侧，
+        既难看又点不动 —— 点它会同时冒泡到 .upload-area 的 click 委托，
+        两次 fileInput.click() 互相抵消，表现为"点了没反应"。
+   方案：视觉隐藏但保留可访问性（不用 display:none，屏幕阅读器仍可读）。
+   注意：只作用于 .upload-area 内；qrcode / watermark 的 logoInput
+        在 .control-group / .field 内，属于有意显示，不受影响。 */
+/* 引擎状态提示条（去背景页专用）
+   --------------------------------------------------
+   .engine-badge 由 JS 动态填充文字并 display:block（remove-bg.html
+   的 setEngine()），此前 CSS 与 inline 都未定义样式，导致它一出现就是
+   一条贴边、无内边距、无底色的裸文字，跟周围的卡片控件完全不搭。
+   这里补上与 --bg-card 一致的胶囊样式，并区分 loading / local 两种状态。 */
+.engine-badge {
+    display: none;
+    margin: 10px 0 12px;
+    padding: 9px 14px;
+    border-radius: var(--radius-sm);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    font-size: 13px;
+    line-height: 1.5;
+}
+.engine-badge.loading {
+    border-color: var(--primary);
+    color: var(--primary-light);
+    background: var(--gradient-soft);
+}
+.engine-badge.local {
+    border-color: #f59e0b;
+    color: #fbbf24;
+    background: rgba(245, 158, 11, 0.08);
+}
+
+/* 小号按钮（此前只有 .btn / .btn-lg，.btn-sm 无定义，
+   导致带 btn-sm 的按钮渲染成默认尺寸，一排挤在一起时比例不统一） */
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 13px;
+    border-radius: 8px;
+}
+
+.upload-area input[type="file"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* 键盘 Tab 聚焦到隐藏 input 时，让虚线框高亮，保持可见的焦点指示 */
+.upload-area:focus-within {
+    border-color: var(--primary);
+    background: var(--gradient-soft);
 }
 
 .upload-area:hover,
