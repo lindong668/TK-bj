@@ -31,3 +31,20 @@ Cloudflare Workers → picstudio → 连接本仓库本分支
 
 复检：空 src 图片 40/40 命中隐藏规则；23 处赋值语句不受影响；
       23 个 fileInput 均在 .upload-area 内；qrcode/watermark 的 logoInput 有意显示不受影响
+
+## 部署加速（2026-10-24）
+
+**根因**：仓库此前没有 package.json，CF 构建日志显示
+`No dependencies detected to cache. Skipping.`
+→ 每次 `npx wrangler deploy` 都要临时下载 wrangler（数十 MB + 数百个依赖包），
+这是 1 号部署明显慢于 2 号的主因（2 号有 package.json，CF 会缓存依赖）。
+
+**已新增 package.json**，声明 devDependencies.wrangler = ^4.152.0
+（四个站中 1/4/5 号均使用 [assets] 静态资产，需 wrangler 4.x；2 号无 [assets]，用 3.x 即可）
+
+**首次部署会稍慢**（CF 需要安装并缓存依赖），此后每次部署可省去 wrangler 下载时间。
+
+其余次要因素（真实存在但非主因）：
+- 61 个文件 / 1.5 MB，是四站中文件数最多、体积最大的
+- i18n-dict.js 180 KB（1399 键 × 2 语言），为功能所需，非冗余
+- 经核查：无 .bak/.old/~/.tmp 等冗余或备份文件
