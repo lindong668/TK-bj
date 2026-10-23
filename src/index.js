@@ -60,6 +60,36 @@ export default {
       );
     }
 
+    /* ★ sitemap.xml 硬拦截（双保险）—— 2026-10-23 新增
+     *
+     * 背景：与 ads.txt / robots.txt 完全同类的隐患。
+     * Google 的 sitemap 抓取器对 Content-Type 极其严格 ——
+     * 必须是 application/xml（或 text/xml）。
+     * 一旦被 Assets 猜成 text/html 或 application/octet-stream，
+     * GSC 就会报「无法抓取 / 类型未知 / 0 个网址」，
+     * sitemap 提交失败，收录链路直接断掉。
+     *
+     * 实证：4号（haiwai-dao-hang）此前正是踩了这个坑 ——
+     *   静态返回时被判「类型未知、0 个网址」，
+     *   改成 Worker 读取后强制改写 Content-Type 才恢复正常。
+     * 本站原先只靠 public/_headers 声明，而 _headers 在部分
+     * Workers Assets 版本下不一定生效（本站自己的注释已写明）。
+     * 所以这里补上与 4号 相同的 Worker 层接管，堵死这个隐患。
+     *
+     * 做法：从 ASSETS 读取真实文件内容，强制改写 Content-Type 后吐出。
+     * 不写死内容，保证 sitemap.xml 后续更新能自动生效。 */
+    if (pathname === '/sitemap.xml') {
+      const src = await env.ASSETS.fetch(new Request(url.origin + '/sitemap.xml', request.clone()));
+      const body = await src.text();
+      return new Response(body, {
+        status: 200,
+        headers: {
+          'content-type': 'application/xml; charset=utf-8',
+          'cache-control': 'public, max-age=3600',
+        },
+      });
+    }
+
     // 形如 /tools/palette、/about 这类无扩展名路径，尝试补 .html
     //
     // ⚠️ 只对 GET/HEAD 做补后缀探测。
