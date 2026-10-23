@@ -1,0 +1,32 @@
+# ============================================================
+# PicStudio（piccalc.com）—— Cloudflare Workers + Assets
+# Worker 名称必须与 CF 上的 Worker 一致，否则控制台会出现
+# "需更新 wrangler.toml 以保持一致设置" 的红色提示。
+# ============================================================
+name = "tk-bj"
+# 账号 ID 写死，deploy 时不再交互提问选账号
+account_id = "d49e51b1279804c22035a33a9c1cb06e"
+compatibility_date = "2026-09-01"
+main = "src/index.js"
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+
+# 路由在 CF 控制台配置：Workers → tk-bj → 设置 → 域和路由
+# piccalc.com/* 与 www.piccalc.com/*
+
+# 请求日志（CF 控制台 → Workers → 该站 → Observability 实时查看）
+# 用于查清流量来源：Googlebot / 各类爬虫 / 扫描机器人
+#
+# ⚠️ invocation_logs = true 是关键：
+#    只写 enabled = true 只会记录 console.log 的输出，
+#    而本站代码里没有任何 console.log —— 那样等于什么都看不到。
+#    invocation_logs 才负责记录「每一次请求」本身（URL / UA / IP / 状态码）。
+[observability]
+enabled = true
+
+[observability.logs]
+enabled = true
+invocation_logs = true      # ★ 记录每次调用，缺了它看不到访问者
+head_sampling_rate = 1      # 100% 采样，不漏
