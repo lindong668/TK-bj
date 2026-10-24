@@ -1398,6 +1398,12 @@ window.PS_I18N = {
   "k1396": "Add text or logo watermarks, tiled across the whole image to discourage misuse",
   "k1397": "Too low has no effect and too high spoils the image; 30%–50% is typical",
   "k1398": "Use a dark colour on light images and white on dark ones. An inverted outline is added automatically, so white text stays legible even on white.",
+  "k1400": "How to redact a photo: blur, pixelate or block",
+  "k1401": "Pixelation, blur and solid blocks compared — why mosaic can sometimes be reversed, and a checklist for redacting photos safely.",
+  "k1402": "QR code error correction and capacity: L, M, Q, H",
+  "k1403": "What the four error correction levels mean, how much data each version holds, and the minimum size a printed QR code needs.",
+  "k1404": "Add a watermark without ruining image quality",
+  "k1405": "Placement that survives cropping, the right opacity, why watermarking comes last, and why JPEG is a poor final format.",
   "k1399": "or, if you are in the EU/EEA, the UK or Switzerland,"
  },
  "zh": {
@@ -2799,6 +2805,12 @@ window.PS_I18N = {
   "k1396": "给图片加上文字或 Logo 水印，支持平铺铺满整图，防止被盗用",
   "k1397": "太低起不到作用，太高影响观看，30%–50% 较常见",
   "k1398": "浅色图选深色，深色图选白色。系统会自动描一层反色轮廓，白底白字也看得清",
+  "k1400": "图片打码：模糊、马赛克还是纯色块",
+  "k1401": "三种遮挡方式对比——为什么马赛克可能被还原，以及一份真正有用的打码检查清单。",
+  "k1402": "二维码容错级别与容量：L、M、Q、H",
+  "k1403": "四个容错级别分别意味着什么、各版本能装多少数据，以及印刷二维码的最小尺寸。",
+  "k1404": "加水印不伤画质",
+  "k1405": "抗裁剪的放置方式、合适的透明度、为什么水印要放在最后一步，以及 JPEG 为何不适合作为最终格式。",
   "k1399": "如您位于欧盟／欧洲经济区、英国或瑞士，也可访问"
  }
 };
