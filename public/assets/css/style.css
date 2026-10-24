@@ -454,6 +454,12 @@ img {
     font-size: 14px;
 }
 
+/* 页脚整体兜底居中：页脚内所有块级子元素默认居中
+   （.ad-disclosure 曾是 .container 直接子元素且自身无 text-align，导致左对齐） */
+.footer .container {
+    text-align: center;
+}
+
 .footer-bottom {
     text-align: center;
     padding-top: 24px;
