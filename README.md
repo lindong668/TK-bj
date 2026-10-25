@@ -172,3 +172,37 @@ src/index.js 语法通过 ✅
 ```
 
 **未改动**：robots.txt、sitemap、页面逻辑、样式 —— 只动 ads.txt 这一处。
+
+
+## V23 变更（2026-10-25）★ 移除 Worker 内 www→apex 重定向
+
+**原因**：
+```
+Worker 自定义域里加 www.piccalc.com 后：
+  · 浏览器访问 www 显示「不安全」
+  · curl -Ik https://www.piccalc.com/ → (35) Connection was reset（TLS 握手被掐断）
+  · 等待后仍未恢复
+而 CF 后台的「批量重定向 / 规则」（主机名=www.piccalc.com → 301 到 apex）
+  开启后**几秒钟即生效**，稳定可靠。
+
+→ 结论：www 的跳转交给 CF 规则层处理，Worker 不再参与。
+```
+
+**本次改动**：
+```
+删除 src/index.js 中：
+  if (url.hostname === 'www.piccalc.com') { return Response.redirect(..., 301); }
+
+★ 保留：/ads.txt 最高优先级拦截（在本段之前，不受跳转影响）
+★ 保留：其余全部逻辑（robots / sitemap / 安全头 / 无后缀补 .html）
+```
+
+**部署后**：
+```
+① 确保 CF 后台那条 www → apex 的 301 规则是「开启」状态
+② Purge 缓存
+③ 验 https://piccalc.com/ads.txt      → 200，显示 pub 行
+④ 验 https://www.piccalc.com/         → 301 跳到 piccalc.com（由 CF 规则完成）
+```
+**注**：AdSense 提交的站点是 piccalc.com（apex），抓取的是 apex 的 ads.txt，
+该地址一直是 200，不受 www 跳转方式影响。

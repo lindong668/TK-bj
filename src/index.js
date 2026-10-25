@@ -33,10 +33,11 @@ export default {
       );
     }
 
-    // 统一走 https + 主域名，避免 piccalc.com 与 www 双份索引
-    if (url.hostname === 'www.piccalc.com') {
-      return Response.redirect('https://piccalc.com' + url.pathname + url.search, 301);
-    }
+    /* ★ V23：www → apex 的重定向已移除
+     * 改由 CF 后台的「批量重定向 / 规则」处理（实测 CF 侧几秒生效，比 Worker 侧可靠）。
+     * 注意：ads.txt 的拦截在本段**之前**，因此不受任何 www 跳转影响，
+     *       apex 与 www 两种形态都仍会直接 200 返回（前提是该请求能到达 Worker）。
+     */
 
     let pathname = url.pathname;
 
