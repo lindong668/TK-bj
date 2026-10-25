@@ -127,3 +127,48 @@ src/index.js 语法通过 ✅
 ### ⚠️ 待确认
 若换名+压缩后仍无图，则原因不在图片本身，需进一步核实：
 手机浏览器直接打开 https://piccalc.com/og-v2.png 是否能显示。
+
+## V22 变更（2026-10-25）★ ads.txt 「未找到」专项修复
+
+**背景（分离变量得出的结论）**：
+```
+四个站同一套 ads.txt 写法、同一 pub ID：
+  658.ccwu.cc  已授权 ✅
+  596.us.ci    已授权 ✅（GitHub Pages 静态）
+  yok.us.ci    已授权 ✅
+  piccalc.com  未找到 ❌  ← 唯一出问题的
+
+差异不在代码、不在 Content-Type、不在账号（状态"开启"）、不在文件（一直能打开）。
+★ 真正的差异：piccalc.com 加入最早（10-17），是唯一被 AdSense **重复抓取**过的；
+  其余三个 10-25 才加入，只经历了首次抓取并成功。
+  10-24 部署 V21b 期间若 AdSense 正好重抓，撞上部署空窗 → 记录为「未找到」。
+  AdSense 不会立即重抓，所以状态一直挂着。
+```
+
+**本次改动（把 ads.txt 做成整站最稳的一环）**：
+```
+1. /ads.txt 提到 Worker 最最前面，★ 早于 www 重定向
+   → apex 与 www 两种形态都直接 200，不产生 301
+   → AdSense 对 ads.txt 的重定向极其敏感，301 可能被判「未找到」
+
+2. Content-Type 改为纯 text/plain（去掉 ; charset=utf-8）
+   → 消除严格字符串匹配场景下的失败风险
+
+3. 新增 X-Content-Type-Options: nosniff
+   → 防止被二次猜测 MIME
+
+4. cache-control 3600 → 86400
+   → 边缘缓存更稳，减少抓取时撞上瞬时空窗的概率
+
+5. 兼容 /Ads.txt 大小写变体
+```
+
+**部署后必做**：
+```
+① CF → piccalc.com → 缓存 → 清除所有内容（Purge Everything）
+② 浏览器验 https://piccalc.com/ads.txt         → 应显示 pub 行
+③ 浏览器验 https://www.piccalc.com/ads.txt     → ★ 应直接显示 pub 行（不跳转）
+④ AdSense 后台触发重新抓取，或等下一轮自动重抓
+```
+
+**未改动**：robots.txt、sitemap、页面逻辑、样式 —— 只动 ads.txt 这一处。

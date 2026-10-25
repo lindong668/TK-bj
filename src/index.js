@@ -12,6 +12,27 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
+    /* ★★ ads.txt 最高优先级拦截（V22 修复）
+     *
+     * 为什么必须放在最最前面（甚至早于 www 重定向）：
+     *   1. AdSense 抓取器会同时尝试 apex 与 www 两个形态。
+     *      若走 www → apex 的 301，AdSense 对重定向极其敏感，
+     *      可能直接判定「未找到」。这里让两种形态都直接 200，不重定向。
+     *   2. Content-Type 用纯 text/plain（不带 charset），
+     *      消除严格字符串匹配场景下的失败风险。
+     *   3. nosniff 防止被二次猜测 MIME。
+     */
+    if (url.pathname === '/ads.txt' || url.pathname === '/Ads.txt') {
+      return new Response(
+        'google.com, pub-8915931557404979, DIRECT, f08c47fec0942fa0\n',
+        { status: 200, headers: {
+            'content-type': 'text/plain',
+            'X-Content-Type-Options': 'nosniff',
+            'cache-control': 'public, max-age=86400'
+        } }
+      );
+    }
+
     // 统一走 https + 主域名，避免 piccalc.com 与 www 双份索引
     if (url.hostname === 'www.piccalc.com') {
       return Response.redirect('https://piccalc.com' + url.pathname + url.search, 301);
@@ -19,22 +40,6 @@ export default {
 
     let pathname = url.pathname;
 
-    /* ★ Adsense ads.txt 硬拦截（双保险）
-     *
-     * 背景：AdSense 抓取器对 Content-Type 极其严格 —— 必须是 text/plain，
-     * 一旦被猜成 text/html 就会判定「ads.txt 无效」，审核卡住。
-     * _headers 那条规则在部分 Workers Assets 版本下不一定生效，
-     * 所以这里在 Worker 层直接接管，绕过静态资源的 MIME 猜测，
-     * 无论 assets 怎么返回，AdSense 拿到的永远是正确的内容与类型。 */
-    if (pathname === '/ads.txt') {
-      return new Response(
-        'google.com, pub-8915931557404979, DIRECT, f08c47fec0942fa0\n',
-        { status: 200, headers: {
-            'content-type': 'text/plain; charset=utf-8',
-            'cache-control': 'public, max-age=3600'
-        } }
-      );
-    }
 
     /* ★ 谷歌站长验证文件硬拦截
      * 同理：直接返回固定内容 + text/html，并禁用缓存，
