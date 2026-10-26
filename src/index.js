@@ -129,6 +129,42 @@ export default {
     //   "Cannot reconstruct a Request with a used body."
     // （日志里 POST /wp-json/batch/v1 的 error 就是这么来的。）
     // 补后缀本身就是为页面导航服务的，POST 没有补的必要，直接跳过。
+    /* ★★ V27：/guides/ 废弃旧短名 → /tools/ 正式地址【写死映射】301
+     *
+     * ★ V26 的写法是"先 404，再探测 /tools/ 是否存在"，实测线上【不生效】
+     *   （用户本地访问仍是 404）。原因不明，但教训明确：
+     *   不要依赖"404 后探测"这种间接逻辑，多一层就多一层不确定。
+     *   V27 改成写死映射，在 env.ASSETS.fetch 【之前】直接 return，
+     *   100% 生效，不依赖任何探测结果。
+     *
+     * 背景（拆包实测，非推测）：
+     *   public/guides/ 下真实存在的 10 个文件用的是【长名】：
+     *     compress-to-size / exif-privacy / id-photo-sizes / image-formats
+     *     qr-code-error-correction / redact-photo-privacy
+     *     remove-background / resolution-dpi / watermark-without-quality-loss
+     *     index.html
+     *   而 GSC「未找到(404)」里的 7 个是【旧短名】，guides 下根本没有：
+     *     resize / remove-bg / crop / compress / id-photo / mosaic / exif
+     *   即站点做过命名规范化（短名 → 长名 / 或迁到 tools），但没补跳转。
+     *   这 7 个短名的正式地址全部在 /tools/ 下（已逐个核对 24 个文件确认存在）。
+     *
+     * ★★ 只映射这 7 个废弃短名，【绝不】无条件跳 /guides/* ！
+     *   否则会把真实存在的 /guides/compress-to-size.html
+     *   误跳到不存在的 /tools/compress-to-size.html，反而造出新的 404。
+     */
+    const GUIDES_LEGACY_MAP = {
+      '/guides/resize.html':    '/tools/resize.html',
+      '/guides/remove-bg.html': '/tools/remove-bg.html',
+      '/guides/crop.html':      '/tools/crop.html',
+      '/guides/compress.html':  '/tools/compress.html',
+      '/guides/id-photo.html':  '/tools/id-photo.html',
+      '/guides/mosaic.html':    '/tools/mosaic.html',
+      '/guides/exif.html':      '/tools/exif.html',
+    };
+    if (GUIDES_LEGACY_MAP[pathname]) {
+      return Response.redirect(url.origin + GUIDES_LEGACY_MAP[pathname] + url.search, 301);
+    }
+
     const noExt = !/\.[a-zA-Z0-9]+$/.test(pathname);
     const isNav = request.method === 'GET' || request.method === 'HEAD';
     if (isNav && noExt && pathname !== '/' && !pathname.endsWith('/')) {
