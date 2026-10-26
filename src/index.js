@@ -149,6 +149,40 @@ export default {
 
     const res = await env.ASSETS.fetch(request);
 
+    /* ★★ V26 新增：/guides/ 旧路径 → /tools/ 真身的 301 迁移跳转
+     *
+     * 背景（实测发现，非推测）：
+     *   GSC「未找到 (404)」列表里的 7 个地址全部形如：
+     *     /guides/resize.html   /guides/crop.html    /guides/mosaic.html
+     *     /guides/compress.html /guides/id-photo.html
+     *     /guides/exif.html     /guides/remove-bg.html
+     *   但 public/guides/ 下根本没有这些文件 —— 它们是早期收录的旧路径。
+     *
+     *   真身全部在 /tools/ 下（已逐个核对存在）：
+     *     /tools/resize.html  /tools/crop.html  /tools/mosaic.html
+     *     /tools/compress.html /tools/id-photo.html
+     *     /tools/exif.html    /tools/remove-bg.html
+     *   即站点经历过 guides → tools 的路径迁移，但从未补跳转，
+     *   于是这些旧地址一直 404，被 GSC 持续判为「未找到」。
+     *
+     * 为什么写成"404 时才探测"而不是预先写死一张映射表：
+     *   ① 零成本：正常页面不触发，只在真 404 时多一次探测
+     *   ② 不写死：以后再出现同类迁移，自动兜住，不用回来改代码
+     *   ③ 安全：只有确认 /tools/ 下真有 200 的页面才跳，
+     *      绝不把 404 跳成另一个 404
+     */
+    if (res.status === 404 && pathname.startsWith('/guides/')) {
+      const base = pathname.slice('/guides/'.length);
+      if (base && base !== 'index.html') {
+        const alt = new Request(url.origin + '/tools/' + base, request.clone());
+        const altRes = await env.ASSETS.fetch(alt);
+        if (altRes.status === 200) {
+          // 301 永久重定向：把旧收录的权重转移到 /tools/ 正式地址
+          return Response.redirect(url.origin + '/tools/' + base + url.search, 301);
+        }
+      }
+    }
+
     // 404 兜底：给一个最简单的提示页，而不是空白
     if (res.status === 404) {
       return new Response(
