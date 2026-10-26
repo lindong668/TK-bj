@@ -9,6 +9,25 @@ account_id = "d49e51b1279804c22035a33a9c1cb06e"
 compatibility_date = "2026-09-01"
 main = "src/index.js"
 
+# ★★ V25-fix：用 custom_domain = true 让 wrangler deploy 自动创建 DNS 记录
+#
+# 为什么不再靠控制台手动添加：
+#   1. 控制台「域和路由」有两个入口，行为不同：
+#        Custom Domain（自定义域）→ CF 自动创建 DNS 记录（类型显示为 Worker）
+#        Route（路由）            → 【不会】创建任何 DNS 记录，需手动加
+#      手动添加时若选错成 Route，就会出现"加了但 DNS 里看不到"。
+#   2. 控制台对子域（www.xxx.com）添加偶发 "No zones match" 报错。
+#   3. 写在配置里，每次 deploy 都会重新确立，不会漂移。
+#
+# 效果：deploy 后 DNS 里自动生成两条 Worker 类型记录（带锁、不可编辑）：
+#        piccalc.com      → tk-bj
+#        www.piccalc.com  → tk-bj
+#      并自动签发证书。
+routes = [
+  { pattern = "piccalc.com", custom_domain = true },
+  { pattern = "www.piccalc.com", custom_domain = true }
+]
+
 [assets]
 directory = "./public"
 binding = "ASSETS"
@@ -25,8 +44,6 @@ binding = "ASSETS"
 #     切换后无内容差异。
 run_worker_first = true
 
-# 路由在 CF 控制台配置：Workers → tk-bj → 设置 → 域和路由
-# piccalc.com/* 与 www.piccalc.com/*
 
 # 请求日志（CF 控制台 → Workers → 该站 → Observability 实时查看）
 # 用于查清流量来源：Googlebot / 各类爬虫 / 扫描机器人
