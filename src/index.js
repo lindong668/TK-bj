@@ -122,6 +122,24 @@ export default {
       if (idx.status === 200) return idx;
     }
 
+    /* ★★ V24：www → apex 的 301 重定向（回归 Worker 内实现）
+     *
+     * 为什么不再用 CF 规则：
+     *   CF 的「批量重定向 / Redirect Rules」在 CDN 层执行，==早于 Worker==，
+     *   会把 /ads.txt、/robots.txt、/sitemap.xml 一起 301 掉，
+     *   导致 AdSense 判「未找到」、Google robots.txt 提取失败。
+     *   （V23 就是踩了这个坑。）
+     *
+     * 为什么放在这个位置：
+     *   本段位于 ads.txt / 验证文件 / robots.txt / sitemap.xml
+     *   四个特例拦截【之后】、静态资源兜底【之前】。
+     *   因此这些特例路径天然不会被跳转，
+     *   由代码顺序保证，不依赖任何外部规则 —— 最稳。
+     */
+    if (url.hostname === 'www.piccalc.com') {
+      return Response.redirect('https://piccalc.com' + url.pathname + url.search, 301);
+    }
+
     const res = await env.ASSETS.fetch(request);
 
     // 404 兜底：给一个最简单的提示页，而不是空白
