@@ -33,10 +33,19 @@ export default {
       );
     }
 
-    /* ★ V23：www → apex 的重定向已移除
-     * 改由 CF 后台的「批量重定向 / 规则」处理（实测 CF 侧几秒生效，比 Worker 侧可靠）。
-     * 注意：ads.txt 的拦截在本段**之前**，因此不受任何 www 跳转影响，
-     *       apex 与 www 两种形态都仍会直接 200 返回（前提是该请求能到达 Worker）。
+    /* ★ V24 更正：V23 曾把 www→apex 挪到 CF 规则，这是错的，已回归 Worker 内实现。
+     *
+     * 为什么不能用 CF 规则：
+     *   CF 的「批量重定向 / Redirect Rules」在 CDN 层执行，==早于 Worker==，
+     *   会把 /ads.txt、/robots.txt、/sitemap.xml 一起 301 掉，
+     *   导致 AdSense 判「未找到」、Google robots.txt 提取失败。
+     *
+     * V24 的正确位置：见下方第 139 行，
+     *   位于 ads.txt / 验证文件 / robots.txt / sitemap.xml 四个拦截【之后】，
+     *   → 这些特例路径天然不被跳转，由代码顺序保证，不依赖外部规则。
+     *
+     * （V23 那句"前提是该请求能到达 Worker"正是踩坑点：
+     *    CF 规则在更早的层就把请求截走，根本到不了 Worker。）
      */
 
     let pathname = url.pathname;

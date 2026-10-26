@@ -13,6 +13,18 @@ main = "src/index.js"
 directory = "./public"
 binding = "ASSETS"
 
+# ★★ V24 关键修复：必须开启 run_worker_first
+# 原因：public/ 下存在 ads.txt / robots.txt / sitemap.xml / index.html，
+#      默认「静态优先」会让这些请求直接由静态层返回，根本不进 Worker，
+#      → Worker 里写的 www→apex 301 变成死代码，
+#        www.piccalc.com/ 首页直接 200 返回内容，不跳转，造成重复内容。
+#      开启后 Worker 代码先执行，代码内的顺序才真正生效：
+#        ads.txt / 验证文件 / robots.txt / sitemap.xml 拦截在前（不跳转）
+#        www → apex 301 在后（其余路径才跳）
+# 注：两版 robots.txt（静态文件 vs Worker 硬编码）内容已核对一致，
+#     切换后无内容差异。
+run_worker_first = true
+
 # 路由在 CF 控制台配置：Workers → tk-bj → 设置 → 域和路由
 # piccalc.com/* 与 www.piccalc.com/*
 
