@@ -12,15 +12,31 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
-    /* ★★ ads.txt 最高优先级拦截（V22 修复）
+    /* ★★ V25：www → apex 的 301 重定向（全路径跳转，无任何例外）
      *
-     * 为什么必须放在最最前面（甚至早于 www 重定向）：
-     *   1. AdSense 抓取器会同时尝试 apex 与 www 两个形态。
-     *      若走 www → apex 的 301，AdSense 对重定向极其敏感，
-     *      可能直接判定「未找到」。这里让两种形态都直接 200，不重定向。
-     *   2. Content-Type 用纯 text/plain（不带 charset），
+     * 位置：放在【所有拦截之前】，因此 www 的任意路径
+     *   /ads.txt、/robots.txt、/sitemap.xml、/ ……
+     *   全部 301 到 apex，不设特例 —— 行为完全一致，逻辑最简单。
+     *
+     * apex（piccalc.com）不匹配本段，继续往下走：
+     *   ads.txt / 验证文件 / robots.txt / sitemap.xml 拦截 → 200
+     *   其余 → 静态资源兜底
+     */
+    if (url.hostname === 'www.piccalc.com') {
+      return Response.redirect('https://piccalc.com' + url.pathname + url.search, 301);
+    }
+
+    /* ★★ ads.txt 拦截（V22 修复，V25 说明更新）
+     *
+     * V25 起，www 的 301 已提到本段【之前】，
+     *   因此 www 形态的 /ads.txt 会 301 到 apex，
+     *   由 apex 走本段返回 200（AdSense 抓取器会跟随 301）。
+     * 本段现在只对 apex（piccalc.com）生效，返回 200。
+     *
+     * 两个不变的关键点：
+     *   1. Content-Type 用纯 text/plain（不带 charset），
      *      消除严格字符串匹配场景下的失败风险。
-     *   3. nosniff 防止被二次猜测 MIME。
+     *   2. nosniff 防止被二次猜测 MIME。
      */
     if (url.pathname === '/ads.txt' || url.pathname === '/Ads.txt') {
       return new Response(
@@ -129,24 +145,6 @@ export default {
     if (pathname === '/guides' || pathname === '/guides/') {
       const idx = await env.ASSETS.fetch(new Request(url.origin + '/guides/index.html', request.clone()));
       if (idx.status === 200) return idx;
-    }
-
-    /* ★★ V24：www → apex 的 301 重定向（回归 Worker 内实现）
-     *
-     * 为什么不再用 CF 规则：
-     *   CF 的「批量重定向 / Redirect Rules」在 CDN 层执行，==早于 Worker==，
-     *   会把 /ads.txt、/robots.txt、/sitemap.xml 一起 301 掉，
-     *   导致 AdSense 判「未找到」、Google robots.txt 提取失败。
-     *   （V23 就是踩了这个坑。）
-     *
-     * 为什么放在这个位置：
-     *   本段位于 ads.txt / 验证文件 / robots.txt / sitemap.xml
-     *   四个特例拦截【之后】、静态资源兜底【之前】。
-     *   因此这些特例路径天然不会被跳转，
-     *   由代码顺序保证，不依赖任何外部规则 —— 最稳。
-     */
-    if (url.hostname === 'www.piccalc.com') {
-      return Response.redirect('https://piccalc.com' + url.pathname + url.search, 301);
     }
 
     const res = await env.ASSETS.fetch(request);
