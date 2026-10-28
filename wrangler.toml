@@ -1,57 +1,43 @@
-# ============================================================
-# PicStudio（piccalc.com）—— Cloudflare Workers + Assets
-# Worker 名称必须与 CF 上的 Worker 一致，否则控制台会出现
-# "需更新 wrangler.toml 以保持一致设置" 的红色提示。
-# ============================================================
-name = "tk-bj"
-# 账号 ID 写死，deploy 时不再交互提问选账号
-account_id = "d49e51b1279804c22035a33a9c1cb06e"
-compatibility_date = "2026-09-01"
+name = 'guoji-yuanyou'
+account_id = 'd49e51b1279804c22035a33a9c1cb06e'
 main = "src/index.js"
+compatibility_date = "2025-04-01"   # ★ A16：assets 需要较新的兼容日期
 
-# ★★ V25-fix：用 custom_domain = true 让 wrangler deploy 自动创建 DNS 记录
-#
-# 为什么不再靠控制台手动添加：
-#   1. 控制台「域和路由」有两个入口，行为不同：
-#        Custom Domain（自定义域）→ CF 自动创建 DNS 记录（类型显示为 Worker）
-#        Route（路由）            → 【不会】创建任何 DNS 记录，需手动加
-#      手动添加时若选错成 Route，就会出现"加了但 DNS 里看不到"。
-#   2. 控制台对子域（www.xxx.com）添加偶发 "No zones match" 报错。
-#   3. 写在配置里，每次 deploy 都会重新确立，不会漂移。
-#
-# 效果：deploy 后 DNS 里自动生成两条 Worker 类型记录（带锁、不可编辑）：
-#        piccalc.com      → tk-bj
-#        www.piccalc.com  → tk-bj
-#      并自动签发证书。
+# ---- Custom domain: must use /* so ALL paths reach the Worker ----
 routes = [
-  { pattern = "piccalc.com", custom_domain = true },
-  { pattern = "www.piccalc.com", custom_domain = true }
+  { pattern = "you.piccalc.com/*", zone_name = "piccalc.com" }
 ]
+# workers_dev = true
 
+# Uncomment and fill after `wrangler kv:namespace create PRICESCOPE_CACHE`
+# if you later want persistent caching:
+# [[kv_namespaces]]
+# binding = "PRICESCOPE_CACHE"
+# id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+# ---- Fill AFTER AdSense approval / Search Console verification ----
+# Leave blank for now; the site shows placeholders instead of real ads.
+# ---- A16：静态资源目录（图标改为真文件，不再 base64 内嵌 JS）----
+# 匹配规则：先找 public/ 下的真文件，找不到才走 Worker。
+# public/ 只放图标，页面/robots/sitemap/ads.txt 仍由 Worker 生成，不冲突。
 [assets]
 directory = "./public"
 binding = "ASSETS"
 
-# ★★ V24 关键修复：必须开启 run_worker_first
-# 原因：public/ 下存在 ads.txt / robots.txt / sitemap.xml / index.html，
-#      默认「静态优先」会让这些请求直接由静态层返回，根本不进 Worker，
-#      → Worker 里写的 www→apex 301 变成死代码，
-#        www.piccalc.com/ 首页直接 200 返回内容，不跳转，造成重复内容。
-#      开启后 Worker 代码先执行，代码内的顺序才真正生效：
-#        ads.txt / 验证文件 / robots.txt / sitemap.xml 拦截在前（不跳转）
-#        www → apex 301 在后（其余路径才跳）
-# 注：两版 robots.txt（静态文件 vs Worker 硬编码）内容已核对一致，
-#     切换后无内容差异。
-run_worker_first = true
+[vars]
+ADSENSE_CLIENT = ""   # ca-pub-1234567890123456
+AD_SLOT_HOME   = ""
+AD_SLOT_OIL    = ""
+AD_SLOT_GOLD   = ""
+AD_SLOT_CN     = ""
+AD_SLOT_FX     = ""
+AD_SLOT_WTI    = ""
+AD_SLOT_BLOG   = ""
+AD_SLOT_ARTICLE= ""
+AD_SLOT_LEGAL  = ""
+GA4_ID         = ""   # G-ABCDEF1234
+GSC_VERIFY     = ""   # google-site-verification=...
 
-
-# 请求日志（CF 控制台 → Workers → 该站 → Observability 实时查看）
-# 用于查清流量来源：Googlebot / 各类爬虫 / 扫描机器人
-#
-# ⚠️ invocation_logs = true 是关键：
-#    只写 enabled = true 只会记录 console.log 的输出，
-#    而本站代码里没有任何 console.log —— 那样等于什么都看不到。
-#    invocation_logs 才负责记录「每一次请求」本身（URL / UA / IP / 状态码）。
 [observability]
 enabled = true
 
@@ -60,17 +46,24 @@ enabled = true
 invocation_logs = true      # ★ 记录每次调用，缺了它看不到访问者
 head_sampling_rate = 1      # 100% 采样，不漏
 
-
-# ---- V19：修复 Workers Builds 预览部署红叉 ----
-# 现象：GitHub Actions 上 "Workers Builds: tk-bj" 报红叉，
-#       但生产部署（wrangler deploy）其实成功、站点访问正常。
-# 根因（CF 构建日志原文）：
-#   Executing user deploy command: npx wrangler preview
-#   ✘ [ERROR] Your Wrangler configuration is missing a `previews` block
-#     to run this command. ... The block can be empty.
-# 说明：Workers Builds 对同一次提交跑两套构建——
-#   生产 → wrangler deploy  （成功，绿）
-#   预览 → wrangler preview （要求存在 [previews] 块，缺失即失败，红叉）
-# 本站未使用任何环境变量（src/index.js 仅引用 env.ASSETS），
-# 故此处按 CF 官方说明留空块即可，无需 previews.vars。
-[previews]
+# ---- A17：修复 Workers Builds 预览部署失败 ----
+# 现象：GitHub Actions 上 "Workers Builds: guoji-yuanyou" 报红叉，
+#       但生产部署（wrangler deploy）其实成功、站点正常。
+# 根因：CF 的预览构建跑的是 `npx wrangler preview`，
+#       该命令要求配置里存在 [previews.vars] 块，缺失即报：
+#       "Your Wrangler configuration is missing a `previews` block"
+# 修法：把与 [vars] 一一对应的 12 个变量写入预览块（同样留空占位）。
+# 已用脚本比对：两处变量名、数量完全一致（12/12），无缺漏。
+[previews.vars]
+ADSENSE_CLIENT = ""
+AD_SLOT_HOME   = ""
+AD_SLOT_OIL    = ""
+AD_SLOT_GOLD   = ""
+AD_SLOT_CN     = ""
+AD_SLOT_FX     = ""
+AD_SLOT_WTI    = ""
+AD_SLOT_BLOG   = ""
+AD_SLOT_ARTICLE= ""
+AD_SLOT_LEGAL  = ""
+GA4_ID         = ""
+GSC_VERIFY     = ""

@@ -1,8 +1,8 @@
 {
-  "name": "picstudio",
+  "name": "pricescope",
   "version": "1.0.0",
   "private": true,
-  "description": "PicStudio（piccalc.com）图片工具站 on Cloudflare Workers + Assets",
+  "description": "PriceScope — multilingual oil, gold, China fuel & currency price site on Cloudflare Workers",
   "main": "src/index.js",
   "scripts": {
     "dev": "wrangler dev",
@@ -11,5 +11,6 @@
   },
   "devDependencies": {
     "wrangler": "^4.152.0"
-  }
+  },
+  "type": "module"
 }

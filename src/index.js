@@ -1,236 +1,334 @@
-/**
- * PicStudio 静态资源服务
- * 负责把 /public 下的文件吐出去，补安全与 SEO 响应头。
- *
- * 新增（本次）：无后缀 URL 自动补 .html
- *   例：/tools/palette  →  /tools/palette.html （301）
- *   作用：Google 已收录过一批不带 .html 的 URL，
- *        直接放开会变成 404 并被逐步移出索引，
- *        这样可以把旧收录的权重和平转移到正式 URL。
- */
+// ============================================================
+// PriceScope — Cloudflare Worker entry (SSR, multilingual)
+// Deploy target: https://you.piccalc.com
+// Data source:   https://ss.wwok.eu.cc/data  (your existing Worker)
+// ============================================================
+import { LANGS, DEFAULT_LANG, detectLang, SITE, t } from './i18n.js';
+import { getMarket, getFx, fetchGoldLive } from './data.js';
+import { page, esc, configure, adsTxtPublisher } from './ui.js';
+import {
+  renderHome, renderOil, renderGold, renderCn, renderFx,
+  renderPrivacy, renderAbout, renderContact, renderFaq, sitemap,
+  renderBlogList, renderArticle, renderWti,
+} from './pages.js';
+
+// ------------------------------------------------------------
+// Visitor timezone resolution
+// Priority: 1) ps_tz cookie (written by the inline script on a previous
+// visit — survives VPN / wrong CF geo)  2) Cloudflare geo  3) UTC.
+// Always validated: a bogus value must never reach Intl.
+// ------------------------------------------------------------
+function isValidTz(tz) {
+  if (typeof tz !== 'string' || !tz) return false;
+  try { new Intl.DateTimeFormat('en-US', { timeZone: tz }); return true; }
+  catch { return false; }
+}
+
+function pickTz(request) {
+  const cookie = request.headers.get('Cookie') || '';
+  const m = /(?:^|;\s*)ps_tz=([^;]+)/.exec(cookie);
+  if (m) {
+    let v = m[1];
+    try { v = decodeURIComponent(v); } catch {}
+    if (isValidTz(v)) return v;
+  }
+  const cf = request.cf && request.cf.timezone;
+  if (isValidTz(cf)) return cf;
+  return 'UTC';
+}
+
+/* base64 → 二进制响应（图标专用，长期缓存） */
+function bin(b64, mime) {
+  const raw = atob(b64);
+  const buf = new Uint8Array(raw.length);
+  for (let i = 0; i < raw.length; i++) buf[i] = raw.charCodeAt(i);
+  return new Response(buf, {
+    status: 200,
+    headers: {
+      'content-type': mime,
+      'cache-control': 'public, max-age=604800',
+    },
+  });
+}
+
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
+    const seg = url.pathname.split('/').filter(Boolean);
 
-    /* ★★ V25：www → apex 的 301 重定向（全路径跳转，无任何例外）
-     *
-     * 位置：放在【所有拦截之前】，因此 www 的任意路径
-     *   /ads.txt、/robots.txt、/sitemap.xml、/ ……
-     *   全部 301 到 apex，不设特例 —— 行为完全一致，逻辑最简单。
-     *
-     * apex（piccalc.com）不匹配本段，继续往下走：
-     *   ads.txt / 验证文件 / robots.txt / sitemap.xml 拦截 → 200
-     *   其余 → 静态资源兜底
-     */
-    if (url.hostname === 'www.piccalc.com') {
-      return Response.redirect('https://piccalc.com' + url.pathname + url.search, 301);
-    }
+    // load AdSense / GA4 / GSC ids from Worker vars
+    configure(env);
 
-    /* ★★ ads.txt 拦截（V22 修复，V25 说明更新）
+    // Visitor timezone — resolved once per request and passed explicitly
+    // into every renderer (never stored in module state: Workers isolates
+    // interleave across `await` and would leak it between visitors).
+    const tz = pickTz(request);
+
+    /* ★ A16：图标已改为 public/ 下的真静态文件（见 wrangler.toml [assets]）
+     * 由 Cloudflare 直接返回，不再经过 Worker，也不再 base64 内嵌。
+     * 原 6 个图标路由已删除；icons.js 已删除。 */
+
+    // ---------- ads.txt (required by AdSense) ----------
+    /* ★ v2 修正：ads.txt 必须提前给出真实 publisher ID
      *
-     * V25 起，www 的 301 已提到本段【之前】，
-     *   因此 www 形态的 /ads.txt 会 301 到 apex，
-     *   由 apex 走本段返回 200（AdSense 抓取器会跟随 301）。
-     * 本段现在只对 apex（piccalc.com）生效，返回 200。
+     * 原逻辑依赖 adsTxtPublisher()，而它受 ADSENSE_CLIENT 控制；
+     * wrangler.toml 里该值留空（为了审核期间不展示广告位），
+     * 结果 ads.txt 输出的是一行注释 —— AdSense 抓取器会判定
+     * 「ads.txt 无效 / 缺失」，审核直接卡住。
      *
-     * 两个不变的关键点：
-     *   1. Content-Type 用纯 text/plain（不带 charset），
-     *      消除严格字符串匹配场景下的失败风险。
-     *   2. nosniff 防止被二次猜测 MIME。
-     */
-    if (url.pathname === '/ads.txt' || url.pathname === '/Ads.txt') {
+     * 关键点：ads.txt 只是所有权声明文件，本身不含广告代码，
+     * 提前放置完全符合 AdSense 政策（政策禁止的是审核期间展示广告位，
+     * 不是禁止声明所有权）。
+     *
+     * 所以这里写死真实 pub ID，且与广告位开关解耦 ——
+     * ads.txt 立即生效，广告位仍等批准后由 ADSENSE_CLIENT 控制开启。 */
+    /* Bing 站点所有权 XML 验证。
+     * 本包同时也在 public/ 根目录放了同名静态文件（assets 优先命中）；
+     * 这里再加一层 Worker 兜底，确保任何情况下都能返回。 */
+    if (url.pathname === '/BingSiteAuth.xml') {
       return new Response(
-        'google.com, pub-8915931557404979, DIRECT, f08c47fec0942fa0\n',
-        { status: 200, headers: {
-            'content-type': 'text/plain',
-            'X-Content-Type-Options': 'nosniff',
-            'cache-control': 'public, max-age=86400'
-        } }
+        `<?xml version="1.0"?>
+<users>
+\t<user>922DCA6E549674B12068F412FE444631</user>
+</users>
+`,
+        { headers: { 'content-type': 'application/xml; charset=utf-8' } }
       );
     }
 
-    /* ★ V24 更正：V23 曾把 www→apex 挪到 CF 规则，这是错的，已回归 Worker 内实现。
-     *
-     * 为什么不能用 CF 规则：
-     *   CF 的「批量重定向 / Redirect Rules」在 CDN 层执行，==早于 Worker==，
-     *   会把 /ads.txt、/robots.txt、/sitemap.xml 一起 301 掉，
-     *   导致 AdSense 判「未找到」、Google robots.txt 提取失败。
-     *
-     * V24 的正确位置：见下方第 139 行，
-     *   位于 ads.txt / 验证文件 / robots.txt / sitemap.xml 四个拦截【之后】，
-     *   → 这些特例路径天然不被跳转，由代码顺序保证，不依赖外部规则。
-     *
-     * （V23 那句"前提是该请求能到达 Worker"正是踩坑点：
-     *    CF 规则在更早的层就把请求截走，根本到不了 Worker。）
-     */
-
-    let pathname = url.pathname;
-
-
-    /* ★ 谷歌站长验证文件硬拦截
-     * 同理：直接返回固定内容 + text/html，并禁用缓存，
-     * 保证 Google 每次来复查都能立刻拿到最新内容。 */
-    if (pathname === '/google6474e28bb6098302.html') {
-      return new Response(
-        'google-site-verification: google6474e28bb6098302.html\n',
-        { status: 200, headers: {
-            'content-type': 'text/html; charset=utf-8',
-            'cache-control': 'no-cache, must-revalidate'
-        } }
-      );
-    }
-
-
-    if (pathname === '/robots.txt') {
-      return new Response(
-        'User-agent: Mediapartners-Google\nAllow: /\n\nUser-agent: Googlebot\nAllow: /\n\nUser-agent: Bingbot\nAllow: /\n\nUser-agent: *\nAllow: /\n\nSitemap: https://piccalc.com/sitemap.xml\n',
-        { status: 200, headers: {
-            'content-type': 'text/plain; charset=utf-8',
-            'cache-control': 'public, max-age=3600'
-        } }
-      );
-    }
-
-    /* ★ sitemap.xml 硬拦截（双保险）—— 2026-10-23 新增
-     *
-     * 背景：与 ads.txt / robots.txt 完全同类的隐患。
-     * Google 的 sitemap 抓取器对 Content-Type 极其严格 ——
-     * 必须是 application/xml（或 text/xml）。
-     * 一旦被 Assets 猜成 text/html 或 application/octet-stream，
-     * GSC 就会报「无法抓取 / 类型未知 / 0 个网址」，
-     * sitemap 提交失败，收录链路直接断掉。
-     *
-     * 实证：4号（haiwai-dao-hang）此前正是踩了这个坑 ——
-     *   静态返回时被判「类型未知、0 个网址」，
-     *   改成 Worker 读取后强制改写 Content-Type 才恢复正常。
-     * 本站原先只靠 public/_headers 声明，而 _headers 在部分
-     * Workers Assets 版本下不一定生效（本站自己的注释已写明）。
-     * 所以这里补上与 4号 相同的 Worker 层接管，堵死这个隐患。
-     *
-     * 做法：从 ASSETS 读取真实文件内容，强制改写 Content-Type 后吐出。
-     * 不写死内容，保证 sitemap.xml 后续更新能自动生效。 */
-    if (pathname === '/sitemap.xml') {
-      const src = await env.ASSETS.fetch(new Request(url.origin + '/sitemap.xml', request.clone()));
-      const body = await src.text();
+    if (url.pathname === '/ads.txt') {
+      const pub = adsTxtPublisher() || 'pub-8915931557404979';
+      const body = `google.com, ${pub}, DIRECT, f08c47fec0942fa0\n`;
       return new Response(body, {
-        status: 200,
+        headers: { 'content-type': 'text/plain; charset=utf-8', 'cache-control': 'public, max-age=86400' },
+      });
+    }
+
+    // ---------- Google 站点验证文件 ----------
+    // 与 1号(piccalc.com) / 5号(k789.cc.cd) 使用同一份验证文件，
+    // 便于在 Search Console 用同一账号添加属性。
+    if (url.pathname === '/google6474e28bb6098302.html') {
+      return new Response('google-site-verification: google6474e28bb6098302.html', {
+        headers: { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'public, max-age=86400' },
+      });
+    }
+
+    // ---------- robots.txt ----------
+    if (url.pathname === '/robots.txt') {
+      const body = `User-agent: Mediapartners-Google
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Applebot：支撑 Spotlight / Siri / Safari 搜索
+# （若 robots 未提 Applebot，它会沿用 Googlebot 的规则；显式声明更稳妥）
+User-agent: Applebot
+Allow: /
+
+# AI 搜索爬虫：允许抓取，让内容可被 AI 回答引用
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: *
+Allow: /
+
+Sitemap: ${SITE.domain}/sitemap.xml
+`;
+      return new Response(body, {
+        headers: { 'content-type': 'text/plain; charset=utf-8', 'cache-control': 'public, max-age=86400' },
+      });
+    }
+
+    // ---------- sitemap.xml ----------
+    if (url.pathname === '/sitemap.xml') {
+      return new Response(sitemap(), {
+        headers: { 'content-type': 'application/xml; charset=utf-8', 'cache-control': 'public, max-age=3600' },
+      });
+    }
+
+    /* ★ A22g：记住访客手动选过的语言。
+     * 用 cookie 而不是 localStorage —— 按返回键时浏览器走 bfcache（往返缓存），
+     * 上一页是从内存原样恢复的，既不再请求服务端也不重跑 JS，
+     * 任何写在页面里的 localStorage 记忆逻辑都不会执行。
+     * cookie 随请求头自动带回服务端，服务端直接给出正确语言，不依赖 JS。
+     * 爬虫不带 cookie，因此行为与改动前完全一致（SEO 无影响）。 */
+    const langCookie = (function () {
+      const jar = request.headers.get('Cookie') || '';
+      const hit = jar.match(/(?:^|;\s*)ps_lang=([a-z]{2})(?:;|$)/);
+      return (hit && LANGS.includes(hit[1])) ? hit[1] : null;
+    })();
+
+    // ---------- root: render the landing page IN PLACE (200, no redirect) ----------
+    // This used to 302 to /{lang}/. Google Search Console kept reporting
+    // "Redirect error" on https://you.piccalc.com/ and never indexed the
+    // entry URL. Serving 200 removes the hop entirely.
+    // The canonical tag inside renderHome() already points at /{lang}/ , so
+    // Google consolidates ranking on the language URL — no duplicate content,
+    // no redirect for the crawler to trip over.
+    if (seg.length === 0) {
+      // English is the site's primary language: the bare domain is the
+      // English door. Auto-detection still applies everywhere else —
+      // an unknown language segment is resolved from Accept-Language below.
+      // 手动选过语言的访客按他选的渲染；新访客（无 cookie）仍是英文正门。
+      const langR = langCookie || DEFAULT_LANG;
+      const [mR, fxR] = await Promise.all([getMarket(), getFx()]);
+      const html = renderHome(langR, mR, fxR, tz);
+      return new Response(html, {
         headers: {
-          'content-type': 'application/xml; charset=utf-8',
-          'cache-control': 'public, max-age=3600',
+          'content-type': 'text/html; charset=utf-8',
+          // ★ A22g: no-store also keeps the page OUT of the browser's
+          // back/forward cache (bfcache). A bfcache restore replays the page
+          // from memory without asking the server, so the remembered
+          // language would never be applied. Every response here was already
+          // private/max-age=0, so request volume is unchanged.
+          'cache-control': 'no-store',
+          'x-content-type-options': 'nosniff',
         },
       });
     }
 
-    // 形如 /tools/palette、/about 这类无扩展名路径，尝试补 .html
-    //
-    // ⚠️ 只对 GET/HEAD 做补后缀探测。
-    // 原因：new Request(url, request) 会复用原请求的 body 流，
-    // 之后再 env.ASSETS.fetch(request) 就会抛
-    //   "Cannot reconstruct a Request with a used body."
-    // （日志里 POST /wp-json/batch/v1 的 error 就是这么来的。）
-    // 补后缀本身就是为页面导航服务的，POST 没有补的必要，直接跳过。
-    /* ★★ V27：/guides/ 废弃旧短名 → /tools/ 正式地址【写死映射】301
+    // ---------- optional JSON API (handy for debugging) ----------
+    if (url.pathname === '/api/market') {
+      const m = await getMarket();
+      return Response.json(m, { headers: { 'cache-control': 'public, max-age=300' } });
+    }
+
+    /* ★ A22：黄金现抓代理
+     * 前端实时链路全挂时调用。密钥只在服务端出现，前端页面源码里没有。
+     * 同源（/api/...），因此没有 CORS 问题。 */
+    if (url.pathname === '/api/gold-live') {
+      const r = await fetchGoldLive();
+      return Response.json(r, { headers: { 'cache-control': 'no-store' } });
+    }
+
+    // ---------- language-scoped routes ----------
+    let lang = (seg[0] || '').toLowerCase();
+    if (!LANGS.includes(lang)) {
+      // unknown first segment -> send to browser language home
+      const l = langCookie || detectLang(request.headers.get('Accept-Language'));
+      return Response.redirect(`${SITE.domain}/${l}/`, 302);
+    }
+
+    /* ★★ A22h：语言以 cookie 为准，【原地 200 渲染，不做任何跳转】。
      *
-     * ★ V26 的写法是"先 404，再探测 /tools/ 是否存在"，实测线上【不生效】
-     *   （用户本地访问仍是 404）。原因不明，但教训明确：
-     *   不要依赖"404 后探测"这种间接逻辑，多一层就多一层不确定。
-     *   V27 改成写死映射，在 env.ASSETS.fetch 【之前】直接 return，
-     *   100% 生效，不依赖任何探测结果。
+     * A22g 在这里用的是 302 跳到 cookie 语言。问题在于：按返回键落到历史
+     * 里的上一条（比如 /es/gold/）时，服务端把它 302 回cookie 语言
+     * （/de/gold/）—— 用户看到"闪一下，又回到刚才那个页面"，
+     * 再按返回还是同样的结果，等于被困住，永远回不到首页。
+     * 历史条目一旦生成就无法改写，重定向只会把人弹回来。
      *
-     * 背景（拆包实测，非推测）：
-     *   public/guides/ 下真实存在的 10 个文件用的是【长名】：
-     *     compress-to-size / exif-privacy / id-photo-sizes / image-formats
-     *     qr-code-error-correction / redact-photo-privacy
-     *     remove-background / resolution-dpi / watermark-without-quality-loss
-     *     index.html
-     *   而 GSC「未找到(404)」里的 7 个是【旧短名】，guides 下根本没有：
-     *     resize / remove-bg / crop / compress / id-photo / mosaic / exif
-     *   即站点做过命名规范化（短名 → 长名 / 或迁到 tools），但没补跳转。
-     *   这 7 个短名的正式地址全部在 /tools/ 下（已逐个核对 24 个文件确认存在）。
-     *
-     * ★★ 只映射这 7 个废弃短名，【绝不】无条件跳 /guides/* ！
-     *   否则会把真实存在的 /guides/compress-to-size.html
-     *   误跳到不存在的 /tools/compress-to-size.html，反而造出新的 404。
-     */
-    const GUIDES_LEGACY_MAP = {
-      '/guides/resize.html':    '/tools/resize.html',
-      '/guides/remove-bg.html': '/tools/remove-bg.html',
-      '/guides/crop.html':      '/tools/crop.html',
-      '/guides/compress.html':  '/tools/compress.html',
-      '/guides/id-photo.html':  '/tools/id-photo.html',
-      '/guides/mosaic.html':    '/tools/mosaic.html',
-      '/guides/exif.html':      '/tools/exif.html',
+     * 正确做法：不跟历史较劲。URL 的语言段落照旧解析（爬虫、被分享的
+     * 链接全部按 URL 走，行为一字不变），但对【带 cookie 的真人访客】
+     * 直接按他选过的语言渲染内容，200 原地返回：
+     *   · 没有跳转 → 不闪、不被弹回、不会被困住
+     *   · no-store 已禁用 bfcache → 按返回必重新请求 → 拿到正确语言
+     * 爬虫从不带 cookie，因此 canonical / hreflang / SEO 完全不受影响。 */
+    if (langCookie && langCookie !== lang) lang = langCookie;
+
+    // ---------- legacy dated URLs -> 301 to the current, undated form ----------
+    // An earlier build appended a date segment to every URL
+    // (/{lang}/about/2026-10-20/). Google has already crawled and indexed
+    // that shape, so those URLs must not 404 — a 301 hands the accumulated
+    // signals to the live page instead of throwing them away.
+    // Handled BEFORE the trailing-slash redirect so the crawler only ever
+    // sees one hop, not two.
+    const segs = seg.slice(1);
+    if (segs.some(x => /^\d{4}-\d{2}-\d{2}$/.test(x))) {
+      // strip the date segment, then rebuild
+      let clean = segs.filter(x => !/^\d{4}-\d{2}-\d{2}$/.test(x)).join('/');
+      return Response.redirect(`${SITE.domain}/${lang}/${clean}${clean ? '/' : ''}`, 301);
+    }
+
+    const rest = '/' + (seg.slice(1).join('/') || '');
+    const norm = rest.endsWith('/') ? rest : rest + '/';
+
+    // canonical redirect: ensure trailing slash (compare against the REAL
+    // pathname — seg[] has already been stripped by filter(Boolean), so
+    // comparing rest/norm would redirect /zh/oil/ to itself forever)
+    if (!url.pathname.endsWith('/')) {
+      return Response.redirect(`${SITE.domain}/${lang}${norm}`, 301);
+    }
+
+    const render = async (fn, needsMarket, needsFx) => {
+      const [m, fx] = await Promise.all([
+        needsMarket ? getMarket() : Promise.resolve(null),
+        needsFx ? getFx() : Promise.resolve(null),
+      ]);
+      const html = fn(lang, { m, fx }, tz);
+      return new Response(html, {
+        headers: {
+          'content-type': 'text/html; charset=utf-8',
+          // Rendered timestamps are per-visitor, so the HTML must NOT be
+          // shared by a public cache — otherwise one visitor's timezone
+          // leaks into another's page. `private` keeps it per-browser.
+          // max-age=0 forces a re-render on every load, so a timezone
+          // change takes effect immediately instead of being masked by a
+          // 60-second local copy. Data itself is cached in Worker memory,
+          // so re-rendering costs well under a millisecond.
+          // ★ A22g: no-store also keeps the page OUT of the browser's
+          // back/forward cache (bfcache). A bfcache restore replays the page
+          // from memory without asking the server, so the remembered
+          // language would never be applied. Every response here was already
+          // private/max-age=0, so request volume is unchanged.
+          'cache-control': 'no-store',
+          'x-content-type-options': 'nosniff',
+        },
+      });
     };
-    if (GUIDES_LEGACY_MAP[pathname]) {
-      return Response.redirect(url.origin + GUIDES_LEGACY_MAP[pathname] + url.search, 301);
+
+    // ---------- article detail: /blog/{slug}/ ----------
+    // Checked before the switch because the slug varies. A slug with no
+    // translation in this language is sent to the index rather than 404 —
+    // it keeps crawlers and readers off a dead end.
+    const artM = /^\/blog\/([a-z0-9-]+)\/$/.exec(norm);
+    if (artM) {
+      const html = renderArticle(lang, artM[1]);
+      if (!html) return Response.redirect(`${SITE.domain}/${lang}/blog/`, 302);
+      return new Response(html, {
+        headers: {
+          'content-type': 'text/html; charset=utf-8',
+          'cache-control': 'public, max-age=600',
+          'x-content-type-options': 'nosniff',
+        },
+      });
     }
 
-    const noExt = !/\.[a-zA-Z0-9]+$/.test(pathname);
-    const isNav = request.method === 'GET' || request.method === 'HEAD';
-    if (isNav && noExt && pathname !== '/' && !pathname.endsWith('/')) {
-      // 用 clone 探测，确保原 request 的 body 完好无损
-      const probe = new Request(url.origin + pathname + '.html', request.clone());
-      const probeRes = await env.ASSETS.fetch(probe);
-      if (probeRes.status === 200) {
-        // 301 永久重定向，把旧收录权重转移到带 .html 的正式地址
-        return Response.redirect(url.origin + pathname + '.html' + url.search, 301);
+    switch (norm) {
+      case '/':            return render((l, a, z) => renderHome(l, a.m, a.fx, z), true, true);
+      case '/oil/':        return render((l, a, z) => renderOil(l, a.m, z), true, false);
+      case '/wti/':        return render((l, a, z) => renderWti(l, a.m, z), true, false);
+      case '/gold/':       return render((l, a, z) => renderGold(l, a.m, a.fx, z), true, true);
+      case '/china-fuel/': return render((l, a, z) => renderCn(l, a.m, z), true, false);
+      case '/currency/':   return render((l, a, z) => renderFx(l, a.fx, z), false, true);
+      case '/blog/':       return render((l) => renderBlogList(l), false, false);
+      case '/faq/':        return render((l, a, z) => renderFaq(l), false, false);
+      case '/privacy/':    return render((l, a, z) => renderPrivacy(l, z), false, false);
+      case '/about/':      return render((l) => renderAbout(l), false, false);
+      case '/contact/':    return render((l) => renderContact(l), false, false);
+      default: {
+        const L = t(lang);
+        const body = `<section class="blk"><div class="wrap prose">
+          <h1 style="font-size:2rem;margin:0 0 10px">404</h1>
+          <p>${esc(L.nav.overview)} — <a href="/${lang}/">${esc(L.brand)}</a></p>
+        </div></section>`;
+        return new Response(page({
+          lang, title: `404 — ${L.brand}`, desc: L.homeDesc,
+          path: '/404/', active: '/', body, noindex: true,
+        }), { status: 404, headers: { 'content-type': 'text/html; charset=utf-8' } });
       }
     }
-
-    // 目录根显式指向 index.html，避免部分版本下 /guides/ 落到兜底 404
-    if (pathname === '/guides' || pathname === '/guides/') {
-      const idx = await env.ASSETS.fetch(new Request(url.origin + '/guides/index.html', request.clone()));
-      if (idx.status === 200) return idx;
-    }
-
-    const res = await env.ASSETS.fetch(request);
-
-    /* ★★ V26 新增：/guides/ 旧路径 → /tools/ 真身的 301 迁移跳转
-     *
-     * 背景（实测发现，非推测）：
-     *   GSC「未找到 (404)」列表里的 7 个地址全部形如：
-     *     /guides/resize.html   /guides/crop.html    /guides/mosaic.html
-     *     /guides/compress.html /guides/id-photo.html
-     *     /guides/exif.html     /guides/remove-bg.html
-     *   但 public/guides/ 下根本没有这些文件 —— 它们是早期收录的旧路径。
-     *
-     *   真身全部在 /tools/ 下（已逐个核对存在）：
-     *     /tools/resize.html  /tools/crop.html  /tools/mosaic.html
-     *     /tools/compress.html /tools/id-photo.html
-     *     /tools/exif.html    /tools/remove-bg.html
-     *   即站点经历过 guides → tools 的路径迁移，但从未补跳转，
-     *   于是这些旧地址一直 404，被 GSC 持续判为「未找到」。
-     *
-     * 为什么写成"404 时才探测"而不是预先写死一张映射表：
-     *   ① 零成本：正常页面不触发，只在真 404 时多一次探测
-     *   ② 不写死：以后再出现同类迁移，自动兜住，不用回来改代码
-     *   ③ 安全：只有确认 /tools/ 下真有 200 的页面才跳，
-     *      绝不把 404 跳成另一个 404
-     */
-    if (res.status === 404 && pathname.startsWith('/guides/')) {
-      const base = pathname.slice('/guides/'.length);
-      if (base && base !== 'index.html') {
-        const alt = new Request(url.origin + '/tools/' + base, request.clone());
-        const altRes = await env.ASSETS.fetch(alt);
-        if (altRes.status === 200) {
-          // 301 永久重定向：把旧收录的权重转移到 /tools/ 正式地址
-          return Response.redirect(url.origin + '/tools/' + base + url.search, 301);
-        }
-      }
-    }
-
-    // 404 兜底：给一个最简单的提示页，而不是空白
-    if (res.status === 404) {
-      return new Response(
-        '<!doctype html><meta charset="utf-8"><title>页面不存在 · PicStudio</title>' +
-        '<div style="font-family:system-ui;max-width:560px;margin:15vh auto;text-align:center">' +
-        '<h1 style="font-size:22px">页面不存在</h1>' +
-        '<p style="color:#64748b">你访问的页面已移动或从未存在。</p>' +
-        '<a href="/" style="color:#6366f1">返回 PicStudio 首页</a></div>',
-        { status: 404, headers: { 'content-type': 'text/html; charset=utf-8' } }
-      );
-    }
-
-    return res;
-  }
+  },
 };
