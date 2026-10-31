@@ -7,7 +7,7 @@
 > | 域名 | **https://piccalc.com（根域）** |
 > | Worker 名 | `tk-bj` |
 > | 形态 | **Cloudflare Workers + Assets** |
-> | 本包版本 | **V29** |
+> | 本包版本 | **V30** = V29 + 联系邮箱统一为 yokok8@outlook.com |
 > | 生成日期 | 2026-10-27 |
 > | 关键特性 | 20 个图片工具 + 图片指南；guides 旧路径 301 到 /tools/ |
 
