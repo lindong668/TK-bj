@@ -250,7 +250,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 </footer>
 <script src="/zh/assets/js/preview.js?v=20261108ml"></script>
 <script src="/zh/assets/js/download.js?v=20261109dl"></script>
-<script src="/zh/assets/js/lab.js?v=20261108ml"></script>
+<script src="/zh/assets/js/lab.js?v=20261111d"></script>
 <script>
 (function(){
 var $=function(id){return document.getElementById(id);};
@@ -274,7 +274,7 @@ function handleFile(file){
     srcCanvas=c;if(window.__setPreview){window.__setPreview(originalPreview,file);}else{if(window.__pu)try{URL.revokeObjectURL(window.__pu);}catch(e){}window.__pu=URL.createObjectURL(file);originalPreview.src=window.__pu;}
     previewArea.classList.add('active');controls.classList.add('active');
     $('infoSize').textContent='原图尺寸：'+c.width+' × '+c.height;
-  }).catch(function(e){alert(e.message);});}
+  }).catch(function(e){alert('图片处理失败，请确认选择的是有效的图片文件后重试。');});}
 uploadArea.addEventListener('click',function(){fileInput.click();});
 fileInput.addEventListener('change',function(e){handleFile(e.target.files[0]);});
 uploadArea.addEventListener('dragover',function(e){e.preventDefault();uploadArea.classList.add('dragover');});

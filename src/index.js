@@ -3,7 +3,9 @@
  * 负责把 /public 下的文件吐出去，补安全与 SEO 响应头。
  *
  * ★ V70 URL 形态统一（2026-11-10）· r2 补无扩展名本地兜底
- *   线上实测：无扩展名地址 200（最终页），带 .html 的地址由 CF Assets 307 跳到无扩展名。
+ *   线上实测：无扩展名地址 200（最终页）。
+ *   ★ V70.4：带 .html 的请求改为 Worker 直接 301 到无扩展名（原来由 CF Assets 307 收敛），
+ *     307 是临时跳、Google 跟随但不做权重归一，日志里 248 条 307 / 23 页两套 URL 并存。
  *   全站 canonical / hreflang / og:url / sitemap / 内链 / 语言切换已统一为无扩展名。
  *
  *   【本版删掉了旧「无后缀 URL 自动补 .html 的 301」逻辑】
@@ -11,7 +13,7 @@
  *   但线上 /about.html 实际返回 307（不是 200），所以这段永远是死代码；
  *   一旦 CF 的 html_handling 行为变化让探测拿到 200，就会形成
  *     /about → 301 → /about.html → 307 → /about 的循环。
- *   现改为：无扩展名请求直接交给 ASSETS（200），带 .html 的由 CF 正常 307 收敛，
+ *   现改为：无扩展名请求直接交给 ASSETS（200），带 .html 的由 Worker 301 归一，
  *   两套方向相反的规则不再并存。
  *
  *   【目录根 /guides/ /zh/ 等也不再手工 fetch index.html】
@@ -47,7 +49,7 @@ export default {
      */
     if (url.pathname === '/ads.txt' || url.pathname === '/Ads.txt') {
       return new Response(
-        'google.com, pub-8915931557404979, DIRECT, f08c47fec0942fa0\n',
+        'google.com, pub-8915931557404979, DIRECT, f08c47fe0942fa0\n',
         { status: 200, headers: {
             'content-type': 'text/plain',
             'X-Content-Type-Options': 'nosniff',
@@ -146,6 +148,22 @@ export default {
     const toolsDir = TOOLS_DIR_MAP[pathname] || TOOLS_DIR_MAP[cleanPath];
     if (toolsDir) {
       return Response.redirect(url.origin + toolsDir + url.search, 301);
+    }
+
+    /* ★ V70.4：带 .html 的请求 → 301 到无扩展名（取代 CF Assets 的 307）
+     * 依据：CF 抓取日志 248 条 307、23 个页面两套 URL 并存；307 是临时跳，
+     *       Google 跟随但不合并权重，是「几百页只收几页」在抓取层的实因。
+     * 顺序：放在 legacy map / toolsDir 之后，命中旧短名的直接跳终态，不产生双跳。
+     * 例外：验证文件 google6474e28bb6098302.html 在前面已硬拦截返回 200；
+     *       /index.html、/zh/index.html、/guides/index.html 归到目录根。
+     */
+    if (pathname.endsWith('.html') && !MACHINE_PATHS.has(pathname)) {
+      const clean = pathname.replace(/\.html$/, '');
+      let target;
+      if (clean === '/index' || clean === '') target = '/';
+      else if (clean.endsWith('/index')) target = clean.slice(0, -6) + '/';
+      else target = clean;
+      return Response.redirect(url.origin + target + url.search, 301);
     }
 
     // 无扩展名请求直接交给 ASSETS：线上这些路径就是最终 200 页面。

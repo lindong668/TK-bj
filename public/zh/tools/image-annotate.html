@@ -269,7 +269,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 <div class="loading-overlay" id="loadingOverlay"><div class="spinner"></div><div class="loading-text"><span>正在处理，请稍候…</span></div></div>
 <script src="/zh/assets/js/preview.js?v=20261108ml"></script>
 <script src="/zh/assets/js/download.js?v=20261109dl"></script>
-<script src="/zh/assets/js/tools.js?v=20261108ml"></script>
+<script src="/zh/assets/js/tools.js?v=20261111d"></script>
 <script>
 
     const cv = document.getElementById('annoCanvas');
@@ -309,6 +309,13 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
     const origLoad = tool.handleFile.bind(tool);
     tool.handleFile = async function (file) {
         await origLoad(file);
+        /* V70.4：损坏/非图片文件时 PSImage.load 失败，originalCanvas 为空或残留旧值，
+         * 旧版直接读 base.width 抛异常，页面后续连正常图也传不了。这里复位后安静退出。 */
+        if (!tool.originalCanvas || !tool.originalCanvas.width || !tool.originalCanvas.height) {
+            base = null; items = []; counter = 0; dragging = null;
+            cv.style.display = 'none';
+            return;
+        }
         base = tool.originalCanvas;
         cv.width = base.width; cv.height = base.height; cv.style.display = 'block';
         items = []; counter = 0; render();

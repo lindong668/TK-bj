@@ -80,8 +80,10 @@ class ImageTool {
             }
         } catch (err) {
             console.error('[PicStudio] load failed', err);
-            alert((window.PSLang && PSLang.get() === 'zh')
-                ? 'Could not read this image: ' + err.message + '\nPlease make sure it is an image file (video, RAW and corrupt files are not supported).'
+            var isZh = (document.documentElement.lang || '').toLowerCase().indexOf('zh') === 0
+                || (window.PSLang && PSLang.get() === 'zh');
+            alert(isZh
+                ? '无法读取该图片，请确认选择的是有效的图片文件（不支持视频、RAW 或损坏文件）。'
                 : 'Cannot read this image: ' + err.message + '\nVideos, RAW files and broken files are not supported.');
         }
     }
