@@ -22,11 +22,19 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
-    /* ★★ V25：www → apex 的 301 重定向（全路径跳转，无任何例外）
-     * 放在所有拦截之前：www 的任意路径全部 301 到 apex，
-     * apex 上的 ads.txt / 验证文件 / robots.txt / sitemap.xml 再由下面各段返回 200。
+    /* ★★ www → apex 的 301 重定向（页面路径一律跳转）
+     * V70 终版例外：机器文件（ads.txt / robots.txt / sitemap.xml / 站长验证文件）
+     * 在 www 上也【直接 200】，不经过 301。
+     * 原因：AdSense 的 ads.txt 抓取器、GSC 验证器对「跨主机 301」容忍度低，
+     *       一旦 www 上只返回跳转、文件只在 apex 才有，就可能报「找不到 ads.txt」。
+     *       这 4 类都是纯文本/机器文件，不产生重复内容，直接 200 最稳。
+     * 其余所有页面路径仍 301 到 apex，避免 www/apex 双份内容。
      */
-    if (url.hostname === 'www.piccalc.com') {
+    const MACHINE_PATHS = new Set([
+      '/ads.txt', '/Ads.txt', '/robots.txt', '/sitemap.xml',
+      '/google6474e28bb6098302.html'
+    ]);
+    if (url.hostname === 'www.piccalc.com' && !MACHINE_PATHS.has(url.pathname)) {
       return Response.redirect('https://piccalc.com' + url.pathname + url.search, 301);
     }
 
@@ -85,7 +93,10 @@ export default {
      * 保证 sitemap.xml 后续更新能自动生效（V70 已把其中 URL 统一为无扩展名）。
      */
     if (pathname === '/sitemap.xml') {
-      const src = await env.ASSETS.fetch(new Request(url.origin + '/sitemap.xml', request.clone()));
+      // 直接用原始请求取静态文件；原先 new Request(url, request.clone()) 的第二个参数
+      // 不是合法 init 字典，会静默丢掉请求头，这里改为规范写法并保留非 200 原样透传。
+      const src = await env.ASSETS.fetch(request);
+      if (src.status !== 200) return src;
       const body = await src.text();
       return new Response(body, {
         status: 200,
@@ -136,7 +147,7 @@ export default {
      */
     if (res.status === 404 && !pathname.endsWith('.html') && !pathname.endsWith('/')) {
       try {
-        const alt = await env.ASSETS.fetch(new Request(url.origin + pathname + '.html', request.clone()));
+        const alt = await env.ASSETS.fetch(new Request(url.origin + pathname + '.html'));
         if (alt.status === 200) res = alt;
       } catch (e) { /* 保持原 404 */ }
     }
@@ -150,7 +161,7 @@ export default {
     if (res.status === 404 && pathname.startsWith('/guides/')) {
       const base = pathname.slice('/guides/'.length).replace(/\.html$/, '');
       if (base && base !== 'index' && base !== 'index.html') {
-        const alt = new Request(url.origin + '/tools/' + base, request.clone());
+        const alt = new Request(url.origin + '/tools/' + base);
         const altRes = await env.ASSETS.fetch(alt);
         if (altRes.status === 200) {
           return Response.redirect(url.origin + '/tools/' + base + url.search, 301);

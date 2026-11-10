@@ -57,7 +57,7 @@ Cloudflare Workers + Assets 静态站点
 - `wrangler.toml` 部署配置
 
 ## 部署
-Cloudflare Workers → picstudio → 连接本仓库本分支
+Cloudflare Workers → `tk-bj`（与 wrangler.toml 的 name 一致）→ 连接本仓库 `main-2` 分支
 
 ## V16 变更（2026-10-24）
 1. **修复工具页莫名出现的英文文字（真实元凶）**
@@ -253,8 +253,10 @@ Worker 自定义域里加 www.piccalc.com 后：
 ③ 验 https://piccalc.com/ads.txt      → 200，显示 pub 行
 ④ 验 https://www.piccalc.com/         → 301 跳到 piccalc.com（由 CF 规则完成）
 ```
-**注**：AdSense 提交的站点是 piccalc.com（apex），抓取的是 apex 的 ads.txt，
-该地址一直是 200，不受 www 跳转方式影响。
+**注**：AdSense 提交的站点是 piccalc.com（apex）。V70 终版起，机器文件
+（`/ads.txt`、`/robots.txt`、`/sitemap.xml`、站长验证文件）在 **www 与 apex 上都直接 200**，
+不经过 301 —— 避免抓取器遇到「跨主机跳转」时报「找不到 ads.txt」。
+其余页面仍统一 301 到 apex，杜绝 www/apex 双份内容。
 
 
 ## V70 本轮要点
@@ -263,4 +265,6 @@ Worker 自定义域里加 www.piccalc.com 后：
 - AdSense 广告位**真实放出，不再注释**：全站仅 2 个 —— 英文首页 1 个、中文首页 1 个，均在「工具卡片网格结束 ↔ 图片处理指南标题之前」，电脑手机同一位置。
 - 已绑定 AdSense 后台「0003」横幅·自适应单元，正式 slot `1784463687`（pub id `ca-pub-8915931557404979` 未动）；HTML 内直接写真号与 `data-ad-format="auto" data-full-width-responsive="true"`，`ads-config.js` 同号，**无占位号、部署前无需再改配置**。
 - 容器写死高度：桌面 728×90（高 90px）、手机 320×100（高 100px），`overflow:hidden` 锁死高度，Safari / Chrome / 安卓一致；随文档流滚动（非 fixed/sticky），不存在隐藏广告位。
+- **广告位周围不放任何可见内容**：无「广告」小字、无卡片、描边、底色、阴影、圆角，容器与页面深色背景融为一体。
 - `https://piccalc.com/ads.txt` 必须直接返回纯文本 200（不要被 CF 缓存规则 / 安全级别拦截）。Google 报「找不到 ads.txt」根因在抓取层，跟页面有没有广告位无关，但广告位放出对审核展示有利。
+- V70 终版：Worker 里机器文件改为 www/apex 双 200；修正 3 处 `new Request(url, request.clone())` 的非法 init 写法（原写法会静默丢弃请求头）。
