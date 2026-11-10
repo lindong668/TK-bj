@@ -6,6 +6,9 @@
   Permissions-Policy: camera=(), microphone=(), geolocation=()
   Strict-Transport-Security: max-age=31536000; includeSubDomains
 
+/assets/css/style.css
+  Cache-Control: public, max-age=0, must-revalidate
+
 /sitemap.xml
   Content-Type: application/xml; charset=utf-8
   Cache-Control: public, max-age=3600
