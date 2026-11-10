@@ -1539,26 +1539,20 @@ a.lang-toggle:hover { border-color:#818cf8; color:#fff; background:rgba(79,70,22
 @media (max-width: 640px) {
     .back-link { padding: 8px 13px; font-size: 13.5px; }
 }
-/* ===== V70 广告位（AdSense 0003 横幅·自适应单元 slot 1784463687）=====
-   桌面容器 728×90 / 手机容器 320×100；始终占位、不折叠、不由 JS 改高度；
-   尺寸完全由 CSS 决定，Safari / Chrome / 安卓一致。
-   .ad-block 只承担「独立区块上下留白」（桌面 20px / 手机 16px），无任何卡片/描边/阴影/圆角。 */
-.ad-block{margin:20px auto;max-width:728px}
-.ad-slot{display:block;position:relative;margin:0 auto;background:transparent;border:0;border-radius:0;box-shadow:none;overflow:hidden}
-.ad-slot ins.adsbygoogle{display:block!important;background:transparent!important}
-.ad-slot iframe{display:block!important;border:0;background:transparent!important}
-@media(min-width:641px){.ad-slot{width:728px;height:90px;max-width:100%}.ad-block{max-width:728px}}
-@media(max-width:640px){.ad-slot{width:100%;max-width:320px;height:100px}.ad-block{max-width:320px;margin:16px auto}}
-
-/* 首页两个相邻 .tools 区块原有 80px 留白会与广告区块叠加成一大段空白，
-   只收紧这两个首页专属 id（其它页面没有 #tools / #guides）。
-   数值按「广告区块与任何可点击元素至少 32px」反推：
-     桌面 24 + 20 = 44px；手机 16 + 16 = 32px（原 12 + 16 = 28px 不达标，已补）。
-   两者相加仍是极窄的一段，不会出现 Safari 近一屏空白。 */
+/* ===== V70.1 广告位（AdSense 0003 横幅·自适应单元 slot 1784463687）=====
+   两层容器都写死高度 + overflow:hidden + contain，Google 注入的 iframe 绝对定位脱离文档流。
+   外层 .ad-block 不再按内容撑高：无论脚本写入多高的 ins / iframe，iOS Safari / Chrome / 安卓
+   三端间隔完全恒定，不会再出现近一屏空白。桌面 728x90 / 手机 320x100，始终占位、不折叠、
+   不由 JS 改高度，外层无卡片/描边/底色/阴影/圆角。 */
+.ad-block{position:relative;display:block;height:90px;max-width:728px;margin:20px auto;overflow:hidden;contain:layout paint size;background:transparent;border:0;border-radius:0;box-shadow:none}
+.ad-slot{display:block;position:relative;width:728px;max-width:100%;height:90px!important;max-height:90px!important;min-height:0!important;margin:0 auto;overflow:hidden!important;contain:layout paint;background:transparent;border:0;border-radius:0;box-shadow:none}
+.ad-slot ins.adsbygoogle{display:block!important;max-height:100%!important;overflow:hidden!important;background:transparent!important}
+.ad-slot iframe{position:absolute!important;top:0;left:0;width:100%!important;height:100%!important;max-height:100%!important;display:block!important;border:0!important;background:transparent!important}
+@media(max-width:640px){.ad-block{max-width:320px;height:100px;margin:16px auto}.ad-slot{width:100%;max-width:320px;height:100px!important;max-height:100px!important}}
+@media(min-width:641px){.ad-block{height:90px}.ad-slot{width:728px;height:90px!important;max-height:90px!important}}
 #tools{padding-bottom:24px}
 #guides{padding-top:24px}
 @media (max-width:768px){
-  /* 首页内联 <style> 里 .tools{padding:30px 0 38px!important} 会盖住 id 规则，故此处同样加 !important */
   #tools{padding-bottom:16px!important}
   #guides{padding-top:16px!important}
 }
