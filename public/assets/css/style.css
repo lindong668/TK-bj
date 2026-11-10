@@ -1539,3 +1539,24 @@ a.lang-toggle:hover { border-color:#818cf8; color:#fff; background:rgba(79,70,22
 @media (max-width: 640px) {
     .back-link { padding: 8px 13px; font-size: 13.5px; }
 }
+/* ===== V70 广告位（AdSense 0003 横幅·自适应单元 slot 1784463687）=====
+   桌面容器 728×90 / 手机容器 320×100；始终占位、不折叠、不由 JS 改高度；
+   尺寸完全由 CSS 决定，Safari / Chrome / 安卓一致。
+   .ad-block 只承担「独立区块上下留白」（桌面 20px / 手机 16px），无任何卡片/描边/阴影/圆角。 */
+.ad-block{margin:20px auto;max-width:728px}
+.ad-label{display:block;font-size:11px;line-height:1;color:rgba(255,255,255,.45);margin:0 0 8px;text-align:left}
+.ad-slot{display:block;position:relative;margin:0 auto;background:transparent;border:0;border-radius:0;box-shadow:none;overflow:hidden}
+.ad-slot ins.adsbygoogle{display:block!important;background:transparent!important}
+.ad-slot iframe{display:block!important;border:0;background:transparent!important}
+@media(min-width:641px){.ad-slot{width:728px;height:90px;max-width:100%}.ad-block{max-width:728px}}
+@media(max-width:640px){.ad-slot{width:100%;max-width:320px;height:100px}.ad-block{max-width:320px;margin:16px auto}}
+
+/* 首页两个相邻 .tools 区块原有 80px 留白会与广告区块叠加成一大段空白，
+   只收紧这两个首页专属 id（其它页面没有 #tools / #guides），桌面 24px、手机 16px。 */
+#tools{padding-bottom:24px}
+#guides{padding-top:24px}
+@media (max-width:768px){
+  /* 首页内联 <style> 里 .tools{padding:30px 0 38px!important} 会盖住 id 规则，故此处同样加 !important */
+  #tools{padding-bottom:12px!important}
+  #guides{padding-top:12px!important}
+}

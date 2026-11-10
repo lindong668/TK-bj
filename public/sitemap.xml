@@ -2,148 +2,148 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://piccalc.com/about.html</loc>
+    <loc>https://piccalc.com/about</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/about.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/about.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/about.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/about"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/about"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/about"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/about.html</loc>
+    <loc>https://piccalc.com/zh/about</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/about.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/about.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/about.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/about"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/about"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/about"/>
   </url>
   <url>
-    <loc>https://piccalc.com/contact.html</loc>
+    <loc>https://piccalc.com/contact</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/contact.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/contact.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/contact.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/contact"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/contact"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/contact"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/contact.html</loc>
+    <loc>https://piccalc.com/zh/contact</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/contact.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/contact.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/contact.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/contact"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/contact"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/contact"/>
   </url>
   <url>
-    <loc>https://piccalc.com/faq.html</loc>
+    <loc>https://piccalc.com/faq</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/faq.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/faq.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/faq.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/faq"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/faq"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/faq"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/faq.html</loc>
+    <loc>https://piccalc.com/zh/faq</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/faq.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/faq.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/faq.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/faq"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/faq"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/faq"/>
   </url>
   <url>
-    <loc>https://piccalc.com/guides/base64-image.html</loc>
+    <loc>https://piccalc.com/guides/base64-image</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/base64-image.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/base64-image.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/base64-image.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/base64-image"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/base64-image"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/base64-image"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/guides/base64-image.html</loc>
+    <loc>https://piccalc.com/zh/guides/base64-image</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/base64-image.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/base64-image.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/base64-image.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/base64-image"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/base64-image"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/base64-image"/>
   </url>
   <url>
-    <loc>https://piccalc.com/guides/compress-to-size.html</loc>
+    <loc>https://piccalc.com/guides/compress-to-size</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/compress-to-size.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/compress-to-size.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/compress-to-size.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/compress-to-size"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/compress-to-size"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/compress-to-size"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/guides/compress-to-size.html</loc>
+    <loc>https://piccalc.com/zh/guides/compress-to-size</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/compress-to-size.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/compress-to-size.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/compress-to-size.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/compress-to-size"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/compress-to-size"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/compress-to-size"/>
   </url>
   <url>
-    <loc>https://piccalc.com/guides/exif-privacy.html</loc>
+    <loc>https://piccalc.com/guides/exif-privacy</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/exif-privacy.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/exif-privacy.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/exif-privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/exif-privacy"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/exif-privacy"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/exif-privacy"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/guides/exif-privacy.html</loc>
+    <loc>https://piccalc.com/zh/guides/exif-privacy</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/exif-privacy.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/exif-privacy.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/exif-privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/exif-privacy"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/exif-privacy"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/exif-privacy"/>
   </url>
   <url>
-    <loc>https://piccalc.com/guides/id-photo-sizes.html</loc>
+    <loc>https://piccalc.com/guides/id-photo-sizes</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/id-photo-sizes.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/id-photo-sizes.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/id-photo-sizes.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/id-photo-sizes"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/id-photo-sizes"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/id-photo-sizes"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/guides/id-photo-sizes.html</loc>
+    <loc>https://piccalc.com/zh/guides/id-photo-sizes</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/id-photo-sizes.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/id-photo-sizes.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/id-photo-sizes.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/id-photo-sizes"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/id-photo-sizes"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/id-photo-sizes"/>
   </url>
   <url>
-    <loc>https://piccalc.com/guides/image-formats.html</loc>
+    <loc>https://piccalc.com/guides/image-formats</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/image-formats.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/image-formats.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/image-formats.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/image-formats"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/image-formats"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/image-formats"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/guides/image-formats.html</loc>
+    <loc>https://piccalc.com/zh/guides/image-formats</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/image-formats.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/image-formats.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/image-formats.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/image-formats"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/image-formats"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/image-formats"/>
   </url>
   <url>
     <loc>https://piccalc.com/guides/</loc>
@@ -164,94 +164,94 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/"/>
   </url>
   <url>
-    <loc>https://piccalc.com/guides/qr-code-error-correction.html</loc>
+    <loc>https://piccalc.com/guides/qr-code-error-correction</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/qr-code-error-correction.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/qr-code-error-correction.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/qr-code-error-correction.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/qr-code-error-correction"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/qr-code-error-correction"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/qr-code-error-correction"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/guides/qr-code-error-correction.html</loc>
+    <loc>https://piccalc.com/zh/guides/qr-code-error-correction</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/qr-code-error-correction.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/qr-code-error-correction.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/qr-code-error-correction.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/qr-code-error-correction"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/qr-code-error-correction"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/qr-code-error-correction"/>
   </url>
   <url>
-    <loc>https://piccalc.com/guides/redact-photo-privacy.html</loc>
+    <loc>https://piccalc.com/guides/redact-photo-privacy</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/redact-photo-privacy.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/redact-photo-privacy.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/redact-photo-privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/redact-photo-privacy"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/redact-photo-privacy"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/redact-photo-privacy"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/guides/redact-photo-privacy.html</loc>
+    <loc>https://piccalc.com/zh/guides/redact-photo-privacy</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/redact-photo-privacy.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/redact-photo-privacy.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/redact-photo-privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/redact-photo-privacy"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/redact-photo-privacy"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/redact-photo-privacy"/>
   </url>
   <url>
-    <loc>https://piccalc.com/guides/remove-background.html</loc>
+    <loc>https://piccalc.com/guides/remove-background</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/remove-background.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/remove-background.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/remove-background.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/remove-background"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/remove-background"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/remove-background"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/guides/remove-background.html</loc>
+    <loc>https://piccalc.com/zh/guides/remove-background</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/remove-background.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/remove-background.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/remove-background.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/remove-background"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/remove-background"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/remove-background"/>
   </url>
   <url>
-    <loc>https://piccalc.com/guides/resolution-dpi.html</loc>
+    <loc>https://piccalc.com/guides/resolution-dpi</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/resolution-dpi.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/resolution-dpi.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/resolution-dpi.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/resolution-dpi"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/resolution-dpi"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/resolution-dpi"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/guides/resolution-dpi.html</loc>
+    <loc>https://piccalc.com/zh/guides/resolution-dpi</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/resolution-dpi.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/resolution-dpi.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/resolution-dpi.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/resolution-dpi"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/resolution-dpi"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/resolution-dpi"/>
   </url>
   <url>
-    <loc>https://piccalc.com/guides/watermark-without-quality-loss.html</loc>
+    <loc>https://piccalc.com/guides/watermark-without-quality-loss</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/watermark-without-quality-loss.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/watermark-without-quality-loss.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/watermark-without-quality-loss.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/watermark-without-quality-loss"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/watermark-without-quality-loss"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/watermark-without-quality-loss"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/guides/watermark-without-quality-loss.html</loc>
+    <loc>https://piccalc.com/zh/guides/watermark-without-quality-loss</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/watermark-without-quality-loss.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/watermark-without-quality-loss.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/watermark-without-quality-loss.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/watermark-without-quality-loss"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/watermark-without-quality-loss"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/watermark-without-quality-loss"/>
   </url>
   <url>
     <loc>https://piccalc.com/</loc>
@@ -272,525 +272,525 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/"/>
   </url>
   <url>
-    <loc>https://piccalc.com/privacy.html</loc>
+    <loc>https://piccalc.com/privacy</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/privacy.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/privacy.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/privacy"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/privacy"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/privacy"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/privacy.html</loc>
+    <loc>https://piccalc.com/zh/privacy</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/privacy.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/privacy.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/privacy"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/privacy"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/privacy"/>
   </url>
   <url>
-    <loc>https://piccalc.com/terms.html</loc>
+    <loc>https://piccalc.com/terms</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/terms.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/terms.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/terms.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/terms"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/terms"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/terms"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/terms.html</loc>
+    <loc>https://piccalc.com/zh/terms</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/terms.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/terms.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/terms.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/terms"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/terms"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/terms"/>
   </url>
   <url>
-    <loc>https://piccalc.com/tools/adjust.html</loc>
+    <loc>https://piccalc.com/tools/adjust</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/adjust.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/adjust.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/adjust.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/adjust"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/adjust"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/adjust"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/tools/adjust.html</loc>
+    <loc>https://piccalc.com/zh/tools/adjust</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/adjust.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/adjust.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/adjust.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/adjust"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/adjust"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/adjust"/>
   </url>
   <url>
-    <loc>https://piccalc.com/tools/base64.html</loc>
+    <loc>https://piccalc.com/tools/base64</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/base64.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/base64.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/base64.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/base64"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/base64"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/base64"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/tools/base64.html</loc>
+    <loc>https://piccalc.com/zh/tools/base64</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/base64.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/base64.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/base64.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/base64"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/base64"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/base64"/>
   </url>
   <url>
-    <loc>https://piccalc.com/tools/blur.html</loc>
+    <loc>https://piccalc.com/tools/blur</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/blur.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/blur.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/blur.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/blur"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/blur"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/blur"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/tools/blur.html</loc>
+    <loc>https://piccalc.com/zh/tools/blur</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/blur.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/blur.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/blur.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/blur"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/blur"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/blur"/>
   </url>
   <url>
-    <loc>https://piccalc.com/tools/compress.html</loc>
+    <loc>https://piccalc.com/tools/compress</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/compress.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/compress.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/compress.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/compress"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/compress"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/compress"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/tools/compress.html</loc>
+    <loc>https://piccalc.com/zh/tools/compress</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/compress.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/compress.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/compress.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/compress"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/compress"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/compress"/>
   </url>
   <url>
-    <loc>https://piccalc.com/tools/convert.html</loc>
+    <loc>https://piccalc.com/tools/convert</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/convert.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/convert.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/convert.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/convert"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/convert"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/convert"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/tools/convert.html</loc>
+    <loc>https://piccalc.com/zh/tools/convert</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/convert.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/convert.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/convert.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/convert"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/convert"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/convert"/>
   </url>
   <url>
-    <loc>https://piccalc.com/tools/crop.html</loc>
+    <loc>https://piccalc.com/tools/crop</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/crop.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/crop.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/crop.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/crop"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/crop"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/crop"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/tools/crop.html</loc>
+    <loc>https://piccalc.com/zh/tools/crop</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/crop.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/crop.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/crop.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/crop"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/crop"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/crop"/>
   </url>
   <url>
-    <loc>https://piccalc.com/tools/denoise.html</loc>
+    <loc>https://piccalc.com/tools/denoise</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/denoise.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/denoise.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/denoise.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/denoise"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/denoise"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/denoise"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/tools/denoise.html</loc>
+    <loc>https://piccalc.com/zh/tools/denoise</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/denoise.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/denoise.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/denoise.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/denoise"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/denoise"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/denoise"/>
   </url>
   <url>
-    <loc>https://piccalc.com/tools/exif.html</loc>
+    <loc>https://piccalc.com/tools/exif</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/exif.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/exif.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/exif.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/exif"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/exif"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/exif"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/tools/exif.html</loc>
+    <loc>https://piccalc.com/zh/tools/exif</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/exif.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/exif.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/exif.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/exif"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/exif"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/exif"/>
   </url>
   <url>
-    <loc>https://piccalc.com/tools/filter.html</loc>
+    <loc>https://piccalc.com/tools/filter</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/filter.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/filter.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/filter.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/filter"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/filter"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/filter"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/tools/filter.html</loc>
+    <loc>https://piccalc.com/zh/tools/filter</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/filter.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/filter.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/filter.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/filter"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/filter"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/filter"/>
   </url>
   <url>
-    <loc>https://piccalc.com/tools/icon-maker.html</loc>
+    <loc>https://piccalc.com/tools/icon-maker</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/icon-maker.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/icon-maker.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/icon-maker.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/icon-maker"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/icon-maker"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/icon-maker"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/tools/icon-maker.html</loc>
+    <loc>https://piccalc.com/zh/tools/icon-maker</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/icon-maker.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/icon-maker.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/icon-maker.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/icon-maker"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/icon-maker"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/icon-maker"/>
   </url>
   <url>
-    <loc>https://piccalc.com/tools/id-photo.html</loc>
+    <loc>https://piccalc.com/tools/id-photo</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/id-photo.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/id-photo.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/id-photo.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/id-photo"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/id-photo"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/id-photo"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/tools/id-photo.html</loc>
+    <loc>https://piccalc.com/zh/tools/id-photo</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/id-photo.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/id-photo.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/id-photo.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/id-photo"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/id-photo"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/id-photo"/>
   </url>
   <url>
-    <loc>https://piccalc.com/tools/image-annotate.html</loc>
+    <loc>https://piccalc.com/tools/image-annotate</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/image-annotate.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/image-annotate.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/image-annotate.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/image-annotate"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/image-annotate"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/image-annotate"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/tools/image-annotate.html</loc>
+    <loc>https://piccalc.com/zh/tools/image-annotate</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/image-annotate.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/image-annotate.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/image-annotate.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/image-annotate"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/image-annotate"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/image-annotate"/>
   </url>
   <url>
-    <loc>https://piccalc.com/tools/image-compare.html</loc>
+    <loc>https://piccalc.com/tools/image-compare</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/image-compare.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/image-compare.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/image-compare.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/image-compare"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/image-compare"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/image-compare"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/tools/image-compare.html</loc>
+    <loc>https://piccalc.com/zh/tools/image-compare</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/image-compare.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/image-compare.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/image-compare.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/image-compare"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/image-compare"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/image-compare"/>
   </url>
   <url>
-    <loc>https://piccalc.com/tools/mosaic.html</loc>
+    <loc>https://piccalc.com/tools/mosaic</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/mosaic.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/mosaic.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/mosaic.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/mosaic"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/mosaic"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/mosaic"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/tools/mosaic.html</loc>
+    <loc>https://piccalc.com/zh/tools/mosaic</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/mosaic.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/mosaic.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/mosaic.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/mosaic"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/mosaic"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/mosaic"/>
   </url>
   <url>
-    <loc>https://piccalc.com/tools/palette.html</loc>
+    <loc>https://piccalc.com/tools/palette</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/palette.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/palette.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/palette.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/palette"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/palette"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/palette"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/tools/palette.html</loc>
+    <loc>https://piccalc.com/zh/tools/palette</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/palette.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/palette.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/palette.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/palette"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/palette"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/palette"/>
   </url>
   <url>
-    <loc>https://piccalc.com/tools/qr-reader.html</loc>
+    <loc>https://piccalc.com/tools/qr-reader</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/qr-reader.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/qr-reader.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/qr-reader.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/qr-reader"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/qr-reader"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/qr-reader"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/tools/qr-reader.html</loc>
+    <loc>https://piccalc.com/zh/tools/qr-reader</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/qr-reader.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/qr-reader.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/qr-reader.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/qr-reader"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/qr-reader"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/qr-reader"/>
   </url>
   <url>
-    <loc>https://piccalc.com/tools/qrcode.html</loc>
+    <loc>https://piccalc.com/tools/qrcode</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/qrcode.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/qrcode.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/qrcode.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/qrcode"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/qrcode"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/qrcode"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/tools/qrcode.html</loc>
+    <loc>https://piccalc.com/zh/tools/qrcode</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/qrcode.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/qrcode.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/qrcode.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/qrcode"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/qrcode"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/qrcode"/>
   </url>
   <url>
-    <loc>https://piccalc.com/tools/remove-bg.html</loc>
+    <loc>https://piccalc.com/tools/remove-bg</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/remove-bg.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/remove-bg.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/remove-bg.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/remove-bg"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/remove-bg"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/remove-bg"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/tools/remove-bg.html</loc>
+    <loc>https://piccalc.com/zh/tools/remove-bg</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/remove-bg.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/remove-bg.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/remove-bg.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/remove-bg"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/remove-bg"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/remove-bg"/>
   </url>
   <url>
-    <loc>https://piccalc.com/tools/resize.html</loc>
+    <loc>https://piccalc.com/tools/resize</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/resize.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/resize.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/resize.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/resize"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/resize"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/resize"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/tools/resize.html</loc>
+    <loc>https://piccalc.com/zh/tools/resize</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/resize.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/resize.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/resize.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/resize"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/resize"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/resize"/>
   </url>
   <url>
-    <loc>https://piccalc.com/tools/restore.html</loc>
+    <loc>https://piccalc.com/tools/restore</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/restore.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/restore.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/restore.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/restore"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/restore"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/restore"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/tools/restore.html</loc>
+    <loc>https://piccalc.com/zh/tools/restore</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/restore.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/restore.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/restore.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/restore"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/restore"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/restore"/>
   </url>
   <url>
-    <loc>https://piccalc.com/tools/rounded.html</loc>
+    <loc>https://piccalc.com/tools/rounded</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/rounded.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/rounded.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/rounded.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/rounded"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/rounded"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/rounded"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/tools/rounded.html</loc>
+    <loc>https://piccalc.com/zh/tools/rounded</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/rounded.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/rounded.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/rounded.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/rounded"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/rounded"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/rounded"/>
   </url>
   <url>
-    <loc>https://piccalc.com/tools/split.html</loc>
+    <loc>https://piccalc.com/tools/split</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/split.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/split.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/split.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/split"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/split"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/split"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/tools/split.html</loc>
+    <loc>https://piccalc.com/zh/tools/split</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/split.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/split.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/split.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/split"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/split"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/split"/>
   </url>
   <url>
-    <loc>https://piccalc.com/tools/stitch.html</loc>
+    <loc>https://piccalc.com/tools/stitch</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/stitch.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/stitch.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/stitch.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/stitch"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/stitch"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/stitch"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/tools/stitch.html</loc>
+    <loc>https://piccalc.com/zh/tools/stitch</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/stitch.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/stitch.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/stitch.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/stitch"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/stitch"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/stitch"/>
   </url>
   <url>
-    <loc>https://piccalc.com/tools/to-pdf.html</loc>
+    <loc>https://piccalc.com/tools/to-pdf</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/to-pdf.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/to-pdf.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/to-pdf.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/to-pdf"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/to-pdf"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/to-pdf"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/tools/to-pdf.html</loc>
+    <loc>https://piccalc.com/zh/tools/to-pdf</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/to-pdf.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/to-pdf.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/to-pdf.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/to-pdf"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/to-pdf"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/to-pdf"/>
   </url>
   <url>
-    <loc>https://piccalc.com/tools/trim-edges.html</loc>
+    <loc>https://piccalc.com/tools/trim-edges</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/trim-edges.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/trim-edges.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/trim-edges.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/trim-edges"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/trim-edges"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/trim-edges"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/tools/trim-edges.html</loc>
+    <loc>https://piccalc.com/zh/tools/trim-edges</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/trim-edges.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/trim-edges.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/trim-edges.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/trim-edges"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/trim-edges"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/trim-edges"/>
   </url>
   <url>
-    <loc>https://piccalc.com/tools/upscale.html</loc>
+    <loc>https://piccalc.com/tools/upscale</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/upscale.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/upscale.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/upscale.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/upscale"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/upscale"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/upscale"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/tools/upscale.html</loc>
+    <loc>https://piccalc.com/zh/tools/upscale</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/upscale.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/upscale.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/upscale.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/upscale"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/upscale"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/upscale"/>
   </url>
   <url>
-    <loc>https://piccalc.com/tools/watermark.html</loc>
+    <loc>https://piccalc.com/tools/watermark</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/watermark.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/watermark.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/watermark.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/watermark"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/watermark"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/watermark"/>
   </url>
   <url>
-    <loc>https://piccalc.com/zh/tools/watermark.html</loc>
+    <loc>https://piccalc.com/zh/tools/watermark</loc>
     <lastmod>2026-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/watermark.html"/>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/watermark.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/watermark.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/watermark"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/tools/watermark"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/tools/watermark"/>
   </url>
 </urlset>

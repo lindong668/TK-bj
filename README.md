@@ -1,4 +1,4 @@
-# 1号 · PicStudio — https://piccalc.com（根域） · Cloudflare Workers · V27
+# 1号 · PicStudio — https://piccalc.com（根域） · Cloudflare Workers · V70
 
 > **一眼识别卡**
 > | 项 | 值 |
@@ -7,9 +7,45 @@
 > | 域名 | **https://piccalc.com（根域）** |
 > | Worker 名 | `tk-bj` |
 > | 形态 | **Cloudflare Workers + Assets** |
-> | 本包版本 | **V30** = V29 + 联系邮箱统一为 yokok8@outlook.com |
-> | 生成日期 | 2026-10-27 |
-> | 关键特性 | 20 个图片工具 + 图片指南；guides 旧路径 301 到 /tools/ |
+> | 本包版本 | **V70** = 远端现行版 + URL 形态统一与全站整改 |
+> | 生成日期 | 2026-11-10 |
+> | 关键特性 | 44 组中英独立 URL；canonical / hreflang / sitemap / 内链全部**无扩展名**；guides 旧路径 301 到 /tools/ |
+
+---
+
+## ★ V70 现行说明（2026-11-10，以下历史章节如与之冲突，以本节为准）
+
+**线上实测**：无扩展名地址 `https://piccalc.com/about` = **200**（最终页面）；
+带 `.html` 的 `https://piccalc.com/about.html` = **307** 跳到无扩展名（CF Assets 默认行为，属正常）。
+整改前全站 84 页 canonical、252 条 hreflang、1576 条站内链接、sitemap 84 条 loc
+全部写 `.html`，**规范地址指向的不是最终 200 页面**；同时 Worker 里还留着
+「无扩展名 → 301 补 `.html`」的反向逻辑（线上因探测拿不到 200 而永不触发，属死代码，
+一旦 CF 行为变化会形成 `/about → 301 → /about.html → 307 → /about` 循环）。
+
+**V70 一次性改完**：
+1. 88 个正式页的 canonical / hreflang / `og:url` / JSON-LD / `<a href>` / 语言切换
+   `<option value>`、以及 `sitemap.xml` 的 loc 与 `xhtml:link`，**全部统一为无扩展名**；
+   `index.html` → 目录根（`/`、`/zh/`、`/guides/`、`/zh/guides/`）。
+2. 删掉 Worker 里「无后缀补 `.html`」的 301 段与三处目录根硬 fetch，
+   目录根交由 CF Assets 原生映射。
+3. `GUIDES_LEGACY_MAP` 与 `/guides/ → /tools/` 迁移跳统一改为无扩展名目标，
+   旧短名的 `.html` 与无扩展名两种入口都直接 301。
+4. 删掉 88 页重复的 `<!DOCTYPE html>`（第 1、2 行都是）。
+5. 80 页重复的 `twitter:card` 去重并统一 `summary_large_image`；
+   补 2 个指南页缺失的 `og:locale`。
+6. `_headers` 补 `Strict-Transport-Security`；404 兜底补 `noindex` 与导航链接。
+7. **未动**：`google6474e28bb6098302.html` 验证文件与 Worker 硬拦截路径、
+   JS 里 `/\.html?$/` 等正则字面量、`assets/js/download.js` / `guide-nav.js` / `ux.js`
+   的工具计算逻辑、页面可见文案与全部工具功能。
+
+**部署后验收**：
+```
+① https://piccalc.com/about        → 200，源码 canonical = https://piccalc.com/about
+② https://piccalc.com/about.html   → 307 到 /about（CF 正常行为，不是错）
+③ https://piccalc.com/zh/about     → 三条 hreflang（en / zh-CN / x-default）全无 .html
+④ sitemap.xml                     → 88 条 loc 全无 .html
+⑤ 语言下拉切 English / 中文         → 直接落到无扩展名地址，不多跳
+```
 
 ---
 
@@ -219,3 +255,12 @@ Worker 自定义域里加 www.piccalc.com 后：
 ```
 **注**：AdSense 提交的站点是 piccalc.com（apex），抓取的是 apex 的 ads.txt，
 该地址一直是 200，不受 www 跳转方式影响。
+
+
+## V70 本轮要点
+- 线上实测 `/tools/adjust.html` → 307、`/tools/adjust` → 200，故全站 URL 统一为**无扩展名**。
+- 88 页重复 DOCTYPE、og:locale / og:locale:alternate、twitter 卡片、导航重复项、README 识别信息已修。
+- AdSense 广告位**真实放出，不再注释**：全站仅 2 个 —— 英文首页 1 个、中文首页 1 个，均在「工具卡片网格结束 ↔ 图片处理指南标题之前」，电脑手机同一位置。
+- 已绑定 AdSense 后台「0003」横幅·自适应单元，正式 slot `1784463687`（pub id `ca-pub-8915931557404979` 未动）；HTML 内直接写真号与 `data-ad-format="auto" data-full-width-responsive="true"`，`ads-config.js` 同号，**无占位号、部署前无需再改配置**。
+- 容器写死高度：桌面 728×90（高 90px）、手机 320×100（高 100px），`overflow:hidden` 锁死高度，Safari / Chrome / 安卓一致；随文档流滚动（非 fixed/sticky），不存在隐藏广告位。
+- `https://piccalc.com/ads.txt` 必须直接返回纯文本 200（不要被 CF 缓存规则 / 安全级别拦截）。Google 报「找不到 ads.txt」根因在抓取层，跟页面有没有广告位无关，但广告位放出对审核展示有利。

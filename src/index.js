@@ -1,42 +1,40 @@
 /**
- * PicStudio 静态资源服务
+ * PicStudio 静态资源服务（V70）
  * 负责把 /public 下的文件吐出去，补安全与 SEO 响应头。
  *
- * 新增（本次）：无后缀 URL 自动补 .html
- *   例：/tools/palette  →  /tools/palette.html （301）
- *   作用：Google 已收录过一批不带 .html 的 URL，
- *        直接放开会变成 404 并被逐步移出索引，
- *        这样可以把旧收录的权重和平转移到正式 URL。
+ * ★ V70 URL 形态统一（2026-11-10）· r2 补无扩展名本地兜底
+ *   线上实测：无扩展名地址 200（最终页），带 .html 的地址由 CF Assets 307 跳到无扩展名。
+ *   全站 canonical / hreflang / og:url / sitemap / 内链 / 语言切换已统一为无扩展名。
+ *
+ *   【本版删掉了旧「无后缀 URL 自动补 .html 的 301」逻辑】
+ *   旧代码对 /about 探测 /about.html，若 200 就 301 到 /about.html。
+ *   但线上 /about.html 实际返回 307（不是 200），所以这段永远是死代码；
+ *   一旦 CF 的 html_handling 行为变化让探测拿到 200，就会形成
+ *     /about → 301 → /about.html → 307 → /about 的循环。
+ *   现改为：无扩展名请求直接交给 ASSETS（200），带 .html 的由 CF 正常 307 收敛，
+ *   两套方向相反的规则不再并存。
+ *
+ *   【目录根 /guides/ /zh/ 等也不再手工 fetch index.html】
+ *   CF Assets 原生支持目录根映射到 index.html，交给它处理即可，
+ *   避免内部请求带 .html 又被 307 造成分支失效。
  */
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
     /* ★★ V25：www → apex 的 301 重定向（全路径跳转，无任何例外）
-     *
-     * 位置：放在【所有拦截之前】，因此 www 的任意路径
-     *   /ads.txt、/robots.txt、/sitemap.xml、/ ……
-     *   全部 301 到 apex，不设特例 —— 行为完全一致，逻辑最简单。
-     *
-     * apex（piccalc.com）不匹配本段，继续往下走：
-     *   ads.txt / 验证文件 / robots.txt / sitemap.xml 拦截 → 200
-     *   其余 → 静态资源兜底
+     * 放在所有拦截之前：www 的任意路径全部 301 到 apex，
+     * apex 上的 ads.txt / 验证文件 / robots.txt / sitemap.xml 再由下面各段返回 200。
      */
     if (url.hostname === 'www.piccalc.com') {
       return Response.redirect('https://piccalc.com' + url.pathname + url.search, 301);
     }
 
     /* ★★ ads.txt 拦截（V22 修复，V25 说明更新）
-     *
-     * V25 起，www 的 301 已提到本段【之前】，
-     *   因此 www 形态的 /ads.txt 会 301 到 apex，
-     *   由 apex 走本段返回 200（AdSense 抓取器会跟随 301）。
-     * 本段现在只对 apex（piccalc.com）生效，返回 200。
-     *
      * 两个不变的关键点：
-     *   1. Content-Type 用纯 text/plain（不带 charset），
-     *      消除严格字符串匹配场景下的失败风险。
-     *   2. nosniff 防止被二次猜测 MIME。
+     *   1. Content-Type 用纯 text/plain（不带 charset）
+     *   2. nosniff 防止被二次猜测 MIME
+     * AdSense 抓取器跟随 301 后在 apex 拿到 200。
      */
     if (url.pathname === '/ads.txt' || url.pathname === '/Ads.txt') {
       return new Response(
@@ -50,26 +48,17 @@ export default {
     }
 
     /* ★ V24 更正：V23 曾把 www→apex 挪到 CF 规则，这是错的，已回归 Worker 内实现。
-     *
-     * 为什么不能用 CF 规则：
-     *   CF 的「批量重定向 / Redirect Rules」在 CDN 层执行，==早于 Worker==，
-     *   会把 /ads.txt、/robots.txt、/sitemap.xml 一起 301 掉，
-     *   导致 AdSense 判「未找到」、Google robots.txt 提取失败。
-     *
-     * V24 的正确位置：见下方第 139 行，
-     *   位于 ads.txt / 验证文件 / robots.txt / sitemap.xml 四个拦截【之后】，
-     *   → 这些特例路径天然不被跳转，由代码顺序保证，不依赖外部规则。
-     *
-     * （V23 那句"前提是该请求能到达 Worker"正是踩坑点：
-     *    CF 规则在更早的层就把请求截走，根本到不了 Worker。）
+     * CF 的「批量重定向 / Redirect Rules」在 CDN 层执行，==早于 Worker==，
+     * 会把 /ads.txt、/robots.txt、/sitemap.xml 一起 301 掉，
+     * 导致 AdSense 判「未找到」、Google robots.txt 提取失败。
      */
-
     let pathname = url.pathname;
 
-
     /* ★ 谷歌站长验证文件硬拦截
-     * 同理：直接返回固定内容 + text/html，并禁用缓存，
-     * 保证 Google 每次来复查都能立刻拿到最新内容。 */
+     * 直接返回固定内容 + text/html，并禁用缓存，
+     * 保证 Google 每次来复查都能立刻拿到最新内容。
+     * ⚠️ 这个路径必须保留 .html 后缀，不能参与 URL 形态统一。
+     */
     if (pathname === '/google6474e28bb6098302.html') {
       return new Response(
         'google-site-verification: google6474e28bb6098302.html\n',
@@ -79,7 +68,6 @@ export default {
         } }
       );
     }
-
 
     if (pathname === '/robots.txt') {
       return new Response(
@@ -92,23 +80,10 @@ export default {
     }
 
     /* ★ sitemap.xml 硬拦截（双保险）—— 2026-10-23 新增
-     *
-     * 背景：与 ads.txt / robots.txt 完全同类的隐患。
-     * Google 的 sitemap 抓取器对 Content-Type 极其严格 ——
-     * 必须是 application/xml（或 text/xml）。
-     * 一旦被 Assets 猜成 text/html 或 application/octet-stream，
-     * GSC 就会报「无法抓取 / 类型未知 / 0 个网址」，
-     * sitemap 提交失败，收录链路直接断掉。
-     *
-     * 实证：4号（haiwai-dao-hang）此前正是踩了这个坑 ——
-     *   静态返回时被判「类型未知、0 个网址」，
-     *   改成 Worker 读取后强制改写 Content-Type 才恢复正常。
-     * 本站原先只靠 public/_headers 声明，而 _headers 在部分
-     * Workers Assets 版本下不一定生效（本站自己的注释已写明）。
-     * 所以这里补上与 4号 相同的 Worker 层接管，堵死这个隐患。
-     *
-     * 做法：从 ASSETS 读取真实文件内容，强制改写 Content-Type 后吐出。
-     * 不写死内容，保证 sitemap.xml 后续更新能自动生效。 */
+     * Google 的 sitemap 抓取器对 Content-Type 极其严格，必须是 application/xml。
+     * 从 ASSETS 读取真实文件内容后强制改写 Content-Type，不写死内容，
+     * 保证 sitemap.xml 后续更新能自动生效（V70 已把其中 URL 统一为无扩展名）。
+     */
     if (pathname === '/sitemap.xml') {
       const src = await env.ASSETS.fetch(new Request(url.origin + '/sitemap.xml', request.clone()));
       const body = await src.text();
@@ -121,129 +96,93 @@ export default {
       });
     }
 
-    // 形如 /tools/palette、/about 这类无扩展名路径，尝试补 .html
-    //
-    // ⚠️ 只对 GET/HEAD 做补后缀探测。
-    // 原因：new Request(url, request) 会复用原请求的 body 流，
-    // 之后再 env.ASSETS.fetch(request) 就会抛
-    //   "Cannot reconstruct a Request with a used body."
-    // （日志里 POST /wp-json/batch/v1 的 error 就是这么来的。）
-    // 补后缀本身就是为页面导航服务的，POST 没有补的必要，直接跳过。
     /* ★★ V27：/guides/ 废弃旧短名 → /tools/ 正式地址【写死映射】301
+     * 背景（拆包实测）：public/guides/ 下真实存在的 10 个文件用【长名】，
+     * 而 GSC「未找到(404)」里的 7 个是【旧短名】，真身全部在 /tools/ 下。
+     * V27 改成写死映射，在 env.ASSETS.fetch 之前直接 return，100% 生效。
      *
-     * ★ V26 的写法是"先 404，再探测 /tools/ 是否存在"，实测线上【不生效】
-     *   （用户本地访问仍是 404）。原因不明，但教训明确：
-     *   不要依赖"404 后探测"这种间接逻辑，多一层就多一层不确定。
-     *   V27 改成写死映射，在 env.ASSETS.fetch 【之前】直接 return，
-     *   100% 生效，不依赖任何探测结果。
-     *
-     * 背景（拆包实测，非推测）：
-     *   public/guides/ 下真实存在的 10 个文件用的是【长名】：
-     *     compress-to-size / exif-privacy / id-photo-sizes / image-formats
-     *     qr-code-error-correction / redact-photo-privacy
-     *     remove-background / resolution-dpi / watermark-without-quality-loss
-     *     index.html
-     *   而 GSC「未找到(404)」里的 7 个是【旧短名】，guides 下根本没有：
-     *     resize / remove-bg / crop / compress / id-photo / mosaic / exif
-     *   即站点做过命名规范化（短名 → 长名 / 或迁到 tools），但没补跳转。
-     *   这 7 个短名的正式地址全部在 /tools/ 下（已逐个核对 24 个文件确认存在）。
-     *
-     * ★★ 只映射这 7 个废弃短名，【绝不】无条件跳 /guides/* ！
-     *   否则会把真实存在的 /guides/compress-to-size.html
-     *   误跳到不存在的 /tools/compress-to-size.html，反而造出新的 404。
+     * ★ V70：映射键与跳转目标一律用【无扩展名】。
+     *   先把请求路径的 .html 后缀剥掉再查表，这样
+     *   /guides/resize.html 与 /guides/resize 两种入口都直接 301 到 /tools/resize（200），
+     *   不再出现「301 到 .html 又被 307」的双跳。
+     * ★ 只映射这 7 个废弃短名，【绝不】无条件跳 /guides/* ！
      */
+    const cleanPath = pathname.replace(/\.html$/, '');
     const GUIDES_LEGACY_MAP = {
-      '/guides/resize.html':    '/tools/resize.html',
-      '/guides/remove-bg.html': '/tools/remove-bg.html',
-      '/guides/crop.html':      '/tools/crop.html',
-      '/guides/compress.html':  '/tools/compress.html',
-      '/guides/id-photo.html':  '/tools/id-photo.html',
-      '/guides/mosaic.html':    '/tools/mosaic.html',
-      '/guides/exif.html':      '/tools/exif.html',
+      '/guides/resize':    '/tools/resize',
+      '/guides/remove-bg': '/tools/remove-bg',
+      '/guides/crop':      '/tools/crop',
+      '/guides/compress':  '/tools/compress',
+      '/guides/id-photo':  '/tools/id-photo',
+      '/guides/mosaic':    '/tools/mosaic',
+      '/guides/exif':      '/tools/exif',
     };
-    if (GUIDES_LEGACY_MAP[pathname]) {
-      return Response.redirect(url.origin + GUIDES_LEGACY_MAP[pathname] + url.search, 301);
+    if (GUIDES_LEGACY_MAP[cleanPath]) {
+      return Response.redirect(url.origin + GUIDES_LEGACY_MAP[cleanPath] + url.search, 301);
     }
 
-    const noExt = !/\.[a-zA-Z0-9]+$/.test(pathname);
-    const isNav = request.method === 'GET' || request.method === 'HEAD';
-    if (isNav && noExt && pathname !== '/' && !pathname.endsWith('/')) {
-      // 用 clone 探测，确保原 request 的 body 完好无损
-      const probe = new Request(url.origin + pathname + '.html', request.clone());
-      const probeRes = await env.ASSETS.fetch(probe);
-      if (probeRes.status === 200) {
-        // 301 永久重定向，把旧收录权重转移到带 .html 的正式地址
-        return Response.redirect(url.origin + pathname + '.html' + url.search, 301);
-      }
+    // 无扩展名请求直接交给 ASSETS：线上这些路径就是最终 200 页面。
+    // 目录根（/guides/、/zh/、/zh/guides/）由 CF Assets 原生映射到 index.html，不再手工 fetch。
+    let res = await env.ASSETS.fetch(request);
+
+    /* ★ V70-r2：无扩展名 → 内部补取同名 .html（仅 ASSETS 返回 404 时）
+     * 为什么：CF Assets 原生把 /about 映射到 about.html（200），但本地预览台 /
+     * 纯静态 ASSETS 没有这层映射，会把全站无扩展名链接判成 404，
+     * 于是「页面不存在」兜底页冒出来（2026-11-10 实测 /zh/guides/compress-to-size）。
+     * 做法：内部 fetch 一次 path+'.html'，命中 200 就直接拿它当响应。
+     *   · 不是 301/307，浏览器地址仍是无扩展名 → 不会形成重定向循环
+     *   · 线上 CF 首取就是 200，此分支永不触发，零行为变化
+     *   · 真 404 的路径补 .html 仍是 404，照常走下面的 noindex 兜底
+     */
+    if (res.status === 404 && !pathname.endsWith('.html') && !pathname.endsWith('/')) {
+      try {
+        const alt = await env.ASSETS.fetch(new Request(url.origin + pathname + '.html', request.clone()));
+        if (alt.status === 200) res = alt;
+      } catch (e) { /* 保持原 404 */ }
     }
 
-    // 目录根显式指向 index.html，避免部分版本下 /guides/ 落到兜底 404
-    if (pathname === '/guides' || pathname === '/guides/') {
-      const idx = await env.ASSETS.fetch(new Request(url.origin + '/guides/index.html', request.clone()));
-      if (idx.status === 200) return idx;
-    }
-    // Independent language URL: directory roots for /zh and /zh/guides
-    if (pathname === '/zh' || pathname === '/zh/') {
-      const idx = await env.ASSETS.fetch(new Request(url.origin + '/zh/index.html', request.clone()));
-      if (idx.status === 200) return idx;
-    }
-    if (pathname === '/zh/guides' || pathname === '/zh/guides/') {
-      const idx = await env.ASSETS.fetch(new Request(url.origin + '/zh/guides/index.html', request.clone()));
-      if (idx.status === 200) return idx;
-    }
-
-    const res = await env.ASSETS.fetch(request);
-
-    /* ★★ V26 新增：/guides/ 旧路径 → /tools/ 真身的 301 迁移跳转
-     *
-     * 背景（实测发现，非推测）：
-     *   GSC「未找到 (404)」列表里的 7 个地址全部形如：
-     *     /guides/resize.html   /guides/crop.html    /guides/mosaic.html
-     *     /guides/compress.html /guides/id-photo.html
-     *     /guides/exif.html     /guides/remove-bg.html
-     *   但 public/guides/ 下根本没有这些文件 —— 它们是早期收录的旧路径。
-     *
-     *   真身全部在 /tools/ 下（已逐个核对存在）：
-     *     /tools/resize.html  /tools/crop.html  /tools/mosaic.html
-     *     /tools/compress.html /tools/id-photo.html
-     *     /tools/exif.html    /tools/remove-bg.html
-     *   即站点经历过 guides → tools 的路径迁移，但从未补跳转，
-     *   于是这些旧地址一直 404，被 GSC 持续判为「未找到」。
-     *
-     * 为什么写成"404 时才探测"而不是预先写死一张映射表：
-     *   ① 零成本：正常页面不触发，只在真 404 时多一次探测
-     *   ② 不写死：以后再出现同类迁移，自动兜住，不用回来改代码
-     *   ③ 安全：只有确认 /tools/ 下真有 200 的页面才跳，
-     *      绝不把 404 跳成另一个 404
+    /* ★★ V26：/guides/ 旧路径 → /tools/ 真身的 301 迁移跳转（404 时才探测）
+     * ① 零成本：正常页面不触发，只在真 404 时多一次探测
+     * ② 不写死：以后再出现同类迁移自动兜住
+     * ③ 安全：只有确认 /tools/ 下真有 200 的页面才跳，绝不把 404 跳成另一个 404
+     * ★ V70：base 剥掉 .html，探测地址与跳转目标都用无扩展名。
      */
     if (res.status === 404 && pathname.startsWith('/guides/')) {
-      const base = pathname.slice('/guides/'.length);
-      if (base && base !== 'index.html') {
+      const base = pathname.slice('/guides/'.length).replace(/\.html$/, '');
+      if (base && base !== 'index' && base !== 'index.html') {
         const alt = new Request(url.origin + '/tools/' + base, request.clone());
         const altRes = await env.ASSETS.fetch(alt);
         if (altRes.status === 200) {
-          // 301 永久重定向：把旧收录的权重转移到 /tools/ 正式地址
           return Response.redirect(url.origin + '/tools/' + base + url.search, 301);
         }
       }
     }
 
-    // 404 兜底：给一个最简单的提示页，而不是空白
+    // 404 兜底：带 noindex，避免软 404 被收录；给可走的导航而不是空白页。
     if (res.status === 404) {
       const isZh = pathname.startsWith('/zh/');
       const body = isZh
-        ? '<!doctype html><meta charset="utf-8"><title>页面不存在 · PicStudio</title>' +
-          '<div style="font-family:system-ui;max-width:560px;margin:15vh auto;text-align:center">' +
+        ? '<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">' +
+          '<meta name="robots" content="noindex,follow"><title>页面不存在 · PicStudio</title></head>' +
+          '<body style="font-family:system-ui;max-width:560px;margin:15vh auto;text-align:center;line-height:1.8">' +
           '<h1 style="font-size:22px">页面不存在</h1>' +
           '<p style="color:#64748b">你访问的页面已移动或从未存在。</p>' +
-          '<a href="/zh/" style="color:#6366f1">返回 PicStudio 首页</a></div>'
-        : '<!doctype html><meta charset="utf-8"><title>Page not found | PicStudio</title>' +
-          '<div style="font-family:system-ui;max-width:560px;margin:15vh auto;text-align:center">' +
+          '<p><a href="/zh/" style="color:#6366f1">返回中文首页</a> · ' +
+          '<a href="/zh/tools/" style="color:#6366f1">工具列表</a> · ' +
+          '<a href="/zh/guides/" style="color:#6366f1">使用指南</a></p></body></html>'
+        : '<!doctype html><html lang="en"><head><meta charset="utf-8">' +
+          '<meta name="robots" content="noindex,follow"><title>Page not found | PicStudio</title></head>' +
+          '<body style="font-family:system-ui;max-width:560px;margin:15vh auto;text-align:center;line-height:1.8">' +
           '<h1 style="font-size:22px">Page not found</h1>' +
           '<p style="color:#64748b">This page has moved or never existed.</p>' +
-          '<a href="/" style="color:#6366f1">Back to PicStudio</a></div>';
+          '<p><a href="/" style="color:#6366f1">Back to PicStudio</a> · ' +
+          '<a href="/tools/" style="color:#6366f1">All tools</a> · ' +
+          '<a href="/guides/" style="color:#6366f1">Guides</a></p></body></html>';
       return new Response(body,
-        { status: 404, headers: { 'content-type': 'text/html; charset=utf-8' } }
+        { status: 404, headers: {
+            'content-type': 'text/html; charset=utf-8',
+            'X-Content-Type-Options': 'nosniff'
+        } }
       );
     }
 
