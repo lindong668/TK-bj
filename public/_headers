@@ -25,3 +25,8 @@
 /google6474e28bb6098302.html
   Content-Type: text/html; charset=utf-8
   Cache-Control: no-cache, must-revalidate
+
+# 站长验证文件（Bing / 其它）：显式声明纯文本且不缓存，避免 www 复查拿到旧副本
+/2e63d291b36d4ca8a6b1f2bf2c17fa2e.txt
+  Content-Type: text/plain; charset=utf-8
+  Cache-Control: no-cache, must-revalidate

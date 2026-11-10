@@ -32,7 +32,8 @@ export default {
      */
     const MACHINE_PATHS = new Set([
       '/ads.txt', '/Ads.txt', '/robots.txt', '/sitemap.xml',
-      '/google6474e28bb6098302.html'
+      '/google6474e28bb6098302.html',
+      '/2e63d291b36d4ca8a6b1f2bf2c17fa2e.txt'
     ]);
     if (url.hostname === 'www.piccalc.com' && !MACHINE_PATHS.has(url.pathname)) {
       return Response.redirect('https://piccalc.com' + url.pathname + url.search, 301);
@@ -132,6 +133,21 @@ export default {
       return Response.redirect(url.origin + GUIDES_LEGACY_MAP[cleanPath] + url.search, 301);
     }
 
+    /* ★ V70.2 复审修复：public/tools/ 与 public/zh/tools/ 下没有 index.html，
+     * 而 404 兜底页原本链了「工具列表 / All tools」到这两个目录根 —— 点进去又是 404，
+     * Google 抓目录根同样吃 404。统一 301 到首页工具锚点：不新增页面、不产生重复内容，
+     * 精确匹配这四个路径，绝不误伤 /tools/xxx 具体工具页。 */
+    const TOOLS_DIR_MAP = {
+      '/tools':     '/#tools',
+      '/tools/':    '/#tools',
+      '/zh/tools':  '/zh/#tools',
+      '/zh/tools/': '/zh/#tools',
+    };
+    const toolsDir = TOOLS_DIR_MAP[pathname] || TOOLS_DIR_MAP[cleanPath];
+    if (toolsDir) {
+      return Response.redirect(url.origin + toolsDir + url.search, 301);
+    }
+
     // 无扩展名请求直接交给 ASSETS：线上这些路径就是最终 200 页面。
     // 目录根（/guides/、/zh/、/zh/guides/）由 CF Assets 原生映射到 index.html，不再手工 fetch。
     let res = await env.ASSETS.fetch(request);
@@ -179,7 +195,7 @@ export default {
           '<h1 style="font-size:22px">页面不存在</h1>' +
           '<p style="color:#64748b">你访问的页面已移动或从未存在。</p>' +
           '<p><a href="/zh/" style="color:#6366f1">返回中文首页</a> · ' +
-          '<a href="/zh/tools/" style="color:#6366f1">工具列表</a> · ' +
+          '<a href="/zh/#tools" style="color:#6366f1">工具列表</a> · ' +
           '<a href="/zh/guides/" style="color:#6366f1">使用指南</a></p></body></html>'
         : '<!doctype html><html lang="en"><head><meta charset="utf-8">' +
           '<meta name="robots" content="noindex,follow"><title>Page not found | PicStudio</title></head>' +
@@ -187,7 +203,7 @@ export default {
           '<h1 style="font-size:22px">Page not found</h1>' +
           '<p style="color:#64748b">This page has moved or never existed.</p>' +
           '<p><a href="/" style="color:#6366f1">Back to PicStudio</a> · ' +
-          '<a href="/tools/" style="color:#6366f1">All tools</a> · ' +
+          '<a href="/#tools" style="color:#6366f1">All tools</a> · ' +
           '<a href="/guides/" style="color:#6366f1">Guides</a></p></body></html>';
       return new Response(body,
         { status: 404, headers: {

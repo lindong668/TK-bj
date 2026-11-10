@@ -265,6 +265,20 @@ Worker 自定义域里加 www.piccalc.com 后：
 - AdSense 广告位**真实放出，不再注释**：全站仅 2 个 —— 英文首页 1 个、中文首页 1 个，均在「工具卡片网格结束 ↔ 图片处理指南标题之前」，电脑手机同一位置。
 - 已绑定 AdSense 后台「0003」横幅·自适应单元，正式 slot `1784463687`（pub id `ca-pub-8915931557404979` 未动）；HTML 内直接写真号与 `data-ad-format="auto" data-full-width-responsive="true"`，`ads-config.js` 同号，**无占位号、部署前无需再改配置**。
 - 容器写死高度：桌面 728×90（高 90px）、手机 320×100（高 100px），`overflow:hidden` 锁死高度，Safari / Chrome / 安卓一致；随文档流滚动（非 fixed/sticky），不存在隐藏广告位。
+- 广告 iframe 只做绝对定位（脱离文档流），**不改写其 width/height**；容器锁高 + `overflow:hidden` 负责不撑开页面，避免压缩/变形广告内容。
 - **广告位周围不放任何可见内容**：无「广告」小字、无卡片、描边、底色、阴影、圆角，容器与页面深色背景融为一体。
 - `https://piccalc.com/ads.txt` 必须直接返回纯文本 200（不要被 CF 缓存规则 / 安全级别拦截）。Google 报「找不到 ads.txt」根因在抓取层，跟页面有没有广告位无关，但广告位放出对审核展示有利。
 - V70 终版：Worker 里机器文件改为 www/apex 双 200；修正 3 处 `new Request(url, request.clone())` 的非法 init 写法（原写法会静默丢弃请求头）。
+
+---
+
+## V70.2 封存复审修订（2026-11-10，最终版）
+
+只改 4 处，均为确证问题，其余文件逐字节未动：
+
+1. `/tools/`、`/tools`、`/zh/tools/`、`/zh/tools/` 原本没有 index.html，404 兜底页却链了「工具列表」，点进去仍是 404；现在统一 301 到首页工具锚点（`/`、`/zh/` 的 `#tools`），不新增页面、不产生重复内容。
+2. 站长验证文件 `2e63d291b36d4ca8a6b1f2bf2c17fa2e.txt` 加入 www 机器文件白名单（不再跨主机 301），并在 `_headers` 声明纯文本 + 不缓存。
+3. `sitemap.xml` 88 条 `lastmod` 由 2026-11-08 更新为 2026-11-10。
+4. 404 兜底页两个「工具列表」链接改为直达首页锚点（双保险）。
+
+广告位、pub id、ads.txt、页面正文、canonical / hreflang / 内链、Worker 其余逻辑一律未动。

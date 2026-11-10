@@ -1543,11 +1543,12 @@ a.lang-toggle:hover { border-color:#818cf8; color:#fff; background:rgba(79,70,22
    两层容器都写死高度 + overflow:hidden + contain，Google 注入的 iframe 绝对定位脱离文档流。
    外层 .ad-block 不再按内容撑高：无论脚本写入多高的 ins / iframe，iOS Safari / Chrome / 安卓
    三端间隔完全恒定，不会再出现近一屏空白。桌面 728x90 / 手机 320x100，始终占位、不折叠、
-   不由 JS 改高度，外层无卡片/描边/底色/阴影/圆角。 */
+   不由 JS 改高度，也不改写 Google 注入 iframe 的 width/height（只绝对定位脱离文档流），
+   外层无卡片/描边/底色/阴影/圆角，超出部分由容器 overflow:hidden 裁掉。 */
 .ad-block{position:relative;display:block;height:90px;max-width:728px;margin:20px auto;overflow:hidden;contain:layout paint size;background:transparent;border:0;border-radius:0;box-shadow:none}
 .ad-slot{display:block;position:relative;width:728px;max-width:100%;height:90px!important;max-height:90px!important;min-height:0!important;margin:0 auto;overflow:hidden!important;contain:layout paint;background:transparent;border:0;border-radius:0;box-shadow:none}
 .ad-slot ins.adsbygoogle{display:block!important;max-height:100%!important;overflow:hidden!important;background:transparent!important}
-.ad-slot iframe{position:absolute!important;top:0;left:0;width:100%!important;height:100%!important;max-height:100%!important;display:block!important;border:0!important;background:transparent!important}
+.ad-slot iframe{position:absolute!important;top:0;left:0;display:block!important;border:0!important;background:transparent!important}
 @media(max-width:640px){.ad-block{max-width:320px;height:100px;margin:16px auto}.ad-slot{width:100%;max-width:320px;height:100px!important;max-height:100px!important}}
 @media(min-width:641px){.ad-block{height:90px}.ad-slot{width:728px;height:90px!important;max-height:90px!important}}
 #tools{padding-bottom:24px}
