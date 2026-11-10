@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+
+<html data-lang="zh" lang="zh-CN">
+<head>
+<meta content="ca-pub-8915931557404979" name="google-adsense-account"/>
+<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8915931557404979"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>JPG、PNG、WebP、AVIF、GIF 格式对比</title>
+<meta content="五种常见图片格式的压缩原理、体积差异与适用场景对比，帮你判断什么时候该用哪一种。" name="description"/>
+<meta content="图片格式对比, JPG 与 PNG, WebP, AVIF, GIF, 选哪种格式" name="keywords"/>
+<link href="https://piccalc.com/zh/guides/image-formats.html" rel="canonical"/>
+<meta content="index,follow,max-image-preview:large" name="robots"/>
+<meta content="article" property="og:type"/>
+<meta content="PicStudio" property="og:site_name"/>
+<meta content="zh_CN" property="og:locale"/>
+<meta content="JPG、PNG、WebP、AVIF、GIF 格式对比 | PicStudio" property="og:title"/>
+<meta content="五种常见图片格式的压缩原理、体积差异与适用场景对比，帮你判断什么时候该用哪一种。" property="og:description"/>
+<meta content="https://piccalc.com/zh/guides/image-formats.html" property="og:url"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="JPG、PNG、WebP、AVIF、GIF 格式对比 | PicStudio" name="twitter:title"/>
+<meta content="五种常见图片格式的压缩原理、体积差异与适用场景对比，帮你判断什么时候该用哪一种。" name="twitter:description"/>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "JPG、PNG、WebP、AVIF、GIF 格式对比",
+      "description": "五种常见图片格式的压缩原理、体积差异与适用场景对比，帮你判断什么时候该用哪一种。",
+      "inLanguage": "zh-CN",
+      "datePublished": "2026-10-22",
+      "dateModified": "2026-10-22",
+      "author": {
+        "@type": "Organization",
+        "name": "PicStudio",
+        "url": "https://piccalc.com"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "PicStudio",
+        "url": "https://piccalc.com"
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://piccalc.com/guides/image-formats.html"
+      },
+      "keywords": "图片格式对比, JPG 与 PNG, WebP, AVIF, GIF, 选哪种格式",
+      "articleSection": "Image Editing",
+      "wordCount": 1372
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "PicStudio",
+          "item": "https://piccalc.com/zh/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "图片处理指南",
+          "item": "https://piccalc.com/zh/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "常见图片格式对比",
+          "item": "https://piccalc.com/zh/guides/image-formats.html"
+        }
+      ]
+    }
+  ]
+}</script>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "PicStudio",
+      "item": "https://piccalc.com/zh/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "图片处理指南",
+      "item": "https://piccalc.com/zh/guides/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "常见图片格式对比",
+      "item": "https://piccalc.com/zh/guides/image-formats.html"
+    }
+  ]
+}</script>
+<link href="/favicon.ico" rel="icon" sizes="any"/>
+<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<meta content="https://piccalc.com/og-v2.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="PicStudio 品牌分享图" property="og:image:alt"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
+<link href="/assets/css/style.css?v=20261108ml" rel="stylesheet"/>
+<style>
+      .article-body { max-width: 820px; margin: 0 auto; }
+      .article-body h2 { font-size: 20px; margin: 34px 0 12px; padding-left: 12px; border-left: 4px solid var(--primary); }
+      .article-body h3 { font-size: 16px; margin: 22px 0 8px; }
+      .article-body p { margin: 12px 0; line-height: 1.9; color: var(--text-secondary); }
+      .article-body ul, .article-body ol { margin: 12px 0 12px 22px; line-height: 1.9; color: var(--text-secondary); }
+      .article-body li { margin: 7px 0; }
+      .article-body strong { color: var(--text); }
+      .lead { font-size: 16px; background: var(--bg-secondary); border-left: 3px solid var(--primary); padding: 14px 18px; border-radius: 8px; margin: 16px 0 26px; line-height: 1.85; color: var(--text-secondary); }
+      .crumb { font-size: 13px; color: var(--text-muted); margin-bottom: 14px; }
+      .crumb a { color: var(--text-muted); }
+      .ad-slot { margin: 22px 0; text-align: center; }
+    </style>
+<style>
+      html[data-lang="en"] [data-lang-block="zh"] { display: none !important; }
+      html[data-lang="zh"] [data-lang-block="en"] { display: none !important; }
+      .lang-toggle { background: transparent; border: 1px solid var(--border, #e2e8f0);
+        border-radius: 6px; padding: 4px 10px; font-size: 13px; cursor: pointer;
+        color: var(--text-secondary, #64748b); line-height: 1.6; }
+      .lang-toggle:hover { border-color: var(--primary, #6366f1); color: var(--primary, #6366f1); }
+    </style>
+
+<link href="https://piccalc.com/guides/image-formats.html" hreflang="en" rel="alternate"/><link href="https://piccalc.com/zh/guides/image-formats.html" hreflang="zh-CN" rel="alternate"/><link href="https://piccalc.com/guides/image-formats.html" hreflang="x-default" rel="alternate"/></head>
+<body>
+<header class="header">
+<div class="container">
+<a class="logo" href="/zh/">
+<img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Studio</span></span>
+</a>
+<nav class="tool-nav">
+<select class="lang-select" aria-label="语言" onchange="if(this.value)location.href=this.value"><option value="/guides/image-formats.html">English</option><option value="/zh/guides/image-formats.html" selected>中文</option></select><noscript><a href="/guides/image-formats.html">English</a></noscript>
+<a href="/zh/#tools">全部工具</a>
+<a href="/zh/">图片指南</a>
+<a href="/zh/privacy.html">隐私政策</a>
+<a href="/zh/contact.html">联系我们</a>
+</nav>
+<select class="lang-select-m lang-select" aria-label="语言" onchange="if(this.value)location.href=this.value"><option value="/guides/image-formats.html">English</option><option value="/zh/guides/image-formats.html" selected>中文</option></select><noscript><a href="/guides/image-formats.html">English</a></noscript>
+</div>
+</header>
+<section class="tool-page">
+<div class="container">
+<div class="article-body">
+<div class="guide-top"><a class="guide-back" href="/zh/">← 返回首页</a><div class="crumb"><a href="/zh/">首页</a> <a href="/zh/">图片指南</a> 图片格式怎么选</div></div>
+
+<div>
+<h1>图片格式怎么选：JPG、PNG、WebP、AVIF、GIF 全面对比</h1>
+<div class="lead">选错格式，要么体积大得离谱，要么画质糊得没法看。这篇文章把 JPG、PNG、WebP、AVIF、GIF 五种常见格式讲透：各自的压缩原理、能省多少体积、什么场景必须用、什么场景千万别用，最后给一张速查表。</div>
+<div class="content-block">
+<h2>先弄清一件事：有损和无损</h2>
+<p>格式之间的根本差异在于<strong>压不压缩、怎么压缩</strong>。</p>
+<ul>
+<li><strong>无损压缩</strong>：解压后像素与原始完全一致，可以反复保存不降质。代价是体积大。</li>
+<li><strong>有损压缩</strong>：丢弃一部分人眼不敏感的信息换取体积大幅下降。反复保存会累积损失。</li>
+</ul>
+<p>所以「哪种格式最好」是个伪问题，正确问法是「<strong>这张图要拿来干什么</strong>」。</p>
+</div>
+<div class="content-block">
+<h2>JPG（JPEG）：照片的默认选择</h2>
+<p>JPG 是有损压缩，专为照片设计。它利用人眼对亮度敏感、对色彩细节不敏感的特点，把色彩信息降采样后压缩，在照片上能用很小的体积换来几乎看不出的画质损失。</p>
+<ul>
+<li><strong>优点</strong>：体积小，兼容性无敌，任何设备、任何浏览器、任何平台都能打开。</li>
+<li><strong>缺点</strong>：不支持透明；有损；在文字、线条、纯色块上会出现明显的块状伪影。</li>
+</ul>
+<div class="note-box"><p>一句话：<strong>照片、渐变丰富的图用 JPG</strong>；截图、图标、带文字的图别用。</p></div>
+</div>
+
+<div class="content-block">
+<h2>PNG：透明与无损的唯一稳妥选项</h2>
+<p>PNG 是无损格式，支持完整的 alpha 透明通道（每个像素可以有 256 级透明度）。</p>
+<ul>
+<li><strong>优点</strong>：无损，反复编辑不降质；支持透明；边缘锐利，非常适合文字、线条、UI 截图。</li>
+<li><strong>缺点</strong>：体积大。同一张照片，PNG 通常是同等观感 JPG 的 <strong>3 到 10 倍</strong>。</li>
+</ul>
+<p>PNG 还有两个变体值得知道：<strong>PNG-8</strong> 最多只存 256 色，体积能小很多，适合图标和简单图形；<strong>PNG-24</strong> 是全彩，适合截图。</p>
+</div>
+<div class="content-block">
+<h2>WebP：网页配图的现实最优解</h2>
+<p>WebP 由 Google 推出，同时支持有损和无损压缩，也支持透明。在同等画质下，有损 WebP 通常比 JPG <strong>小 25%–35%</strong>，无损 WebP 比 PNG 小约 <strong>26%</strong>。</p>
+<ul>
+<li><strong>优点</strong>：体积优势明显；同时覆盖「照片 + 透明」两种需求，一张格式搞定。</li>
+<li><strong>缺点</strong>：极老的软件（如 Windows XP 时代的看图工具、非常旧的 Office）打不开。</li>
+</ul>
+<p>兼容性方面，目前所有主流浏览器都已支持，网页场景可以放心用。但若图片要<strong>发给别人存档或投稿</strong>，仍建议用 JPG/PNG。</p>
+</div>
+
+<div class="content-block">
+<h2>AVIF：体积更小，但要看场合</h2>
+<p>AVIF 基于 AV1 视频编码，压缩效率比 WebP 还高，同等画质下通常再小 <strong>20%–30%</strong>，且支持透明、支持 HDR。</p>
+<ul>
+<li><strong>优点</strong>：目前体积效率最好的通用格式；高动态范围表现优秀。</li>
+<li><strong>缺点</strong>：编码速度慢，老设备解码吃力；部分老旧系统和软件不支持。</li>
+</ul>
+<p>实用建议：网页可以<strong>同时提供 WebP 和 AVIF</strong>，让浏览器自己挑；不追求极致体积的话，WebP 已经够用。</p>
+</div>
+<div class="content-block">
+<h2>GIF：只适合动图和极简图形</h2>
+<p>GIF 最多只支持 256 色，这是它最大的硬伤——照片转成 GIF 会出现明显的色带和颗粒感，而且体积往往比同等内容的视频大得多。</p>
+<ul>
+<li><strong>该用</strong>：短的循环动图、表情包、简单的动画示意。</li>
+<li><strong>别用</strong>：照片、长视频、任何色彩丰富的内容。</li>
+</ul>
+<p>如果要放一段几秒以上的动态内容，用视频格式（MP4 / WebM）通常能把体积降到 GIF 的十分之一以下。</p>
+</div>
+<div class="content-block">
+<h2>格式速查表</h2>
+<div class="table-wrap">
+<table class="spec">
+<thead><tr><th>使用场景</th><th>推荐格式</th><th>原因</th></tr></thead>
+<tbody>
+<tr><td>照片 / 摄影作品</td><td>JPG，或 WebP（网页）</td><td>体积小、兼容性好</td></tr>
+<tr><td>需要透明背景</td><td>PNG 或 WebP</td><td>JPG 不支持透明</td></tr>
+<tr><td>截图 / 带文字的图</td><td>PNG</td><td>JPG 会让文字边缘发糊</td></tr>
+<tr><td>网页配图（追求加载速度）</td><td>WebP / AVIF</td><td>比 JPG 小 25%–50%</td></tr>
+<tr><td>图标 / Logo</td><td>SVG（矢量）优先，否则 PNG</td><td>缩放不失真</td></tr>
+<tr><td>短动图 / 表情包</td><td>GIF</td><td>兼容性最好</td></tr>
+<tr><td>几秒以上的动态内容</td><td>MP4 / WebM</td><td>体积远小于 GIF</td></tr>
+<tr><td>要长期存档 / 反复编辑</td><td>PNG 无损，或保留原始 RAW</td><td>有损格式每存一次降一次</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="content-block">
+<h2>常见误区</h2>
+<ul>
+<li><strong>「PNG 画质比 JPG 好」</strong>——对照片来说不一定。PNG 是无损，但 JPG 在质量 85 以上时肉眼几乎看不出差别，而体积只有 PNG 的几分之一。</li>
+<li><strong>「把 JPG 转成 PNG 能提升画质」</strong>——不能。已经丢掉的信息不会回来，只会白白变大。</li>
+<li><strong>「WebP 会损失画质」</strong>——同等<strong>体积</strong>下 WebP 画质通常更好；同等<strong>画质</strong>下 WebP 体积更小。它只是编码更高效。</li>
+<li><strong>「改后缀名就等于转格式」</strong>——不是。改后缀只是骗过系统，文件内部编码没变，必须用转换工具重新编码。</li>
+</ul>
+</div>
+<div class="content-block">
+<h2>关于图片格式的常见问题</h2>
+<div class="faq-list">
+<div class="faq-item">
+<div class="faq-question">微信传图为什么会变糊？</div>
+<div class="faq-answer">微信、QQ 等即时通讯工具为了节省流量，默认会对图片做有损压缩和尺寸限制。要避免的话，发送时勾选「原图」选项，或改用文件传输而非图片消息。</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">为什么我的 PNG 截图这么大？</div>
+<div class="faq-answer">截图包含大量纯色区域和锐利文字边缘，PNG 无损编码对此效率不低但绝对值仍大。可以先改用 PNG-8（适合纯色图形），或改用「尺寸调整」缩小分辨率，通常能降一半以上。</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">WebP 图片在电脑上打不开怎么办？</div>
+<div class="faq-answer">Windows 10 1809 及之后的版本、macOS 11 及之后的版本都原生支持 WebP。若系统较老，可先在本站用「格式转换」把它转成 JPG 或 PNG 再打开。</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">打印应该用哪种格式？</div>
+<div class="faq-answer">打印优先用<strong>无损</strong>格式：PNG 或 TIFF。JPG 的有损压缩会在大尺寸输出时让渐变出现色带。同时注意分辨率，一般需要 300 DPI。</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">格式转换会损失画质吗？</div>
+<div class="faq-answer">无损转无损（PNG → PNG）不会；无损转有损（PNG → JPG）会；有损转任何格式都会保留已有的损失，无法恢复。建议始终保留一份原始文件。</div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="content-block">
+<h2>相关工具</h2>
+<div class="related-tools">
+<a class="related-tool" href="/zh/tools/convert.html"><span>🔄</span><span>格式转换</span></a>
+<a class="related-tool" href="/zh/tools/compress.html"><span>🗜️</span><span>图片压缩</span></a>
+<a class="related-tool" href="/zh/tools/resize.html"><span>📐</span><span>尺寸调整</span></a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<footer class="footer">
+<div class="container">
+<div class="footer-content">
+<div class="footer-brand">
+<img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Studio</span></span>
+</div>
+<p class="footer-desc">免费的在线图片处理工具，所有处理在浏览器本地完成</p>
+</div>
+<div class="footer-links">
+<a href="/zh/#tools">全部工具</a>
+<a href="/zh/">图片指南</a>
+<a href="/zh/about.html">关于我们</a>
+<a href="/zh/contact.html">联系我们</a>
+<a href="/zh/faq.html">常见问题</a>
+<a href="/zh/privacy.html">隐私政策</a>
+<a href="/zh/terms.html">使用条款</a>
+</div>
+<style>
+.ad-disclosure{margin:8px auto 0;max-width:820px;text-align:center;font-size:12.5px;color:#94a3b8;line-height:1.7}
+html[data-lang="en"] [data-lang-block="zh"]{display:none!important}
+html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
+</style>
+<div class="ad-disclosure">
+
+<span>本站包含广告，广告不影响工具的工作方式，也不影响指南中表达的观点。</span>
+</div>
+<div class="footer-bottom">
+<p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
+<p>&amp;copy; 2026 PicStudio. 保留所有权利。</p>
+</div>
+</div>
+</footer>
+<script src="/zh/assets/js/main.js?v=20261108ml"></script>
+<script src="/zh/assets/js/i18n-dict.js?v=20261108ml"></script>
+<script src="/zh/assets/js/i18n.js?v=20261108ml"></script>
+<script src="/zh/assets/js/ux.js?v=20261108ml"></script>
+</body>
+</html>

@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+
+<html data-lang="en" lang="en">
+<head>
+<link href="/favicon.ico" rel="icon" sizes="any"/>
+<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<meta content="https://piccalc.com/og-v2.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="PicStudio brand share image" property="og:image:alt"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
+<meta content="ca-pub-8915931557404979" name="google-adsense-account"/>
+<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8915931557404979"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Extract Colour Palette from Image Online | PicStudio</title>
+<meta content="Extract dominant colours from any image using K-means clustering. Get HEX and RGB values sorted by brightness, one click to copy." name="description"/>
+<meta content="colour palette, extract colours, colour picker from image, hex values" name="keywords"/>
+<link href="https://piccalc.com/tools/palette.html" rel="canonical"/>
+<meta content="index,follow,max-image-preview:large" name="robots"/>
+<meta content="website" property="og:type"/>
+<meta content="PicStudio" property="og:site_name"/>
+<meta content="en_US" property="og:locale"/>
+<meta content="Extract Colour Palette from Image Online | PicStudio" property="og:title"/>
+<meta content="Extract dominant colours from any image using K-means clustering. Get HEX and RGB values sorted by brightness, one click to copy." property="og:description"/>
+<meta content="https://piccalc.com/tools/palette.html" property="og:url"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Extract Colour Palette from Image Online | PicStudio" name="twitter:title"/>
+<meta content="Extract dominant colours from any image using K-means clustering. Get HEX and RGB values sorted by brightness, one click to copy." name="twitter:description"/>
+<link href="/assets/css/style.css?v=20261108ml" rel="stylesheet"/>
+<style>.content-section{padding:48px 0;background:transparent;border-top:1px solid var(--border)}
+.content-section .container{max-width:860px}
+.content-block{margin-bottom:40px}
+.content-block h2{font-size:1.35rem;color:var(--text-primary);margin-bottom:16px;padding-left:12px;border-left:4px solid #6366f1}
+.content-block h3{font-size:1.05rem;color:var(--text-primary);margin:20px 0 8px}
+.content-block p{color:var(--text-secondary);line-height:1.85;margin-bottom:12px}
+.content-block ul,.content-block ol{color:var(--text-secondary);line-height:1.85;padding-left:22px;margin-bottom:12px}
+.content-block li{margin-bottom:6px}
+.steps-list{counter-reset:step;list-style:none;padding-left:0}
+.steps-list li{counter-increment:step;position:relative;padding-left:44px;margin-bottom:14px;color:var(--text-secondary);line-height:1.8}
+.steps-list li::before{content:counter(step);position:absolute;left:0;top:2px;width:28px;height:28px;background:#6366f1;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:600}
+.scenario-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:14px}
+.scenario-card{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:16px}
+.scenario-card h4{font-size:.98rem;color:var(--text-primary);margin-bottom:6px}
+.scenario-card p{font-size:.9rem;color:var(--text-secondary);margin:0;line-height:1.7}
+.spec-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:.92rem}
+.spec-table th,.spec-table td{border:1px solid var(--border);padding:10px 12px;text-align:left}
+.spec-table th{background:var(--bg-dark);color:var(--text-primary);font-weight:600;white-space:nowrap}
+.spec-table td{color:var(--text-secondary)}
+.faq-item{border-bottom:1px solid #e2e8f0;padding:16px 0}
+.faq-item:last-child{border-bottom:none}
+.faq-item h3{font-size:1rem;color:var(--text-primary);margin:0 0 8px}
+.faq-item p{color:var(--text-secondary);line-height:1.8;margin:0}
+.related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.related-card{display:block;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:14px;text-decoration:none;transition:.2s}
+.related-card:hover{border-color:#6366f1;transform:translateY(-2px)}
+.related-card .ricon{font-size:1.4rem;display:block;margin-bottom:6px}
+.related-card .rname{font-size:.92rem;color:var(--text-primary);font-weight:600}
+.related-card .rdesc{font-size:.8rem;color:var(--text-secondary);margin-top:4px;line-height:1.5}
+@media(max-width:640px){.content-section{padding:32px 0}.content-block h2{font-size:1.2rem}}</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Color Picker",
+  "url": "https://piccalc.com/tools/palette.html",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Any (browser)",
+  "browserRequirements": "A modern browser with Canvas support",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "CNY"
+  },
+  "description": "Extract dominant colours from an image online and generate palettes with hex and RGB values using K-means clustering — built for designers picking colours. Local processing; no upload."
+}
+    </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "The colours look off — what can I do?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "K-means starts from random centres, so repeated runs on the same image can differ slightly. Try a different count, or run it a few times and keep the colours that appear consistently."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why are very bright or dark colours missing?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Clustering is driven by pixel counts, so colours with a tiny share (a small highlight, say) may not form their own cluster. Increase the number of colours in that case."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do transparent areas affect the result?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Pixels below 50% opacity are skipped, so only visible parts are sampled."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I save the swatch card as an image?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "This version only copies values. For an image, take a screenshot or merge the swatches with the Merge tool."
+      }
+    }
+  ]
+}
+    </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://piccalc.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "All Tools",
+      "item": "https://piccalc.com/#tools"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Color Picker",
+      "item": "https://piccalc.com/tools/palette.html"
+    }
+  ]
+}
+    </script>
+<style>
+      html[data-lang="en"] [data-lang-block="zh"] { display: none !important; }
+      html[data-lang="zh"] [data-lang-block="en"] { display: none !important; }
+      .lang-toggle { background: transparent; border: 1px solid var(--border, #e2e8f0);
+        border-radius: 6px; padding: 4px 10px; font-size: 13px; cursor: pointer;
+        color: var(--text-secondary, #64748b); line-height: 1.6; }
+      .lang-toggle:hover { border-color: var(--primary, #6366f1); color: var(--primary, #6366f1); }
+    </style>
+
+<link href="https://piccalc.com/tools/palette.html" hreflang="en" rel="alternate"/><link href="https://piccalc.com/zh/tools/palette.html" hreflang="zh-CN" rel="alternate"/><link href="https://piccalc.com/tools/palette.html" hreflang="x-default" rel="alternate"/></head>
+<body>
+<header class="header">
+<div class="container">
+<a class="logo" href="/">
+<img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Studio</span></span>
+</a>
+<nav class="tool-nav">
+<select class="lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/tools/palette.html" selected>English</option><option value="/zh/tools/palette.html">中文</option></select><noscript><a href="/zh/tools/palette.html">中文</a></noscript>
+<a href="/#tools">All Tools</a>
+<a href="/guides/">Image Guides</a>
+<a href="/privacy.html">Privacy Policy</a>
+<a href="/guides/">Image Guides</a>
+<a href="/faq.html">FAQ</a>
+<a href="/contact.html">Contact</a>
+</nav>
+<select class="lang-select-m lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/tools/palette.html" selected>English</option><option value="/zh/tools/palette.html">中文</option></select><noscript><a href="/zh/tools/palette.html">中文</a></noscript>
+</div>
+</header>
+<section class="tool-page">
+<div class="container">
+<a class="back-link" href="/">← Back to Home</a>
+<div class="tool-header">
+<h1>🎨 Colour Picker</h1>
+<p>Extract dominant colours from a photo and copy hex values in one tap for palette reference</p>
+</div>
+<style>.gen-box{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:8px}
+.gen-out{margin-top:16px}
+.gen-out h3{font-size:1rem;color:var(--text-primary);margin-bottom:8px}
+.gen-out textarea,.gen-out pre{width:100%;min-height:110px;padding:12px;border:1px solid var(--border);border-radius:8px;font-size:.85rem;font-family:ui-monospace,Menlo,Consolas,monospace;background:var(--bg-dark);color:var(--text-primary);word-break:break-all;white-space:pre-wrap;margin:0}
+.sw-list{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.sw{width:96px;border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--bg-card)}
+.sw-chip{height:62px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px;font-size:.68rem;font-weight:600}
+.sw-hex{padding:6px;text-align:center;font-size:.76rem;color:var(--text-secondary);font-family:ui-monospace,monospace;cursor:pointer}
+.sw-hex:hover{background:var(--bg-card-hover);color:var(--primary-light)}
+.meta-table{width:100%;border-collapse:collapse;font-size:.88rem;margin-top:12px}
+.meta-table th,.meta-table td{border:1px solid var(--border);padding:8px 11px;text-align:left}
+.meta-table th{background:var(--bg-dark);color:var(--text-primary);font-weight:600;width:35%}
+.meta-table td{color:var(--text-secondary);word-break:break-all}
+.warn-box{background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.35);border-radius:10px;padding:12px 14px;color:#fcd34d;font-size:.88rem;line-height:1.7;margin-top:12px}
+.ok-box{background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.38);border-radius:10px;padding:12px 14px;color:#6ee7b7;font-size:.88rem;line-height:1.7;margin-top:12px}</style>
+<div class="upload-area" id="uploadArea">
+<div class="upload-icon">📁</div>
+<div class="upload-text">Click or drag an image here</div>
+<div class="upload-hint">PNG · JPG · WebP · GIF · BMP · SVG · AVIF · ICO · HEIC / HEIF</div>
+<input accept="image/*,.heic,.heif,.avif,.ico,.bmp,.svg" id="fileInput" type="file"/>
+</div>
+<div class="preview-area" id="previewArea">
+<div class="preview-box">
+<h3>Original</h3>
+<img alt="Original" id="originalPreview"/ data-ph="1">
+</div>
+<div class="preview-box">
+<h3>(Results appear in the palette below)</h3>
+<img alt="Result" id="processedPreview"/ data-ph="1">
+</div>
+</div>
+<div class="controls" id="controls">
+<div class="control-group">
+<label class="control-label">Number of colours</label>
+<input id="plN" max="16" min="3" type="range" value="8"/>
+<div class="control-hint"><span>Current:</span><b id="plNVal">8</b><span>types</span></div>
+</div>
+<button class="btn btn-primary btn-lg" id="processBtn" style="width:100%;">Extract colours</button>
+</div>
+<div class="gen-box" id="resultBox">
+<h3>Palette (click a value to copy)</h3>
+<div class="sw-list" id="swList"></div>
+</div>
+<div class="download-section" id="downloadSection">
+<button class="btn btn-outline btn-lg" id="copyAllBtn" style="width:100%;">Copy all hex values</button>
+</div>
+<div class="loading-overlay" id="loadingOverlay">
+<div class="spinner"></div>
+<div class="loading-text" id="loadingText">Processing…</div>
+</div>
+</div>
+</section>
+<section class="content-section">
+<div class="container">
+<div class="content-block">
+<h2>How to extract colours</h2>
+<ol class="steps-list"><li>Upload the image you want colours from</li><li>Drag the slider to choose how many colours (3–16)</li><li>Click "Extract" and a swatch card appears below</li><li>Click any value to copy it, or "Copy all" to take the whole set</li></ol>
+</div>
+<div class="content-block">
+<h2>How it works</h2>
+<p>Extraction uses K-means clustering. Treat every pixel colour as a point in 3D space, place K random centres, then repeatedly assign each point to its nearest centre and recompute the centres until they settle.</p><p>The K settled centres are the image's K dominant colours. For stability the algorithm samples (large images are not computed pixel by pixel) and iterates 12 times.</p><p>Finally the colours are sorted by luma (0.299R + 0.587G + 0.114B) from dark to light, ready to use as a palette strip.</p>
+</div>
+<div class="content-block">
+<h2>Common use cases</h2>
+<p>It works best for:</p>
+<div class="scenario-grid"><div class="scenario-card"><h4>For designers</h4><p>Pull a palette from a reference image straight into your design</p></div><div class="scenario-card"><h4>Slide palettes</h4><p>Extract brand colours from a company logo or product shot</p></div><div class="scenario-card"><h4>Home decor and outfits</h4><p>Take dominant colours from a photo to match furnishings or clothing</p></div><div class="scenario-card"><h4>Front-end development</h4><p>Grab HEX values quickly for your CSS</p></div></div>
+</div>
+<div class="content-block">
+<h2>Specifications</h2>
+<table class="spec-table"><tbody><tr><th>Input format</th><td>PNG / JPG / WebP / GIF / BMP / SVG / AVIF / ICO / HEIC</td></tr><tr><th>Number of colours</th><td>Adjustable from 3 to 16</td></tr><tr><th>Algorithm</th><td>K-means clustering (12 iterations, auto-sampling)</td></tr><tr><th>Output values</th><td>HEX and RGB — click to copy</td></tr><tr><th>Ordering</th><td>By brightness, dark to light</td></tr></tbody></table>
+</div>
+<div class="content-block">
+<h2>FAQ about colour extraction</h2>
+<div class="faq-item"><h3>The colours look off — what can I do?</h3><p>K-means starts from random centres, so repeated runs on the same image can differ slightly. Try a different count, or run it a few times and keep the colours that appear consistently.</p></div><div class="faq-item"><h3>Why are very bright or dark colours missing?</h3><p>Clustering is driven by pixel counts, so colours with a tiny share (a small highlight, say) may not form their own cluster. Increase the number of colours in that case.</p></div><div class="faq-item"><h3>Do transparent areas affect the result?</h3><p>No. Pixels below 50% opacity are skipped, so only visible parts are sampled.</p></div><div class="faq-item"><h3>Can I save the swatch card as an image?</h3><p>This version only copies values. For an image, take a screenshot or merge the swatches with the Merge tool.</p></div>
+</div>
+<div class="content-block">
+<h2>Try other tools</h2>
+<div class="related-grid"><a class="related-card" href="/tools/adjust.html"><span class="ricon">🎨</span><span class="rname">Colour Adjust</span><span class="rdesc">Adjust image colours</span></a><a class="related-card" href="/tools/crop.html"><span class="ricon">✂️</span><span class="rname">Smart Crop</span><span class="rdesc">Crop</span></a><a class="related-card" href="/tools/icon-maker.html"><span class="ricon">🖼️</span><span class="rname">Icon Maker</span><span class="rdesc">Generate app icons</span></a><a class="related-card" href="/tools/restore.html"><span class="ricon">🕰️</span><span class="rname">Photo Restore</span><span class="rdesc">Restore yellowed old photos</span></a></div>
+</div>
+</div>
+</section>
+<footer class="footer">
+<div class="container">
+<div class="footer-content">
+<div class="footer-brand">
+<img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Studio</span></span>
+</div>
+<p class="footer-desc">Free online image tools — everything runs locally in your browser</p>
+</div>
+<div class="footer-links">
+<a href="/#tools">All Tools</a>
+<a href="/about.html">About</a>
+<a href="/contact.html">Contact</a>
+<a href="/faq.html">FAQ</a>
+<a href="/privacy.html">Privacy Policy</a>
+<a href="/terms.html">Terms of Use</a>
+</div>
+<style>
+.ad-disclosure{margin:8px auto 0;max-width:820px;text-align:center;font-size:12.5px;color:#94a3b8;line-height:1.7}
+html[data-lang="en"] [data-lang-block="zh"]{display:none!important}
+html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
+</style>
+<div class="ad-disclosure">
+<span>This site contains advertisements. Ads do not affect how our tools work or the opinions expressed in our guides.</span>
+
+</div>
+<div class="footer-bottom">
+<p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
+<p>© 2026 PicStudio. All rights reserved.</p>
+</div>
+</div>
+</footer>
+<script src="/assets/js/preview.js?v=20261108ml"></script>
+<script src="/assets/js/download.js?v=20261109dl"></script>
+<script src="/assets/js/lab.js?v=20261108ml"></script>
+<script>
+(function(){
+var $=function(id){return document.getElementById(id);};
+var fileInput=$('fileInput'),uploadArea=$('uploadArea'),previewArea=$('previewArea'),
+    originalPreview=$('originalPreview'),processedPreview=$('processedPreview'),
+    controls=$('controls'),downloadSection=$('downloadSection'),
+    downloadBtn=$('downloadBtn'),processBtn=$('processBtn'),
+    loadingOverlay=$('loadingOverlay'),loadingText=$('loadingText');
+var srcCanvas=null,outCanvas=null,srcImage=null;
+var MAXSIDE=3000;
+function loadImage(file){return new Promise(function(res,rej){
+  var r=new FileReader();
+  r.onload=function(e){var im=new Image();im.onload=function(){res(im);};im.onerror=function(){rej(new Error('Image decoding failed'));};im.src=e.target.result;};
+  r.onerror=function(){rej(new Error('Could not read the file'));};r.readAsDataURL(file);});}
+function toCanvas(img){
+  var w=img.naturalWidth,h=img.naturalHeight,s=Math.min(1,MAXSIDE/Math.max(w,h));
+  var c=document.createElement('canvas');
+  c.width=Math.round(w*s);c.height=Math.round(h*s);
+  var x=c.getContext('2d');x.imageSmoothingEnabled=true;x.imageSmoothingQuality='high';
+  x.drawImage(img,0,0,c.width,c.height);
+  return c;}
+function handleFile(file){
+  if(!file||!file.type.startsWith('image/')){alert('Please choose an image file');return;}
+  loadImage(file).then(function(img){
+    srcImage=img;srcCanvas=toCanvas(img);
+    if(window.__setPreview){window.__setPreview(originalPreview,file);}else{if(window.__pu)try{URL.revokeObjectURL(window.__pu);}catch(e){}window.__pu=URL.createObjectURL(file);originalPreview.src=window.__pu;}
+    previewArea.classList.add('active');controls.classList.add('active');
+    outCanvas=null;downloadSection.classList.remove('active');
+    if(window.onImageReady)window.onImageReady(srcCanvas,img);
+  }).catch(function(e){alert(e.message);});}
+uploadArea.addEventListener('click',function(){fileInput.click();});
+fileInput.addEventListener('change',function(e){handleFile(e.target.files[0]);});
+uploadArea.addEventListener('dragover',function(e){e.preventDefault();uploadArea.classList.add('dragover');});
+uploadArea.addEventListener('dragleave',function(){uploadArea.classList.remove('dragover');});
+uploadArea.addEventListener('drop',function(e){e.preventDefault();uploadArea.classList.remove('dragover');handleFile(e.dataTransfer.files[0]);});
+function num(id,d){var el=$(id);var v=el?parseFloat(el.value):NaN;return isNaN(v)?d:v;}
+function val(id){var el=$(id);return el?el.value:null;}
+function radio(name){var el=document.querySelector('input[name="'+name+'"]:checked');return el?el.value:null;}
+function checked(id){var el=$(id);return el?el.checked:false;}
+function showLoading(t){loadingText.textContent=t||'Processing…';loadingOverlay.classList.add('active');}
+function hideLoading(){loadingOverlay.classList.remove('active');}
+function finish(c){outCanvas=c;processedPreview.src=c.toDataURL();downloadSection.classList.add('active');hideLoading();}
+function fail(e){hideLoading();alert('Processing failed: '+(e&&e.message||e));}
+processBtn.addEventListener('click',function(){
+  if(!srcCanvas){alert('Choose an image first');return;}
+  showLoading(LOADING_TEXT);
+  setTimeout(function(){
+    try{var r=process(srcCanvas);
+      if(r&&typeof r.then==='function'){r.then(finish).catch(fail);}else{finish(r);}
+    }catch(e){fail(e);}
+  },30);});
+if(downloadBtn){downloadBtn.addEventListener('click',function(){
+  if(!outCanvas)return;
+  if(window.__download){window.__download(outCanvas,FILENAME);}else{var a=document.createElement('a');a.download=FILENAME;a.href=outCanvas.toDataURL(FORMAT,QUALITY);a.click();}});}
+var LOADING_TEXT='Analysing colours…';
+var FILENAME='palette-source.png';
+var FORMAT='png';
+var QUALITY=0.92;
+
+var swList=$('swList');
+var lastColors=[];
+function renderSwatches(list){
+  swList.innerHTML='';lastColors=list;
+  list.forEach(function(c){
+    var d=document.createElement('div');d.className='sw';
+    var chip=document.createElement('div');chip.className='sw-chip';
+    chip.style.background=c.hex;
+    var lum=0.299*c.r+0.587*c.g+0.114*c.b;
+    chip.style.color=lum>140?'#1f2937':'#ffffff';
+    chip.textContent=c.hex.toUpperCase();
+    var hex=document.createElement('div');hex.className='sw-hex';
+    hex.textContent='rgb('+c.r+','+c.g+','+c.b+')';
+    hex.title='Click to copy '+c.hex;
+    hex.onclick=function(){copy(c.hex,hex);};
+    d.appendChild(chip);d.appendChild(hex);swList.appendChild(d);});}
+function copy(text,el){
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(function(){
+      var old=el.textContent;el.textContent='Copied ✓';
+      setTimeout(function(){el.textContent=old;},1400);});
+  }}
+$('copyAllBtn').addEventListener('click',function(){
+  if(!lastColors.length){alert('Extract the colours first');return;}
+  var txt=lastColors.map(function(c){return c.hex;}).join('\n');
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(function(){alert('Copied '+lastColors.length+' colour values');});}});
+$('plN').addEventListener('input',function(){$('plNVal').textContent=this.value;});
+function process(src){
+  var n=Math.round(num('plN',8));
+  var c=document.createElement('canvas');c.width=src.width;c.height=src.height;
+  c.getContext('2d').drawImage(src,0,0);
+  var list=Lab.palette(c,n);
+  renderSwatches(list);
+  return src;}
+})();
+</script>
+<script src="/assets/js/main.js?v=20261108ml"></script>
+<script src="/assets/js/i18n-dict.js?v=20261108ml"></script>
+<script src="/assets/js/i18n.js?v=20261108ml"></script>
+<script src="/assets/js/ux.js?v=20261108ml"></script>
+</body>
+</html>

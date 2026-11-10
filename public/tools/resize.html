@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+
+<html data-lang="en" lang="en">
+<head>
+<meta content="ca-pub-8915931557404979" name="google-adsense-account"/>
+<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8915931557404979"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Resize Image by Percentage or Exact Pixels</title>
+<meta content="Scale images by ratio or exact width and height, with aspect-ratio lock. Includes a reference table of common platform sizes." name="description"/>
+<meta content="resize image, scale image, change image dimensions, image resizer" name="keywords"/>
+<link href="https://piccalc.com/tools/resize.html" rel="canonical"/>
+<meta content="index,follow,max-image-preview:large" name="robots"/>
+<meta content="website" property="og:type"/>
+<meta content="PicStudio" property="og:site_name"/>
+<meta content="en_US" property="og:locale"/>
+<meta content="Resize Image Online - Scale by Percentage or Exact Pixels | PicStudio" property="og:title"/>
+<meta content="Scale images by ratio or exact width and height, with aspect-ratio lock. Includes a reference table of common platform sizes." property="og:description"/>
+<meta content="https://piccalc.com/tools/resize.html" property="og:url"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Resize Image Online - Scale by Percentage or Exact Pixels | PicStudio" name="twitter:title"/>
+<meta content="Scale images by ratio or exact width and height, with aspect-ratio lock. Includes a reference table of common platform sizes." name="twitter:description"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Resize Image",
+  "url": "https://piccalc.com/tools/resize.html",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Any (browser)",
+  "browserRequirements": "A modern browser with Canvas support",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "CNY"
+  },
+  "description": "Resize images online by ratio, exact pixels or cropping, with a reference table of common platform sizes (avatars, covers, e-commerce hero images). Local processing; no upload."
+}
+    </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Why is it blurry after enlarging?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Enlarging interpolates new pixels and cannot add real detail — that is a physical limit. Keep enlargements modest (under 1.5×), or find a higher-resolution source."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why did my image distort when I changed the width?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Because the height was not changed to match. Tick \"keep aspect ratio\" so height follows automatically."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does enlarging after shrinking restore quality?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Shrinking already discarded pixels; enlarging only interpolates them back, and quality does not return. Keep the original."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What if a platform requires under 2 MB?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Dimension limits and file size limits are different things. Shrinking dimensions reduces size; if that is not enough, use the Compress tool to tune quality."
+      }
+    }
+  ]
+}
+    </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "PicStudio",
+      "item": "https://piccalc.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Resize Image",
+      "item": "https://piccalc.com/tools/resize.html"
+    }
+  ]
+}
+    </script>
+<link href="/favicon.ico" rel="icon" sizes="any"/>
+<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<meta content="https://piccalc.com/og-v2.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="PicStudio brand share image" property="og:image:alt"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
+<link href="/assets/css/style.css?v=20261108ml" rel="stylesheet"/>
+<style>
+      html[data-lang="en"] [data-lang-block="zh"] { display: none !important; }
+      html[data-lang="zh"] [data-lang-block="en"] { display: none !important; }
+      .lang-toggle { background: transparent; border: 1px solid var(--border, #e2e8f0);
+        border-radius: 6px; padding: 4px 10px; font-size: 13px; cursor: pointer;
+        color: var(--text-secondary, #64748b); line-height: 1.6; }
+      .lang-toggle:hover { border-color: var(--primary, #6366f1); color: var(--primary, #6366f1); }
+    </style>
+
+<link href="https://piccalc.com/tools/resize.html" hreflang="en" rel="alternate"/><link href="https://piccalc.com/zh/tools/resize.html" hreflang="zh-CN" rel="alternate"/><link href="https://piccalc.com/tools/resize.html" hreflang="x-default" rel="alternate"/></head>
+<body>
+<header class="header">
+<div class="container">
+<a class="logo" href="/">
+<img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Studio</span></span>
+</a>
+<nav class="tool-nav">
+<select class="lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/tools/resize.html" selected>English</option><option value="/zh/tools/resize.html">中文</option></select><noscript><a href="/zh/tools/resize.html">中文</a></noscript>
+<a href="/#tools">All Tools</a>
+<a href="/guides/">Image Guides</a>
+<a href="/privacy.html">Privacy Policy</a>
+<a href="/faq.html">FAQ</a>
+<a href="/contact.html">Contact</a>
+</nav>
+<select class="lang-select-m lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/tools/resize.html" selected>English</option><option value="/zh/tools/resize.html">中文</option></select><noscript><a href="/zh/tools/resize.html">中文</a></noscript>
+</div>
+</header>
+<section class="tool-page">
+<div class="container">
+<a class="back-link" href="/">← Back to Home</a>
+<div class="tool-header">
+<h1>📐 Resize Image</h1>
+<p>Scale by ratio, set exact pixels or crop to meet any platform's size requirements</p>
+</div>
+<div class="upload-area" id="uploadArea">
+<div class="upload-icon">📁</div>
+<div class="upload-text">Click or drag an image here</div>
+<div class="upload-hint">PNG · JPG · WebP · GIF · BMP · SVG · AVIF · ICO · HEIC / HEIF</div>
+<input accept="image/*,.heic,.heif,.avif,.ico,.bmp,.svg" id="fileInput" type="file"/>
+</div>
+<div class="preview-area" id="previewArea">
+<div class="preview-box">
+<h3>Original</h3>
+<img alt="Original" id="originalPreview"/ data-ph="1">
+<div id="originalSize" style="margin-top:12px;font-size:13px;color:var(--text-muted);"></div>
+</div>
+<div class="preview-box">
+<h3>Resized result</h3>
+<img alt="Result" id="processedPreview"/ data-ph="1">
+<div id="resultSize" style="margin-top:12px;font-size:13px;color:var(--text-muted);"></div>
+</div>
+</div>
+<div class="controls" id="controls">
+<div class="control-group">
+<label class="control-label">Resize mode</label>
+<div class="radio-group">
+<div class="radio-option">
+<input checked="" id="modePercent" name="resizeMode" type="radio" value="percent"/>
+<label for="modePercent">By ratio</label>
+</div>
+<div class="radio-option">
+<input id="modePixels" name="resizeMode" type="radio" value="pixels"/>
+<label for="modePixels">Exact pixels</label>
+</div>
+<div class="radio-option">
+<input id="modePreset" name="resizeMode" type="radio" value="preset"/>
+<label for="modePreset">Preset size</label>
+</div>
+</div>
+</div>
+<!-- Percent Mode -->
+<div class="control-group" id="percentGroup">
+<label class="control-label">Scale ratio</label>
+<input id="percent" max="300" min="10" type="range" value="100"/>
+<div class="control-hint" id="percentHint">100%</div>
+</div>
+<!-- Pixels Mode -->
+<div class="control-group" id="pixelsGroup" style="display:none;">
+<label class="control-label">Width (px)</label>
+<input id="targetWidth" min="1" placeholder="Width" type="number"/>
+<div style="height:12px;"></div>
+<label class="control-label">Height (px)</label>
+<input id="targetHeight" min="1" placeholder="Height" type="number"/>
+<div class="control-hint">
+<input checked="" id="keepAspect" type="checkbox"/><span>Keep aspect ratio</span></div>
+</div>
+<!-- Preset Mode -->
+<div class="control-group" id="presetGroup" style="display:none;">
+<label class="control-label">Choose a preset</label>
+<select id="presetSelect">
+<option value="1920x1080">1920×1080 (Full HD)</option>
+<option value="1280x720">1280×720 (HD)</option>
+<option value="1080x1080">1080×1080 (Instagram square)</option>
+<option value="1080x1350">1080×1350 (Instagram portrait)</option>
+<option value="1200x630">1200×630 (social share)</option>
+<option value="800x800">800×800 (e-commerce hero)</option>
+<option value="414x896">414×896 (phone wallpaper)</option>
+</select>
+</div>
+<button class="btn btn-primary btn-lg" id="processBtn" style="width:100%;">Resize</button>
+</div>
+<div class="download-section" id="downloadSection">
+<button class="btn btn-primary btn-lg" id="downloadBtn">⬇️ Download result</button>
+</div>
+</div>
+</section>
+<!-- ========== Content: guide / how it works / use cases / FAQ ========== -->
+<section class="content-section">
+<div class="container">
+<div class="content-block">
+<h2>How to resize an image</h2>
+<ol class="steps">
+<li><strong>Upload: </strong><span>Drop an image; its dimensions are shown as a reference.</span></li>
+<li><strong>Choose how to resize: </strong><span>Scale by ratio, type the target width and height, or crop as needed. Tick "keep aspect ratio" to avoid distortion.</span></li>
+<li><strong>Enter the target size: </strong><span>Enter width or height and the other follows the original ratio automatically, or set it by hand.</span></li>
+<li><strong>Process and download: </strong><span>Check the result size before downloading.</span></li>
+</ol>
+<div class="note-box">
+<p><strong>Tip: </strong><span>All processing happens in your browser: images are never uploaded to a server. Results live only on this page, so download them promptly.</span></p>
+</div>
+</div>
+<div class="content-block">
+<h2>How it works</h2>
+<p>Resizing means resampling the pixel grid. When shrinking, many source pixels merge into one and the browser averages them so edges stay smooth. When enlarging, colours must be invented for positions that did not exist before, inferred only from neighbouring pixels.</p>
+<p>That is why shrinking is almost always safe while enlarging blurs: shrinking discards excess information, enlarging has to fabricate it. However good the interpolation (bilinear, bicubic), it can only smooth the transitions — it cannot recover real detail.</p>
+<p>The other key point is aspect ratio. Changing width without height stretches the image. Keeping the ratio means multiplying both by the same factor.</p>
+</div>
+<div class="content-block">
+<h2>Common use cases</h2>
+<div class="usecases">
+<div class="usecase"><strong>Shrink for upload limits</strong><span>Reduce phone photos to a 1080 px long edge to satisfy platform limits.</span></div>
+<div class="usecase"><strong>Standardise a batch</strong><span>Bring several images to identical dimensions for tidier layouts.</span></div>
+<div class="usecase"><strong>Crop avatars and covers</strong><span>Crop to squares or specific ratios the platform requires.</span></div>
+<div class="usecase"><strong>Slim down web images</strong><span>Output at the size actually displayed, so you are not shipping oversized images.</span></div>
+</div>
+</div>
+<div class="content-block">
+<h2>Specifications</h2>
+<div class="table-wrap">
+<table class="spec">
+<tbody>
+<tr><th>WeChat avatar</th><td>640 × 640 px (square)</td></tr>
+<tr><th>WeChat Moments cover</th><td>1080 × 1080 px</td></tr>
+<tr><th>Taobao hero image</th><td>800 × 800 px or larger, square recommended</td></tr>
+<tr><th>Instagram post</th><td>1080 × 1080 px</td></tr>
+<tr><th>WeChat article cover</th><td>900 × 383 px (2.35 : 1)</td></tr>
+<tr><th>Web images</th><td>Output at the width actually displayed; a long edge of 1200–2000 px is typical</td></tr>
+</tbody>
+</table>
+</div>
+<div class="note-box">
+<p>Shrinking is safe, enlarging costs sharpness. Keep the original and work on a copy.</p>
+</div>
+</div>
+<div class="content-block">
+<h2>FAQ about resizing</h2>
+<div class="faq-list">
+<div class="faq-item">
+<div class="faq-question">Why is it blurry after enlarging?</div>
+<div class="faq-answer">Enlarging interpolates new pixels and cannot add real detail — that is a physical limit. Keep enlargements modest (under 1.5×), or find a higher-resolution source.</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">Why did my image distort when I changed the width?</div>
+<div class="faq-answer">Because the height was not changed to match. Tick "keep aspect ratio" so height follows automatically.</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">Does enlarging after shrinking restore quality?</div>
+<div class="faq-answer">No. Shrinking already discarded pixels; enlarging only interpolates them back, and quality does not return. Keep the original.</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">What if a platform requires under 2 MB?</div>
+<div class="faq-answer">Dimension limits and file size limits are different things. Shrinking dimensions reduces size; if that is not enough, use the Compress tool to tune quality.</div>
+</div>
+</div>
+</div>
+<div class="content-block">
+<h2>Try other tools</h2>
+<div class="related-tools">
+<a class="related-tool" href="/tools/compress.html"><span>🗜️</span><span>Compress Image</span></a>
+<a class="related-tool" href="/tools/convert.html"><span>🔄</span><span>Convert Format</span></a>
+<a class="related-tool" href="/tools/rounded.html"><span>⬜</span><span>Rounded Corners</span></a>
+<a class="related-tool" href="/guides/index.html"><span>📚</span><span>Image Guides</span></a>
+</div>
+</div>
+</div>
+</section>
+<!-- ========== Footer ========== -->
+<footer class="footer">
+<div class="container">
+<div class="footer-content">
+<div class="footer-brand">
+<img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Studio</span></span>
+</div>
+<p class="footer-desc">Free online image tools — everything runs locally in your browser</p>
+</div>
+<div class="footer-links">
+<a href="/#tools">All Tools</a>
+<a href="/about.html">About</a>
+<a href="/contact.html">Contact</a>
+<a href="/faq.html">FAQ</a>
+<a href="/privacy.html">Privacy Policy</a>
+<a href="/terms.html">Terms of Use</a>
+</div>
+<style>
+.ad-disclosure{margin:8px auto 0;max-width:820px;text-align:center;font-size:12.5px;color:#94a3b8;line-height:1.7}
+html[data-lang="en"] [data-lang-block="zh"]{display:none!important}
+html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
+</style>
+<div class="ad-disclosure">
+<span>This site contains advertisements. Ads do not affect how our tools work or the opinions expressed in our guides.</span>
+
+</div>
+<div class="footer-bottom">
+<p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
+<p>© 2026 PicStudio. All rights reserved.</p>
+</div>
+</div>
+</footer>
+<div class="loading-overlay" id="loadingOverlay">
+<div class="spinner"></div>
+<div class="loading-text">Adjusting, please wait…</div>
+</div>
+<script src="/assets/js/preview.js?v=20261108ml"></script>
+<script src="/assets/js/download.js?v=20261109dl"></script>
+<script src="/assets/js/tools.js?v=20261108ml"></script>
+<script>
+    const modeRadios = document.querySelectorAll('input[name="resizeMode"]');
+    const percentGroup = document.getElementById('percentGroup');
+    const pixelsGroup = document.getElementById('pixelsGroup');
+    const presetGroup = document.getElementById('presetGroup');
+    const percentSlider = document.getElementById('percent');
+    const percentHint = document.getElementById('percentHint');
+
+    modeRadios.forEach(radio => {
+        radio.addEventListener('change', (e) => {
+            percentGroup.style.display = 'none';
+            pixelsGroup.style.display = 'none';
+            presetGroup.style.display = 'none';
+
+            if (e.target.value === 'percent') percentGroup.style.display = 'block';
+            if (e.target.value === 'pixels') pixelsGroup.style.display = 'block';
+            if (e.target.value === 'preset') presetGroup.style.display = 'block';
+        });
+    });
+
+    percentSlider.addEventListener('input', () => {
+        percentHint.textContent = `${percentSlider.value}%`;
+    });
+
+    let origWidth = 0, origHeight = 0;
+
+    const tool = new ImageTool({
+        process: async (canvas) => {
+            const mode = document.querySelector('input[name="resizeMode"]:checked').value;
+            let newWidth, newHeight;
+
+            if (mode === 'percent') {
+                const scale = parseInt(percentSlider.value) / 100;
+                newWidth = Math.round(canvas.width * scale);
+                newHeight = Math.round(canvas.height * scale);
+            } else if (mode === 'pixels') {
+                const w = parseInt(document.getElementById('targetWidth').value);
+                const h = parseInt(document.getElementById('targetHeight').value);
+                const keepAspect = document.getElementById('keepAspect').checked;
+
+                if (keepAspect) {
+                    if (w && !h) {
+                        newWidth = w;
+                        newHeight = Math.round(canvas.height * (w / canvas.width));
+                    } else if (!w && h) {
+                        newHeight = h;
+                        newWidth = Math.round(canvas.width * (h / canvas.height));
+                    } else if (w && h) {
+                        newWidth = w;
+                        newHeight = h;
+                    } else {
+                        alert('Enter a width or height');
+                        return canvas;
+                    }
+                } else {
+                    newWidth = w || canvas.width;
+                    newHeight = h || canvas.height;
+                }
+            } else if (mode === 'preset') {
+                const [w, h] = document.getElementById('presetSelect').value.split('x').map(Number);
+                newWidth = w;
+                newHeight = h;
+            }
+
+            const result = ImageUtils.resizeCanvas(canvas, newWidth, newHeight);
+            document.getElementById('resultSize').textContent = `${newWidth} × ${newHeight} px`;
+            return result;
+        },
+        downloadOptions: { filename: 'picstudio-resized', format: 'png' }
+    });
+
+    // Override to show original size
+    const origHandleFile = tool.handleFile.bind(tool);
+    tool.handleFile = function(file) {
+        origHandleFile(file);
+        
+        var tries = 0;
+        (function waitCanvas() {
+            if (tool.originalCanvas || tries++ > 100) {
+                if (tool.originalCanvas) {
+                    origWidth = tool.originalCanvas.width;
+                    origHeight = tool.originalCanvas.height;
+                    document.getElementById('originalSize').textContent = origWidth + ' × ' + origHeight + ' px';
+                    document.getElementById('targetWidth').placeholder = 'Original ' + origWidth;
+                    document.getElementById('targetHeight').placeholder = 'Original ' + origHeight;
+                }
+                return;
+            }
+            setTimeout(waitCanvas, 50);
+        })();
+    };
+
+    document.getElementById('processBtn').addEventListener('click', () => tool.process());
+    </script>
+<script src="/assets/js/main.js?v=20261108ml"></script>
+<script src="/assets/js/i18n-dict.js?v=20261108ml"></script>
+<script src="/assets/js/i18n.js?v=20261108ml"></script>
+<script src="/assets/js/ux.js?v=20261108ml"></script>
+</body>
+</html>

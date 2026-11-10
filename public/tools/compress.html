@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+
+<html data-lang="en" lang="en">
+<head>
+<meta content="ca-pub-8915931557404979" name="google-adsense-account"/>
+<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8915931557404979"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Compress Image Online - Reduce Size, Keep Quality</title>
+<meta content="Shrink image file size with an adjustable quality slider and optional width cap. See before/after size instantly. Runs locally in your browser." name="description"/>
+<meta content="compress image, reduce image file size, image compressor, shrink photo size" name="keywords"/>
+<link href="https://piccalc.com/tools/compress.html" rel="canonical"/>
+<meta content="index,follow,max-image-preview:large" name="robots"/>
+<meta content="website" property="og:type"/>
+<meta content="PicStudio" property="og:site_name"/>
+<meta content="en_US" property="og:locale"/>
+<meta content="Compress Image Online - Reduce File Size, Keep Quality | PicStudio" property="og:title"/>
+<meta content="Shrink image file size with an adjustable quality slider and optional width cap. See before/after size instantly. Runs locally in your browser." property="og:description"/>
+<meta content="https://piccalc.com/tools/compress.html" property="og:url"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Compress Image Online - Reduce File Size, Keep Quality | PicStudio" name="twitter:title"/>
+<meta content="Shrink image file size with an adjustable quality slider and optional width cap. See before/after size instantly. Runs locally in your browser." name="twitter:description"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Compress Image",
+  "url": "https://piccalc.com/tools/compress.html",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Any (browser)",
+  "browserRequirements": "A modern browser with Canvas support",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "CNY"
+  },
+  "description": "Compress images online with adjustable quality and maximum width, showing the size before and after. Suits web images, email attachments and upload limits. Runs locally."
+}
+    </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Why did the file get bigger after compressing?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The original was already heavily compressed (a previously saved JPG, or an image sent through WeChat). Compressing again removes nothing, and re-encoding can even add a little size. Cap the width instead of pushing quality lower."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What quality should I use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For web images 70–80 usually balances size and appearance. To hit a strict KB target, start at 75 and step down if needed, zooming in to check for blocking around text edges."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does compression keep transparency?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Output is JPEG, which has no alpha channel, so transparent areas are filled with white or black. To keep transparency, use PNG and reduce size with the Resize tool instead."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can lost quality be recovered?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. What lossy compression discards is gone for good — keep your original."
+      }
+    }
+  ]
+}
+    </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "PicStudio",
+      "item": "https://piccalc.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Compress Image",
+      "item": "https://piccalc.com/tools/compress.html"
+    }
+  ]
+}
+    </script>
+<link href="/favicon.ico" rel="icon" sizes="any"/>
+<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<meta content="https://piccalc.com/og-v2.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="PicStudio brand share image" property="og:image:alt"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
+<link href="/assets/css/style.css?v=20261108ml" rel="stylesheet"/>
+<style>
+      html[data-lang="en"] [data-lang-block="zh"] { display: none !important; }
+      html[data-lang="zh"] [data-lang-block="en"] { display: none !important; }
+      .lang-toggle { background: transparent; border: 1px solid var(--border, #e2e8f0);
+        border-radius: 6px; padding: 4px 10px; font-size: 13px; cursor: pointer;
+        color: var(--text-secondary, #64748b); line-height: 1.6; }
+      .lang-toggle:hover { border-color: var(--primary, #6366f1); color: var(--primary, #6366f1); }
+    </style>
+
+<link href="https://piccalc.com/tools/compress.html" hreflang="en" rel="alternate"/><link href="https://piccalc.com/zh/tools/compress.html" hreflang="zh-CN" rel="alternate"/><link href="https://piccalc.com/tools/compress.html" hreflang="x-default" rel="alternate"/></head>
+<body>
+<header class="header">
+<div class="container">
+<a class="logo" href="/">
+<img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Studio</span></span>
+</a>
+<nav class="tool-nav">
+<select class="lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/tools/compress.html" selected>English</option><option value="/zh/tools/compress.html">中文</option></select><noscript><a href="/zh/tools/compress.html">中文</a></noscript>
+<a href="/#tools">All Tools</a>
+<a href="/guides/">Image Guides</a>
+<a href="/privacy.html">Privacy Policy</a>
+<a href="/faq.html">FAQ</a>
+<a href="/contact.html">Contact</a>
+</nav>
+<select class="lang-select-m lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/tools/compress.html" selected>English</option><option value="/zh/tools/compress.html">中文</option></select><noscript><a href="/zh/tools/compress.html">中文</a></noscript>
+</div>
+</header>
+<section class="tool-page">
+<div class="container">
+<a class="back-link" href="/">← Back to Home</a>
+<div class="tool-header">
+<h1>🗜️ Compress Image</h1>
+<p>Lower the quality setting or cap the width to shrink file size, with a live before-and-after comparison</p>
+</div>
+<div class="upload-area" id="uploadArea">
+<div class="upload-icon">📁</div>
+<div class="upload-text">Click or drag an image here</div>
+<div class="upload-hint">PNG · JPG · WebP · GIF · BMP · SVG · AVIF · ICO · HEIC / HEIF</div>
+<input accept="image/*,.heic,.heif,.avif,.ico,.bmp,.svg" id="fileInput" type="file"/>
+</div>
+<div class="preview-area" id="previewArea">
+<div class="preview-box">
+<h3>Original</h3>
+<img alt="Original" id="originalPreview"/ data-ph="1">
+<div id="originalInfo" style="margin-top:12px;font-size:13px;color:var(--text-muted);"></div>
+</div>
+<div class="preview-box">
+<h3>Compressed result</h3>
+<img alt="Result" id="processedPreview"/ data-ph="1">
+<div id="resultInfo" style="margin-top:12px;font-size:13px;color:var(--text-muted);"></div>
+</div>
+</div>
+<div class="controls" id="controls">
+<div class="control-group">
+<label class="control-label">Compression quality</label>
+<input id="quality" max="100" min="10" type="range" value="75"/>
+<div class="control-hint" id="qualityHint">Quality: 75% (lower compresses more)</div>
+</div>
+<div class="control-group">
+<label class="control-label">Maximum width (optional)</label>
+<input id="maxWidth" min="1" placeholder="Leave blank for no limit" type="number"/>
+<div class="control-hint">Images wider than this are scaled down</div>
+</div>
+<button class="btn btn-primary btn-lg" id="processBtn" style="width:100%;">Compress</button>
+</div>
+<div class="download-section" id="downloadSection">
+<button class="btn btn-primary btn-lg" id="downloadBtn">⬇️ Download compressed image</button>
+</div>
+</div>
+</section>
+<!-- ========== Content: guide / how it works / use cases / FAQ ========== -->
+<section class="content-section">
+<div class="container">
+<div class="content-block">
+<h2>How to compress an image</h2>
+<ol class="steps">
+<li><strong>Upload: </strong><span>Drop an image in and the page shows its original file size as a baseline.</span></li>
+<li><strong>Set the quality: </strong><span>Drag the slider to set quality. 70–80 suits web images; drop to 60 when size matters more.</span></li>
+<li><strong>Optional — cap the width: </strong><span>Enter a maximum width and wider images are scaled down proportionally — usually the most effective way to cut size.</span></li>
+<li><strong>Compress and compare: </strong><span>The compressed size and saving are shown afterwards; download once the quality looks acceptable.</span></li>
+</ol>
+<div class="note-box">
+<p><strong>Tip: </strong><span>All processing happens in your browser: images are never uploaded to a server. Results live only on this page, so download them promptly.</span></p>
+</div>
+</div>
+<div class="content-block">
+<h2>How it works</h2>
+<p>Image compression comes in two flavours. Lossless compression simply re-describes the same pixels with a smarter encoding, trimming size but only modestly. Lossy compression discards visual information the eye barely notices, in exchange for a far bigger size cut. This tool uses the latter, controlled by the JPEG quality parameter.</p>
+<p>The quality value controls how coarse the quantisation table is: the lower it goes, the more crudely colour and detail are quantised and the smaller the file — but blocking artefacts appear, most visibly around high-contrast edges such as text.</p>
+<p>Capping the width is actually a more effective way to shrink a file. A 4000 px wide photo reduced to 1600 px has about one sixth as many pixels, and the size usually drops just as sharply — while looking virtually identical at that scale.</p>
+</div>
+<div class="content-block">
+<h2>Common use cases</h2>
+<div class="usecases">
+<div class="usecase"><strong>Faster web pages</strong><span>Get images under 100 KB and page load times improve noticeably.</span></div>
+<div class="usecase"><strong>Beat upload size limits</strong><span>Application, government and recruitment portals often cap uploads at 200 KB or 500 KB.</span></div>
+<div class="usecase"><strong>Email attachments</strong><span>Shrink files so mail services do not reject them.</span></div>
+<div class="usecase"><strong>Slim down your phone gallery</strong><span>Compress photos you rarely look at to reclaim storage space.</span></div>
+</div>
+</div>
+<div class="content-block">
+<h2>Specifications</h2>
+<div class="table-wrap">
+<table class="spec">
+<tbody>
+<tr><th>Quality 90–100</th><td>Almost no visible difference, limited size reduction</td></tr>
+<tr><th>Quality 70–85</th><td>Visually near-lossless with a clear size drop — recommended for everyday use</td></tr>
+<tr><th>Quality 50–70</th><td>Large size drop, detail starts to soften — fine for thumbnails</td></tr>
+<tr><th>Below quality 50</th><td>Very small, but blocking artefacts are obvious — emergency use only</td></tr>
+<tr><th>Width cap</th><td>Usually more effective than lowering quality; a long edge of 1200–2000 px is a good target</td></tr>
+</tbody>
+</table>
+</div>
+<div class="note-box">
+<p>An already-compressed image has little left to give. When a file "grows instead of shrinking", capping the width is usually the better move.</p>
+</div>
+</div>
+<div class="content-block">
+<h2>FAQ about image compression</h2>
+<div class="faq-list">
+<div class="faq-item">
+<div class="faq-question">Why did the file get bigger after compressing?</div>
+<div class="faq-answer">The original was already heavily compressed (a previously saved JPG, or an image sent through WeChat). Compressing again removes nothing, and re-encoding can even add a little size. Cap the width instead of pushing quality lower.</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">What quality should I use?</div>
+<div class="faq-answer">For web images 70–80 usually balances size and appearance. To hit a strict KB target, start at 75 and step down if needed, zooming in to check for blocking around text edges.</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">Does compression keep transparency?</div>
+<div class="faq-answer">Output is JPEG, which has no alpha channel, so transparent areas are filled with white or black. To keep transparency, use PNG and reduce size with the Resize tool instead.</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">Can lost quality be recovered?</div>
+<div class="faq-answer">No. What lossy compression discards is gone for good — keep your original.</div>
+</div>
+</div>
+</div>
+<div class="content-block">
+<h2>Try other tools</h2>
+<div class="related-tools">
+<a class="related-tool" href="/tools/resize.html"><span>📐</span><span>Resize Image</span></a>
+<a class="related-tool" href="/tools/convert.html"><span>🔄</span><span>Convert Format</span></a>
+<a class="related-tool" href="/tools/rounded.html"><span>⬜</span><span>Rounded Corners</span></a>
+<a class="related-tool" href="/guides/index.html"><span>📚</span><span>Image Guides</span></a>
+</div>
+</div>
+</div>
+</section>
+<!-- ========== Footer ========== -->
+<footer class="footer">
+<div class="container">
+<div class="footer-content">
+<div class="footer-brand">
+<img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Studio</span></span>
+</div>
+<p class="footer-desc">Free online image tools — everything runs locally in your browser</p>
+</div>
+<div class="footer-links">
+<a href="/#tools">All Tools</a>
+<a href="/about.html">About</a>
+<a href="/contact.html">Contact</a>
+<a href="/faq.html">FAQ</a>
+<a href="/privacy.html">Privacy Policy</a>
+<a href="/terms.html">Terms of Use</a>
+</div>
+<style>
+.ad-disclosure{margin:8px auto 0;max-width:820px;text-align:center;font-size:12.5px;color:#94a3b8;line-height:1.7}
+html[data-lang="en"] [data-lang-block="zh"]{display:none!important}
+html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
+</style>
+<div class="ad-disclosure">
+<span>This site contains advertisements. Ads do not affect how our tools work or the opinions expressed in our guides.</span>
+
+</div>
+<div class="footer-bottom">
+<p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
+<p>© 2026 PicStudio. All rights reserved.</p>
+</div>
+</div>
+</footer>
+<div class="loading-overlay" id="loadingOverlay">
+<div class="spinner"></div>
+<div class="loading-text">Compressing, please wait…</div>
+</div>
+<script src="/assets/js/preview.js?v=20261108ml"></script>
+<script src="/assets/js/download.js?v=20261109dl"></script>
+<script src="/assets/js/lab.js?v=20261108ml"></script>
+<script src="/assets/js/tools.js?v=20261108ml"></script>
+<script>
+    const qualitySlider = document.getElementById('quality');
+    const qualityHint = document.getElementById('qualityHint');
+
+    qualitySlider.addEventListener('input', () => {
+        qualityHint.textContent = `Quality: ${qualitySlider.value}% (lower means smaller files)`;
+    });
+
+    let originalFileSize = 0;
+
+    const tool = new ImageTool({
+        process: async (canvas) => {
+            const quality = parseInt(qualitySlider.value) / 100;
+            const maxWidth = parseInt(document.getElementById('maxWidth').value) || null;
+
+            let workingCanvas = canvas;
+
+            // Resize if needed
+            if (maxWidth && canvas.width > maxWidth) {
+                const ratio = maxWidth / canvas.width;
+                const newHeight = Math.round(canvas.height * ratio);
+                workingCanvas = ImageUtils.resizeCanvas(canvas, maxWidth, newHeight);
+            }
+
+            // Compress as JPEG
+            /* */
+            const flatCanvas = (window.Lab && Lab.flattenForJpeg)
+                ? Lab.flattenForJpeg(workingCanvas) : workingCanvas;
+            const dataUrl = flatCanvas.toDataURL('image/jpeg', quality);
+            const compressedSize = Math.round(dataUrl.length * 3 / 4);
+
+            
+            const infoEl = document.getElementById('resultInfo');
+            let line2;
+            if (!originalFileSize || originalFileSize <= 0) {
+                line2 = `<span>Original file size unknown, cannot calculate savings</span>`;
+            } else if (compressedSize < originalFileSize) {
+                const savedPercent = Math.round((1 - compressedSize / originalFileSize) * 100);
+                line2 = `<span style="color:var(--accent);font-weight:600;">Saved ${savedPercent}%</span>`;
+            } else {
+                const growPercent = Math.round((compressedSize / originalFileSize - 1) * 100);
+                line2 = `<span style="color:#fbbf24;font-weight:600;">File grew larger (+${growPercent}%)</span>` +
+                        `<span style="display:block;margin-top:6px;font-size:13px;">The original is already highly compressed; lowering quality further will not help much.` +
+                        `Try setting a "Max width" above (e.g. 1600 or 1200) and process again.</span>`;
+            }
+            infoEl.innerHTML =
+                `Compressed: ${(compressedSize / 1024).toFixed(1)} KB<br>` + line2;
+
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => {
+                    const result = document.createElement('canvas');
+                    result.width = img.naturalWidth;
+                    result.height = img.naturalHeight;
+                    result.getContext('2d').drawImage(img, 0, 0);
+                    resolve(result);
+                };
+                img.src = dataUrl;
+            });
+        },
+        downloadOptions: { filename: 'picstudio-compressed', format: 'jpeg' }
+    });
+
+    // Track original file size
+    const origHandleFile = tool.handleFile.bind(tool);
+    tool.handleFile = function(file) {
+        originalFileSize = file.size;
+        document.getElementById('originalInfo').textContent =
+            `Size: ${(file.size / 1024).toFixed(1)} KB`;
+        origHandleFile(file);
+    };
+
+    document.getElementById('processBtn').addEventListener('click', () => tool.process());
+    </script>
+<script src="/assets/js/main.js?v=20261108ml"></script>
+<script src="/assets/js/i18n-dict.js?v=20261108ml"></script>
+<script src="/assets/js/i18n.js?v=20261108ml"></script>
+<script src="/assets/js/ux.js?v=20261108ml"></script>
+</body>
+</html>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+
+<html data-lang="zh" lang="zh-CN">
+<head>
+<meta content="ca-pub-8915931557404979" name="google-adsense-account"/>
+<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8915931557404979"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>分辨率、DPI 与印刷尺寸详解 | PicStudio</title>
+<meta content="像素、PPI 与 DPI 到底指什么，为什么改 DPI 不会让图更清晰，以及按 300 DPI 换算印刷尺寸的对照表。" name="description"/>
+<meta content="分辨率与 DPI, PPI, 300 DPI 印刷, 像素换算厘米, 印刷尺寸表" name="keywords"/>
+<link href="https://piccalc.com/zh/guides/resolution-dpi.html" rel="canonical"/>
+<meta content="index,follow,max-image-preview:large" name="robots"/>
+<meta content="article" property="og:type"/>
+<meta content="PicStudio" property="og:site_name"/>
+<meta content="zh_CN" property="og:locale"/>
+<meta content="分辨率、DPI 与印刷尺寸详解 | PicStudio | PicStudio" property="og:title"/>
+<meta content="像素、PPI 与 DPI 到底指什么，为什么改 DPI 不会让图更清晰，以及按 300 DPI 换算印刷尺寸的对照表。" property="og:description"/>
+<meta content="https://piccalc.com/zh/guides/resolution-dpi.html" property="og:url"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="分辨率、DPI 与印刷尺寸详解 | PicStudio | PicStudio" name="twitter:title"/>
+<meta content="像素、PPI 与 DPI 到底指什么，为什么改 DPI 不会让图更清晰，以及按 300 DPI 换算印刷尺寸的对照表。" name="twitter:description"/>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "分辨率、DPI 与印刷尺寸详解 | PicStudio",
+      "description": "像素、PPI 与 DPI 到底指什么，为什么改 DPI 不会让图更清晰，以及按 300 DPI 换算印刷尺寸的对照表。",
+      "inLanguage": "zh-CN",
+      "datePublished": "2026-10-22",
+      "dateModified": "2026-10-22",
+      "author": {
+        "@type": "Organization",
+        "name": "PicStudio",
+        "url": "https://piccalc.com"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "PicStudio",
+        "url": "https://piccalc.com"
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://piccalc.com/guides/resolution-dpi.html"
+      },
+      "keywords": "分辨率与 DPI, PPI, 300 DPI 印刷, 像素换算厘米, 印刷尺寸表",
+      "articleSection": "Image Editing",
+      "wordCount": 885
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "PicStudio",
+          "item": "https://piccalc.com/zh/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "图片处理指南",
+          "item": "https://piccalc.com/zh/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "分辨率、DPI 与印刷尺寸",
+          "item": "https://piccalc.com/zh/guides/resolution-dpi.html"
+        }
+      ]
+    }
+  ]
+}</script>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "PicStudio",
+      "item": "https://piccalc.com/zh/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "图片处理指南",
+      "item": "https://piccalc.com/zh/guides/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "分辨率、DPI 与印刷尺寸",
+      "item": "https://piccalc.com/zh/guides/resolution-dpi.html"
+    }
+  ]
+}</script>
+<link href="/favicon.ico" rel="icon" sizes="any"/>
+<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<meta content="https://piccalc.com/og-v2.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="PicStudio 品牌分享图" property="og:image:alt"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
+<link href="/assets/css/style.css?v=20261108ml" rel="stylesheet"/>
+<style>
+      .article-body { max-width: 820px; margin: 0 auto; }
+      .article-body h2 { font-size: 20px; margin: 34px 0 12px; padding-left: 12px; border-left: 4px solid var(--primary); }
+      .article-body h3 { font-size: 16px; margin: 22px 0 8px; }
+      .article-body p { margin: 12px 0; line-height: 1.9; color: var(--text-secondary); }
+      .article-body ul, .article-body ol { margin: 12px 0 12px 22px; line-height: 1.9; color: var(--text-secondary); }
+      .article-body li { margin: 7px 0; }
+      .article-body strong { color: var(--text); }
+      .lead { font-size: 16px; background: var(--bg-secondary); border-left: 3px solid var(--primary); padding: 14px 18px; border-radius: 8px; margin: 16px 0 26px; line-height: 1.85; color: var(--text-secondary); }
+      .crumb { font-size: 13px; color: var(--text-muted); margin-bottom: 14px; }
+      .crumb a { color: var(--text-muted); }
+      .ad-slot { margin: 22px 0; text-align: center; }
+    </style>
+<style>
+      html[data-lang="en"] [data-lang-block="zh"] { display: none !important; }
+      html[data-lang="zh"] [data-lang-block="en"] { display: none !important; }
+      .lang-toggle { background: transparent; border: 1px solid var(--border, #e2e8f0);
+        border-radius: 6px; padding: 4px 10px; font-size: 13px; cursor: pointer;
+        color: var(--text-secondary, #64748b); line-height: 1.6; }
+      .lang-toggle:hover { border-color: var(--primary, #6366f1); color: var(--primary, #6366f1); }
+    </style>
+
+<link href="https://piccalc.com/guides/resolution-dpi.html" hreflang="en" rel="alternate"/><link href="https://piccalc.com/zh/guides/resolution-dpi.html" hreflang="zh-CN" rel="alternate"/><link href="https://piccalc.com/guides/resolution-dpi.html" hreflang="x-default" rel="alternate"/></head>
+<body>
+<header class="header">
+<div class="container">
+<a class="logo" href="/zh/">
+<img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Studio</span></span>
+</a>
+<nav class="tool-nav">
+<select class="lang-select" aria-label="语言" onchange="if(this.value)location.href=this.value"><option value="/guides/resolution-dpi.html">English</option><option value="/zh/guides/resolution-dpi.html" selected>中文</option></select><noscript><a href="/guides/resolution-dpi.html">English</a></noscript>
+<a href="/zh/#tools">全部工具</a>
+<a href="/zh/">图片指南</a>
+<a href="/zh/privacy.html">隐私政策</a>
+<a href="/zh/contact.html">联系我们</a>
+</nav>
+<select class="lang-select-m lang-select" aria-label="语言" onchange="if(this.value)location.href=this.value"><option value="/guides/resolution-dpi.html">English</option><option value="/zh/guides/resolution-dpi.html" selected>中文</option></select><noscript><a href="/guides/resolution-dpi.html">English</a></noscript>
+</div>
+</header>
+<section class="tool-page">
+<div class="container">
+<div class="article-body">
+<div class="guide-top"><a class="guide-back" href="/zh/">← 返回首页</a><div class="crumb"><a href="/zh/">首页</a> <a href="/zh/">图片指南</a> 分辨率与 DPI</div></div>
+
+<div>
+<h1>分辨率、DPI 与打印尺寸：像素和清晰度到底是什么关系</h1>
+<div class="lead">「把这张图改成 300 DPI」——这可能是图片领域最常被误解的要求。这篇文章把像素、分辨率、DPI、PPI 的关系讲透，并解释<strong>为什么单纯改 DPI 数值不会让图变清晰</strong>。</div>
+<div class="content-block">
+<h2>四个名词，别再混着用</h2>
+<ul>
+<li><strong>像素（Pixel）</strong>：图片的最小单位。1920×1080 就是说这张图横向有 1920 个、纵向有 1080 个像素点。<strong>这是图片的「真材实料」。</strong></li>
+<li><strong>分辨率</strong>：通常就指像素总量（如 1920×1080），有时也指单位长度的像素密度，日常说法比较混。</li>
+<li><strong>PPI</strong>：每英寸多少个像素，屏幕用的密度单位。</li>
+<li><strong>DPI</strong>：每英寸多少个点，原本是打印机的墨点密度。数码图片里常被当成 PPI 混用。</li>
+</ul>
+<div class="note-box"><p>要点：<strong>像素总数才是决定清晰度的根本</strong>，DPI 只是一个「这张图打算印多大」的标注值。</p></div>
+</div>
+<div class="content-block">
+<h2>为什么改 DPI 不会让图变清晰</h2>
+<p>一张 1920×1080 的图，无论把 DPI 标成 72 还是 300，<strong>像素一个都没多</strong>。改 DPI 只是改变了「每英寸塞多少像素」这个换算比例：</p>
+<ul>
+<li>1920 px 宽，按 <strong>72 DPI</strong> 打印 → 宽约 <strong>67.7 cm</strong>（大但稀）</li>
+<li>1920 px 宽，按 <strong>300 DPI</strong> 打印 → 宽约 <strong>16.3 cm</strong>（小但密）</li>
+</ul>
+<p>同一张图，印得小就更清晰，印得大就更模糊——<strong>变的只是尺寸，信息量没变</strong>。想真正变清晰，必须增加像素，而这在多数情况下意味着重新拍或重新生成。</p>
+</div>
+
+<div class="content-block">
+<h2>换算公式</h2>
+<ul>
+<li><strong>厘米 = 像素 ÷ DPI × 2.54</strong></li>
+<li><strong>像素 = 厘米 ÷ 2.54 × DPI</strong></li>
+</ul>
+<p>举例：要印一张 10×15 cm、300 DPI 的照片，需要的像素是：</p>
+<ul>
+<li>宽：10 ÷ 2.54 × 300 ≈ <strong>1181 px</strong></li>
+<li>高：15 ÷ 2.54 × 300 ≈ <strong>1772 px</strong></li>
+</ul>
+<p>也就是说，<strong>约 200 万像素</strong>的图就够印一张标准的 6 寸照片了。</p>
+</div>
+<div class="content-block">
+<h2>常用打印尺寸对照（300 DPI）</h2>
+<div class="table-wrap">
+<table class="spec">
+<thead><tr><th>规格</th><th>厘米 (cm)</th><th>像素 (300 DPI)</th></tr></thead>
+<tbody>
+<tr><td>1 寸</td><td>2.5 × 3.5</td><td>295 × 413</td></tr>
+<tr><td>2 寸</td><td>3.5 × 5.3</td><td>413 × 626</td></tr>
+<tr><td>5 寸</td><td>8.9 × 12.7</td><td>1050 × 1500</td></tr>
+<tr><td>6 寸</td><td>10.2 × 15.2</td><td>1200 × 1800</td></tr>
+<tr><td>A5</td><td>14.8 × 21.0</td><td>1748 × 2480</td></tr>
+<tr><td>A4</td><td>21.0 × 29.7</td><td>2480 × 3508</td></tr>
+<tr><td>A3</td><td>29.7 × 42.0</td><td>3508 × 4961</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="content-block">
+<h2>屏幕显示和打印，要求完全不同</h2>
+<ul>
+<li><strong>屏幕看</strong>：只需要匹配屏幕像素。主流手机屏宽约 1080–1440 px，所以长边 1500–2000 px 的图在手机上已经足够清晰。网页配图长边 1200–1920 px 就够了。</li>
+<li><strong>打印看</strong>：需要 300 DPI 才不显颗粒。A4 满幅打印需要约 2480×3508，也就是 <strong>870 万像素</strong>。</li>
+</ul>
+<p>所以「这张图够不够清晰」必须先问用途——<strong>发朋友圈够用的图，印成 A4 大概率会糊。</strong></p>
+</div>
+
+<div class="content-block">
+<h2>放大图片能变清晰吗</h2>
+<p>严格说不能。放大的本质是<strong>凭空补像素</strong>——原本没有的细节，算法只能靠周围像素推测。</p>
+<ul>
+<li><strong>传统插值</strong>（双线性、双三次）：只是让边缘平滑，不会增加细节，放太大就糊。</li>
+<li><strong>智能放大</strong>：用模型推测细节，对人脸、建筑、文字这类有规律的内容效果不错，能「看起来」更清晰，但生成的是推测内容，不是真实细节。</li>
+</ul>
+<p>实用建议：小幅放大（2 倍以内）用智能放大效果可接受；需要大幅放大的话，最好找原始高清素材。</p>
+</div>
+<div class="content-block">
+<h2>关于分辨率与 DPI 的常见问题</h2>
+<div class="faq-list">
+<div class="faq-item">
+<div class="faq-question">把 DPI 改成 300 就能打印清晰了吗？</div>
+<div class="faq-answer">不能。改 DPI 只是改了一个标注值，像素总数没变，清晰度不会变。真正决定打印质量的是<strong>像素总数 ÷ 打印尺寸</strong>。</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">72 DPI 的图一定不能打印吗？</div>
+<div class="faq-answer">不一定。如果这张图像素足够多（比如 4000×3000），即使标注 72 DPI，实际打印出来依然清晰——因为像素总量够。DPI 标注只影响默认打印尺寸。</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">手机拍的照片能印多大？</div>
+<div class="faq-answer">以 1200 万像素（约 4000×3000）为例，300 DPI 下可印约 34×25 cm，大致是 A4 略大的尺寸，质量良好。</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">网页图片需要 300 DPI 吗？</div>
+<div class="faq-answer">不需要。屏幕只认像素，DPI 标注对网页显示没有任何影响。网页配图按<strong>像素尺寸</strong>考虑即可，长边 1200–1920 px 通常足够。</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">为什么图片放大后变模糊？</div>
+<div class="faq-answer">因为放大并没有增加真实细节，只是把原有像素摊开并插值填补空隙。像素总量是固定的，放大必然降低单位面积的细节密度。</div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="content-block">
+<h2>相关工具</h2>
+<div class="related-tools">
+<a class="related-tool" href="/zh/tools/resize.html"><span>📐</span><span>尺寸调整</span></a>
+<a class="related-tool" href="/zh/tools/upscale.html"><span>🔍</span><span>图片放大</span></a>
+<a class="related-tool" href="/zh/tools/resize.html"><span>📐</span><span>调整尺寸</span></a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<footer class="footer">
+<div class="container">
+<div class="footer-content">
+<div class="footer-brand">
+<img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Studio</span></span>
+</div>
+<p class="footer-desc">免费的在线图片处理工具，所有处理在浏览器本地完成</p>
+</div>
+<div class="footer-links">
+<a href="/zh/#tools">全部工具</a>
+<a href="/zh/">图片指南</a>
+<a href="/zh/about.html">关于我们</a>
+<a href="/zh/contact.html">联系我们</a>
+<a href="/zh/faq.html">常见问题</a>
+<a href="/zh/privacy.html">隐私政策</a>
+<a href="/zh/terms.html">使用条款</a>
+</div>
+<style>
+.ad-disclosure{margin:8px auto 0;max-width:820px;text-align:center;font-size:12.5px;color:#94a3b8;line-height:1.7}
+html[data-lang="en"] [data-lang-block="zh"]{display:none!important}
+html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
+</style>
+<div class="ad-disclosure">
+
+<span>本站包含广告，广告不影响工具的工作方式，也不影响指南中表达的观点。</span>
+</div>
+<div class="footer-bottom">
+<p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
+<p>&amp;copy; 2026 PicStudio. 保留所有权利。</p>
+</div>
+</div>
+</footer>
+<script src="/zh/assets/js/main.js?v=20261108ml"></script>
+<script src="/zh/assets/js/i18n-dict.js?v=20261108ml"></script>
+<script src="/zh/assets/js/i18n.js?v=20261108ml"></script>
+<script src="/zh/assets/js/ux.js?v=20261108ml"></script>
+</body>
+</html>

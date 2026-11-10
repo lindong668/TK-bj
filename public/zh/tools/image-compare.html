@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+
+<html data-lang="zh" lang="zh-CN">
+<head>
+<meta content="ca-pub-8915931557404979" name="google-adsense-account"/>
+<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8915931557404979"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>双图对比 — 前后滑块与差异高亮</title>
+<meta content="用可拖动的前后滑块对比两张图，或高亮逐像素差异。全部在浏览器本地完成，不上传。" name="description"/>
+<meta content="双图对比, 前后对比滑块, 图片差异, 像素对比" name="keywords"/>
+<link href="https://piccalc.com/zh/tools/image-compare.html" rel="canonical"/>
+<meta content="index,follow,max-image-preview:large" name="robots"/>
+<meta content="website" property="og:type"/>
+<meta content="PicStudio" property="og:site_name"/>
+<meta content="zh_CN" property="og:locale"/>
+<meta content="双图对比 — 前后滑块与差异高亮 | PicStudio" property="og:title"/>
+<meta content="用可拖动的前后滑块对比两张图，或高亮逐像素差异。全部在浏览器本地完成，不上传。" property="og:description"/>
+<meta content="https://piccalc.com/zh/tools/image-compare.html" property="og:url"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="双图对比 — 前后滑块与差异高亮 | PicStudio" name="twitter:title"/>
+<meta content="用可拖动的前后滑块对比两张图，或高亮逐像素差异。全部在浏览器本地完成，不上传。" name="twitter:description"/>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "双图对比",
+  "url": "https://piccalc.com/zh/tools/image-compare.html",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Any (browser)",
+  "browserRequirements": "A modern browser with Canvas support",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "CNY"
+  },
+  "description": "用可拖动的前后滑块对比两张图，或高亮逐像素差异。全部在浏览器本地完成，不上传。"
+}</script>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "两张图尺寸不一样怎么办？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "保持「拉伸 B」勾选即可对齐到 A 的画布；取消勾选则按原始尺寸从左上角绘制。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "差异图为什么有噪点？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "JPEG 压缩和二次编码会让像素值轻微偏移，有损图源会有噪点；用 PNG 做差异最干净。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "能对比 HEIC 照片吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "可以。浏览器原生读不了时，HEIC/HEIF 会在 Web Worker 里本地解码。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "图片会上传吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "不会。两张图都留在浏览器里，只绘制到本地 canvas。"
+      }
+    }
+  ]
+}</script>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "PicStudio",
+      "item": "https://piccalc.com/zh/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "双图对比",
+      "item": "https://piccalc.com/zh/tools/image-compare.html"
+    }
+  ]
+}</script>
+<link href="/favicon.ico" rel="icon" sizes="any"/>
+<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<meta content="https://piccalc.com/og-v2.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="PicStudio 品牌分享图" property="og:image:alt"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
+<link href="/assets/css/style.css?v=20261108ml" rel="stylesheet"/>
+<style>
+      html[data-lang="en"] [data-lang-block="zh"] { display: none !important; }
+      html[data-lang="zh"] [data-lang-block="en"] { display: none !important; }
+      .lang-toggle { background: transparent; border: 1px solid var(--border, #e2e8f0);
+        border-radius: 6px; padding: 4px 10px; font-size: 13px; cursor: pointer;
+        color: var(--text-secondary, #64748b); line-height: 1.6; }
+      .lang-toggle:hover { border-color: var(--primary, #6366f1); color: var(--primary, #6366f1); }
+    </style>
+
+<link href="https://piccalc.com/tools/image-compare.html" hreflang="en" rel="alternate"/><link href="https://piccalc.com/zh/tools/image-compare.html" hreflang="zh-CN" rel="alternate"/><link href="https://piccalc.com/tools/image-compare.html" hreflang="x-default" rel="alternate"/></head>
+<body>
+<header class="header">
+<div class="container">
+<a class="logo" href="/zh/">
+<img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Studio</span></span>
+</a>
+<nav class="tool-nav">
+<select class="lang-select" aria-label="语言" onchange="if(this.value)location.href=this.value"><option value="/tools/image-compare.html">English</option><option value="/zh/tools/image-compare.html" selected>中文</option></select><noscript><a href="/tools/image-compare.html">English</a></noscript>
+<a href="/zh/#tools">全部工具</a>
+<a href="/zh/guides/">图片指南</a>
+<a href="/zh/privacy.html">隐私政策</a>
+<a href="/zh/faq.html">常见问题</a>
+<a href="/zh/contact.html">联系我们</a>
+</nav>
+<select class="lang-select-m lang-select" aria-label="语言" onchange="if(this.value)location.href=this.value"><option value="/tools/image-compare.html">English</option><option value="/zh/tools/image-compare.html" selected>中文</option></select><noscript><a href="/tools/image-compare.html">English</a></noscript>
+</div>
+</header>
+<section class="tool-page">
+<div class="container">
+<a class="back-link" href="/zh/">← 返回首页</a>
+<div class="tool-header">
+<h1><span>🔍 双图对比</span></h1>
+<p><span>用滑块对照两张图，或直接高亮出哪些像素变了。</span></p>
+</div>
+<div class="upload-area" id="uploadArea">
+<div class="upload-icon">📁</div>
+<div class="upload-text">点击或拖拽图片到这里</div>
+<div class="upload-hint">支持 PNG · JPG · WebP · GIF · BMP · SVG · AVIF · ICO · HEIC / HEIF</div>
+<input accept="image/*,.heic,.heif,.avif,.ico,.bmp,.svg" id="fileInput" type="file"/>
+</div>
+<div class="preview-area" id="previewArea">
+<div class="preview-box">
+<h3>原始图片</h3>
+<img alt="原图" id="originalPreview"/ data-ph="1">
+<div id="originalInfo" style="margin-top:12px;font-size:13px;color:var(--text-muted);"></div>
+</div>
+<div class="preview-box" hidden="" id="resultPreviewBox">
+<h3><span>对比结果</span></h3>
+<img alt="结果预览" id="processedPreview"/ data-ph="1">
+<div id="resultInfo" style="margin-top:12px;font-size:13px;color:var(--text-muted);"></div>
+</div>
+</div>
+<div class="controls" id="controls">
+<div class="control-group">
+<label class="control-label"><span>第二张图（B）</span></label>
+<div class="upload-area" id="uploadB" style="padding:18px;min-height:0;">
+<div class="upload-text" id="uploadBText"><span>点击选择图片 B</span></div>
+<img alt="图片 B" class="thumb-b checker-bg" id="previewB" style="display:none;"/>
+<input accept="image/*,.heic,.heif,.avif,.ico,.bmp,.svg" id="fileB" type="file"/>
+</div>
+</div>
+<div class="control-group">
+<label class="control-label"><span>滑块位置</span></label>
+<input id="split" max="100" min="0" type="range" value="50"/>
+<div class="control-hint" id="splitHint">50%</div>
+</div>
+<div class="control-group">
+<div class="control-hint"><input id="diffMode" type="checkbox"/> <span>改为差异高亮</span></div>
+</div>
+<div class="control-group">
+<div class="control-hint"><input checked="" id="fitB" type="checkbox"/> <span>尺寸不同时把 B 拉伸到 A 的画布</span></div>
+</div>
+<button class="btn btn-primary btn-lg" id="processBtn" style="width:100%;"><span>🔍 对比 / 刷新</span></button>
+<div class="compare-view" id="compareWrap">
+<img alt="图片 A" class="cmp-layer" id="cmpA"/ data-ph="1">
+<img alt="图片 B" class="cmp-layer" id="cmpB"/ data-ph="1">
+<div class="cmp-line" id="cmpLine"></div>
+<div class="cmp-tag a">A</div><div class="cmp-tag b">B</div>
+</div>
+<canvas id="compareCanvas" style="display:none;"></canvas>
+<div class="stitch-hint">拖动上方「滑块位置」即可实时对照；差异高亮只在勾选或刷新时计算一次，不会每拖一下都重画整张图。</div>
+
+</div>
+<div class="download-section" id="downloadSection">
+<button class="btn btn-primary btn-lg" id="downloadBtn">⬇️ 下载结果</button>
+</div>
+</div>
+</section>
+
+<section class="content-section">
+<div class="container">
+<div class="content-block">
+<h2><span>如何使用这个工具</span></h2>
+<ol class="steps">
+<li><span>在主上传区放图片 A。</span></li>
+<li><span>在第二个框放图片 B。</span></li>
+<li><span>拖动滑块，左侧显示 A、右侧显示 B；勾选「差异高亮」看逐像素差异图。</span></li>
+<li><span>把对比画布下载为 PNG。</span></li>
+</ol>
+<div class="note-box"><p><strong><span>提示：</span></strong><span>所有处理都在浏览器内完成，图片不会上传。请在关闭页面前下载对比图。</span></p></div>
+</div>
+<div class="content-block">
+<h2>它的原理是什么</h2>
+<p><span>两张图先画到统一坐标系的离屏 canvas 上。滑块模式只是把绘制按选定 x 位置裁剪；差异模式逐像素相减 RGB，超过阈值的标成高亮色。</span></p>
+<p><span>两图尺寸不同时，可把 B 拉伸到 A 的画布以保持对齐。所有计算都在浏览器内完成。</span></p>
+</div>
+<div class="content-block">
+<h2>常见使用场景</h2>
+<div class="usecases">
+<div class="usecase"><strong><span>修图前后</span></strong><span>一眼看出修图、滤镜或压缩前后的差别。</span></div>
+<div class="usecase"><strong><span>界面回归</span></strong><span>快速定位两个版本间变化的按钮或布局。</span></div>
+<div class="usecase"><strong><span>扫描件查重</span></strong><span>比对两版扫描件，看有没有增删内容。</span></div>
+</div>
+</div>
+<div class="content-block">
+<h2><span>常见问题</span></h2>
+<div class="faq-item"><div class="faq-question"><span>两张图尺寸不一样怎么办？</span></div><div class="faq-answer"><span>保持「拉伸 B」勾选即可对齐到 A 的画布；取消勾选则按原始尺寸从左上角绘制。</span></div></div>
+<div class="faq-item"><div class="faq-question"><span>差异图为什么有噪点？</span></div><div class="faq-answer"><span>JPEG 压缩和二次编码会让像素值轻微偏移，有损图源会有噪点；用 PNG 做差异最干净。</span></div></div>
+<div class="faq-item"><div class="faq-question"><span>能对比 HEIC 照片吗？</span></div><div class="faq-answer"><span>可以。浏览器原生读不了时，HEIC/HEIF 会在 Web Worker 里本地解码。</span></div></div>
+<div class="faq-item"><div class="faq-question"><span>图片会上传吗？</span></div><div class="faq-answer"><span>不会。两张图都留在浏览器里，只绘制到本地 canvas。</span></div></div>
+</div>
+<div class="content-block">
+<h2>试试其它工具</h2>
+<div class="related-tools">
+<a class="related-tool" href="/zh/tools/adjust.html"><span>🎚️</span><span>图像调整</span></a>
+<a class="related-tool" href="/zh/tools/image-annotate.html"><span>✏️</span><span>图片标注</span></a>
+<a class="related-tool" href="/zh/tools/trim-edges.html"><span>✂️</span><span>自动去白边</span></a>
+<a class="related-tool" href="/zh/tools/id-photo.html"><span>🔄</span><span>旋转与镜像</span></a>
+</div>
+</div>
+</div>
+</section>
+
+<footer class="footer">
+<div class="container">
+<div class="footer-content">
+<div class="footer-brand">
+<img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Studio</span></span>
+</div>
+<p class="footer-desc">免费的在线图片处理工具，所有处理在浏览器本地完成</p>
+</div>
+<div class="footer-links">
+<a href="/zh/#tools">全部工具</a>
+<a href="/zh/about.html">关于我们</a>
+<a href="/zh/contact.html">联系我们</a>
+<a href="/zh/faq.html">常见问题</a>
+<a href="/zh/privacy.html">隐私政策</a>
+<a href="/zh/terms.html">使用条款</a>
+</div>
+<style>
+.ad-disclosure{margin:8px auto 0;max-width:820px;text-align:center;font-size:12.5px;color:#94a3b8;line-height:1.7}
+html[data-lang="en"] [data-lang-block="zh"]{display:none!important}
+html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
+</style>
+<div class="ad-disclosure">
+
+<span>本站包含广告，广告不影响工具的工作方式，也不影响指南中表达的观点。</span>
+</div>
+<div class="footer-bottom">
+<p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
+<p>&amp;copy; 2026 PicStudio. 保留所有权利。</p>
+</div>
+</div>
+</footer>
+<div class="loading-overlay" id="loadingOverlay"><div class="spinner"></div><div class="loading-text"><span>正在处理，请稍候…</span></div></div>
+<script src="/zh/assets/js/preview.js?v=20261108ml"></script>
+<script src="/zh/assets/js/download.js?v=20261109dl"></script>
+<script src="/zh/assets/js/tools.js?v=20261108ml"></script>
+<script>
+
+    let loadedA = null, loadedB = null, diffCache = null;
+    const split = document.getElementById('split');
+    const wrap = document.getElementById('compareWrap');
+    const cmpA = document.getElementById('cmpA');
+    const cmpB = document.getElementById('cmpB');
+    const cmpLine = document.getElementById('cmpLine');
+    const diffBox = document.getElementById('diffMode');
+    const fitBox = document.getElementById('fitB');
+    const off = document.getElementById('compareCanvas');
+    const tool = new ImageTool({ process: async (canvas) => canvas,
+        downloadOptions: { filename: 'picstudio-compare', format: 'png' } });
+    const origLoad = tool.handleFile.bind(tool);
+    tool.handleFile = async function (file) {
+        await origLoad(file);
+        loadedA = tool.originalCanvas; diffCache = null; refreshView();
+    };
+    const upB = document.getElementById('uploadB');
+    const fileB = document.getElementById('fileB');
+    upB.addEventListener('click', (e) => { if (e.target !== fileB) fileB.click(); });
+    let bName = '', bSrcFit = '';
+    function bLabel() {
+        const zh = window.PSLang && PSLang.get() === 'zh';
+        const t = document.getElementById('uploadBText');
+        t.textContent = bName
+            ? (zh ? '✅ 已选择图片 B：' + bName + '（点击可更换）' : '✅ Image B selected: ' + bName + ' (click to change)')
+            : (zh ? '点击选择图片 B' : 'Click to choose image B');
+    }
+    window.addEventListener('ps:langchange', bLabel);
+    window.addEventListener('ps:reset', () => {
+        loadedA = null; loadedB = null; bName = ''; bSrcFit = ''; diffCache = null;
+        document.getElementById('previewB').style.display = 'none';
+        upB.classList.remove('has-file'); wrap.classList.remove('active'); bLabel();
+    });
+    const canvasURL = (cv) => cv.toDataURL('image/png');
+    function bURL(fit) {
+        if (!loadedB) return '';
+        if (!fit) return loadedB.src;
+        if (bSrcFit) return bSrcFit;
+        const W = loadedA.width, H = loadedA.height;
+        const c = document.createElement('canvas'); c.width = W; c.height = H;
+        c.getContext('2d').drawImage(loadedB.source, 0, 0, W, H);
+        bSrcFit = canvasURL(c); return bSrcFit;
+    }
+    function diffURL() {
+        if (!loadedA || !loadedB) return '';
+        if (diffCache) return diffCache;
+        const W = loadedA.width, H = loadedA.height;
+        off.width = W; off.height = H;
+        const ctx = off.getContext('2d');
+        const bc = document.createElement('canvas'); bc.width = W; bc.height = H;
+        const bctx = bc.getContext('2d');
+        if (fitBox.checked) bctx.drawImage(loadedB.source, 0, 0, W, H);
+        else bctx.drawImage(loadedB.source, 0, 0);
+        const ad = loadedA.getContext('2d').getImageData(0, 0, W, H);
+        const bd = bctx.getImageData(0, 0, W, H);
+        const o = ctx.createImageData(W, H);
+        for (let i = 0; i < ad.data.length; i += 4) {
+            const d = Math.abs(ad.data[i] - bd.data[i]) + Math.abs(ad.data[i+1] - bd.data[i+1]) + Math.abs(ad.data[i+2] - bd.data[i+2]);
+            const hot = d > 60;
+            o.data[i] = hot ? 255 : 30; o.data[i+1] = hot ? 70 : 30;
+            o.data[i+2] = hot ? 70 : 40; o.data[i+3] = 255;
+        }
+        ctx.putImageData(o, 0, 0);
+        diffCache = canvasURL(off); return diffCache;
+    }
+    function applySplit() {
+        const pct = Math.max(0, Math.min(100, parseInt(split.value, 10)));
+        cmpB.style.clipPath = 'inset(0 0 0 ' + pct + '%)';
+        cmpLine.style.left = pct + '%';
+        document.getElementById('splitHint').textContent = pct + '%';
+    }
+    function refreshView() {
+        bLabel();
+        if (!loadedA || !loadedB) return;
+        if (diffBox.checked) {
+            cmpA.src = diffURL(); cmpB.style.display = 'none'; cmpLine.style.display = 'none';
+            document.getElementById('resultInfo').textContent = 'Difference map · ' + loadedA.width + ' × ' + loadedA.height + ' px';
+        } else {
+            cmpA.src = canvasURL(loadedA); cmpB.src = bURL(fitBox.checked);
+            cmpB.style.display = 'block'; cmpLine.style.display = 'block';
+            applySplit();
+            document.getElementById('resultInfo').textContent = 'A | B · ' + loadedA.width + ' × ' + loadedA.height + ' px';
+        }
+        wrap.classList.add('active');
+        document.getElementById('downloadSection').classList.add('active');
+        document.getElementById('processedPreview').src = diffBox.checked ? diffURL() : cmpA.src;
+    }
+    split.addEventListener('input', applySplit);
+    diffBox.addEventListener('change', () => { diffCache = null; refreshView(); });
+    fitBox.addEventListener('change', () => { bSrcFit = ''; diffCache = null; refreshView(); });
+    fileB.addEventListener('change', async (e) => {
+        const f = e.target.files[0]; if (!f) return;
+        try {
+            loadedB = await PSImage.load(f); bName = f.name; bSrcFit = ''; diffCache = null;
+            const im = document.getElementById('previewB');
+            im.src = loadedB.src; im.style.display = 'block';
+            upB.classList.add('has-file'); bLabel();
+            if (loadedA) refreshView();
+            else alert((window.PSLang && PSLang.get() === 'zh')
+                ? '图片 B 已选好，请先在上方上传图片 A。' : 'Image B is ready. Please add image A above.');
+        } catch (err) { alert('Image B: ' + err.message); }
+    });
+    function buildCanvas() {
+        const W = loadedA.width, H = loadedA.height;
+        off.width = W; off.height = H;
+        const ctx = off.getContext('2d');
+        if (diffBox.checked) return off;   // diffURL 已画进 off
+        const cut = Math.round(W * parseInt(split.value, 10) / 100);
+        ctx.drawImage(loadedA, 0, 0, cut, H, 0, 0, cut, H);
+        const bc = document.createElement('canvas'); bc.width = W; bc.height = H;
+        const bctx = bc.getContext('2d');
+        if (fitBox.checked) bctx.drawImage(loadedB.source, 0, 0, W, H);
+        else bctx.drawImage(loadedB.source, 0, 0);
+        ctx.drawImage(bc, cut, 0, W - cut, H, cut, 0, W - cut, H);
+        ctx.fillStyle = '#ffffff'; ctx.fillRect(cut - 2, 0, 4, H);
+        ctx.fillStyle = '#6366f1'; ctx.fillRect(cut - 1, 0, 2, H);
+        return off;
+    }
+    const origDownload = tool.download.bind(tool);
+    tool.download = function () {
+        if (!loadedA || !loadedB) { alert('Please choose both images first.'); return; }
+        tool.processedCanvas = buildCanvas(); origDownload();
+    };
+    document.getElementById('processBtn').addEventListener('click', refreshView);
+
+    </script>
+<script src="/zh/assets/js/main.js?v=20261108ml"></script>
+<script src="/zh/assets/js/i18n-dict.js?v=20261108ml"></script>
+<script src="/zh/assets/js/i18n.js?v=20261108ml"></script>
+<script src="/zh/assets/js/ux.js?v=20261108ml"></script>
+</body>
+</html>

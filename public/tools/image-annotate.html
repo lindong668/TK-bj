@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+
+<html data-lang="en" lang="en">
+<head>
+<meta content="ca-pub-8915931557404979" name="google-adsense-account"/>
+<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8915931557404979"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Image Annotator — Arrows, Boxes, Numbers &amp; Text Bubbles</title>
+<meta content="Annotate an image with arrows, rectangles, numbered markers and text bubbles. Drag to draw, undo or clear, export a PNG. Browser-only, no upload." name="description"/>
+<meta content="image annotator, add arrow to image, mark up screenshot, numbered annotation, text bubble on photo" name="keywords"/>
+<link href="https://piccalc.com/tools/image-annotate.html" rel="canonical"/>
+<meta content="index,follow,max-image-preview:large" name="robots"/>
+<meta content="website" property="og:type"/>
+<meta content="PicStudio" property="og:site_name"/>
+<meta content="en_US" property="og:locale"/>
+<meta content="Image Annotator — Arrows, Boxes, Numbers &amp; Text Bubbles | PicStudio" property="og:title"/>
+<meta content="Annotate an image with arrows, rectangles, numbered markers and text bubbles. Drag to draw, undo or clear, export a PNG. Browser-only, no upload." property="og:description"/>
+<meta content="https://piccalc.com/tools/image-annotate.html" property="og:url"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Image Annotator — Arrows, Boxes, Numbers &amp; Text Bubbles | PicStudio" name="twitter:title"/>
+<meta content="Annotate an image with arrows, rectangles, numbered markers and text bubbles. Drag to draw, undo or clear, export a PNG. Browser-only, no upload." name="twitter:description"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Image Annotator",
+  "url": "https://piccalc.com/tools/image-annotate.html",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Any (browser)",
+  "browserRequirements": "A modern browser with Canvas support",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "CNY"
+  },
+  "description": "Annotate an image with arrows, rectangles, numbered markers and text bubbles. Drag to draw, undo or clear, export a PNG. Browser-only, no upload. Runs entirely in your browser; images are never uploaded."
+}
+    </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+  {
+    "@type": "Question",
+    "name": "Can I edit an annotation after placing it?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "You can undo the last one or clear everything and start over. Individual editing is not in this version."
+    }
+  },
+  {
+    "@type": "Question",
+    "name": "Does export reduce resolution?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "No. The canvas keeps the original pixel dimensions, so the PNG is 1:1 with your source."
+    }
+  },
+  {
+    "@type": "Question",
+    "name": "Why does my bubble text overflow?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Very long strings are drawn on one line. Keep bubble text short, or split it into several bubbles."
+    }
+  },
+  {
+    "@type": "Question",
+    "name": "Are images uploaded?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "No. Drawing and export are entirely local Canvas operations."
+    }
+  }
+]
+}
+    </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "PicStudio",
+      "item": "https://piccalc.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Image Annotator",
+      "item": "https://piccalc.com/tools/image-annotate.html"
+    }
+  ]
+}
+    </script>
+<link href="/favicon.ico" rel="icon" sizes="any"/>
+<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<meta content="https://piccalc.com/og-v2.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="PicStudio brand share image" property="og:image:alt"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
+<link href="/assets/css/style.css?v=20261108ml" rel="stylesheet"/>
+<style>
+      html[data-lang="en"] [data-lang-block="zh"] { display: none !important; }
+      html[data-lang="zh"] [data-lang-block="en"] { display: none !important; }
+      .lang-toggle { background: transparent; border: 1px solid var(--border, #e2e8f0);
+        border-radius: 6px; padding: 4px 10px; font-size: 13px; cursor: pointer;
+        color: var(--text-secondary, #64748b); line-height: 1.6; }
+      .lang-toggle:hover { border-color: var(--primary, #6366f1); color: var(--primary, #6366f1); }
+    </style>
+
+<link href="https://piccalc.com/tools/image-annotate.html" hreflang="en" rel="alternate"/><link href="https://piccalc.com/zh/tools/image-annotate.html" hreflang="zh-CN" rel="alternate"/><link href="https://piccalc.com/tools/image-annotate.html" hreflang="x-default" rel="alternate"/></head>
+<body>
+<header class="header">
+<div class="container">
+<a class="logo" href="/">
+<img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Studio</span></span>
+</a>
+<nav class="tool-nav">
+<select class="lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/tools/image-annotate.html" selected>English</option><option value="/zh/tools/image-annotate.html">中文</option></select><noscript><a href="/zh/tools/image-annotate.html">中文</a></noscript>
+<a href="/#tools">All Tools</a>
+<a href="/guides/">Image Guides</a>
+<a href="/privacy.html">Privacy Policy</a>
+<a href="/faq.html">FAQ</a>
+<a href="/contact.html">Contact</a>
+</nav>
+<select class="lang-select-m lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/tools/image-annotate.html" selected>English</option><option value="/zh/tools/image-annotate.html">中文</option></select><noscript><a href="/zh/tools/image-annotate.html">中文</a></noscript>
+</div>
+</header>
+<section class="tool-page">
+<div class="container">
+<a class="back-link" href="/">← Back to Home</a>
+<div class="tool-header">
+<h1><span>✏️ Image Annotator</span></h1>
+<p><span>Mark up a screenshot or photo with arrows, boxes, numbered steps and text bubbles.</span></p>
+</div>
+<div class="upload-area" id="uploadArea">
+<div class="upload-icon">📁</div>
+<div class="upload-text">Click or drag an image here</div>
+<div class="upload-hint">PNG · JPG · WebP · GIF · BMP · SVG · AVIF · ICO · HEIC / HEIF</div>
+<input accept="image/*,.heic,.heif,.avif,.ico,.bmp,.svg" id="fileInput" type="file"/>
+</div>
+<div class="preview-area" id="previewArea">
+<div class="preview-box">
+<h3>Original</h3>
+<img alt="Original" id="originalPreview"/ data-ph="1">
+<div id="originalInfo" style="margin-top:12px;font-size:13px;color:var(--text-muted);"></div>
+</div>
+<div class="preview-box">
+<h3><span>Annotated result</span></h3>
+<img alt="Result" id="processedPreview"/ data-ph="1">
+<div id="resultInfo" style="margin-top:12px;font-size:13px;color:var(--text-muted);"></div>
+</div>
+</div>
+<div class="controls" id="controls">
+<div class="control-group">
+<label class="control-label"><span>Tool</span></label>
+<div class="radio-group" id="toolBox">
+<label class="radio-option"><input checked="" name="anno" type="radio" value="arrow"/> ➡️ <span>Arrow</span></label>
+<label class="radio-option"><input name="anno" type="radio" value="rect"/> ▢ <span>Box</span></label>
+<label class="radio-option"><input name="anno" type="radio" value="num"/> ① <span>Number</span></label>
+<label class="radio-option"><input name="anno" type="radio" value="bubble"/> 💬 <span>Text bubble</span></label>
+</div>
+<div class="state-bar" id="annoState"><span>Active tool: Arrow</span></div>
+</div>
+<div class="control-group" id="textGroup" style="display:none;">
+<label class="control-label"><span>Bubble text</span></label>
+<input id="annoText" placeholder="Type here" type="text" value="Note"/>
+</div>
+<div class="control-group">
+<label class="control-label"><span>Colour</span></label>
+<input id="annoColor" style="width:70px;height:36px;border:1px solid var(--border);border-radius:6px;" type="color" value="#ef4444"/>
+</div>
+<div class="control-group">
+<label class="control-label"><span>Stroke width (px)</span></label>
+<input id="annoWidth" max="16" min="1" type="range" value="4"/>
+<div class="control-hint" id="annoWidthHint">4 px</div>
+</div>
+<div class="control-group">
+<button class="btn" id="undoBtn">↶ <span>Undo</span></button>
+<button class="btn" id="clearBtn">🗑️ <span>Clear all</span></button>
+</div>
+<div class="control-group">
+<label class="control-label"><span>Draw on the canvas below (drag for arrows / boxes, click for numbers / bubbles)</span></label>
+<canvas id="annoCanvas" style="max-width:100%;border-radius:10px;border:1px solid var(--border);cursor:crosshair;display:none;"></canvas>
+</div>
+<button class="btn btn-primary btn-lg" id="processBtn" style="width:100%;"><span>✅ Generate annotated result</span></button>
+</div>
+<div class="download-section" id="downloadSection">
+<button class="btn btn-primary btn-lg" id="downloadBtn"><span>⬇️ Download PNG</span></button>
+</div>
+</div>
+</section>
+<!-- ========== Content: guide / how it works / use cases / FAQ ========== -->
+<section class="content-section">
+<div class="container">
+<div class="content-block">
+<h2><span>How to use this tool</span></h2>
+<ol class="steps">
+<li><span>Upload the image you want to mark up.</span></li>
+<li><span>Pick a tool: arrow and box are drawn by dragging; number and bubble are placed with a click.</span></li>
+<li><span>Set colour and stroke width; type the bubble text if you are using a bubble.</span></li>
+<li><span>Undo or clear as needed, then export the annotated PNG.</span></li>
+</ol>
+<div class="note-box"><p><strong><span>Note: </span></strong><span>All processing happens in your browser: images are never uploaded. Export the PNG before closing the page.</span></p></div>
+</div>
+<div class="content-block">
+<h2>How it works</h2>
+<p><span>Each annotation is stored as a small object (type, coordinates, colour, line width, text) in an array. Rendering redraws the original image first, then replays that array onto the canvas, so undo and clear are instant and lossless.</span></p>
+<p><span>Coordinates are converted from CSS pixels to canvas pixels using the bounding rectangle, so dragging stays accurate on a scaled mobile preview. The export is a flat PNG at the original resolution.</span></p>
+</div>
+<div class="content-block">
+<h2>Common use cases</h2>
+<div class="usecases">
+<div class="usecase"><strong><span>Bug reports</span></strong><span>Circle the broken control and number the reproduction steps.</span></div>
+<div class="usecase"><strong><span>Tutorials</span></strong><span>Add arrows and short bubbles to explain a UI flow.</span></div>
+<div class="usecase"><strong><span>Review photos</span></strong><span>Mark the areas a designer should revise without editing the source.</span></div>
+</div>
+</div>
+<div class="content-block">
+<h2><span>Frequently asked questions</span></h2>
+<div class="faq-item"><div class="faq-question"><span>Can I edit an annotation after placing it?</span></div><div class="faq-answer"><span>You can undo the last one or clear everything and start over. Individual editing is not in this version.</span></div></div>
+<div class="faq-item"><div class="faq-question"><span>Does export reduce resolution?</span></div><div class="faq-answer"><span>No. The canvas keeps the original pixel dimensions, so the PNG is 1:1 with your source.</span></div></div>
+<div class="faq-item"><div class="faq-question"><span>Why does my bubble text overflow?</span></div><div class="faq-answer"><span>Very long strings are drawn on one line. Keep bubble text short, or split it into several bubbles.</span></div></div>
+<div class="faq-item"><div class="faq-question"><span>Are images uploaded?</span></div><div class="faq-answer"><span>No. Drawing and export are entirely local Canvas operations.</span></div></div>
+</div>
+<div class="content-block">
+<h2>Try other tools</h2>
+<div class="related-tools">
+<a class="related-tool" href="/tools/watermark.html"><span>💧</span><span>Watermark</span></a>
+<a class="related-tool" href="/tools/mosaic.html"><span>🧱</span><span>Mosaic / Pixelate</span></a>
+<a class="related-tool" href="/tools/image-compare.html"><span>🔍</span><span>Image Compare</span></a>
+<a class="related-tool" href="/tools/blur.html"><span>🖼️</span><span>Add Border</span></a>
+</div>
+</div>
+</div>
+</section>
+<!-- ========== Footer ========== -->
+<footer class="footer">
+<div class="container">
+<div class="footer-content">
+<div class="footer-brand">
+<img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Studio</span></span>
+</div>
+<p class="footer-desc">Free online image tools — everything runs locally in your browser</p>
+</div>
+<div class="footer-links">
+<a href="/#tools">All Tools</a>
+<a href="/about.html">About</a>
+<a href="/contact.html">Contact</a>
+<a href="/faq.html">FAQ</a>
+<a href="/privacy.html">Privacy Policy</a>
+<a href="/terms.html">Terms of Use</a>
+</div>
+<style>
+.ad-disclosure{margin:8px auto 0;max-width:820px;text-align:center;font-size:12.5px;color:#94a3b8;line-height:1.7}
+html[data-lang="en"] [data-lang-block="zh"]{display:none!important}
+html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
+</style>
+<div class="ad-disclosure">
+<span>This site contains advertisements. Ads do not affect how our tools work or the opinions expressed in our guides.</span>
+
+</div>
+<div class="footer-bottom">
+<p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
+<p>© 2026 PicStudio. All rights reserved.</p>
+</div>
+</div>
+</footer>
+<div class="loading-overlay" id="loadingOverlay"><div class="spinner"></div><div class="loading-text"><span>Processing, please wait…</span></div></div>
+<script src="/assets/js/preview.js?v=20261108ml"></script>
+<script src="/assets/js/download.js?v=20261109dl"></script>
+<script src="/assets/js/tools.js?v=20261108ml"></script>
+<script>
+
+    const cv = document.getElementById('annoCanvas');
+    const ctx = cv.getContext('2d');
+    const color = document.getElementById('annoColor');
+    const lw = document.getElementById('annoWidth');
+    lw.addEventListener('input', () => { document.getElementById('annoWidthHint').textContent = lw.value + ' px'; });
+    const ANNO_NAME = {
+        arrow:  ['Arrow', 'Arrow'], rect: ['Box', 'Box'],
+        num:    ['Number', 'Number'], bubble: ['Text bubble', 'Text bubble']
+    };
+    function annoState() {
+        const v = document.querySelector('input[name="anno"]:checked').value;
+        const zh = window.PSLang && PSLang.get() === 'zh';
+        const n = ANNO_NAME[v];
+        document.getElementById('annoState').textContent = 'Active tool: ' + n[0];
+    }
+    function syncAnnoChecks() {
+        document.querySelectorAll('#toolBox label.radio-option').forEach(l => {
+            const i = l.querySelector('input');
+            l.classList.toggle('is-selected', !!(i && i.checked));
+        });
+    }
+    document.querySelectorAll('input[name="anno"]').forEach(r => r.addEventListener('change', () => {
+        document.getElementById('textGroup').style.display = (r.value === 'bubble') ? 'block' : 'none';
+        annoState(); syncAnnoChecks();
+    }));
+    syncAnnoChecks();
+    window.addEventListener('ps:langchange', annoState);
+    annoState();
+    let base = null, items = [], dragging = null, counter = 0;
+
+    const tool = new ImageTool({
+        process: async (canvas) => { return canvas; },
+        downloadOptions: { filename: 'picstudio-annotated', format: 'png' }
+    });
+    const origLoad = tool.handleFile.bind(tool);
+    tool.handleFile = async function (file) {
+        await origLoad(file);
+        base = tool.originalCanvas;
+        cv.width = base.width; cv.height = base.height; cv.style.display = 'block';
+        items = []; counter = 0; render();
+    };
+
+    // Arrow head scales with the actual stroke width (lw x canvas scale).
+    // The line uses a butt cap and stops inside the triangle, so the head
+    // is always a sharp triangle instead of a rounded blob at large widths.
+    function drawArrow(g, it, scale, alpha) {
+        const sw = Math.max(1, it.lw * scale);
+        const dx = it.x2 - it.x1, dy = it.y2 - it.y1;
+        const len = Math.hypot(dx, dy);
+        if (len < 2) return;
+        const a = Math.atan2(dy, dx), ca = Math.cos(a), sa = Math.sin(a);
+        let hl = 16 * scale + sw * 3.2;
+        let hw = 6 * scale + sw * 1.4;
+        const cap = len * 0.55;
+        if (hl > cap) { hl = cap; hw = Math.min(hw, hl * 0.45); }
+        const bx = it.x2 - hl * ca, by = it.y2 - hl * sa;
+        g.save();
+        if (alpha != null) g.globalAlpha = alpha;
+        g.strokeStyle = it.color; g.fillStyle = it.color;
+        g.lineWidth = sw; g.lineCap = 'butt'; g.lineJoin = 'miter';
+        g.beginPath();
+        g.moveTo(it.x1, it.y1);
+        g.lineTo(bx + ca * sw * 0.35, by + sa * sw * 0.35);
+        g.stroke();
+        g.beginPath();
+        g.moveTo(it.x2, it.y2);
+        g.lineTo(bx - sa * hw, by + ca * hw);
+        g.lineTo(bx + sa * hw, by - ca * hw);
+        g.closePath();
+        g.fill();
+        g.restore();
+    }
+
+    function render() {
+        if (!base) return;
+        ctx.clearRect(0, 0, cv.width, cv.height);
+        ctx.drawImage(base, 0, 0);
+        const scale = Math.max(1, Math.round(cv.width / 900));
+        for (const it of items) {
+            ctx.save();
+            ctx.strokeStyle = it.color; ctx.fillStyle = it.color;
+            ctx.lineWidth = it.lw * scale; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+            if (it.type === 'arrow') {
+                drawArrow(ctx, it, scale);
+            } else if (it.type === 'rect') {
+                ctx.strokeRect(Math.min(it.x1, it.x2), Math.min(it.y1, it.y2), Math.abs(it.x2 - it.x1), Math.abs(it.y2 - it.y1));
+            } else if (it.type === 'num') {
+                ctx.beginPath(); ctx.arc(it.x1, it.y1, 16 * scale, 0, Math.PI * 2); ctx.fill();
+                ctx.fillStyle = '#ffffff'; ctx.font = 'bold ' + (18 * scale) + 'px sans-serif';
+                ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+                ctx.fillText(String(it.n), it.x1, it.y1 + 1);
+            } else if (it.type === 'bubble') {
+                const fs = 16 * scale;
+                ctx.font = fs + 'px sans-serif';
+                const t = it.text || 'Note';
+                const tw = ctx.measureText(t).width + 24 * scale;
+                const th = fs + 20 * scale;
+                const bx = it.x1, by = it.y1 - th;
+                ctx.globalAlpha = 0.95;
+                ctx.beginPath();
+                const r = 8 * scale;
+                ctx.moveTo(bx + r, by); ctx.arcTo(bx + tw, by, bx + tw, by + th, r);
+                ctx.arcTo(bx + tw, by + th, bx, by + th, r);
+                ctx.arcTo(bx, by + th, bx, by, r); ctx.arcTo(bx, by, bx + tw, by, r);
+                ctx.closePath(); ctx.fill();
+                ctx.beginPath(); ctx.moveTo(bx + 12 * scale, by + th);
+                ctx.lineTo(bx + 12 * scale, by + th + 10 * scale);
+                ctx.lineTo(bx + 24 * scale, by + th); ctx.closePath(); ctx.fill();
+                ctx.globalAlpha = 1; ctx.fillStyle = '#ffffff';
+                ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+                ctx.fillText(t, bx + 12 * scale, by + th / 2);
+            }
+            ctx.restore();
+        }
+    }
+    const pos = (e) => {
+        const r = cv.getBoundingClientRect();
+        return { x: (e.clientX - r.left) * cv.width / r.width, y: (e.clientY - r.top) * cv.height / r.height };
+    };
+    const curType = () => document.querySelector('input[name="anno"]:checked').value;
+    cv.style.touchAction = 'none';
+    cv.addEventListener('pointerdown', (e) => {
+        if (!base) return;
+        if (e.cancelable) e.preventDefault();
+        try { cv.setPointerCapture(e.pointerId); } catch (err) {}
+        const p = pos(e), t = curType();
+        if (t === 'num' || t === 'bubble') {
+            counter++;
+            items.push({ type: t, x1: p.x, y1: p.y, n: counter,
+                text: document.getElementById('annoText').value || 'Note',
+                color: color.value, lw: parseInt(lw.value, 10) });
+            render();
+        } else { dragging = { type: t, x1: p.x, y1: p.y, x2: p.x, y2: p.y, color: color.value, lw: parseInt(lw.value, 10) }; }
+    });
+    cv.addEventListener('pointermove', (e) => { if (dragging) { const p = pos(e); dragging.x2 = p.x; dragging.y2 = p.y; render(); renderPreview(dragging); } });
+    function endDrag() {
+        if (dragging) {
+            if (Math.abs(dragging.x2 - dragging.x1) + Math.abs(dragging.y2 - dragging.y1) > 6) items.push(dragging);
+            dragging = null; render();
+        }
+    }
+    window.addEventListener('pointerup', endDrag);
+    cv.addEventListener('pointerup', endDrag);
+    cv.addEventListener('pointercancel', endDrag);
+    function renderPreview(d) {
+        const scale = Math.max(1, Math.round(cv.width / 900));
+        if (d.type === 'rect') {
+            ctx.save(); ctx.globalAlpha = 0.6; ctx.strokeStyle = d.color;
+            ctx.lineWidth = d.lw * scale; ctx.lineJoin = 'round';
+            ctx.strokeRect(d.x1, d.y1, d.x2 - d.x1, d.y2 - d.y1);
+            ctx.restore();
+        } else {
+            drawArrow(ctx, d, scale, 0.6);
+        }
+    }
+    document.getElementById('undoBtn').addEventListener('click', () => { items.pop(); render(); });
+    document.getElementById('clearBtn').addEventListener('click', () => { items = []; render(); });
+    window.addEventListener('ps:reset', () => {
+        base = null; items = []; counter = 0; dragging = null;
+        cv.style.display = 'none'; ctx.clearRect(0, 0, cv.width, cv.height);
+        document.getElementById('downloadSection').classList.remove('active');
+    });
+    document.getElementById('processBtn').addEventListener('click', () => {
+        if (!base) { alert('Please choose an image first.'); return; }
+        render();
+        document.getElementById('processedPreview').src = cv.toDataURL();
+        tool.processedCanvas = cv;
+        document.getElementById('resultInfo').textContent = cv.width + ' × ' + cv.height + ' px · ' + items.length + ' annotations';
+        document.getElementById('downloadSection').classList.add('active');
+    });
+
+    </script>
+<script src="/assets/js/main.js?v=20261108ml"></script>
+<script src="/assets/js/i18n-dict.js?v=20261108ml"></script>
+<script src="/assets/js/i18n.js?v=20261108ml"></script>
+<script src="/assets/js/ux.js?v=20261108ml"></script>
+</body>
+</html>

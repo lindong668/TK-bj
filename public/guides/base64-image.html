@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+
+<html data-lang="en" lang="en">
+<head>
+<meta content="ca-pub-8915931557404979" name="google-adsense-account"/>
+<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8915931557404979"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Base64 Images: When to Use Data URLs (and When Not To)</title>
+<meta content="Base64 turns an image into plain text you can paste into HTML or CSS. Learn when data URLs help, why they add 33% to file size, and when to avoid them." name="description"/>
+<meta content="base64 image, data url, image to base64, base64 to image, inline image html, base64 file size overhead, when to use base64" name="keywords"/>
+<link href="https://piccalc.com/guides/base64-image.html" rel="canonical"/>
+<meta content="index,follow,max-image-preview:large" name="robots"/>
+<meta content="article" property="og:type"/>
+<meta content="PicStudio" property="og:site_name"/>
+<meta content="en_US" property="og:locale"/>
+<meta content="Base64 Images: When to Use Data URLs (and When Not To) | PicStudio" property="og:title"/>
+<meta content="What a base64 image is, why encoding adds about 33% to file size, when data URLs genuinely help, and when they hurt your page." property="og:description"/>
+<meta content="https://piccalc.com/guides/base64-image.html" property="og:url"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Base64 Images: When to Use Data URLs (and When Not To) | PicStudio" name="twitter:title"/>
+<meta content="What a base64 image is, why encoding adds about 33% to file size, when data URLs genuinely help, and when they hurt your page." name="twitter:description"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "Base64 Images: When to Use Data URLs and When Not To",
+      "description": "What a base64 image is, why encoding adds about 33% to file size, the cases where a data URL genuinely helps, and the cases where it hurts page weight and caching.",
+      "inLanguage": "en",
+      "datePublished": "2026-10-22",
+      "dateModified": "2026-10-22",
+      "author": {
+        "@type": "Organization",
+        "name": "PicStudio",
+        "url": "https://piccalc.com"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "PicStudio",
+        "url": "https://piccalc.com"
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://piccalc.com/guides/base64-image.html"
+      },
+      "keywords": "base64 image, data url, image to base64, base64 to image, inline image, base64 overhead, when to use base64 images",
+      "articleSection": "Image Editing",
+      "wordCount": 1180
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "PicStudio",
+          "item": "https://piccalc.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Image Guides",
+          "item": "https://piccalc.com/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Base64 images and data URLs",
+          "item": "https://piccalc.com/guides/base64-image.html"
+        }
+      ]
+    }
+  ]
+}
+    </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "PicStudio",
+      "item": "https://piccalc.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Image Guides",
+      "item": "https://piccalc.com/guides/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Base64 images and data URLs",
+      "item": "https://piccalc.com/guides/base64-image.html"
+    }
+  ]
+}
+    </script>
+<link href="/favicon.ico" rel="icon" sizes="any"/>
+<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<meta content="https://piccalc.com/og-v2.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="PicStudio brand share image" property="og:image:alt"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
+<link href="/assets/css/style.css?v=20261108ml" rel="stylesheet"/>
+<style>
+      .article-body { max-width: 820px; margin: 0 auto; }
+      .article-body h2 { font-size: 20px; margin: 34px 0 12px; padding-left: 12px; border-left: 4px solid var(--primary); }
+      .article-body h3 { font-size: 16px; margin: 22px 0 8px; }
+      .article-body p { margin: 12px 0; line-height: 1.9; color: var(--text-secondary); }
+      .article-body ul, .article-body ol { margin: 12px 0 12px 22px; line-height: 1.9; color: var(--text-secondary); }
+      .article-body li { margin: 7px 0; }
+      .article-body strong { color: var(--text); }
+      .lead { font-size: 16px; background: var(--bg-secondary); border-left: 3px solid var(--primary); padding: 14px 18px; border-radius: 8px; margin: 16px 0 26px; line-height: 1.85; color: var(--text-secondary); }
+      .crumb { font-size: 13px; color: var(--text-muted); margin-bottom: 14px; }
+      .crumb a { color: var(--text-muted); }
+      .ad-slot { margin: 22px 0; text-align: center; }
+    </style>
+<style>
+      html[data-lang="en"] [data-lang-block="zh"] { display: none !important; }
+      html[data-lang="zh"] [data-lang-block="en"] { display: none !important; }
+      .lang-toggle { background: transparent; border: 1px solid var(--border, #e2e8f0);
+        border-radius: 6px; padding: 4px 10px; font-size: 13px; cursor: pointer;
+        color: var(--text-secondary, #64748b); line-height: 1.6; }
+      .lang-toggle:hover { border-color: var(--primary, #6366f1); color: var(--primary, #6366f1); }
+    </style>
+
+<link href="https://piccalc.com/guides/base64-image.html" hreflang="en" rel="alternate"/><link href="https://piccalc.com/zh/guides/base64-image.html" hreflang="zh-CN" rel="alternate"/><link href="https://piccalc.com/guides/base64-image.html" hreflang="x-default" rel="alternate"/></head>
+<body>
+<header class="header">
+<div class="container">
+<a class="logo" href="/">
+<img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Studio</span></span>
+</a>
+<nav class="tool-nav">
+<select class="lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/guides/base64-image.html" selected>English</option><option value="/zh/guides/base64-image.html">中文</option></select><noscript><a href="/zh/guides/base64-image.html">中文</a></noscript>
+<a href="/#tools">All Tools</a>
+<a href="/">Image Guides</a>
+<a href="/privacy.html">Privacy Policy</a>
+<a href="/contact.html">Contact</a>
+</nav>
+<select class="lang-select-m lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/guides/base64-image.html" selected>English</option><option value="/zh/guides/base64-image.html">中文</option></select><noscript><a href="/zh/guides/base64-image.html">中文</a></noscript>
+</div>
+</header>
+<section class="tool-page">
+<div class="container">
+<div class="article-body">
+<div class="guide-top"><a class="guide-back" href="/">← Back to home</a><div class="crumb"><a href="/">Home</a> › <a href="/">Image Guides</a> › Base64 images</div></div>
+<div>
+<h1>Base64 Images: When to Use Data URLs (and When Not To)</h1>
+<div class="lead">Base64 turns an image into plain text you can paste straight into HTML or CSS. It removes one network request, but it also makes the file about a third bigger. This guide covers what is actually happening, when a data URL genuinely helps, and when it quietly hurts your page.</div>
+<div class="content-block">
+<h2>What a base64 image actually is</h2>
+<p>A <strong>base64 image</strong> is not a new image format. The picture is still a PNG, JPG or WebP — base64 is only a way of writing its bytes using 64 safe text characters, so they can live inside a file that is otherwise plain text.</p>
+<p>Written out in full it is called a <strong>data URL</strong>, and it always follows the same shape:</p>
+<div class="code-block">data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...</div>
+<p>Three parts, separated by punctuation:</p>
+<ul>
+<li><strong>data:</strong> — tells the browser this is inline content, not an address to fetch.</li>
+<li><strong>image/png;base64</strong> — the MIME type, then the encoding used.</li>
+<li><strong>iVBORw0...</strong> — the encoded bytes themselves, which is the long tail of the string.</li>
+</ul>
+<p>Because it is just text, you can drop it into an <code>&lt;img src&gt;</code>, a CSS <code>background-image</code>, or a JSON response. The browser decodes it back into a picture on the fly, with no separate file involved.</p>
+</div>
+<div class="content-block">
+<h2>Why the file gets about 33% bigger</h2>
+<p>Base64 encodes every <strong>3 bytes</strong> of binary data into <strong>4 text characters</strong>. Three bytes is 24 bits, and each base64 character carries 6 bits, so 24 bits needs exactly 4 characters. That gives a fixed overhead:</p>
+<ul>
+<li>Encoded size ≈ original size × <strong>1.333</strong></li>
+<li>A 30 KB icon becomes roughly 40 KB of text</li>
+<li>A 1 MB photo becomes roughly 1.33 MB of text</li>
+</ul>
+<p>That overhead never shrinks, no matter which image format you start from. It is the price of representing binary data using only printable characters.</p>
+</div>
+<div class="content-block">
+<h2>When a data URL genuinely helps</h2>
+<ul>
+<li><strong>Tiny icons and UI graphics</strong> — a 1 KB icon pasted inline saves a round trip that costs more in latency than the image itself.</li>
+<li><strong>Single-file deliverables</strong> — an HTML email, a self-contained demo page, or a document that must work offline with no accompanying assets folder.</li>
+<li><strong>Guaranteeing a critical graphic paints immediately</strong> — inlining a small above-the-fold element means it cannot be delayed by a failed request.</li>
+<li><strong>APIs and configs that only accept strings</strong> — some build tools and JSON payloads cannot reference a separate file.</li>
+</ul>
+<p>A widely used rule of thumb: <strong>inline only if the encoded result stays under roughly 2 KB.</strong> Beyond that, the size penalty starts costing more than the request you saved.</p>
+</div>
+<div class="content-block">
+<h2>When you should not use one</h2>
+<ul>
+<li><strong>Large images</strong> — the 33% overhead scales linearly. Inlining a 500 KB photo adds about 165 KB for no benefit.</li>
+<li><strong>Anything that needs independent caching</strong> — an external image file can be cached on its own. Inlined, it is re-downloaded every time the host document changes.</li>
+<li><strong>Images you want found in image search</strong> — search engines index image files at their own address. A data URL has no address to index.</li>
+<li><strong>Content-heavy pages</strong> — a wall of base64 text bloats the HTML and slows down parsing on weak connections.</li>
+</ul>
+<p>One more consideration: under <strong>HTTP/2 and HTTP/3</strong> many small requests are multiplexed cheaply, so the old "one request saved" argument is much weaker than it used to be.</p>
+</div>
+<div class="content-block">
+<h2>How to convert an image to base64</h2>
+<p>The <a href="/tools/base64.html">Base64 Converter</a> does both directions and runs entirely in your browser, so the file never leaves your device. Upload an image to get the data URL, or paste a string back in to decode it and download the original picture.</p>
+<p>If you need it in code instead, every common runtime has a built-in way:</p>
+<ul>
+<li><strong>JavaScript</strong> — <code>FileReader.readAsDataURL()</code> for files, <code>btoa()</code> for strings</li>
+<li><strong>Python</strong> — <code>base64.b64encode(open('a.png','rb').read())</code></li>
+<li><strong>Command line</strong> — <code>base64 -i image.png</code></li>
+</ul>
+</div>
+<div class="content-block">
+<h2>FAQ about base64 images</h2>
+<div class="faq-item">
+<div class="faq-question">Is a base64 image a different format from PNG or JPG?</div>
+<div class="faq-answer">No. The image data is unchanged — base64 is only an encoding used to represent those bytes as text. A base64 PNG is still a PNG the moment it is decoded.</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">Does it work with every image format?</div>
+<div class="faq-answer">Yes. Anything with a MIME type can be inlined, including WebP, SVG and GIF. SVG is a special case worth noting: because it is already text, you can often inline it directly instead of base64-encoding it, which avoids the 33% penalty entirely.</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">Can I paste a string without the data: prefix?</div>
+<div class="faq-answer">Yes. Most tools including this one add the <code>data:image/png;base64,</code> prefix automatically before parsing. If the original is a JPG but the prefix says PNG, most browsers still identify the real type correctly.</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">Why does my base64 string fail to load?</div>
+<div class="faq-answer">Almost always line breaks. Paste a single continuous string — if the encoding was wrapped for readability, remove the newlines first. A missing or malformed prefix is the second most common cause.</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">Is there a size limit?</div>
+<div class="faq-answer">Encoding is limited by browser memory, usually fine up to tens of megabytes. But a 1 MB image becomes 1.33 MB of text, which is impractical to inline — this technique is meant for assets of a few KB.</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">Does base64 help SEO?</div>
+<div class="faq-answer">Indirectly at best. It removes a request but makes the page heavier, and inlined images cannot be indexed in image search. For anything larger than a small icon, a normal file URL with proper alt text is the better choice.</div>
+</div>
+</div>
+</div>
+
+<div class="content-block">
+<h2>Related tools</h2>
+<div class="related-tools">
+<a class="related-tool" href="/tools/base64.html"><span>🔤</span><span>Base64 Converter</span></a>
+<a class="related-tool" href="/tools/convert.html"><span>🔄</span><span>Convert Format</span></a>
+<a class="related-tool" href="/tools/compress.html"><span>🗜️</span><span>Compress Image</span></a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<footer class="footer">
+<div class="container">
+<div class="footer-content">
+<div class="footer-brand">
+<img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Studio</span></span>
+</div>
+<p class="footer-desc">Free online image tools — everything runs locally in your browser</p>
+</div>
+<div class="footer-links">
+<a href="/#tools">All Tools</a>
+<a href="/">Image Guides</a>
+<a href="/about.html">About</a>
+<a href="/contact.html">Contact</a>
+<a href="/faq.html">FAQ</a>
+<a href="/privacy.html">Privacy Policy</a>
+<a href="/terms.html">Terms of Use</a>
+</div>
+<style>
+.ad-disclosure{margin:8px auto 0;max-width:820px;text-align:center;font-size:12.5px;color:#94a3b8;line-height:1.7}
+html[data-lang="en"] [data-lang-block="zh"]{display:none!important}
+html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
+</style>
+<div class="ad-disclosure">
+<span>This site contains advertisements. Ads do not affect how our tools work or the opinions expressed in our guides.</span>
+
+</div>
+<div class="footer-bottom">
+<p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
+<p>© 2026 PicStudio. All rights reserved.</p>
+</div>
+</div>
+</footer>
+<script src="/assets/js/main.js?v=20261108ml"></script>
+<script src="/assets/js/i18n-dict.js?v=20261108ml"></script>
+<script src="/assets/js/i18n.js?v=20261108ml"></script>
+<script src="/assets/js/ux.js?v=20261108ml"></script>
+</body>
+</html>

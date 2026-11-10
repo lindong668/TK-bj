@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+
+<html data-lang="en" lang="en">
+<head>
+<link href="/favicon.ico" rel="icon" sizes="any"/>
+<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<meta content="https://piccalc.com/og-v2.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="PicStudio brand share image" property="og:image:alt"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
+<meta content="ca-pub-8915931557404979" name="google-adsense-account"/>
+<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8915931557404979"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Image to Base64 Converter - Encode &amp; Decode</title>
+<meta content="Convert images to Base64 Data URLs and back. Works with or without the data: prefix. Local conversion, nothing uploaded." name="description"/>
+<meta content="base64 encode, image to base64, data url, base64 decoder" name="keywords"/>
+<link href="https://piccalc.com/tools/base64.html" rel="canonical"/>
+<meta content="index,follow,max-image-preview:large" name="robots"/>
+<meta content="website" property="og:type"/>
+<meta content="PicStudio" property="og:site_name"/>
+<meta content="en_US" property="og:locale"/>
+<meta content="Image to Base64 Converter - Encode and Decode Online | PicStudio" property="og:title"/>
+<meta content="Convert images to Base64 Data URLs and back. Works with or without the data: prefix. Local conversion, nothing uploaded." property="og:description"/>
+<meta content="https://piccalc.com/tools/base64.html" property="og:url"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Image to Base64 Converter - Encode and Decode Online | PicStudio" name="twitter:title"/>
+<meta content="Convert images to Base64 Data URLs and back. Works with or without the data: prefix. Local conversion, nothing uploaded." name="twitter:description"/>
+<link href="/assets/css/style.css?v=20261108ml" rel="stylesheet"/>
+<style>.content-section{padding:48px 0;background:transparent;border-top:1px solid var(--border)}
+.content-section .container{max-width:860px}
+.content-block{margin-bottom:40px}
+.content-block h2{font-size:1.35rem;color:var(--text-primary);margin-bottom:16px;padding-left:12px;border-left:4px solid #6366f1}
+.content-block h3{font-size:1.05rem;color:var(--text-primary);margin:20px 0 8px}
+.content-block p{color:var(--text-secondary);line-height:1.85;margin-bottom:12px}
+.content-block ul,.content-block ol{color:var(--text-secondary);line-height:1.85;padding-left:22px;margin-bottom:12px}
+.content-block li{margin-bottom:6px}
+.steps-list{counter-reset:step;list-style:none;padding-left:0}
+.steps-list li{counter-increment:step;position:relative;padding-left:44px;margin-bottom:14px;color:var(--text-secondary);line-height:1.8}
+.steps-list li::before{content:counter(step);position:absolute;left:0;top:2px;width:28px;height:28px;background:#6366f1;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:600}
+.scenario-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:14px}
+.scenario-card{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:16px}
+.scenario-card h4{font-size:.98rem;color:var(--text-primary);margin-bottom:6px}
+.scenario-card p{font-size:.9rem;color:var(--text-secondary);margin:0;line-height:1.7}
+.spec-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:.92rem}
+.spec-table th,.spec-table td{border:1px solid var(--border);padding:10px 12px;text-align:left}
+.spec-table th{background:var(--bg-dark);color:var(--text-primary);font-weight:600;white-space:nowrap}
+.spec-table td{color:var(--text-secondary)}
+.faq-item{border-bottom:1px solid #e2e8f0;padding:16px 0}
+.faq-item:last-child{border-bottom:none}
+.faq-item h3{font-size:1rem;color:var(--text-primary);margin:0 0 8px}
+.faq-item p{color:var(--text-secondary);line-height:1.8;margin:0}
+.related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.related-card{display:block;background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:14px;text-decoration:none;transition:.2s}
+.related-card:hover{border-color:#6366f1;transform:translateY(-2px)}
+.related-card .ricon{font-size:1.4rem;display:block;margin-bottom:6px}
+.related-card .rname{font-size:.92rem;color:var(--text-primary);font-weight:600}
+.related-card .rdesc{font-size:.8rem;color:var(--text-secondary);margin-top:4px;line-height:1.5}
+@media(max-width:640px){.content-section{padding:32px 0}.content-block h2{font-size:1.2rem}}</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Base64 Converter",
+  "url": "https://piccalc.com/tools/base64.html",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Any (browser)",
+  "browserRequirements": "A modern browser with Canvas support",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "CNY"
+  },
+  "description": "Convert images to Base64 strings online, or turn Base64 back into an image, with two-way conversion and one-tap copy — ideal for inlining images in front-end code. Local processing; no upload."
+}
+    </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Why is the result so much bigger?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Base64 encoding inherently adds about 33%, an unavoidable overhead of the scheme. Avoid inlining large images — it is meant for small icons of a few KB."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I paste Base64 without the data: prefix?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The tool adds the data:image/png;base64, prefix automatically before parsing. If the original is a JPG but the prefix says PNG, most browsers still identify it correctly."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do line breaks or spaces matter?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Paste a continuous string. If the Base64 contains line breaks, remove them first."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is there a size limit?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Image-to-Base64 is limited by browser memory, usually fine up to tens of MB. But an image over 1 MB becomes very large once encoded, so it is not recommended."
+      }
+    }
+  ]
+}
+    </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://piccalc.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "All Tools",
+      "item": "https://piccalc.com/#tools"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Base64 Converter",
+      "item": "https://piccalc.com/tools/base64.html"
+    }
+  ]
+}
+    </script>
+<style>
+      html[data-lang="en"] [data-lang-block="zh"] { display: none !important; }
+      html[data-lang="zh"] [data-lang-block="en"] { display: none !important; }
+      .lang-toggle { background: transparent; border: 1px solid var(--border, #e2e8f0);
+        border-radius: 6px; padding: 4px 10px; font-size: 13px; cursor: pointer;
+        color: var(--text-secondary, #64748b); line-height: 1.6; }
+      .lang-toggle:hover { border-color: var(--primary, #6366f1); color: var(--primary, #6366f1); }
+    </style>
+
+<link href="https://piccalc.com/tools/base64.html" hreflang="en" rel="alternate"/><link href="https://piccalc.com/zh/tools/base64.html" hreflang="zh-CN" rel="alternate"/><link href="https://piccalc.com/tools/base64.html" hreflang="x-default" rel="alternate"/></head>
+<body>
+<header class="header">
+<div class="container">
+<a class="logo" href="/">
+<img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Studio</span></span>
+</a>
+<nav class="tool-nav">
+<select class="lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/tools/base64.html" selected>English</option><option value="/zh/tools/base64.html">中文</option></select><noscript><a href="/zh/tools/base64.html">中文</a></noscript>
+<a href="/#tools">All Tools</a>
+<a href="/guides/">Image Guides</a>
+<a href="/privacy.html">Privacy Policy</a>
+<a href="/guides/">Image Guides</a>
+<a href="/faq.html">FAQ</a>
+<a href="/contact.html">Contact</a>
+</nav>
+<select class="lang-select-m lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/tools/base64.html" selected>English</option><option value="/zh/tools/base64.html">中文</option></select><noscript><a href="/zh/tools/base64.html">中文</a></noscript>
+</div>
+</header>
+<section class="tool-page">
+<div class="container">
+<a class="back-link" href="/">← Back to Home</a>
+<div class="tool-header">
+<h1>🔤 Base64 Converter</h1>
+<p>Two-way image ⇄ Base64 conversion with one-tap copy — essential for inline images in front-end code</p>
+</div>
+<style>.gen-box{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:8px}
+.gen-out{margin-top:16px}
+.gen-out h3{font-size:1rem;color:var(--text-primary);margin-bottom:8px}
+.gen-out textarea,.gen-out pre{width:100%;min-height:110px;padding:12px;border:1px solid var(--border);border-radius:8px;font-size:.85rem;font-family:ui-monospace,Menlo,Consolas,monospace;background:var(--bg-dark);color:var(--text-primary);word-break:break-all;white-space:pre-wrap;margin:0}
+.sw-list{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.sw{width:96px;border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--bg-card)}
+.sw-chip{height:62px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px;font-size:.68rem;font-weight:600}
+.sw-hex{padding:6px;text-align:center;font-size:.76rem;color:var(--text-secondary);font-family:ui-monospace,monospace;cursor:pointer}
+.sw-hex:hover{background:var(--bg-card-hover);color:var(--primary-light)}
+.meta-table{width:100%;border-collapse:collapse;font-size:.88rem;margin-top:12px}
+.meta-table th,.meta-table td{border:1px solid var(--border);padding:8px 11px;text-align:left}
+.meta-table th{background:var(--bg-dark);color:var(--text-primary);font-weight:600;width:35%}
+.meta-table td{color:var(--text-secondary);word-break:break-all}
+.warn-box{background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.35);border-radius:10px;padding:12px 14px;color:#fcd34d;font-size:.88rem;line-height:1.7;margin-top:12px}
+.ok-box{background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.38);border-radius:10px;padding:12px 14px;color:#6ee7b7;font-size:.88rem;line-height:1.7;margin-top:12px}.preview-box{max-width:420px;margin:16px auto}</style>
+<div class="upload-area" id="uploadArea">
+<div class="upload-icon">📁</div>
+<div class="upload-text">Click or drag an image here (image → Base64)</div>
+<div class="upload-hint">Supports PNG / JPG / WebP / GIF / BMP / SVG / AVIF / ICO / HEIC</div>
+<input accept="image/*,.heic,.heif,.avif,.ico,.bmp,.svg" id="fileInput" type="file"/>
+</div>
+<div class="gen-box">
+<h3>Base64 output (editable, for reverse conversion)</h3>
+<textarea convert="" id="b64Text" image""="" placeholder="Generated automatically after upload; or paste a Base64 string and click " to=""></textarea>
+<div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;">
+<button class="btn btn-primary" id="toImgBtn">Base64 → Image</button>
+<button class="btn btn-outline" id="copyBtn">Copy Base64</button>
+<button class="btn btn-outline" id="clearBtn">Clear</button>
+</div>
+<div id="sizeInfo" style="margin-top:10px;font-size:.85rem;color:#64748b;"></div>
+</div>
+<div class="gen-box" id="resultBox" style="display:none;"></div>
+<div class="preview-box" id="previewBox">
+<h3>Image preview</h3>
+<img alt="Image preview" id="previewImg"/ data-ph="1">
+</div>
+<div class="download-section" id="downloadSection">
+<button class="btn btn-primary btn-lg" id="dlBtn" style="width:100%;">Download current image</button>
+</div>
+<div class="loading-overlay" id="loadingOverlay">
+<div class="spinner"></div>
+<div class="loading-text" id="loadingText">Processing…</div>
+</div>
+</div>
+</section>
+<section class="content-section">
+<div class="container">
+<div class="content-block">
+<h2>How to convert Base64</h2>
+<ol class="steps-list"><li>Image to Base64: upload an image and the encoded string is generated automatically</li><li>Click "Copy Base64" to put it on your clipboard</li><li>Base64 to image: paste the string into the box and click "Base64 → Image"</li><li>Once the preview looks right, download the recovered image</li></ol>
+</div>
+<div class="content-block">
+<h2>How it works</h2>
+<p>Base64 represents binary data using 64 printable characters (A–Z, a–z, 0–9, +, /). It splits every 3 bytes (24 bits) into four 6-bit groups, each mapping to one character.</p><p>Since 6 bits only express 0–63, matching exactly 64 characters, encoded data grows by about 33% (3 bytes become 4 characters). That is why Base64 images are larger than the original file.</p><p>On the web it is usually written as a Data URL: data:image/png;base64,xxxx. Browsers recognise this and load the text as an image resource, saving one HTTP request.</p>
+</div>
+<div class="content-block">
+<h2>Common use cases</h2>
+<p>It works best for:</p>
+<div class="scenario-grid"><div class="scenario-card"><h4>Inline images in front-end code</h4><p>Turn small icons into Base64 inside CSS or HTML to cut request count</p></div><div class="scenario-card"><h4>API debugging</h4><p>Recover Base64 images returned by an API to see how they look</p></div><div class="scenario-card"><h4>Email templates</h4><p>Some mail clients require images to be embedded as Base64</p></div><div class="scenario-card"><h4>Config files</h4><p>Embed images inside JSON or YAML config</p></div></div>
+</div>
+<div class="content-block">
+<h2>Specifications</h2>
+<table class="spec-table"><tbody><tr><th>Input</th><td>An image file, or a Base64 string (with or without the data: prefix)</td></tr><tr><th>Output</th><td>Data URL form (data:image/...;base64,)</td></tr><tr><th>Supported formats</th><td>PNG / JPG / WebP / GIF / BMP / SVG / AVIF / ICO / HEIC</td></tr><tr><th>Size change</th><td>About 1.33× the original file size after encoding</td></tr><tr><th>Privacy</th><td>Converted locally — never uploaded</td></tr></tbody></table>
+</div>
+<div class="content-block">
+<h2>FAQ about Base64 conversion</h2>
+<div class="faq-item"><h3>Why is the result so much bigger?</h3><p>Base64 encoding inherently adds about 33%, an unavoidable overhead of the scheme. Avoid inlining large images — it is meant for small icons of a few KB.</p></div><div class="faq-item"><h3>Can I paste Base64 without the data: prefix?</h3><p>Yes. The tool adds the data:image/png;base64, prefix automatically before parsing. If the original is a JPG but the prefix says PNG, most browsers still identify it correctly.</p></div><div class="faq-item"><h3>Do line breaks or spaces matter?</h3><p>Yes. Paste a continuous string. If the Base64 contains line breaks, remove them first.</p></div><div class="faq-item"><h3>Is there a size limit?</h3><p>Image-to-Base64 is limited by browser memory, usually fine up to tens of MB. But an image over 1 MB becomes very large once encoded, so it is not recommended.</p></div>
+</div>
+<div class="content-block">
+<h2>Try other tools</h2>
+<div class="related-grid"><a class="related-card" href="/tools/to-pdf.html"><span class="ricon">📄</span><span class="rname">Image to PDF</span><span class="rdesc">Convert to a PDF document</span></a><a class="related-card" href="/tools/compress.html"><span class="ricon">🗜️</span><span class="rname">Compress Image</span><span class="rdesc">Reduce file size</span></a><a class="related-card" href="/tools/convert.html"><span class="ricon">🔄</span><span class="rname">Convert Format</span><span class="rdesc">Convert between PNG, JPG and WebP</span></a><a class="related-card" href="/tools/rounded.html"><span class="ricon">🔲</span><span class="rname">Rounded Corners</span><span class="rdesc">Add rounded corners</span></a></div>
+</div>
+</div>
+</section>
+<footer class="footer">
+<div class="container">
+<div class="footer-content">
+<div class="footer-brand">
+<img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Studio</span></span>
+</div>
+<p class="footer-desc">Free online image tools — everything runs locally in your browser</p>
+</div>
+<div class="footer-links">
+<a href="/#tools">All Tools</a>
+<a href="/about.html">About</a>
+<a href="/contact.html">Contact</a>
+<a href="/faq.html">FAQ</a>
+<a href="/privacy.html">Privacy Policy</a>
+<a href="/terms.html">Terms of Use</a>
+</div>
+<style>
+.ad-disclosure{margin:8px auto 0;max-width:820px;text-align:center;font-size:12.5px;color:#94a3b8;line-height:1.7}
+html[data-lang="en"] [data-lang-block="zh"]{display:none!important}
+html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
+</style>
+<div class="ad-disclosure">
+<span>This site contains advertisements. Ads do not affect how our tools work or the opinions expressed in our guides.</span>
+
+</div>
+<div class="footer-bottom">
+<p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
+<p>© 2026 PicStudio. All rights reserved.</p>
+</div>
+</div>
+</footer>
+<script src="/assets/js/preview.js?v=20261108ml"></script>
+<script src="/assets/js/download.js?v=20261109dl"></script>
+<script src="/assets/js/lab.js?v=20261108ml"></script>
+<script>
+(function(){
+var $=function(id){return document.getElementById(id);};
+var fileInput=$('fileInput'),uploadArea=$('uploadArea'),ta=$('b64Text'),
+    previewBox=$('previewBox'),previewImg=$('previewImg'),
+    resultBox=$('resultBox'),loadingOverlay=$('loadingOverlay'),loadingText=$('loadingText');
+var curDataUrl=null;
+function handleFile(file){
+  if(!file||!file.type.startsWith('image/')){alert('Please choose an image file');return;}
+  var r=new FileReader();
+  r.onload=function(e){
+    curDataUrl=e.target.result;
+    ta.value=curDataUrl;
+    if(previewImg)previewImg.src=curDataUrl;
+    if(previewBox)previewBox.classList.add('active');
+    if(resultBox)resultBox.classList.add('active');
+    $('sizeInfo').textContent='Base64 length: '+curDataUrl.length+' characters (approx. '+
+      (curDataUrl.length*0.75/1024).toFixed(1)+' KB）';};
+  r.readAsDataURL(file);}
+uploadArea.addEventListener('click',function(){fileInput.click();});
+fileInput.addEventListener('change',function(e){handleFile(e.target.files[0]);});
+uploadArea.addEventListener('dragover',function(e){e.preventDefault();uploadArea.classList.add('dragover');});
+uploadArea.addEventListener('dragleave',function(){uploadArea.classList.remove('dragover');});
+uploadArea.addEventListener('drop',function(e){e.preventDefault();uploadArea.classList.remove('dragover');handleFile(e.dataTransfer.files[0]);});
+$('toImgBtn').addEventListener('click',function(){
+  var v=ta.value.trim();
+  if(!v){alert('Paste the Base64 content first');return;}
+  if(!/^data:image\//.test(v))v='data:image/png;base64,'+v;
+  var im=new Image();
+  im.onload=function(){
+    if(previewImg)previewImg.src=im.src;
+  if(previewBox)previewBox.classList.add('active');
+  if(resultBox)resultBox.classList.add('active');
+    $('sizeInfo').textContent='Image size: '+im.naturalWidth+' × '+im.naturalHeight;
+    curDataUrl=im.src;};
+  im.onerror=function(){$('sizeInfo').textContent='';alert('Cannot parse: this is not a valid image Base64 string');};
+  im.src=v;});
+$('copyBtn').addEventListener('click',function(){
+  if(!ta.value){alert('Nothing to copy');return;}
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(ta.value).then(function(){
+      $('copyBtn').textContent='Copied ✓';
+      setTimeout(function(){$('copyBtn').textContent='Copy Base64';},1800);});}});
+$('dlBtn').addEventListener('click',function(){
+  if(!curDataUrl){alert('No image to download');return;}
+  if(window.__download){window.__download(curDataUrl,'image.png');}
+  else{var a=document.createElement('a');a.href=curDataUrl;a.download='image.png';a.click();}});
+$('clearBtn').addEventListener('click',function(){ta.value='';$('sizeInfo').textContent='';});
+})();
+</script>
+<script>document.getElementById('b64Text').addEventListener('input',function(){
+  document.getElementById('downloadSection').classList.add('active');});</script>
+<script src="/assets/js/main.js?v=20261108ml"></script>
+<script src="/assets/js/i18n-dict.js?v=20261108ml"></script>
+<script src="/assets/js/i18n.js?v=20261108ml"></script>
+<script src="/assets/js/ux.js?v=20261108ml"></script>
+</body>
+</html>
