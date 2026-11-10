@@ -1544,12 +1544,12 @@ a.lang-toggle:hover { border-color:#818cf8; color:#fff; background:rgba(79,70,22
     (1) CSS 引用版本号停在本轮改动之前，浏览器与 CDN 一直吃旧 CSS；
     (2) .ad-block 上的 contain:size 使容器按「无内容」计算高度，WebKit 下归零。
     本版删除 size containment；内外两层都显式锁死 height/min-height/max-height；
-    ins 与 iframe 全部绝对定位脱离文档流，脚本写入任意高度都不参与父级布局；
+    ins 与 iframe 全部绝对定位脱离文档流，iframe 用 left:50%+translateX(-50%) 保证任何回传宽度都居中，脚本写入任意高度都不参与父级布局；
     不折叠、不由 JS 改高度、不改写广告内部 width/height，外层无卡片/描边/底色/阴影/圆角。 */
 .ad-block{position:relative;display:block;height:90px;min-height:90px;max-height:90px;max-width:728px;margin:20px auto;padding:0;overflow:hidden;contain:layout paint;flex:0 0 auto;background:transparent;border:0;border-radius:0;box-shadow:none}
 .ad-slot{display:block;position:relative;width:728px;max-width:100%;height:90px!important;min-height:90px!important;max-height:90px!important;margin:0 auto;padding:0;overflow:hidden!important;contain:layout paint;background:transparent;border:0;border-radius:0;box-shadow:none}
 .ad-slot ins.adsbygoogle{position:absolute!important;top:0;left:0;display:block!important;width:100%;max-width:100%;overflow:hidden!important;background:transparent!important;border:0!important}
-.ad-slot iframe{position:absolute!important;top:0;left:0;display:block!important;border:0!important;background:transparent!important}
+.ad-slot iframe{position:absolute!important;top:0;left:50%!important;transform:translateX(-50%)!important;display:block!important;border:0!important;background:transparent!important}
 @media(max-width:640px){
   .ad-block{height:100px;min-height:100px;max-height:100px;max-width:320px;margin:16px auto}
   .ad-slot{width:100%;max-width:320px;height:100px!important;min-height:100px!important;max-height:100px!important}

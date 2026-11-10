@@ -33,3 +33,7 @@
 /2e63d291b36d4ca8a6b1f2bf2c17fa2e.txt
   Content-Type: text/plain; charset=utf-8
   Cache-Control: no-cache, must-revalidate
+
+# 广告单元配置：换 slot 时不被 CDN 旧副本吞掉（与 style.css 同一层防护）
+/assets/js/ads-config.js
+  Cache-Control: public, max-age=0, must-revalidate
