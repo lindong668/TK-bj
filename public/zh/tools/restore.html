@@ -11,7 +11,6 @@
 <meta content="PicStudio 品牌分享图" property="og:image:alt"/>
 <meta content="summary_large_image" name="twitter:card"/>
 <meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
-<meta content="ca-pub-8915931557404979" name="google-adsense-account"/>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>老照片修复 — 自动色阶与降噪</title>
@@ -29,7 +28,7 @@
 
 <meta content="老照片修复 — 自动色阶与降噪 | PicStudio" name="twitter:title"/>
 <meta content="用自动色阶、保留边缘的降噪与 USM 锐化，改善发灰、泛黄或发平的老照片与扫描件。" name="twitter:description"/>
-<link href="/assets/css/style.css?v=20261111d" rel="stylesheet"/>
+<link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
 <style>.content-section{padding:48px 0;background:transparent;border-top:1px solid var(--border)}
 .content-section .container{max-width:860px}
 .content-block{margin-bottom:40px}
@@ -153,7 +152,7 @@
 </div>
 <div class="controls" id="controls">
 <div class="control-group">
-<label class="control-label">自动色阶校正</label>
+<label for="rsOn" class="control-label">自动色阶校正</label>
 <div class="radio-group">
 <div class="radio-option"><input checked="" id="rsOn" name="rsLevel" type="radio" value="1"/><label for="rsOn">开启（推荐）</label></div>
 <div class="radio-option"><input id="rsOff" name="rsLevel" type="radio" value="0"/><label for="rsOff">关闭</label></div>
@@ -161,12 +160,12 @@
 <div class="control-hint">自动拉伸各通道的明暗范围，解决发灰、偏色</div>
 </div>
 <div class="control-group">
-<label class="control-label">去噪强度</label>
+<label for="rsDn" class="control-label">去噪强度</label>
 <input id="rsDn" max="8" min="0" type="range" value="2"/>
 <div class="control-hint">老照片通常颗粒重，建议 2–4；设 0 则不去噪</div>
 </div>
 <div class="control-group">
-<label class="control-label">锐化程度</label>
+<label for="rsSharp" class="control-label">锐化程度</label>
 <input id="rsSharp" max="100" min="0" type="range" value="35"/>
 <div class="control-hint">让轮廓更清楚，弥补扫描损失</div>
 </div>
@@ -238,7 +237,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 </div>
 </footer>
 <script src="/zh/assets/js/preview.js?v=20261108ml"></script>
-<script src="/zh/assets/js/download.js?v=20261111d2"></script>
+<script src="/zh/assets/js/download.js?v=20261111h"></script>
 <script src="/zh/assets/js/lab.js?v=20261111f"></script>
 <script>
 (function(){
@@ -306,7 +305,7 @@ function process(src){
     denoise:num('rsDn',2),sharpen:num('rsSharp',35)});}
 })();
 </script>
-<script src="/zh/assets/js/main.js?v=20261111m2"></script>
+<script src="/zh/assets/js/main.js?v=20261111g"></script>
 <script src="/zh/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/zh/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/zh/assets/js/ux.js?v=20261108ml"></script>

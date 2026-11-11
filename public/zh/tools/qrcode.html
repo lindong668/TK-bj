@@ -11,7 +11,6 @@
 <meta content="PicStudio 品牌分享图" property="og:image:alt"/>
 <meta content="summary_large_image" name="twitter:card"/>
 <meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
-<meta content="ca-pub-8915931557404979" name="google-adsense-account"/>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>二维码生成器 — 网址、WiFi、名片、邮件 | PicStudio</title>
@@ -29,7 +28,7 @@
 
 <meta content="二维码生成器 — 网址、WiFi、名片、邮件 | PicStudio | PicStudio" name="twitter:title"/>
 <meta content="为网址、WiFi、联系人、邮件等生成二维码，支持自定义颜色、码点样式与中心 Logo，实时预览。" name="twitter:description"/>
-<link href="/assets/css/style.css?v=20261111d" rel="stylesheet"/>
+<link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
 <style>.content-section{padding:48px 0;background:transparent;border-top:1px solid var(--border)}
 .content-section .container{max-width:860px}
 .content-block{margin-bottom:40px}
@@ -159,8 +158,8 @@
 <div>
 <div id="fields"></div>
 <div class="field">
-<label>纠错级别</label>
-<select id="ecc">
+<label for="ecc">纠错级别</label>
+<select id="ecc" name="ecc">
 <option value="M">M（推荐，可遮挡约 15%）</option>
 <option value="L">L（容量最大，约 7%）</option>
 <option value="Q">Q（约 25%）</option>
@@ -169,30 +168,30 @@
 </div>
 <div class="opt-row">
 <div class="field">
-<label>前景色</label>
+<label for="fgColor">前景色</label>
 <input id="fgColor" type="color" value="#000000"/>
 </div>
 <div class="field">
-<label>背景色</label>
+<label for="bgColor">背景色</label>
 <input id="bgColor" type="color" value="#ffffff"/>
 </div>
 </div>
 <div class="opt-row">
 <div class="field">
-<label>码点样式</label>
-<select id="dotShape">
+<label for="dotShape">码点样式</label>
+<select id="dotShape" name="dotShape">
 <option value="square">方块（扫描最稳）</option>
 <option value="rounded">圆角</option>
 <option value="dot">圆点</option>
 </select>
 </div>
 <div class="field">
-<label>Logo 大小</label>
+<label for="logoSize">Logo 大小</label>
 <input id="logoSize" max="30" min="10" type="range" value="20"/>
 </div>
 </div>
 <div class="field">
-<label>中心 Logo（可选）</label>
+<label for="logoInput">中心 Logo（可选）</label>
 <input accept="image/*" id="logoInput" style="padding:6px;font-size:.85rem;" type="file"/>
 <button class="btn btn-outline" id="clearLogo" style="margin-top:6px;padding:6px 14px;font-size:.85rem;">清除 Logo</button>
 </div>
@@ -270,7 +269,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 </div>
 </footer>
 <script src="/zh/assets/js/preview.js?v=20261108ml"></script>
-<script src="/zh/assets/js/download.js?v=20261111d2"></script>
+<script src="/zh/assets/js/download.js?v=20261111h"></script>
 <script src="/zh/assets/js/lab.js?v=20261111f"></script>
 <script src="/zh/assets/js/qrcode.js?v=20261111e"></script><script>
 (function(){
@@ -306,7 +305,7 @@ function renderFields(){
   var box=$('fields');box.innerHTML='';
   TYPES[curType].fields.forEach(function(f){
     var d=document.createElement('div');d.className='field';
-    var l=document.createElement('label');l.textContent=f.t;d.appendChild(l);
+    var l=document.createElement('label');l.textContent=f.t;l.htmlFor='f_'+f.k;d.appendChild(l);
     var el;
     if(f.type==='textarea'){el=document.createElement('textarea');el.rows=3;}
     else if(f.type==='select'){el=document.createElement('select');
@@ -367,7 +366,7 @@ downloadBtn.addEventListener('click',function(){
 renderTabs();renderFields();generate();
 })();
 </script>
-<script src="/zh/assets/js/main.js?v=20261111m2"></script>
+<script src="/zh/assets/js/main.js?v=20261111g"></script>
 <script src="/zh/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/zh/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/zh/assets/js/ux.js?v=20261108ml"></script>

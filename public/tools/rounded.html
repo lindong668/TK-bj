@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html data-lang="en" lang="en">
 <head>
-<meta content="ca-pub-8915931557404979" name="google-adsense-account"/>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Round Image Corners &amp; Circular Avatars</title>
@@ -106,7 +105,7 @@
 <meta content="PicStudio brand share image" property="og:image:alt"/>
 
 <meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
-<link href="/assets/css/style.css?v=20261111d" rel="stylesheet"/>
+<link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
 <style>
       html[data-lang="en"] [data-lang-block="zh"] { display: none !important; }
       html[data-lang="zh"] [data-lang-block="en"] { display: none !important; }
@@ -160,7 +159,7 @@
 </div>
 <div class="controls" id="controls">
 <div class="control-group">
-<label class="control-label">Shape</label>
+<label for="shapeRounded" class="control-label">Shape</label>
 <div class="radio-group">
 <div class="radio-option">
 <input checked="" id="shapeRounded" name="shape" type="radio" value="rounded"/>
@@ -177,12 +176,12 @@
 </div>
 </div>
 <div class="control-group" id="radiusGroup">
-<label class="control-label">Corner radius</label>
+<label for="radius" class="control-label">Corner radius</label>
 <input id="radius" max="50" min="0" type="range" value="15"/>
 <div class="control-hint" id="radiusHint">15%</div>
 </div>
 <div class="control-group">
-<label class="control-label">Background colour (fills transparency)</label>
+<label for="fillNone" class="control-label">Background colour (fills transparency)</label>
 <div class="radio-group">
 <div class="radio-option">
 <input checked="" id="fillNone" name="fillMode" type="radio" value="none"/>
@@ -320,7 +319,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 <div class="loading-text">Processing, please wait…</div>
 </div>
 <script src="/assets/js/preview.js?v=20261108ml"></script>
-<script src="/assets/js/download.js?v=20261111d2"></script>
+<script src="/assets/js/download.js?v=20261111h"></script>
 <script src="/assets/js/tools.js?v=20261111e"></script>
 <script>
     const radiusSlider = document.getElementById('radius');
@@ -420,7 +419,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 
     document.getElementById('processBtn').addEventListener('click', () => tool.process());
     </script>
-<script src="/assets/js/main.js?v=20261111m2"></script>
+<script src="/assets/js/main.js?v=20261111g"></script>
 <script src="/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/assets/js/ux.js?v=20261108ml"></script>

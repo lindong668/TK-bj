@@ -42,7 +42,7 @@
 // ==================== FAQ Accordion ====================
 document.querySelectorAll('.faq-question').forEach(q => {
     q.addEventListener('click', () => {
-        q.parentElement.classList.toggle('open');
+        if (q.parentElement) q.parentElement.classList.toggle('open');
     });
 });
 
@@ -55,7 +55,7 @@ if (header) {
         } else {
             header.style.background = 'rgba(15,23,42,0.85)';
         }
-    });
+    }, { passive: true });
 }
 
 
