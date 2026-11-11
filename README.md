@@ -1,5 +1,12 @@
-# 1号 · PicStudio — https://piccalc.com（根域） · Cloudflare Workers · V70.8
+# 1号 · PicStudio — https://piccalc.com（根域） · Cloudflare Workers · V70
 
+> **本包为「合体版」：以 V70 整改包为底，合并 V71 的广告位实现与缺陷修复。**
+>
+> - 广告位：`data-ad-status` + `.is-filled`，未填充桌面 90px / 手机 50px，填充后 `height:auto`，不裁切；已铺到 80 个正式内容页（隐私政策、联系、指南索引、404 除外；remove-bg 两页已合并删除）。
+> - `/tools/remove-bg` 实为 ICO 工具、与 `/tools/icon-maker` 重复：内容已并入 icon-maker，旧地址 301，sitemap 86 条。
+> - 共享资源版本号：`style.css?v=20261111d`、`main.js?v=20261111m2`、`download.js?v=20261111d2`、新增 `ads.js?v=20261111ad`。
+> - `ads.txt` 在 Worker 与 `_headers` 均为 `max-age=3600`。
+> - **跳转收敛（2026-11-11 二轮）**：`http→https`、`www→apex`、`.html`/大写扩展名剥离、`index.html→目录根`、尾斜杠、旧指南短名**合并为同一次 301**，全站最大跳转链长 = 1；`/guides/<name>` 的 9 个旧短名（resize / remove-bg / crop / compress / id-photo / mosaic / exif / upscale / convert）均映射到现存真实页，中英同构。
 > **一眼识别卡**
 > | 项 | 值 |
 > |---|---|
@@ -7,40 +14,15 @@
 > | 域名 | **https://piccalc.com（根域）** |
 > | Worker 名 | `tk-bj` |
 > | 形态 | **Cloudflare Workers + Assets** |
-> | 本包版本 | **V70.8** = V70.7 + TRAE 检测项逐条核实后的 6 类整改 |
+> | 本包版本 | **V70.6** = V70 全站整改 + 后台 Worker 放大修复 |
 > | 生成日期 | 2026-11-11 |
-> | 关键特性 | 中英独立 URL；canonical / hreflang / sitemap / 内链全部无扩展名；广告位两态（填充后不裁切）；全站仅首页 2 个广告位 |
+> | 关键特性 | 44 组中英独立 URL；canonical / hreflang / sitemap / 内链全部**无扩展名**；guides 旧路径 301 到 /tools/ |
 
 ---
 
-## ★★ V70.8 现行说明（本版，2026-11-11，优先级最高）
+## ★★ V70.6 现行说明（2026-11-11，优先级高于下面所有历史章节）
 
-本版依据另一工具（TRAE）对上一版包的检测结论，**先拆包逐条核实、再真改落盘**：8 条里 6 条属实（其中 1 条少算 1 处）、1 条不属实、1 条维持不改。
-
-- **广告位两态**：未填充锁 90/100px 防 iPhone Safari 拉一屏；真实创意填充后 `.is-filled` 把容器放开为 `height:auto` / `overflow:visible`，300px / 520px 创意完整显示、绝不裁切。状态由 `ads-config.js` 的 MutationObserver 维护，不依赖 `:has()`。
-- `/tools/remove-bg`（中英）错页 301 归一到 `icon-maker`；sitemap 88→86 条，首页错名卡片删除，52 处内链改指。
-- 52 文件 92 处畸形 `<img>` 修正；main.js 中英判空；about 中英 `</section>` 归位；3 条 >65 字符 title 缩短。
-- 改过的 3 个资源统一升 `?v=20261111g`。
-- **ads.txt 一字未改**（官方值）；Worker 与 `_headers` 缓存头同为 3600；不加 CSP。
-- 全量验证：Worker 14/14、真 Chromium 38/38、全站 89 页 0 异常、交付包 134/134 逐字节一致。
-
-详见工作区根目录《1号_PicStudio_V70_一步部署说明.md》与《1号_PicStudio_V70_全站整改与广告位上线_复审报告.md》。
-
-## V70.7（上一版，历史留痕）
-
-该版只做「收干净 + 消矛盾」，不新增广告、不改广告位形态：
-
-- **全站广告代码只出现在 2 个首页**：`public/index.html`、`public/zh/index.html` 保留 `adsbygoogle.js` + `google-adsense-account` meta；其余 86 个 HTML 页面两样全部删除（另有 1 个站长验证纯文本文件，本就不含广告代码）。后台即使开启「自动广告」，非首页也不会被插入任何广告单元。
-- 广告位仍是**全站 2 个**（中英首页各 1），slot `1784463687`，该版桌面 90px / 手机 100px 写死、iframe 绝对定位（**V70.8 起改为两态，填充后放开高度**）。
-- `www.piccalc.com/xxx.html` 由 Worker **一次 301** 直达 `https://piccalc.com/xxx`（原为 301→.html→301 双跳）。
-- `ads.txt` 的缓存头两处统一为 `max-age=3600`（`_headers` 与 Worker 不再一个 3600 一个 86400）。
-- 20 个工具页 `<select>` 补齐 `name`，DevTools Issues 面板彻底 0 条。
-- `about` 页广告说明改为「仅在首页展示广告」，不再宣称全站有广告位。
-- README / 部署说明 / 复审报告 / ads.txt 核对记录里的历史叙述已订正：**包内 ads.txt 一直是官方值，从未出现「少一个 c」的残缺值，也从未为此改过文件**。
-
-### V70.6（上一版，历史留痕）
-
-V70.6 内容：放大工具（`/tools/upscale`、`/zh/tools/upscale`）已改为 **Web Worker 后台分块计算**：
+放大工具（`/tools/upscale`、`/zh/tools/upscale`）已改为 **Web Worker 后台分块计算**：
 
 - 新增 `public/assets/js/upscale-worker.js`（中英共用一份）：Lanczos3 按输出行分块、回传进度、支持取消、输出上限 4000 万像素；主线程不再被计算冻结，不会再弹「页面无响应」。
 - 中英两份 `lab.js` 的 `LAB.upscale` 段**逐字一致**（此前优化只改了英文那份，是中文站卡死的根因）。

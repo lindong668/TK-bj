@@ -42,21 +42,19 @@
 // ==================== FAQ Accordion ====================
 document.querySelectorAll('.faq-question').forEach(q => {
     q.addEventListener('click', () => {
-        if (q.parentElement) q.parentElement.classList.toggle('open');
+        q.parentElement.classList.toggle('open');
     });
 });
 
 // ==================== Scroll Header Effect ====================
 const header = document.querySelector('.header');
-if (header) {
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            header.style.background = 'rgba(15,23,42,0.95)';
-        } else {
-            header.style.background = 'rgba(15,23,42,0.85)';
-        }
-    }, { passive: true });
-}
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+        header.style.background = 'rgba(15,23,42,0.95)';
+    } else {
+        header.style.background = 'rgba(15,23,42,0.85)';
+    }
+});
 
 // ==================== Upload 原生按钮兜底隐藏 ====================
 // 背景：.upload-area 内的 <input type="file"> 由 CSS 隐藏，但部分

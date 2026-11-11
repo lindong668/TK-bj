@@ -11,6 +11,8 @@
 <meta content="PicStudio 品牌分享图" property="og:image:alt"/>
 <meta content="summary_large_image" name="twitter:card"/>
 <meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
+<meta content="ca-pub-8915931557404979" name="google-adsense-account"/>
+<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8915931557404979"></script>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>图片降噪 — 保留边缘的降噪滤镜</title>
@@ -28,7 +30,7 @@
 
 <meta content="图片降噪 — 保留边缘的降噪滤镜 | PicStudio" name="twitter:title"/>
 <meta content="去除弱光照片的颗粒与色彩噪点，同时保持边缘清晰；降噪强度可调，全部在本地处理。" name="twitter:description"/>
-<link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
+<link href="/assets/css/style.css?v=20261111d" rel="stylesheet"/>
 <style>.content-section{padding:48px 0;background:transparent;border-top:1px solid var(--border)}
 .content-section .container{max-width:860px}
 .content-block{margin-bottom:40px}
@@ -152,7 +154,7 @@
 </div>
 <div class="controls" id="controls">
 <div class="control-group">
-<label for="dnStrength" class="control-label">去噪强度</label>
+<label class="control-label">去噪强度</label>
 <input id="dnStrength" max="10" min="1" type="range" value="3"/>
 <div class="control-hint">强度越高越干净，但细节也会损失更多，建议 2–5</div>
 </div>
@@ -190,6 +192,7 @@
 <h2>关于图片去噪的常见问题</h2>
 <div class="faq-item"><h3>去噪会让照片变糊吗？</h3><p>强度过高会。本工具用保边滤波，能保留边缘，但强度拉到 8 以上仍会损失细节。建议从 3 开始，逐步加大到满意为止。</p></div><div class="faq-item"><h3>噪点很多也去不干净怎么办？</h3><p>可以尝试先用「图片放大」略微缩小再看（缩小本身会平均掉噪点），或分两次用较低强度处理，比一次高强度效果更好。</p></div><div class="faq-item"><h3>处理要多久？</h3><p>保边滤波需要逐像素计算邻域权重，1200 万像素的图可能需要十几秒。图片越大越慢，属正常现象。</p></div><div class="faq-item"><h3>能去除 JPEG 压缩噪点吗？</h3><p>能改善。JPEG 在高压缩率下产生的块状噪点也会被平滑，但严重的马赛克块无法完全恢复。</p></div>
 </div>
+<div class="ad-slot" data-slot-desktop="1784463687" data-slot-mobile="1784463687"><ins class="adsbygoogle" data-ad-client="ca-pub-8915931557404979" data-ad-slot="1784463687" data-ad-format="auto" data-full-width-responsive="true"></ins></div>
 <div class="content-block">
 <h2>试试其它工具</h2>
 <div class="related-grid"><a class="related-card" href="/zh/tools/restore"><span class="ricon">🕰️</span><span class="rname">老照片修复</span><span class="rdesc">自动修复泛黄旧照</span></a><a class="related-card" href="/zh/tools/adjust"><span class="ricon">🎨</span><span class="rname">调色增强</span><span class="rdesc">调整亮度对比度</span></a><a class="related-card" href="/zh/tools/upscale"><span class="ricon">🔍</span><span class="rname">图片放大</span><span class="rdesc">提升分辨率</span></a><a class="related-card" href="/zh/tools/blur"><span class="ricon">🌫️</span><span class="rname">加边框与留白</span><span class="rdesc">加边框与留白</span></a></div>
@@ -224,7 +227,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 </div>
 </footer>
 <script src="/zh/assets/js/preview.js?v=20261108ml"></script>
-<script src="/zh/assets/js/download.js?v=20261109dl"></script>
+<script src="/zh/assets/js/download.js?v=20261111d2"></script>
 <script src="/zh/assets/js/lab.js?v=20261111f"></script>
 <script>
 (function(){
@@ -291,9 +294,10 @@ function process(src){
   return Lab.denoise(c,num('dnStrength',3));}
 })();
 </script>
-<script src="/zh/assets/js/main.js?v=20261111g"></script>
+<script src="/zh/assets/js/main.js?v=20261111m2"></script>
 <script src="/zh/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/zh/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/zh/assets/js/ux.js?v=20261108ml"></script>
+<script src="/assets/js/ads.js?v=20261111ad"></script>
 </body>
 </html>

@@ -11,6 +11,8 @@
 <meta content="PicStudio brand share image" property="og:image:alt"/>
 <meta content="summary_large_image" name="twitter:card"/>
 <meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
+<meta content="ca-pub-8915931557404979" name="google-adsense-account"/>
+<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8915931557404979"></script>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>QR Code Generator - URL, WiFi, vCard, Email | PicStudio</title>
@@ -28,7 +30,7 @@
 
 <meta content="QR Code Generator - URL, WiFi, vCard, Email | PicStudio" name="twitter:title"/>
 <meta content="Generate QR codes for URLs, WiFi, contacts, email and more. Custom colours, module styles and centre logo. Live preview." name="twitter:description"/>
-<link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
+<link href="/assets/css/style.css?v=20261111d" rel="stylesheet"/>
 <style>.content-section{padding:48px 0;background:transparent;border-top:1px solid var(--border)}
 .content-section .container{max-width:860px}
 .content-block{margin-bottom:40px}
@@ -209,8 +211,8 @@
 <div>
 <div id="fields"></div>
 <div class="field">
-<label for="ecc">Error correction level</label>
-<select id="ecc" name="ecc">
+<label>Error correction level</label>
+<select id="ecc">
 <option value="M">M (recommended, masks about 15%)</option>
 <option value="L">L (highest capacity, about 7%)</option>
 <option value="Q">Q (about 25%)</option>
@@ -219,30 +221,30 @@
 </div>
 <div class="opt-row">
 <div class="field">
-<label for="fgColor">Foreground colour</label>
+<label>Foreground colour</label>
 <input id="fgColor" type="color" value="#000000"/>
 </div>
 <div class="field">
-<label for="bgColor">Background colour</label>
+<label>Background colour</label>
 <input id="bgColor" type="color" value="#ffffff"/>
 </div>
 </div>
 <div class="opt-row">
 <div class="field">
-<label for="dotShape">Module style</label>
-<select id="dotShape" name="dotShape">
+<label>Module style</label>
+<select id="dotShape">
 <option value="square">Square (most reliable)</option>
 <option value="rounded">Rounded corners</option>
 <option value="dot">Dots</option>
 </select>
 </div>
 <div class="field">
-<label for="logoSize">Logo size</label>
+<label>Logo size</label>
 <input id="logoSize" max="30" min="10" type="range" value="20"/>
 </div>
 </div>
 <div class="field">
-<label for="logoInput">Centre logo (optional)</label>
+<label>Centre logo (optional)</label>
 <input accept="image/*" id="logoInput" style="padding:6px;font-size:.85rem;" type="file"/>
 <button class="btn btn-outline" id="clearLogo" style="margin-top:6px;padding:6px 14px;font-size:.85rem;">Remove logo</button>
 </div>
@@ -286,6 +288,7 @@
 <h2>FAQ about QR generation</h2>
 <div class="faq-item"><h3>My QR with a logo will not scan — what now?</h3><p>Set error level to H (about 30% tolerance) and shrink the logo to under 20%. The logo covers central modules, and a higher level compensates better. Square logos also scan more reliably than long ones.</p></div><div class="faq-item"><h3>Do coloured QR codes scan?</h3><p>Yes, as long as contrast between foreground and background is strong. Pale or low-contrast pairs (white modules on yellow, say) confuse scanners — keep the contrast obvious.</p></div><div class="faq-item"><h3>How much content fits?</h3><p>It depends on the error level: about 1000 bytes at L, about 400 at H. Chinese text in UTF-8 costs roughly 3 bytes per character. You will be prompted to shorten if it overflows.</p></div><div class="faq-item"><h3>Do generated QR codes expire?</h3><p>No. A QR code just encodes content into a graphic with no time information; as long as the content (a URL, say) stays valid, it keeps working.</p></div><div class="faq-item"><h3>Are my images uploaded to a server?</h3><p>No. Generation, logo compositing and download all happen in your browser — the content never leaves your device.</p></div>
 </div>
+<div class="ad-slot" data-slot-desktop="1784463687" data-slot-mobile="1784463687"><ins class="adsbygoogle" data-ad-client="ca-pub-8915931557404979" data-ad-slot="1784463687" data-ad-format="auto" data-full-width-responsive="true"></ins></div>
 <div class="content-block">
 <h2>Try other tools</h2>
 <div class="related-grid"><a class="related-card" href="/tools/qr-reader"><span class="ricon">🔎</span><span class="rname">QR Code Reader</span><span class="rdesc">Scan and read QR content</span></a><a class="related-card" href="/tools/icon-maker"><span class="ricon">✂️</span><span class="rname">Icon Maker</span><span class="rdesc">Generate app icons</span></a><a class="related-card" href="/tools/watermark"><span class="ricon">💧</span><span class="rname">Add Watermark</span><span class="rdesc">Watermark for protection</span></a><a class="related-card" href="/tools/stitch"><span class="ricon">🖼️</span><span class="rname">Merge Images</span><span class="rdesc">Combine into one</span></a></div>
@@ -320,7 +323,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 </div>
 </footer>
 <script src="/assets/js/preview.js?v=20261108ml"></script>
-<script src="/assets/js/download.js?v=20261109dl"></script>
+<script src="/assets/js/download.js?v=20261111d2"></script>
 <script src="/assets/js/lab.js?v=20261111f"></script>
 <script src="/assets/js/qrcode.js?v=20261111e"></script><script>
 (function(){
@@ -356,7 +359,7 @@ function renderFields(){
   var box=$('fields');box.innerHTML='';
   TYPES[curType].fields.forEach(function(f){
     var d=document.createElement('div');d.className='field';
-    var l=document.createElement('label');l.textContent=f.t;l.htmlFor='f_'+f.k;d.appendChild(l);
+    var l=document.createElement('label');l.textContent=f.t;d.appendChild(l);
     var el;
     if(f.type==='textarea'){el=document.createElement('textarea');el.rows=3;}
     else if(f.type==='select'){el=document.createElement('select');
@@ -417,9 +420,10 @@ downloadBtn.addEventListener('click',function(){
 renderTabs();renderFields();generate();
 })();
 </script>
-<script src="/assets/js/main.js?v=20261111g"></script>
+<script src="/assets/js/main.js?v=20261111m2"></script>
 <script src="/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/assets/js/ux.js?v=20261108ml"></script>
+<script src="/assets/js/ads.js?v=20261111ad"></script>
 </body>
 </html>

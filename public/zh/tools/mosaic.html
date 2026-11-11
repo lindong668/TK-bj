@@ -11,6 +11,8 @@
 <meta content="PicStudio 品牌分享图" property="og:image:alt"/>
 <meta content="summary_large_image" name="twitter:card"/>
 <meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
+<meta content="ca-pub-8915931557404979" name="google-adsense-account"/>
+<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8915931557404979"></script>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>给图片局部打码 — 遮挡车牌与人脸</title>
@@ -28,7 +30,7 @@
 
 <meta content="给图片局部打码 — 遮挡车牌与人脸 | PicStudio" name="twitter:title"/>
 <meta content="整图马赛克，或在指定区域画框打码，用来遮挡车牌、人脸与证件信息。处理在本地完成且不可逆。" name="twitter:description"/>
-<link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
+<link href="/assets/css/style.css?v=20261111d" rel="stylesheet"/>
 <style>.content-section{padding:48px 0;background:transparent;border-top:1px solid var(--border)}
 .content-section .container{max-width:860px}
 .content-block{margin-bottom:40px}
@@ -152,12 +154,12 @@
 </div>
 <div class="controls" id="controls">
 <div class="control-group">
-<label for="msBlock" class="control-label">马赛克块大小</label>
+<label class="control-label">马赛克块大小</label>
 <input id="msBlock" max="60" min="4" type="range" value="14"/>
 <div class="control-hint">块越大越模糊，遮挡效果越强</div>
 </div>
 <div class="control-group">
-<label for="msAll" class="control-label">遮挡范围</label>
+<label class="control-label">遮挡范围</label>
 <div class="radio-group">
 <div class="radio-option"><input checked="" id="msAll" name="msScope" type="radio" value="all"/><label for="msAll">整张图</label></div>
 <div class="radio-option"><input id="msSel" name="msScope" type="radio" value="sel"/><label for="msSel">仅框选区域</label></div>
@@ -210,6 +212,7 @@
 <h2>关于马赛克打码的常见问题</h2>
 <div class="faq-item"><h3>马赛克能被还原吗？</h3><p>不能。马赛克把像素做了平均，原始信息已经丢失。但要注意：块太小时仍可能辨认，遮挡车牌建议块大小 20 以上。</p></div><div class="faq-item"><h3>为什么画框没反应？</h3><p>请先确认已选中「仅框选区域」单选框，然后在原图上按住鼠标左键拖动。画完会显示红色虚线框，可画多个。</p></div><div class="faq-item"><h3>能遮挡视频吗？</h3><p>当前版本只处理静态图片。视频需要先截取成图片逐帧处理，或用专业视频软件。</p></div><div class="faq-item"><h3>打码后图片会变大吗？</h3><p>不会明显变大。马赛克区域的色彩变简单后，PNG 压缩率通常还会提高，文件往往比原图更小。</p></div>
 </div>
+<div class="ad-slot" data-slot-desktop="1784463687" data-slot-mobile="1784463687"><ins class="adsbygoogle" data-ad-client="ca-pub-8915931557404979" data-ad-slot="1784463687" data-ad-format="auto" data-full-width-responsive="true"></ins></div>
 <div class="content-block">
 <h2>试试其它工具</h2>
 <div class="related-grid"><a class="related-card" href="/zh/tools/image-annotate"><span class="ricon">✏️</span><span class="rname"><span>图片标注</span></span></a><a class="related-card" href="/zh/tools/watermark"><span class="ricon">💧</span><span class="rname">图片加水印</span><span class="rdesc">加水印防盗</span></a><a class="related-card" href="/zh/tools/crop"><span class="ricon">✂️</span><span class="rname">智能裁剪</span><span class="rdesc">按平台尺寸裁剪</span></a><a class="related-card" href="/zh/tools/stitch"><span class="ricon">🖼️</span><span class="rname">图片拼接</span><span class="rdesc">多图合成一张</span></a></div>
@@ -244,7 +247,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 </div>
 </footer>
 <script src="/zh/assets/js/preview.js?v=20261108ml"></script>
-<script src="/zh/assets/js/download.js?v=20261109dl"></script>
+<script src="/zh/assets/js/download.js?v=20261111d2"></script>
 <script src="/zh/assets/js/lab.js?v=20261111f"></script>
 <script>
 (function(){
@@ -439,9 +442,10 @@ function process(src){
   return Lab.mosaic(c,{block:num('msBlock',14),regions:regions});}
 })();
 </script>
-<script src="/zh/assets/js/main.js?v=20261111g"></script>
+<script src="/zh/assets/js/main.js?v=20261111m2"></script>
 <script src="/zh/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/zh/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/zh/assets/js/ux.js?v=20261108ml"></script>
+<script src="/assets/js/ads.js?v=20261111ad"></script>
 </body>
 </html>
