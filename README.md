@@ -2,7 +2,7 @@
 
 > **本包为「合体版」：以 V70 整改包为底，合并 V71 的广告位实现与缺陷修复。**
 >
-> - 广告位：`data-ad-status` + `.is-filled`，未填充桌面 90px / 手机 50px，填充后 `height:auto`，不裁切；已铺到 80 个正式内容页（隐私政策、联系、指南索引、404 除外；remove-bg 两页已合并删除）。
+> - 广告位（审核期策略）：**全站只保留 2 条** —— 英文首页 `/`、中文首页 `/zh/` 各 1 条，位于工具网格与指南之间；其余 84 页不加载 `adsbygoogle.js` / `ads.js`、不留空容器。`data-ad-status` + `.is-filled` 机制与 `ads.js`、`.ad-slot` 样式**保留**，过审后按同一锚点铺开即可。
 > - `/tools/remove-bg` 实为 ICO 工具、与 `/tools/icon-maker` 重复：内容已并入 icon-maker，旧地址 301，sitemap 86 条。
 > - 共享资源版本号：`style.css?v=20261111d`、`main.js?v=20261111m2`、`download.js?v=20261111d2`、新增 `ads.js?v=20261111ad`。
 > - `ads.txt` 在 Worker 与 `_headers` 均为 `max-age=3600`。
