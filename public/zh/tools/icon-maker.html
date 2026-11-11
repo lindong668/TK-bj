@@ -1,27 +1,28 @@
 <!DOCTYPE html>
 <html data-lang="zh" lang="zh-CN">
 <head>
+<meta content="ca-pub-8915931557404979" name="google-adsense-account"/>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>图标与 Favicon 生成器 | PicStudio</title>
-<meta content="从任意图片生成应用图标与 Favicon：拖出正方形框选想要的区域，再选输出尺寸。长截图与横图也能用，免费、不上传。" name="description"/>
-<meta content="图标生成器, favicon 制作, 应用图标, 单尺寸 PNG 图标" name="keywords"/>
+<title>ICO 图标 / Favicon 生成器：多尺寸 .ico 在线生成</title>
+<meta content="上传任意图片，生成真正的多尺寸 .ico（16–256 px）、各尺寸 PNG 与 HTML 链接代码。全程在浏览器本地完成，不上传服务器。" name="description"/>
+<meta content="ICO 生成器, favicon 生成, 多尺寸 ico, favicon.ico 制作, 网站图标" name="keywords"/>
 <link href="https://piccalc.com/zh/tools/icon-maker" rel="canonical"/>
 <meta content="index,follow,max-image-preview:large" name="robots"/>
 <meta content="website" property="og:type"/>
 <meta content="PicStudio" property="og:site_name"/>
 <meta content="zh_CN" property="og:locale"/>
 <meta content="en_US" property="og:locale:alternate"/>
-<meta content="图标与 Favicon 生成器 | PicStudio | PicStudio" property="og:title"/>
-<meta content="从任意图片生成应用图标与 Favicon：拖出正方形框选想要的区域，再选输出尺寸。长截图与横图也能用，免费、不上传。" property="og:description"/>
+<meta content="ICO 图标 / Favicon 生成器 — 在线生成多尺寸 .ico | PicStudio" property="og:title"/>
+<meta content="从任意图片生成真正的多尺寸 .ico（16/32/48/64/128/256）。长截图、横图可拖框选区，另附各尺寸 PNG 与可粘贴的 HTML 链接代码。免费、纯浏览器、不上传。" property="og:description"/>
 <meta content="https://piccalc.com/zh/tools/icon-maker" property="og:url"/>
 <meta content="summary_large_image" name="twitter:card"/>
-<meta content="图标与 Favicon 生成器 | PicStudio | PicStudio" name="twitter:title"/>
-<meta content="从任意图片生成应用图标与 Favicon：拖出正方形框选想要的区域，再选输出尺寸。长截图与横图也能用，免费、不上传。" name="twitter:description"/>
+<meta content="ICO 图标 / Favicon 生成器 — 在线生成多尺寸 .ico | PicStudio" name="twitter:title"/>
+<meta content="上传任意图片，生成真正的多尺寸 .ico（16–256 px）、各尺寸 PNG 与 HTML 链接代码。全程在浏览器本地完成，不上传服务器。" name="twitter:description"/>
 <script type="application/ld+json">{
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "图标与 Favicon 生成器",
+  "name": "ICO / Favicon 生成器",
   "url": "https://piccalc.com/zh/tools/icon-maker",
   "applicationCategory": "UtilityApplication",
   "operatingSystem": "Any (browser)",
@@ -31,7 +32,7 @@
     "price": "0",
     "priceCurrency": "CNY"
   },
-  "description": "从任意图片生成应用图标与 Favicon：拖出正方形框选想要的区域，再选输出尺寸。长截图与横图也能用，免费、不上传。"
+  "description": "从任意图片生成真正的多尺寸 .ico（16/32/48/64/128/256）。长截图、横图可拖框选区，另附各尺寸 PNG 与可粘贴的 HTML 链接代码。免费、纯浏览器、不上传。"
 }</script>
 <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -39,34 +40,42 @@
   "mainEntity": [
     {
       "@type": "Question",
+      "name": "这是真的 .ico 文件吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "是。它包含合法的 ICONDIR 文件头、每档一个目录项，以及 PNG 压缩的图像数据，Windows、macOS 预览和浏览器都能打开。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "为什么尺寸数据是 PNG 而不是 BMP？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "从 Windows Vista 起，.ico 条目允许直接放完整 PNG。体积更小、自带 alpha 通道，不用再单独做掩码就能透明。"
+      }
+    },
+    {
+      "@type": "Question",
       "name": "长截图、横图也能做图标吗？",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "不会拉伸。把正方形框拖到你想要的区域即可，长截图也能用。"
+        "text": "能。把正方形框拖到想要的区域，可移动、拖四角缩放，再点生成；只有这一块会做成图标，不会拉伸。想要以前那种整图居中的效果，点「整图（原方式）」即可。"
       }
     },
     {
       "@type": "Question",
-      "name": "该用 PNG 还是 ICO？",
+      "name": "会把 Logo 上传到服务器吗？",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "现代浏览器用 PNG 就够了，体积更小也更清晰。只有需要兼容很老的浏览器时才必须 ICO。"
+        "text": "不会。整个容器都在浏览器里用 Canvas 和纯 JavaScript 拼装，图片从不离开你的设备。"
       }
     },
     {
       "@type": "Question",
-      "name": "为什么小尺寸图标看起来糊？",
+      "name": "16 × 16 为什么糊？该从哪一档开始？",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "大图直接缩小会让细节挤在一起。建议底图主体尽量简洁、轮廓清晰，避免细碎文字和复杂纹理。"
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "图标主体应该留多少边距？",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "建议四周留出 10%–15% 的留白，因为很多平台会自动给图标加圆角或阴影，贴边的内容容易被裁掉。"
+        "text": "16 × 16 一共只有 256 个像素点，二维码、人脸、小字必然糊，这是物理上限，不是缩放算法坏了。16 档留给老浏览器 / Windows 小图标兼容， 要看细节从 32 档起 ，二维码、人像、带文字的截图 至少用 64 档 ；16 / 32 档最好单独画一版：粗轮廓、简单形状、高对比。"
       }
     }
   ]
@@ -84,7 +93,7 @@
     {
       "@type": "ListItem",
       "position": 2,
-      "name": "图标与 Favicon 生成器",
+      "name": "ICO / Favicon 生成器",
       "item": "https://piccalc.com/zh/tools/icon-maker"
     }
   ]
@@ -99,7 +108,7 @@
 <meta content="PicStudio 品牌分享图" property="og:image:alt"/>
 
 <meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
-<link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
+<link href="/assets/css/style.css?v=20261111d" rel="stylesheet"/>
 <style>
       html[data-lang="en"] [data-lang-block="zh"] { display: none !important; }
       html[data-lang="zh"] [data-lang-block="en"] { display: none !important; }
@@ -107,6 +116,19 @@
         border-radius: 6px; padding: 4px 10px; font-size: 13px; cursor: pointer;
         color: var(--text-secondary, #64748b); line-height: 1.6; }
       .lang-toggle:hover { border-color: var(--primary, #6366f1); color: var(--primary, #6366f1); }
+      
+      #pngLinks.zoom4x .icon-cell img[data-small="1"] {
+        width: calc(var(--sz) * 4) !important;
+        height: calc(var(--sz) * 4) !important;
+        max-height: none !important;
+        image-rendering: pixelated;
+      }
+      .zoom-hint { display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+        margin: 0 0 10px; font-size: 13px; color: var(--text-muted, #94a3b8); cursor: pointer; }
+      .zoom-hint input { accent-color: var(--primary, #6366f1); }
+      .ico-warn { margin-top: 10px; padding: 10px 12px; border-radius: 8px;
+        background: rgba(245,158,11,.12); border: 1px solid rgba(245,158,11,.35);
+        color: #fbbf24; font-size: 13px; line-height: 1.6; }
     </style>
 
 <link href="https://piccalc.com/tools/icon-maker" hreflang="en" rel="alternate"/><link href="https://piccalc.com/zh/tools/icon-maker" hreflang="zh-CN" rel="alternate"/><link href="https://piccalc.com/tools/icon-maker" hreflang="x-default" rel="alternate"/></head>
@@ -132,83 +154,68 @@
 <div class="container">
 <a class="back-link" href="/zh/">← 返回首页</a>
 <div class="tool-header">
-<h1>🎯 图标制作</h1>
-<p>一键生成 App 图标、Favicon 与各平台所需的多尺寸图标</p>
+<h1><span>🎯 ICO 图标 / Favicon 生成器</span></h1>
+<p><span>一张图 → 真正的多尺寸 .ico 文件、各尺寸 PNG，以及可直接粘贴的 HTML 链接代码。</span></p>
 </div>
 <div class="upload-area" id="uploadArea">
 <div class="upload-icon">📁</div>
 <div class="upload-text">点击或拖拽图片到这里</div>
-<div class="upload-hint">长图、横图都支持 — 在图上拖出正方形框，选定要做图标的区域</div>
+<div class="upload-hint">支持 PNG · JPG · WebP · GIF · BMP · SVG · AVIF · ICO · HEIC / HEIF</div>
 <input accept="image/*,.heic,.heif,.avif,.ico,.bmp,.svg" id="fileInput" type="file"/>
 </div>
-<div class="ps-hl" style="background:#fde047;color:#0f172a;border:2px solid #f59e0b;border-radius:10px;padding:14px 16px;margin:14px 0;font-size:14px;line-height:1.85;font-weight:600;box-shadow:0 0 0 4px rgba(253,224,71,.12)">⚠️ <span style="background:#0f172a;color:#fde047;padding:2px 7px;border-radius:5px;font-weight:800;white-space:nowrap">32 px 及以下请先看这里</span>：小尺寸只有几百到一千个像素点，<b>二维码、人脸、小字、细线、渐变</b>压进去会糊成一团，任何缩放算法都补不回细节。<br/>✅ <b>建议从 64 px 起用</b>；纯色几何 / 单字母 Logo 才适合 32 px。需要 <b>16 × 16</b> 兼容档请用 <a href="/zh/guides/remove-background" style="color:#1d4ed8;text-decoration:underline;font-weight:700">ICO / Favicon 生成器</a>（一次出 16 / 32 / 48 / 64 / 128 / 256 六档）。<br/>📐 详见 <a href="/zh/guides/id-photo-sizes" style="color:#1d4ed8;text-decoration:underline;font-weight:700">图片尺寸与像素标准指南</a>。</div>
+<div class="ps-hl" style="background:#fde047;color:#0f172a;border:2px solid #f59e0b;border-radius:10px;padding:14px 16px;margin:14px 0;font-size:14px;line-height:1.85;font-weight:600;box-shadow:0 0 0 4px rgba(253,224,71,.12)">⚠️ <span style="background:#0f172a;color:#fde047;padding:2px 7px;border-radius:5px;font-weight:800;white-space:nowrap">16 × 16 只有 256 个像素点</span>：只适合<b>单字母、纯色几何、两色高对比 Logo</b>。<b>不要放二维码、人脸、小字、细线、渐变</b>——压进去只剩几块色，任何算法都补不回细节。<br/>✅ <b>建议从 32 × 32 起看细节</b>；二维码、人像、带文字的长截图<b>最低勾 64 × 64</b>。16 档主要给老浏览器和 Windows 小图标做兼容，不是用来展示细节的。<br/>💡 想小尺寸清楚：框选时让主体<b>尽量占满方框</b>、轮廓简单、高对比；16 / 32 档最好单独画一版，而不是把大图缩下来。<br/>📐 更完整的尺寸与场景说明见 <a href="/zh/guides/id-photo-sizes" style="color:#1d4ed8;text-decoration:underline;font-weight:700">图片尺寸与像素标准指南</a>。</div>
 <div class="preview-area" id="previewArea">
 <div class="preview-box">
 <h3><span>① 原图 — 框选正方形区域</span></h3>
 <img alt="原图" id="originalPreview" style="display:none;"/>
 <div id="cropEditor"></div>
+<div id="originalInfo" style="margin-top:12px;font-size:13px;color:var(--text-muted);"></div>
 </div>
 <div class="preview-box">
-<h3>图标预览</h3>
-<img alt="结果预览" id="processedPreview" data-ph="1">
+<h3><span>最大尺寸图标预览</span></h3>
+<img alt="结果预览" class="checker-bg" id="processedPreview" data-ph="1">
+<div id="resultInfo" style="margin-top:12px;font-size:13px;color:var(--text-muted);"></div>
 </div>
 </div>
 <div class="controls" id="controls">
 <div class="control-group">
-<label for="size512" class="control-label">输出尺寸</label>
-<div class="radio-group">
-<div class="radio-option">
-<input id="size512" name="iconSize" type="radio" value="512"/>
-<label for="size512">512px</label>
+<label class="control-label"><span>要包含的图标尺寸（多尺寸 .ico）</span></label>
+<div class="radio-group size-chips" id="sizesBox">
+<label class="radio-option"><input checked="" name="icoSize" type="checkbox" value="16"/> 16 × 16</label>
+<label class="radio-option"><input checked="" name="icoSize" type="checkbox" value="32"/> 32 × 32</label>
+<label class="radio-option"><input checked="" name="icoSize" type="checkbox" value="48"/> 48 × 48</label>
+<label class="radio-option"><input checked="" name="icoSize" type="checkbox" value="64"/> 64 × 64</label>
+<label class="radio-option"><input checked="" name="icoSize" type="checkbox" value="128"/> 128 × 128</label>
+<label class="radio-option"><input checked="" name="icoSize" type="checkbox" value="256"/> 256 × 256</label>
 </div>
-<div class="radio-option">
-<input checked="" id="size256" name="iconSize" type="radio" value="256"/>
-<label for="size256">256px</label>
-</div>
-<div class="radio-option">
-<input id="size192" name="iconSize" type="radio" value="192"/>
-<label for="size192">192px</label>
-</div>
-<div class="radio-option">
-<input id="size64" name="iconSize" type="radio" value="64"/>
-<label for="size64">64px</label>
-</div>
-<div class="radio-option">
-<input id="size32" name="iconSize" type="radio" value="32"/>
-<label for="size32">32px</label>
-</div>
-</div>
+<div class="state-bar" id="icoState"><span>已选 6 档尺寸</span></div>
 </div>
 <div class="control-group">
-<label for="cornerRadius" class="control-label">圆角半径</label>
-<input id="cornerRadius" max="50" min="0" type="range" value="20"/>
-<div class="control-hint" id="radiusHint">20%</div>
+<label class="control-label"><span>画布底色</span></label>
+<select id="bgMode">
+<option value="transparent">透明（推荐）</option>
+<option value="white">白色</option>
+<option value="black">黑色</option>
+<option value="custom">自定义颜色</option>
+</select>
+<input id="bgColor" style="display:none;margin-top:10px;width:70px;height:36px;border:1px solid var(--border);border-radius:6px;" type="color" value="#ffffff"/>
+</div>
+<button class="btn btn-primary btn-lg" id="processBtn" style="width:100%;"><span>🎯 生成 .ico</span></button>
+<div id="icoExtra" style="margin-top:18px;display:none;">
+<div class="control-group">
+<label class="control-label"><span>Favicon HTML（点击复制）</span></label>
+<pre class="code-pre" id="linkCode"></pre>
 </div>
 <div class="control-group">
-<label for="bgNone" class="control-label">背景样式</label>
-<div class="radio-group">
-<div class="radio-option">
-<input checked="" id="bgNone" name="bgStyle" type="radio" value="none"/>
-<label for="bgNone">无背景</label>
-</div>
-<div class="radio-option">
-<input id="bgSolid" name="bgStyle" type="radio" value="solid"/>
-<label for="bgSolid">纯色</label>
-</div>
-<div class="radio-option">
-<input id="bgGradient" name="bgStyle" type="radio" value="gradient"/>
-<label for="bgGradient">渐变</label>
+<label class="control-label"><span>每一档图标都能单独保存：点下方按钮，或长按图片</span></label>
+<label class="zoom-hint"><input id="zoom4" type="checkbox"/><span>放大 4× 查看小尺寸（像素化，便于判断清晰度）</span></label>
+<div class="ico-warn" id="icoWarn" style="display:none;"></div>
+<div class="icon-strip" id="pngLinks"><div class="icon-placeholder">点「生成 .ico」后，这里会按 16 → 256 列出每一档图标，每一档都有自己的下载按钮，想存哪一档就点哪一档；透明图标显示在棋盘底上，长按图片也能保存。</div></div>
 </div>
 </div>
-</div>
-<div class="control-group" id="bgColorGroup" style="display:none;">
-<label for="iconBgColor" class="control-label">背景颜色</label>
-<input id="iconBgColor" style="width:60px;height:40px;border:none;border-radius:8px;cursor:pointer;" type="color" value="#6366f1"/>
-</div>
-<button class="btn btn-primary btn-lg" id="processBtn" style="width:100%;">生成图标</button>
 </div>
 <div class="download-section" id="downloadSection">
-<button class="btn btn-primary btn-lg" id="downloadBtn">⬇️ 下载图标</button>
+<button class="btn btn-primary btn-lg" id="downloadBtn">⬇️ 下载结果</button>
 </div>
 </div>
 </section>
@@ -216,79 +223,43 @@
 <section class="content-section">
 <div class="container">
 <div class="content-block">
-<h2>图标制作怎么用</h2>
+<h2><span>如何使用这个工具</span></h2>
 <ol class="steps">
-<li><strong>上传底图：</strong><span>上传任意照片或截图，再把正方形框拖到想做成图标的那块区域。</span></li>
-<li><span>把正方形框拖到想做成图标的那块区域上 —— 长截图、横图都支持；拖四角可缩放，在空白处按住可重新框选。</span></li>
-<li><strong>选择输出尺寸：</strong><span>勾选需要的规格，可一次生成多个尺寸。</span></li>
-<li><strong>可选：加圆角：</strong><span>按平台风格给图标添加圆角，iOS 风格圆角较大。</span></li>
-<li><strong>生成并下载：</strong><span>逐个下载各尺寸文件，按平台要求放进项目目录。</span></li>
+<li><span>上传任意图片：iPhone 长截图、横图、Logo 都行。把正方形框拖到想做成图标的那块区域上。</span></li>
+<li><span>调整方框：拖动可移动、拖四角可缩放，在空白处按住可重新框选；左下角小预览就是图标会用到的内容。</span></li>
+<li><span>勾选需要的尺寸：默认全选六档（16 / 32 / 48 / 64 / 128 / 256 px）。</span></li>
+<li><span>选择画布底色：推荐透明，这样图标在任意标签栏都能自然融合。</span></li>
+<li><span>生成：下载 favicon.ico、取各尺寸 PNG，并复制 HTML 链接代码。</span></li>
 </ol>
-<div class="note-box">
-<p><strong>提示：</strong><span>所有处理都在你的浏览器本地完成，图片不会上传到服务器。结果只在当前页面保留，请及时下载。</span></p>
-</div>
+<div class="note-box"><p><strong><span>提示：</span></strong><span>所有处理都在浏览器内完成，图片不会上传。请在关闭页面前下载好文件。</span></p></div>
 </div>
 <div class="content-block">
 <h2>它的原理是什么</h2>
-<p>同一张图标在不同场景需要不同尺寸：浏览器标签页需要 16 × 16 的小图，手机桌面需要 180 × 180 甚至更大，应用商店可能要求 1024 × 1024。如果只用一张大图让系统缩放，小尺寸下细节会糊成一团；为每种尺寸单独输出，才能保证在各处都清晰。</p>
-<p>生成过程是先把底图按目标尺寸重新采样（与「尺寸调整」原理相同），再按需应用圆角路径裁剪，最后按对应格式编码。</p>
-<p>Favicon 常用 ICO 或 PNG。现代浏览器普遍支持 PNG 格式的 favicon，且体积更小；如果需要兼容很老的浏览器，才需要真正的 ICO 文件。ICO 的特点是把多个尺寸打包进同一个文件。</p>
+<p><span>生成前会先用 Canvas 把框选的正方形区域从原图裁出来，后续所有尺寸都只用这一块，长截图不会再被整张居中塞进空白方框。</span></p>
+<p><span>.ico 文件是一个小容器：6 字节文件头、每个尺寸 16 字节目录项，后面依次放着各尺寸的图像数据。现代系统支持容器内用 PNG 压缩，所以每一档其实就是一张高质量插值缩放后的普通 PNG。</span></p>
+<p><span>整个文件由纯 JavaScript 在 ArrayBuffer 里拼出来，不上传任何服务器，直接在浏览器里生成并下载。所有尺寸都从同一张源图缩小，小尺寸下轮廓依然清楚；但带小字的图案仍会糊，这是物理限制。</span></p>
 </div>
 <div class="content-block">
 <h2>常见使用场景</h2>
 <div class="usecases">
-<div class="usecase"><strong>网站 Favicon</strong><span>生成 16/32/48 像素的图标，放在站点根目录。</span></div>
-<div class="usecase"><strong>iOS App 图标</strong><span>输出 180 × 180 等尺寸，用于主屏幕显示。</span></div>
-<div class="usecase"><strong>Android 图标</strong><span>输出各密度规格的方形与圆形图标。</span></div>
-<div class="usecase"><strong>小程序与公众号</strong><span>按平台要求生成指定尺寸的头像图标。</span></div>
+<div class="usecase"><strong><span>网站 favicon</span></strong><span>一个 .ico 同时覆盖浏览器标签、收藏夹和旧版 Windows 快捷方式。</span></div>
+<div class="usecase"><strong><span>PWA / 应用图标组</span></strong><span>下载六档 PNG，供 manifest.json 和 apple-touch-icon 使用。</span></div>
+<div class="usecase"><strong><span>交付给客户</span></strong><span>给客户一个真正的图标文件，而不是一堆散装 PNG。</span></div>
 </div>
 </div>
 <div class="content-block">
-<h2>规格与参数说明</h2>
-<div class="table-wrap">
-<table class="spec">
-<tbody>
-<tr><th>Favicon</th><td>16 × 16、32 × 32、48 × 48 px</td></tr>
-<tr><th>iOS 主屏幕</th><td>180 × 180 px（iPhone）、167 × 167 px（iPad Pro）</td></tr>
-<tr><th>Android</th><td>48 / 72 / 96 / 144 / 192 px（对应不同屏幕密度）</td></tr>
-<tr><th>应用商店</th><td>1024 × 1024 px</td></tr>
-<tr><th>框选区域</th><td>任意尺寸 — 框选的正方形区域建议不小于 512 px</td></tr>
-</tbody>
-</table>
-</div>
-<div class="note-box">
-<p>框选主体简洁、对比强的一块区域；小尺寸下细节容易糊在一起。</p>
-</div>
-</div>
-<div class="content-block">
-<h2>关于图标制作的常见问题</h2>
-<div class="faq-list">
-<div class="ps-hl" style="background:#fde047;color:#0f172a;border:2px solid #f59e0b;border-radius:10px;padding:14px 16px;margin:14px 0;font-size:14px;line-height:1.85;font-weight:600;box-shadow:0 0 0 4px rgba(253,224,71,.12)">⚠️ <b>小图标糊不是 bug</b>：32 px 以下放二维码、人脸、小字必然成一团色。<b>建议 64 px 起</b>；16 × 16 兼容档请到 <a href="/zh/guides/remove-background" style="color:#1d4ed8;text-decoration:underline;font-weight:700">ICO / Favicon 生成器</a>。</div>
-<div class="faq-item">
-<div class="faq-question">长截图、横图也能做图标吗？</div>
-<div class="faq-answer">不会拉伸。把正方形框拖到你想要的区域即可，长截图也能用。</div>
-</div>
-<div class="faq-item">
-<div class="faq-question">该用 PNG 还是 ICO？</div>
-<div class="faq-answer">现代浏览器用 PNG 就够了，体积更小也更清晰。只有需要兼容很老的浏览器时才必须 ICO。</div>
-</div>
-<div class="faq-item">
-<div class="faq-question">为什么小尺寸图标看起来糊？</div>
-<div class="faq-answer">大图直接缩小会让细节挤在一起。建议底图主体尽量简洁、轮廓清晰，避免细碎文字和复杂纹理。</div>
-</div>
-<div class="faq-item">
-<div class="faq-question">图标主体应该留多少边距？</div>
-<div class="faq-answer">建议四周留出 10%–15% 的留白，因为很多平台会自动给图标加圆角或阴影，贴边的内容容易被裁掉。</div>
-</div>
-</div>
+<h2><span>常见问题</span></h2>
+<div class="faq-item"><div class="faq-question"><span>这是真的 .ico 文件吗？</span></div><div class="faq-answer"><span>是。它包含合法的 ICONDIR 文件头、每档一个目录项，以及 PNG 压缩的图像数据，Windows、macOS 预览和浏览器都能打开。</span></div></div>
+<div class="faq-item"><div class="faq-question"><span>为什么尺寸数据是 PNG 而不是 BMP？</span></div><div class="faq-answer"><span>从 Windows Vista 起，.ico 条目允许直接放完整 PNG。体积更小、自带 alpha 通道，不用再单独做掩码就能透明。</span></div></div>
+<div class="faq-item"><div class="faq-question"><span>长截图、横图也能做图标吗？</span></div><div class="faq-answer"><span>能。把正方形框拖到想要的区域，可移动、拖四角缩放，再点生成；只有这一块会做成图标，不会拉伸。想要以前那种整图居中的效果，点「整图（原方式）」即可。</span></div></div>
+<div class="faq-item"><div class="faq-question"><span>会把 Logo 上传到服务器吗？</span></div><div class="faq-answer"><span>不会。整个容器都在浏览器里用 Canvas 和纯 JavaScript 拼装，图片从不离开你的设备。</span></div></div><div class="faq-item"><div class="faq-question"><span>16 × 16 为什么糊？该从哪一档开始？</span></div><div class="faq-answer"><span>16 × 16 一共只有 256 个像素点，二维码、人脸、小字必然糊，这是物理上限，不是缩放算法坏了。16 档留给老浏览器 / Windows 小图标兼容，<b>要看细节从 32 档起</b>，二维码、人像、带文字的截图<b>至少用 64 档</b>；16 / 32 档最好单独画一版：粗轮廓、简单形状、高对比。</span></div></div>
 </div>
 <div class="content-block">
 <h2>试试其它工具</h2>
 <div class="related-tools">
-<a class="related-tool" href="/zh/tools/rounded"><span>⬜</span><span>圆角裁剪</span></a>
-<a class="related-tool" href="/zh/tools/resize"><span>📐</span><span>尺寸调整</span></a>
 <a class="related-tool" href="/zh/tools/convert"><span>🔄</span><span>格式转换</span></a>
-<a class="related-tool" href="/zh/guides/"><span>📚</span><span>图片处理指南</span></a>
+<a class="related-tool" href="/zh/tools/trim-edges"><span>✂️</span><span>自动去白边</span></a>
+<a class="related-tool" href="/zh/tools/image-annotate"><span>✏️</span><span>图片标注</span></a>
 </div>
 </div>
 </div>
@@ -321,104 +292,163 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 </div>
 </div>
 </footer>
-<div class="loading-overlay" id="loadingOverlay">
-<div class="spinner"></div>
-<div class="loading-text">正在生成中，请稍候...</div>
-</div>
+<div class="loading-overlay" id="loadingOverlay"><div class="spinner"></div><div class="loading-text"><span>正在处理，请稍候…</span></div></div>
 <script src="/zh/assets/js/preview.js?v=20261108ml"></script>
-<script src="/zh/assets/js/download.js?v=20261109dl"></script>
+<script src="/zh/assets/js/download.js?v=20261111d2"></script>
 <script src="/zh/assets/js/tools.js?v=20261111e"></script>
 <script src="/zh/assets/js/icon-crop.js?v=20261108ml"></script>
 <script>
-    const cornerSlider = document.getElementById('cornerRadius');
-    const radiusHint = document.getElementById('radiusHint');
-    const bgRadios = document.querySelectorAll('input[name="bgStyle"]');
-    const bgColorGroup = document.getElementById('bgColorGroup');
 
-    cornerSlider.addEventListener('input', () => {
-        radiusHint.textContent = `${cornerSlider.value}%`;
+    const btn = document.getElementById('processBtn');
+    const dl = document.getElementById('downloadBtn');
+    const bgMode = document.getElementById('bgMode');
+    const bgColor = document.getElementById('bgColor');
+    bgMode.addEventListener('change', () => {
+        bgColor.style.display = (bgMode.value === 'custom') ? 'block' : 'none';
     });
 
-    bgRadios.forEach(radio => {
-        radio.addEventListener('change', (e) => {
-            bgColorGroup.style.display = e.target.value === 'solid' ? 'block' : 'none';
+    let srcCanvas = null;
+    let icoBlob = null;
+    const tool = new ImageTool({
+        process: async (canvas) => { srcCanvas = canvas; return canvas; },
+        downloadOptions: { filename: 'favicon' }
+    });
+    const origLoad = tool.handleFile.bind(tool);
+    tool.handleFile = async function (file) {
+        await origLoad(file);
+        srcCanvas = tool.originalCanvas;
+        PSIconCrop.load(tool.originalCanvas);
+    };
+
+    function icoState() {
+        const n = document.querySelectorAll('input[name="icoSize"]:checked').length;
+        document.querySelectorAll('#sizesBox label.radio-option').forEach(l => {
+            const i = l.querySelector('input');
+            l.classList.toggle('is-selected', !!(i && i.checked));
         });
-    });
+        const el = document.getElementById('icoState');
+        const zh = window.PSLang && PSLang.get() === 'zh';
+        el.textContent = zh ? ('已选 ' + n + ' 档尺寸 · 点「生成 .ico」后预览全部图标')
+                            : (n + ' sizes selected · generate to preview every icon');
+    }
+    document.querySelectorAll('input[name="icoSize"]').forEach(c =>
+        c.addEventListener('change', icoState));
+    window.addEventListener('ps:langchange', icoState);
+    icoState();
 
-    const cropTool = new ImageTool({
-        process: async (canvas) => {
-            const src = PSIconCrop.getSource() || canvas;
-            const size = parseInt(document.querySelector('input[name="iconSize"]:checked').value);
-            const radiusPercent = parseInt(cornerSlider.value);
-            const bgStyle = document.querySelector('input[name="bgStyle"]:checked').value;
-            const bgColor = document.getElementById('iconBgColor').value;
-
-            // Resize to square (center crop)
-            const minDim = Math.min(src.width, src.height);
-            const startX = (src.width - minDim) / 2;
-            const startY = (src.height - minDim) / 2;
-
-            const squareCanvas = document.createElement('canvas');
-            squareCanvas.width = minDim;
-            squareCanvas.height = minDim;
-            squareCanvas.getContext('2d').drawImage(src, startX, startY, minDim, minDim, 0, 0, minDim, minDim);
-
-            // Resize to target size
-            const resized = ImageUtils.resizeCanvas(squareCanvas, size, size);
-
-            // Apply rounded corners
-            const result = document.createElement('canvas');
-            result.width = size;
-            result.height = size;
-            const ctx = result.getContext('2d');
-
-            // Draw background
-            if (bgStyle === 'solid') {
-                ctx.fillStyle = bgColor;
-                ctx.fillRect(0, 0, size, size);
-            } else if (bgStyle === 'gradient') {
-                const gradient = ctx.createLinearGradient(0, 0, size, size);
-                gradient.addColorStop(0, '#6366f1');
-                gradient.addColorStop(1, '#ec4899');
-                ctx.fillStyle = gradient;
-                ctx.fillRect(0, 0, size, size);
-            }
-
-            // Apply rounded corners mask
-            const radius = Math.floor(size * radiusPercent / 100);
-            ctx.save();
-            roundRect(ctx, 0, 0, size, size, radius);
-            ctx.clip();
-            ctx.drawImage(resized, 0, 0);
-            ctx.restore();
-
-            return result;
-        },
-        downloadOptions: { filename: 'picstudio-icon', format: 'png' }
-    });
-
-    function roundRect(ctx, x, y, w, h, r) {
-        ctx.beginPath();
-        ctx.moveTo(x + r, y);
-        ctx.lineTo(x + w - r, y);
-        ctx.quadraticCurveTo(x + w, y, x + w, y + r);
-        ctx.lineTo(x + w, y + h - r);
-        ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-        ctx.lineTo(x + r, y + h);
-        ctx.quadraticCurveTo(x, y + h, x, y + h - r);
-        ctx.lineTo(x, y + r);
-        ctx.quadraticCurveTo(x, y, x + r, y);
-        ctx.closePath();
+    // 框选区域小于输出档位时，大尺寸只能靠放大插值，必然发虚——明确告诉用户
+    // PNG bytes -> inline data: URL. blob: URLs are blacklisted by the
+    // long-press menu of some Android browsers (Via, ad-filtering builds),
+    // so previews and single-size links must not point at blob: URLs.
+    function bytesToDataURL(bytes) {
+        var bin = '', chunk = 0x8000;
+        for (var i = 0; i < bytes.length; i += chunk) {
+            bin += String.fromCharCode.apply(null, bytes.subarray(i, i + chunk));
+        }
+        return 'data:image/png;base64,' + btoa(bin);
     }
 
-    const origLoad = cropTool.handleFile.bind(cropTool);
-    cropTool.handleFile = async function (file) {
-        await origLoad(file);
-        PSIconCrop.load(cropTool.originalCanvas);
+    let icoWarnSmall = false;
+    let icoWarnSrc = 0;
+    function renderIcoWarn() {
+        const el = document.getElementById('icoWarn');
+        if (!icoWarnSmall) { el.style.display = 'none'; return; }
+        const zh = window.PSLang && PSLang.get() === 'zh';
+        el.textContent = zh
+            ? ('⚠ 框选区域约 ' + icoWarnSrc + ' × ' + icoWarnSrc + ' px，小于部分输出档位，大尺寸是放大出来的、会发虚。把框拖大一些，或只勾 16 / 32 档，图标更利索。')
+            : ('⚠ Selected area is about ' + icoWarnSrc + ' × ' + icoWarnSrc + ' px — smaller than some output sizes, so those sizes are upscaled and will look soft. Drag a larger square, or keep only 16 / 32.');
+        el.style.display = 'block';
+    }
+    window.addEventListener('ps:langchange', renderIcoWarn);
+    document.getElementById('zoom4').addEventListener('change', function () {
+        document.getElementById('pngLinks').classList.toggle('zoom4x', this.checked);
+    });
+
+    btn.addEventListener('click', async () => {
+        if (!srcCanvas) { alert((window.PSLang && PSLang.get() === 'zh') ? '请先选择一张图片。' : 'Please choose an image first.'); return; }
+        const sizes = Array.from(document.querySelectorAll('input[name="icoSize"]:checked'))
+            .map(x => parseInt(x.value, 10)).sort((a, b) => a - b);
+        if (!sizes.length) { alert((window.PSLang && PSLang.get() === 'zh') ? '请至少勾选一档尺寸。' : 'Pick at least one size.'); return; }
+        let bg = null;
+        if (bgMode.value === 'white') bg = '#ffffff';
+        else if (bgMode.value === 'black') bg = '#000000';
+        else if (bgMode.value === 'custom') bg = bgColor.value;
+        const source = PSIconCrop.getSource() || srcCanvas;
+        icoWarnSrc = Math.min(source.width || 0, source.height || 0);
+        icoWarnSmall = sizes.some(s => s > icoWarnSrc * 1.2);
+        renderIcoWarn();
+        btn.disabled = true;
+        try {
+            icoBlob = await PSIco.build(source, sizes, bg);
+            // 预览取最大档
+            const big = sizes[sizes.length - 1];
+            const pv = await PSIco.pngBytes(source, big, bg);
+            document.getElementById('processedPreview').src = bytesToDataURL(pv);
+            const zhInfo = window.PSLang && PSLang.get() === 'zh';
+            document.getElementById('resultInfo').textContent =
+                'favicon.ico · ' + sizes.length + ' sizes · ' + Math.round(icoBlob.size / 1024) + ' KB · ' +
+                (source.width === source.height
+                    ? (zhInfo ? '已按框选区域生成' : '1:1 crop')
+                    : (zhInfo ? '整图模式' : 'whole image'));
+            document.getElementById('downloadSection').classList.add('active');
+            const code = document.getElementById('linkCode');
+            code.textContent = PSIco.linkCode();
+            const box = document.getElementById('pngLinks');
+            box.innerHTML = '';
+            for (const sz of sizes) {
+                const bytes = await PSIco.pngBytes(source, sz, bg);
+                const b = new Blob([bytes], { type: 'image/png' });
+                const url = bytesToDataURL(bytes);
+                const cell = document.createElement('div');
+                cell.className = 'icon-cell';
+                const im = document.createElement('img');
+                im.className = 'checker-bg';
+                if (sz <= 48) im.dataset.small = '1';
+                cell.style.setProperty('--sz', sz + 'px');
+                im.src = url; im.width = sz; im.height = sz;
+                im.alt = sz + 'x' + sz;
+                const cap = document.createElement('div');
+                cap.textContent = sz + ' × ' + sz;
+                const a = document.createElement('a');
+                const dlName = 'favicon-' + sz + 'x' + sz + '.png';
+                a.textContent = (window.PSLang && PSLang.get() === 'zh') ? '⬇ 下载' : '⬇ PNG';
+                a.href = url;
+                a.download = dlName;
+                a.addEventListener('click', function (ev) {
+                    ev.preventDefault();
+                    // iPhone / iPad: use the long-press save panel.
+                    // Other browsers: download the inline image directly, so no
+                    // blob: URL is handed to a browser that blocks blob downloads.
+                    if (window.__dlNeedsLongPress && window.__dlNeedsLongPress()) {
+                        if (window.__download) { window.__download(b, dlName, 'image/png'); return; }
+                    }
+                    const t = document.createElement('a');
+                    t.href = url; t.download = dlName;
+                    document.body.appendChild(t); t.click();
+                    if (t.parentNode) t.parentNode.removeChild(t);
+                });
+                cell.appendChild(im); cell.appendChild(cap); cell.appendChild(a);
+                box.appendChild(cell);
+            }
+            document.getElementById('icoExtra').style.display = 'block';
+        } catch (e) {
+            alert(((window.PSLang && PSLang.get() === 'zh') ? '生成 ICO 失败，请换一张图片重试' : 'ICO build failed, please try another image'));
+        } finally { btn.disabled = false; }
+    });
+
+    // 覆盖 ImageTool 的下载：ICO 是二进制容器，不走 canvas.toDataURL
+    tool.download = function () {
+        if (!icoBlob) { alert((window.PSLang && PSLang.get() === 'zh') ? '请先点「生成 .ico」。' : 'Please generate the .ico first.'); return; }
+        PSIco.save(icoBlob, 'favicon.ico');
     };
-    document.getElementById('processBtn').addEventListener('click', () => cropTool.process());
+
+    document.getElementById('linkCode').addEventListener('click', function () {
+        const t = this.textContent;
+        if (navigator.clipboard) navigator.clipboard.writeText(t);
+    });
+
     </script>
-<script src="/zh/assets/js/main.js?v=20261111g"></script>
+<script src="/zh/assets/js/main.js?v=20261111m2"></script>
 <script src="/zh/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/zh/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/zh/assets/js/ux.js?v=20261108ml"></script>

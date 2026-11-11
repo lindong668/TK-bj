@@ -1,28 +1,29 @@
 <!DOCTYPE html>
 <html data-lang="en" lang="en">
 <head>
+<meta content="ca-pub-8915931557404979" name="google-adsense-account"/>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Icon and Favicon Generator Online | PicStudio</title>
-<meta content="Generate app icons and favicons from any image: drag a square crop over the area you want, then pick an output size. Free and local." name="description"/>
-<meta content="icon generator, favicon maker, app icon, resize icon" name="keywords"/>
+<title>ICO &amp; Favicon Generator: Multi-Size .ico Online | PicStudio</title>
+<meta content="Generate a real multi-size .ico favicon (16–256 px) plus single-size PNGs and HTML link tags from any image. Browser-only, no upload." name="description"/>
+<meta content="ico generator, favicon generator, multi size ico, favicon.ico maker, app icon ico" name="keywords"/>
 <link href="https://piccalc.com/tools/icon-maker" rel="canonical"/>
 <meta content="index,follow,max-image-preview:large" name="robots"/>
 <meta content="website" property="og:type"/>
 <meta content="PicStudio" property="og:site_name"/>
 <meta content="en_US" property="og:locale"/>
 <meta content="zh_CN" property="og:locale:alternate"/>
-<meta content="Icon and Favicon Generator Online | PicStudio" property="og:title"/>
-<meta content="Generate app icons and favicons from any image: drag a square crop over the area you want, then pick an output size. Free and local." property="og:description"/>
+<meta content="ICO &amp; Favicon Generator — Multi-Size .ico Online | PicStudio" property="og:title"/>
+<meta content="Generate a real multi-size .ico favicon from any image: drag a square crop over the part you want, even from a tall screenshot. Browser-only, no upload." property="og:description"/>
 <meta content="https://piccalc.com/tools/icon-maker" property="og:url"/>
 <meta content="summary_large_image" name="twitter:card"/>
-<meta content="Icon and Favicon Generator Online | PicStudio" name="twitter:title"/>
-<meta content="Generate app icons and favicons from any image: drag a square crop over the area you want, then pick an output size. Free and local." name="twitter:description"/>
+<meta content="ICO &amp; Favicon Generator — Multi-Size .ico Online | PicStudio" name="twitter:title"/>
+<meta content="Generate a real multi-size .ico favicon (16–256 px) plus single-size PNGs and HTML link tags from any image. Browser-only, no upload." name="twitter:description"/>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "Icon Maker",
+  "name": "ICO & Favicon Generator",
   "url": "https://piccalc.com/tools/icon-maker",
   "applicationCategory": "UtilityApplication",
   "operatingSystem": "Any (browser)",
@@ -32,7 +33,7 @@
     "price": "0",
     "priceCurrency": "CNY"
   },
-  "description": "Generate icons in multiple sizes online: app icons, favicons and iOS and Android specs in one pass, with a size reference table. Local processing; no upload."
+  "description": "Generate a real multi-size .ico favicon (16/32/48/64/128/256) from any image. Drag a square crop over the area you want — tall screenshots and wide photos both work. Runs entirely in your browser; images are never uploaded."
 }
     </script>
 <script type="application/ld+json">
@@ -40,39 +41,39 @@
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What if my source is not square?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Nothing is stretched. Drag the square selection over the part you want — tall screenshots and wide photos both work."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Should I use PNG or ICO?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "PNG is enough for modern browsers, and it is smaller and sharper. ICO is only required when supporting very old browsers."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Why do small icons look mushy?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Shrinking a large image crams detail together. Keep the artwork simple and the outline clear, avoiding tiny text and busy textures."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How much padding should the icon have?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Leave 10%–15% padding all around. Many platforms add corners or shadows automatically, so edge-touching content easily gets clipped."
-      }
+  {
+    "@type": "Question",
+    "name": "Is this a real .ico file?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes. It contains a valid ICONDIR header, one directory entry per size, and PNG-compressed image data. Windows, macOS preview and browsers all open it."
     }
-  ]
+  },
+  {
+    "@type": "Question",
+    "name": "Why are some sizes PNG data instead of BMP?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Since Windows Vista, .ico entries may hold a complete PNG. It is smaller and keeps an alpha channel, so transparency works without a separate mask."
+    }
+  },
+  {
+    "@type": "Question",
+    "name": "Can I use a tall screenshot or a wide photo?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes. Drag the square selection onto the part of the picture you want, move it or resize it from a corner, then generate. Only that 1:1 area becomes the icon — nothing is stretched. The Whole image button restores the old fit-inside-a-square behaviour."
+    }
+  },
+  {
+    "@type": "Question",
+    "name": "Does this upload my logo to a server?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "No. The whole container is built in your browser with Canvas and plain JavaScript. The image never leaves your device."
+    }
+  }
+]
 }
     </script>
 <script type="application/ld+json">
@@ -89,7 +90,7 @@
     {
       "@type": "ListItem",
       "position": 2,
-      "name": "Icon Maker",
+      "name": "ICO & Favicon Generator",
       "item": "https://piccalc.com/tools/icon-maker"
     }
   ]
@@ -105,7 +106,7 @@
 <meta content="PicStudio brand share image" property="og:image:alt"/>
 
 <meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
-<link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
+<link href="/assets/css/style.css?v=20261111d" rel="stylesheet"/>
 <style>
       html[data-lang="en"] [data-lang-block="zh"] { display: none !important; }
       html[data-lang="zh"] [data-lang-block="en"] { display: none !important; }
@@ -113,6 +114,19 @@
         border-radius: 6px; padding: 4px 10px; font-size: 13px; cursor: pointer;
         color: var(--text-secondary, #64748b); line-height: 1.6; }
       .lang-toggle:hover { border-color: var(--primary, #6366f1); color: var(--primary, #6366f1); }
+      
+      #pngLinks.zoom4x .icon-cell img[data-small="1"] {
+        width: calc(var(--sz) * 4) !important;
+        height: calc(var(--sz) * 4) !important;
+        max-height: none !important;
+        image-rendering: pixelated;
+      }
+      .zoom-hint { display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+        margin: 0 0 10px; font-size: 13px; color: var(--text-muted, #94a3b8); cursor: pointer; }
+      .zoom-hint input { accent-color: var(--primary, #6366f1); }
+      .ico-warn { margin-top: 10px; padding: 10px 12px; border-radius: 8px;
+        background: rgba(245,158,11,.12); border: 1px solid rgba(245,158,11,.35);
+        color: #fbbf24; font-size: 13px; line-height: 1.6; }
     </style>
 
 <link href="https://piccalc.com/tools/icon-maker" hreflang="en" rel="alternate"/><link href="https://piccalc.com/zh/tools/icon-maker" hreflang="zh-CN" rel="alternate"/><link href="https://piccalc.com/tools/icon-maker" hreflang="x-default" rel="alternate"/></head>
@@ -138,83 +152,68 @@
 <div class="container">
 <a class="back-link" href="/">← Back to Home</a>
 <div class="tool-header">
-<h1>🎯 Icon Maker</h1>
-<p>Generate app icons, favicons and every size each platform requires in one click</p>
+<h1><span>🎯 ICO &amp; Favicon Generator</span></h1>
+<p><span>One image → a real multi-size .ico file, single-size PNGs and ready-to-paste HTML link tags.</span></p>
 </div>
 <div class="upload-area" id="uploadArea">
 <div class="upload-icon">📁</div>
 <div class="upload-text">Click or drag an image here</div>
-<div class="upload-hint">Any image works — drag a square selection over the part you want as the icon</div>
+<div class="upload-hint">PNG · JPG · WebP · GIF · BMP · SVG · AVIF · ICO · HEIC / HEIF</div>
 <input accept="image/*,.heic,.heif,.avif,.ico,.bmp,.svg" id="fileInput" type="file"/>
 </div>
-<div class="ps-hl" style="background:#fde047;color:#0f172a;border:2px solid #f59e0b;border-radius:10px;padding:14px 16px;margin:14px 0;font-size:14px;line-height:1.85;font-weight:600;box-shadow:0 0 0 4px rgba(253,224,71,.12)">⚠️ <span style="background:#0f172a;color:#fde047;padding:2px 7px;border-radius:5px;font-weight:800;white-space:nowrap">Read this before picking 32 px or smaller</span>: those sizes hold only a few hundred pixels. <b>QR codes, faces, tiny text, thin lines and gradients</b> turn into mush and no resampling can bring the detail back.<br/>✅ <b>Start at 64 px</b>; only flat geometric marks or single-letter logos belong at 32 px. Need a <b>16 × 16</b> compatibility entry? Use the <a href="/guides/remove-background" style="color:#1d4ed8;text-decoration:underline;font-weight:700">ICO / Favicon Generator</a> (16 / 32 / 48 / 64 / 128 / 256 in one pass).<br/>📐 See the <a href="/guides/id-photo-sizes" style="color:#1d4ed8;text-decoration:underline;font-weight:700">Image Size &amp; Pixel Standards</a> guide.</div>
+<div class="ps-hl" style="background:#fde047;color:#0f172a;border:2px solid #f59e0b;border-radius:10px;padding:14px 16px;margin:14px 0;font-size:14px;line-height:1.85;font-weight:600;box-shadow:0 0 0 4px rgba(253,224,71,.12)">⚠️ <span style="background:#0f172a;color:#fde047;padding:2px 7px;border-radius:5px;font-weight:800;white-space:nowrap">16 × 16 has only 256 pixels</span>: it suits <b>a single letter, a flat geometric mark, or a two-colour high-contrast logo</b>. <b>Do not use QR codes, faces, tiny text, thin lines or gradients</b> — they collapse into a few blocks of colour and no algorithm can restore the detail.<br/>✅ <b>Start at 32 × 32</b> when you need visible detail; for QR codes, portraits or screenshots with text, <b>tick 64 × 64 or larger</b>. The 16 px entry exists mostly for legacy browsers and Windows small-icon compatibility, not for showing detail.<br/>💡 For crisp small icons: make the subject <b>fill the square</b>, keep the silhouette simple and the contrast high; ideally draw the 16 / 32 px versions separately instead of shrinking a large image.<br/>📐 Full size and use-case guidance: <a href="/guides/id-photo-sizes" style="color:#1d4ed8;text-decoration:underline;font-weight:700">Image Size &amp; Pixel Standards</a>.</div>
 <div class="preview-area" id="previewArea">
 <div class="preview-box">
 <h3><span>① Original — pick the square area</span></h3>
 <img alt="Original" id="originalPreview" style="display:none;"/>
 <div id="cropEditor"></div>
+<div id="originalInfo" style="margin-top:12px;font-size:13px;color:var(--text-muted);"></div>
 </div>
 <div class="preview-box">
-<h3>Icon preview</h3>
-<img alt="Result" id="processedPreview" data-ph="1">
+<h3><span>Largest icon preview</span></h3>
+<img alt="Result" class="checker-bg" id="processedPreview" data-ph="1">
+<div id="resultInfo" style="margin-top:12px;font-size:13px;color:var(--text-muted);"></div>
 </div>
 </div>
 <div class="controls" id="controls">
 <div class="control-group">
-<label for="size512" class="control-label">Output size</label>
-<div class="radio-group">
-<div class="radio-option">
-<input id="size512" name="iconSize" type="radio" value="512"/>
-<label for="size512">512px</label>
+<label class="control-label"><span>Sizes to include (multi-size .ico)</span></label>
+<div class="radio-group size-chips" id="sizesBox">
+<label class="radio-option"><input checked="" name="icoSize" type="checkbox" value="16"/> 16 × 16</label>
+<label class="radio-option"><input checked="" name="icoSize" type="checkbox" value="32"/> 32 × 32</label>
+<label class="radio-option"><input checked="" name="icoSize" type="checkbox" value="48"/> 48 × 48</label>
+<label class="radio-option"><input checked="" name="icoSize" type="checkbox" value="64"/> 64 × 64</label>
+<label class="radio-option"><input checked="" name="icoSize" type="checkbox" value="128"/> 128 × 128</label>
+<label class="radio-option"><input checked="" name="icoSize" type="checkbox" value="256"/> 256 × 256</label>
 </div>
-<div class="radio-option">
-<input checked="" id="size256" name="iconSize" type="radio" value="256"/>
-<label for="size256">256px</label>
-</div>
-<div class="radio-option">
-<input id="size192" name="iconSize" type="radio" value="192"/>
-<label for="size192">192px</label>
-</div>
-<div class="radio-option">
-<input id="size64" name="iconSize" type="radio" value="64"/>
-<label for="size64">64px</label>
-</div>
-<div class="radio-option">
-<input id="size32" name="iconSize" type="radio" value="32"/>
-<label for="size32">32px</label>
-</div>
-</div>
+<div class="state-bar" id="icoState"><span>6 sizes selected</span></div>
 </div>
 <div class="control-group">
-<label for="cornerRadius" class="control-label">Corner radius</label>
-<input id="cornerRadius" max="50" min="0" type="range" value="20"/>
-<div class="control-hint" id="radiusHint">20%</div>
+<label class="control-label"><span>Canvas background</span></label>
+<select id="bgMode">
+<option value="transparent">Transparent (recommended)</option>
+<option value="white">White</option>
+<option value="black">Black</option>
+<option value="custom">Custom colour</option>
+</select>
+<input id="bgColor" style="display:none;margin-top:10px;width:70px;height:36px;border:1px solid var(--border);border-radius:6px;" type="color" value="#ffffff"/>
+</div>
+<button class="btn btn-primary btn-lg" id="processBtn" style="width:100%;"><span>🎯 Generate .ico</span></button>
+<div id="icoExtra" style="margin-top:18px;display:none;">
+<div class="control-group">
+<label class="control-label"><span>Favicon HTML (click to copy)</span></label>
+<pre class="code-pre" id="linkCode"></pre>
 </div>
 <div class="control-group">
-<label for="bgNone" class="control-label">Backdrop style</label>
-<div class="radio-group">
-<div class="radio-option">
-<input checked="" id="bgNone" name="bgStyle" type="radio" value="none"/>
-<label for="bgNone">No backdrop</label>
-</div>
-<div class="radio-option">
-<input id="bgSolid" name="bgStyle" type="radio" value="solid"/>
-<label for="bgSolid">Solid colour</label>
-</div>
-<div class="radio-option">
-<input id="bgGradient" name="bgStyle" type="radio" value="gradient"/>
-<label for="bgGradient">Gradient</label>
+<label class="control-label"><span>Every size — tap its button to save just that PNG, or long-press the image</span></label>
+<label class="zoom-hint"><input id="zoom4" type="checkbox"/><span>Zoom small sizes 4× (pixelated, to judge sharpness)</span></label>
+<div class="ico-warn" id="icoWarn" style="display:none;"></div>
+<div class="icon-strip" id="pngLinks"><div class="icon-placeholder">After generating, every size from 16 → 256 appears here. Each size has its own download button, so you can save just one. Transparent icons are shown on a checkerboard; long-press any image to save it too.</div></div>
 </div>
 </div>
-</div>
-<div class="control-group" id="bgColorGroup" style="display:none;">
-<label for="iconBgColor" class="control-label">Background colour</label>
-<input id="iconBgColor" style="width:60px;height:40px;border:none;border-radius:8px;cursor:pointer;" type="color" value="#6366f1"/>
-</div>
-<button class="btn btn-primary btn-lg" id="processBtn" style="width:100%;">Generate icon</button>
 </div>
 <div class="download-section" id="downloadSection">
-<button class="btn btn-primary btn-lg" id="downloadBtn">⬇️ Download icon</button>
+<button class="btn btn-primary btn-lg" id="downloadBtn">⬇️ Download result</button>
 </div>
 </div>
 </section>
@@ -222,79 +221,43 @@
 <section class="content-section">
 <div class="container">
 <div class="content-block">
-<h2>How to make icons</h2>
+<h2><span>How to use this tool</span></h2>
 <ol class="steps">
-<li><strong>Upload a source image: </strong><span>Upload any photo or screenshot, then drag the square selection onto the part you want.</span></li>
-<li><span>Drag the square selection onto the part of the picture you want as the icon — tall screenshots and wide photos both work. Drag a corner to resize, or press on an empty spot to draw a new square.</span></li>
-<li><strong>Choose output sizes: </strong><span>Tick the sizes you need to generate several at once.</span></li>
-<li><strong>Optional — rounded corners: </strong><span>Rounds corners to match the platform; iOS is rounder.</span></li>
-<li><strong>Generate and download: </strong><span>Download each size and drop it into your project.</span></li>
+<li><span>Upload any image — a tall iPhone screenshot, a wide photo or a logo all work. Drag the square selection onto the part you want as the icon.</span></li>
+<li><span>Fine-tune the box: drag to move, drag a corner to resize, or press on an empty spot to draw a new square. The small preview shows exactly what the icon will contain.</span></li>
+<li><span>Tick the sizes you need: all six are selected by default (16 / 32 / 48 / 64 / 128 / 256 px).</span></li>
+<li><span>Pick the canvas background: transparent is recommended so the icon blends on any tab bar.</span></li>
+<li><span>Generate: download favicon.ico, grab single-size PNGs, and copy the HTML link tags.</span></li>
 </ol>
-<div class="note-box">
-<p><strong>Tip: </strong><span>All processing happens in your browser: images are never uploaded to a server. Results live only on this page, so download them promptly.</span></p>
-</div>
+<div class="note-box"><p><strong><span>Note: </span></strong><span>All processing happens in your browser: images are never uploaded. Download your files before closing the page.</span></p></div>
 </div>
 <div class="content-block">
 <h2>How it works</h2>
-<p>One icon needs different sizes in different places: 16 × 16 for a browser tab, 180 × 180 or larger for a phone home screen, and possibly 1024 × 1024 for an app store. Letting the system scale one large image down blurs the small sizes into mush; generating each size separately keeps it sharp everywhere.</p>
-<p>Generation resamples the artwork to each target size (same principle as the Resize tool), applies a rounded clip path if requested, then encodes to the matching format.</p>
-<p>Favicons are usually ICO or PNG. Modern browsers widely support PNG favicons, which are smaller; a true ICO is only needed for very old browsers. ICO's distinguishing feature is packing several sizes into one file.</p>
+<p><span>The square you drag is cropped from the original with Canvas before any scaling — only that area is used, so a tall screenshot no longer ends up centred inside an empty square.</span></p>
+<p><span>An .ico file is a small container: a 6-byte header, one 16-byte directory entry per size, then the image data for each size. Modern readers accept PNG-compressed images inside that container, so each size is an ordinary PNG scaled with high-quality interpolation.</span></p>
+<p><span>Everything is assembled with plain JavaScript in an ArrayBuffer. Nothing is sent to a server — the file is created in your browser and downloaded directly. Because each size is downscaled from the same source, details stay crisp at small sizes; artwork with tiny text will still lose legibility.</span></p>
 </div>
 <div class="content-block">
 <h2>Common use cases</h2>
 <div class="usecases">
-<div class="usecase"><strong>Website favicon</strong><span>Generate 16/32/48 px icons and place them in your site root.</span></div>
-<div class="usecase"><strong>iOS app icon</strong><span>Output 180 × 180 and similar for the home screen.</span></div>
-<div class="usecase"><strong>Android icon</strong><span>Output square and circular icons for each density.</span></div>
-<div class="usecase"><strong>Mini programs and official accounts</strong><span>Generate avatar icons at the sizes each platform requires.</span></div>
+<div class="usecase"><strong><span>Website favicon</span></strong><span>Ship one .ico that works in browser tabs, bookmarks and old Windows shortcuts.</span></div>
+<div class="usecase"><strong><span>PWA / app icon set</span></strong><span>Download the six PNG sizes for manifest.json and apple-touch-icon.</span></div>
+<div class="usecase"><strong><span>Client hand-off</span></strong><span>Give the designer a real icon file instead of a folder of loose PNGs.</span></div>
 </div>
 </div>
 <div class="content-block">
-<h2>Specifications</h2>
-<div class="table-wrap">
-<table class="spec">
-<tbody>
-<tr><th>Favicon</th><td>16 × 16, 32 × 32, 48 × 48 px</td></tr>
-<tr><th>iOS home screen</th><td>180 × 180 px (iPhone)、167 × 167 px (iPad Pro)</td></tr>
-<tr><th>Android</th><td>48 / 72 / 96 / 144 / 192 px (different screen densities)</td></tr>
-<tr><th>App stores</th><td>1024 × 1024 px</td></tr>
-<tr><th>Selected area</th><td>Any size — the square area you select should be at least 512 px wide</td></tr>
-</tbody>
-</table>
-</div>
-<div class="note-box">
-<p>Frame a simple, high-contrast part of the image; fine detail merges into mush at small sizes.</p>
-</div>
-</div>
-<div class="content-block">
-<h2>FAQ about icon making</h2>
-<div class="faq-list">
-<div class="ps-hl" style="background:#fde047;color:#0f172a;border:2px solid #f59e0b;border-radius:10px;padding:14px 16px;margin:14px 0;font-size:14px;line-height:1.85;font-weight:600;box-shadow:0 0 0 4px rgba(253,224,71,.12)">⚠️ <b>Blurry small icons are not a bug</b>: below 32 px, QR codes, faces and tiny text collapse into colour blocks. <b>Start at 64 px</b>; for a 16 × 16 compatibility entry use the <a href="/guides/remove-background" style="color:#1d4ed8;text-decoration:underline;font-weight:700">ICO / Favicon Generator</a>.</div>
-<div class="faq-item">
-<div class="faq-question">Can I use a tall screenshot or a wide photo?</div>
-<div class="faq-answer">Nothing is stretched. Just drag the square selection over the area you want — tall screenshots work fine.</div>
-</div>
-<div class="faq-item">
-<div class="faq-question">Should I use PNG or ICO?</div>
-<div class="faq-answer">PNG is enough for modern browsers, and it is smaller and sharper. ICO is only required when supporting very old browsers.</div>
-</div>
-<div class="faq-item">
-<div class="faq-question">Why do small icons look mushy?</div>
-<div class="faq-answer">Shrinking a large image crams detail together. Keep the artwork simple and the outline clear, avoiding tiny text and busy textures.</div>
-</div>
-<div class="faq-item">
-<div class="faq-question">How much padding should the icon have?</div>
-<div class="faq-answer">Leave 10%–15% padding all around. Many platforms add corners or shadows automatically, so edge-touching content easily gets clipped.</div>
-</div>
-</div>
+<h2><span>Frequently asked questions</span></h2>
+<div class="faq-item"><div class="faq-question"><span>Is this a real .ico file?</span></div><div class="faq-answer"><span>Yes. It contains a valid ICONDIR header, one directory entry per size, and PNG-compressed image data. Windows, macOS preview and browsers all open it.</span></div></div>
+<div class="faq-item"><div class="faq-question"><span>Why are some sizes PNG data instead of BMP?</span></div><div class="faq-answer"><span>Since Windows Vista, .ico entries may hold a complete PNG. It is smaller and keeps an alpha channel, so transparency works without a separate mask.</span></div></div>
+<div class="faq-item"><div class="faq-question"><span>Can I use a tall screenshot or a wide photo?</span></div><div class="faq-answer"><span>Yes. Drag the square selection over the part you want, move it or resize it from a corner, then generate. Only that 1:1 area becomes the icon — nothing is stretched. Press "Whole image" if you prefer the old fit-inside-a-square behaviour.</span></div></div>
+<div class="faq-item"><div class="faq-question"><span>Does this upload my logo to a server?</span></div><div class="faq-answer"><span>No. The whole container is built in your browser with Canvas and plain JavaScript. The image never leaves your device.</span></div></div><div class="faq-item"><div class="faq-question"><span>Why is 16 × 16 blurry, and which size should I start from?</span></div><div class="faq-answer"><span>16 × 16 holds just 256 pixels. QR codes, faces and tiny text cannot survive it — that is a physical limit, not a scaling bug. Keep 16 px for legacy / Windows compatibility, <b>start at 32 px</b> for visible detail and <b>use 64 px or larger</b> for QR codes, portraits or screenshots with text. Draw the 16 / 32 px artwork separately with a bold, simple silhouette and high contrast.</span></div></div>
 </div>
 <div class="content-block">
 <h2>Try other tools</h2>
 <div class="related-tools">
-<a class="related-tool" href="/tools/rounded"><span>⬜</span><span>Rounded Corners</span></a>
-<a class="related-tool" href="/tools/resize"><span>📐</span><span>Resize Image</span></a>
 <a class="related-tool" href="/tools/convert"><span>🔄</span><span>Convert Format</span></a>
-<a class="related-tool" href="/guides/"><span>📚</span><span>Image Guides</span></a>
+<a class="related-tool" href="/tools/trim-edges"><span>✂️</span><span>Auto Trim Edges</span></a>
+<a class="related-tool" href="/tools/image-annotate"><span>✏️</span><span>Image Annotator</span></a>
 </div>
 </div>
 </div>
@@ -327,104 +290,163 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 </div>
 </div>
 </footer>
-<div class="loading-overlay" id="loadingOverlay">
-<div class="spinner"></div>
-<div class="loading-text">Generating, please wait…</div>
-</div>
+<div class="loading-overlay" id="loadingOverlay"><div class="spinner"></div><div class="loading-text"><span>Processing, please wait…</span></div></div>
 <script src="/assets/js/preview.js?v=20261108ml"></script>
-<script src="/assets/js/download.js?v=20261109dl"></script>
+<script src="/assets/js/download.js?v=20261111d2"></script>
 <script src="/assets/js/tools.js?v=20261111e"></script>
 <script src="/assets/js/icon-crop.js?v=20261108ml"></script>
 <script>
-    const cornerSlider = document.getElementById('cornerRadius');
-    const radiusHint = document.getElementById('radiusHint');
-    const bgRadios = document.querySelectorAll('input[name="bgStyle"]');
-    const bgColorGroup = document.getElementById('bgColorGroup');
 
-    cornerSlider.addEventListener('input', () => {
-        radiusHint.textContent = `${cornerSlider.value}%`;
+    const btn = document.getElementById('processBtn');
+    const dl = document.getElementById('downloadBtn');
+    const bgMode = document.getElementById('bgMode');
+    const bgColor = document.getElementById('bgColor');
+    bgMode.addEventListener('change', () => {
+        bgColor.style.display = (bgMode.value === 'custom') ? 'block' : 'none';
     });
 
-    bgRadios.forEach(radio => {
-        radio.addEventListener('change', (e) => {
-            bgColorGroup.style.display = e.target.value === 'solid' ? 'block' : 'none';
+    let srcCanvas = null;
+    let icoBlob = null;
+    const tool = new ImageTool({
+        process: async (canvas) => { srcCanvas = canvas; return canvas; },
+        downloadOptions: { filename: 'favicon' }
+    });
+    const origLoad = tool.handleFile.bind(tool);
+    tool.handleFile = async function (file) {
+        await origLoad(file);
+        srcCanvas = tool.originalCanvas;
+        PSIconCrop.load(tool.originalCanvas);
+    };
+
+    function icoState() {
+        const n = document.querySelectorAll('input[name="icoSize"]:checked').length;
+        document.querySelectorAll('#sizesBox label.radio-option').forEach(l => {
+            const i = l.querySelector('input');
+            l.classList.toggle('is-selected', !!(i && i.checked));
         });
-    });
+        const el = document.getElementById('icoState');
+        const zh = window.PSLang && PSLang.get() === 'zh';
+        el.textContent = zh ? ('Selected ' + n + ' sizes selected · press "Generate .ico" to preview every icon')
+                            : (n + ' sizes selected · generate to preview every icon');
+    }
+    document.querySelectorAll('input[name="icoSize"]').forEach(c =>
+        c.addEventListener('change', icoState));
+    window.addEventListener('ps:langchange', icoState);
+    icoState();
 
-    const cropTool = new ImageTool({
-        process: async (canvas) => {
-            const src = PSIconCrop.getSource() || canvas;
-            const size = parseInt(document.querySelector('input[name="iconSize"]:checked').value);
-            const radiusPercent = parseInt(cornerSlider.value);
-            const bgStyle = document.querySelector('input[name="bgStyle"]:checked').value;
-            const bgColor = document.getElementById('iconBgColor').value;
-
-            // Resize to square (center crop)
-            const minDim = Math.min(src.width, src.height);
-            const startX = (src.width - minDim) / 2;
-            const startY = (src.height - minDim) / 2;
-
-            const squareCanvas = document.createElement('canvas');
-            squareCanvas.width = minDim;
-            squareCanvas.height = minDim;
-            squareCanvas.getContext('2d').drawImage(src, startX, startY, minDim, minDim, 0, 0, minDim, minDim);
-
-            // Resize to target size
-            const resized = ImageUtils.resizeCanvas(squareCanvas, size, size);
-
-            // Apply rounded corners
-            const result = document.createElement('canvas');
-            result.width = size;
-            result.height = size;
-            const ctx = result.getContext('2d');
-
-            // Draw background
-            if (bgStyle === 'solid') {
-                ctx.fillStyle = bgColor;
-                ctx.fillRect(0, 0, size, size);
-            } else if (bgStyle === 'gradient') {
-                const gradient = ctx.createLinearGradient(0, 0, size, size);
-                gradient.addColorStop(0, '#6366f1');
-                gradient.addColorStop(1, '#ec4899');
-                ctx.fillStyle = gradient;
-                ctx.fillRect(0, 0, size, size);
-            }
-
-            // Apply rounded corners mask
-            const radius = Math.floor(size * radiusPercent / 100);
-            ctx.save();
-            roundRect(ctx, 0, 0, size, size, radius);
-            ctx.clip();
-            ctx.drawImage(resized, 0, 0);
-            ctx.restore();
-
-            return result;
-        },
-        downloadOptions: { filename: 'picstudio-icon', format: 'png' }
-    });
-
-    function roundRect(ctx, x, y, w, h, r) {
-        ctx.beginPath();
-        ctx.moveTo(x + r, y);
-        ctx.lineTo(x + w - r, y);
-        ctx.quadraticCurveTo(x + w, y, x + w, y + r);
-        ctx.lineTo(x + w, y + h - r);
-        ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-        ctx.lineTo(x + r, y + h);
-        ctx.quadraticCurveTo(x, y + h, x, y + h - r);
-        ctx.lineTo(x, y + r);
-        ctx.quadraticCurveTo(x, y, x + r, y);
-        ctx.closePath();
+    
+    // PNG bytes -> inline data: URL. blob: URLs are blacklisted by the
+    // long-press menu of some Android browsers (Via, ad-filtering builds),
+    // so previews and single-size links must not point at blob: URLs.
+    function bytesToDataURL(bytes) {
+        var bin = '', chunk = 0x8000;
+        for (var i = 0; i < bytes.length; i += chunk) {
+            bin += String.fromCharCode.apply(null, bytes.subarray(i, i + chunk));
+        }
+        return 'data:image/png;base64,' + btoa(bin);
     }
 
-    const origLoad = cropTool.handleFile.bind(cropTool);
-    cropTool.handleFile = async function (file) {
-        await origLoad(file);
-        PSIconCrop.load(cropTool.originalCanvas);
+    let icoWarnSmall = false;
+    let icoWarnSrc = 0;
+    function renderIcoWarn() {
+        const el = document.getElementById('icoWarn');
+        if (!icoWarnSmall) { el.style.display = 'none'; return; }
+        const zh = window.PSLang && PSLang.get() === 'zh';
+        el.textContent = zh
+            ? ('⚠ Crop area is about ' + icoWarnSrc + ' × ' + icoWarnSrc + ' px, smaller than some output sizes. Larger icons will be upscaled and look soft. Drag a bigger crop, or tick only 16 / 32 px for a crisper result.')
+            : ('⚠ Selected area is about ' + icoWarnSrc + ' × ' + icoWarnSrc + ' px — smaller than some output sizes, so those sizes are upscaled and will look soft. Drag a larger square, or keep only 16 / 32.');
+        el.style.display = 'block';
+    }
+    window.addEventListener('ps:langchange', renderIcoWarn);
+    document.getElementById('zoom4').addEventListener('change', function () {
+        document.getElementById('pngLinks').classList.toggle('zoom4x', this.checked);
+    });
+
+    btn.addEventListener('click', async () => {
+        if (!srcCanvas) { alert((window.PSLang && PSLang.get() === 'zh') ? '请先选择一张图片。' : 'Please choose an image first.'); return; }
+        const sizes = Array.from(document.querySelectorAll('input[name="icoSize"]:checked'))
+            .map(x => parseInt(x.value, 10)).sort((a, b) => a - b);
+        if (!sizes.length) { alert((window.PSLang && PSLang.get() === 'zh') ? 'Tick at least one icon size.' : 'Pick at least one size.'); return; }
+        let bg = null;
+        if (bgMode.value === 'white') bg = '#ffffff';
+        else if (bgMode.value === 'black') bg = '#000000';
+        else if (bgMode.value === 'custom') bg = bgColor.value;
+        const source = PSIconCrop.getSource() || srcCanvas;
+        icoWarnSrc = Math.min(source.width || 0, source.height || 0);
+        icoWarnSmall = sizes.some(s => s > icoWarnSrc * 1.2);
+        renderIcoWarn();
+        btn.disabled = true;
+        try {
+            icoBlob = await PSIco.build(source, sizes, bg);
+            
+            const big = sizes[sizes.length - 1];
+            const pv = await PSIco.pngBytes(source, big, bg);
+            document.getElementById('processedPreview').src = bytesToDataURL(pv);
+            const zhInfo = window.PSLang && PSLang.get() === 'zh';
+            document.getElementById('resultInfo').textContent =
+                'favicon.ico · ' + sizes.length + ' sizes · ' + Math.round(icoBlob.size / 1024) + ' KB · ' +
+                (source.width === source.height
+                    ? (zhInfo ? 'Generated from the cropped area' : '1:1 crop')
+                    : (zhInfo ? 'Whole image mode' : 'whole image'));
+            document.getElementById('downloadSection').classList.add('active');
+            const code = document.getElementById('linkCode');
+            code.textContent = PSIco.linkCode();
+            const box = document.getElementById('pngLinks');
+            box.innerHTML = '';
+            for (const sz of sizes) {
+                const bytes = await PSIco.pngBytes(source, sz, bg);
+                const b = new Blob([bytes], { type: 'image/png' });
+                const url = bytesToDataURL(bytes);
+                const cell = document.createElement('div');
+                cell.className = 'icon-cell';
+                const im = document.createElement('img');
+                im.className = 'checker-bg';
+                if (sz <= 48) im.dataset.small = '1';
+                cell.style.setProperty('--sz', sz + 'px');
+                im.src = url; im.width = sz; im.height = sz;
+                im.alt = sz + 'x' + sz;
+                const cap = document.createElement('div');
+                cap.textContent = sz + ' × ' + sz;
+                const a = document.createElement('a');
+                const dlName = 'favicon-' + sz + 'x' + sz + '.png';
+                a.textContent = (window.PSLang && PSLang.get() === 'zh') ? '⬇ Download' : '⬇ PNG';
+                a.href = url;
+                a.download = dlName;
+                a.addEventListener('click', function (ev) {
+                    ev.preventDefault();
+                    // iPhone / iPad: use the long-press save panel.
+                    // Other browsers: download the inline image directly, so no
+                    // blob: URL is handed to a browser that blocks blob downloads.
+                    if (window.__dlNeedsLongPress && window.__dlNeedsLongPress()) {
+                        if (window.__download) { window.__download(b, dlName, 'image/png'); return; }
+                    }
+                    const t = document.createElement('a');
+                    t.href = url; t.download = dlName;
+                    document.body.appendChild(t); t.click();
+                    if (t.parentNode) t.parentNode.removeChild(t);
+                });
+                cell.appendChild(im); cell.appendChild(cap); cell.appendChild(a);
+                box.appendChild(cell);
+            }
+            document.getElementById('icoExtra').style.display = 'block';
+        } catch (e) {
+            alert(((window.PSLang && PSLang.get() === 'zh') ? 'ICO generation failed: ' : 'ICO build failed: ') + e.message);
+        } finally { btn.disabled = false; }
+    });
+
+    
+    tool.download = function () {
+        if (!icoBlob) { alert((window.PSLang && PSLang.get() === 'zh') ? 'Press "Generate .ico" first.' : 'Please generate the .ico first.'); return; }
+        PSIco.save(icoBlob, 'favicon.ico');
     };
-    document.getElementById('processBtn').addEventListener('click', () => cropTool.process());
+
+    document.getElementById('linkCode').addEventListener('click', function () {
+        const t = this.textContent;
+        if (navigator.clipboard) navigator.clipboard.writeText(t);
+    });
+
     </script>
-<script src="/assets/js/main.js?v=20261111g"></script>
+<script src="/assets/js/main.js?v=20261111m2"></script>
 <script src="/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/assets/js/ux.js?v=20261108ml"></script>
