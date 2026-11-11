@@ -208,11 +208,13 @@
 <button class="btn btn-primary btn-lg" id="processBtn" style="width:100%;">Upscale</button>
 </div>
 <div class="download-section" id="downloadSection">
+<p class="control-hint" id="scaleNote" style="display:none;margin:0 0 10px"></p>
 <button class="btn btn-primary btn-lg" id="downloadBtn" style="width:100%;">Download upscaled image</button>
 </div>
 <div class="loading-overlay" id="loadingOverlay">
 <div class="spinner"></div>
 <div class="loading-text" id="loadingText">Processing…</div>
+<button class="btn" id="cancelBtn" type="button" style="display:none;margin-top:14px">Cancel</button>
 </div>
 </div>
 </section>
@@ -274,17 +276,27 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 </footer>
 <script src="/assets/js/preview.js?v=20261108ml"></script>
 <script src="/assets/js/download.js?v=20261109dl"></script>
-<script src="/assets/js/lab.js?v=20261111e"></script>
+<script src="/assets/js/lab.js?v=20261111f"></script>
 <script>
 (function(){
 var $=function(id){return document.getElementById(id);};
 var fileInput=$('fileInput'),uploadArea=$('uploadArea'),previewArea=$('previewArea'),
     originalPreview=$('originalPreview'),processedPreview=$('processedPreview'),
     controls=$('controls'),downloadSection=$('downloadSection'),
-    downloadBtn=$('downloadBtn'),processBtn=$('processBtn'),
+    downloadBtn=$('downloadBtn'),processBtn=$('processBtn'),cancelBtn=$('cancelBtn'),
+    scaleNote=$('scaleNote'),
     loadingOverlay=$('loadingOverlay'),loadingText=$('loadingText');
 var srcCanvas=null,outCanvas=null,srcImage=null;
 var MAXSIDE=3000;
+var busy=false,actualFactor=0,wantedFactor=0;
+var ERR={
+  ERR_TOO_LARGE:'Output too large (over 40 MP). Use a smaller factor or shrink the image first',
+  ERR_ALREADY_LARGE:'This image is already too large to upscale further',
+  ERR_NO_WORKER:'Your browser does not support background processing. Please try another browser',
+  ERR_WORKER_FAIL:'Background processing failed. Please retry or use another browser',
+  ERR_START_FAIL:'Could not start background processing. Please retry',
+  ERR_UNKNOWN:'Processing failed. Please retry'
+};
 function loadImage(file){return new Promise(function(res,rej){
   var r=new FileReader();
   r.onload=function(e){var im=new Image();im.onload=function(){res(im);};im.onerror=function(){rej(new Error('Image decoding failed'));};im.src=e.target.result;};
@@ -303,8 +315,9 @@ function handleFile(file){
     window.__pu=null;if(window.__setPreview){window.__setPreview(originalPreview,file,function(u,h){window.__pu=(h==='objectURL'||h==='bitmap')?u:null;});}else{window.__pu=URL.createObjectURL(file);originalPreview.src=window.__pu;}
     previewArea.classList.add('active');controls.classList.add('active');
     outCanvas=null;downloadSection.classList.remove('active');
+    scaleNote.style.display='none';scaleNote.textContent='';
     if(window.onImageReady)window.onImageReady(srcCanvas,img);
-  }).catch(function(e){alert(e.message);});}
+  }).catch(function(e){alert('Could not process this image. Please choose a valid image file and try again.');});}
 uploadArea.addEventListener('click',function(){fileInput.click();});
 fileInput.addEventListener('change',function(e){handleFile(e.target.files[0]);});
 uploadArea.addEventListener('dragover',function(e){e.preventDefault();uploadArea.classList.add('dragover');});
@@ -316,32 +329,54 @@ function radio(name){var el=document.querySelector('input[name="'+name+'"]:check
 function checked(id){var el=$(id);return el?el.checked:false;}
 function showLoading(t){loadingText.textContent=t||'Processing…';loadingOverlay.classList.add('active');}
 function hideLoading(){loadingOverlay.classList.remove('active');}
-function finish(c){outCanvas=c;processedPreview.src=c.toDataURL();downloadSection.classList.add('active');hideLoading();}
-function fail(e){hideLoading();alert('Processing failed: '+(e&&e.message||e));}
+function setBusy(v){busy=v;processBtn.disabled=v;cancelBtn.style.display=v?'block':'none';}
+function onProgress(p){loadingText.textContent='Upscaling, please wait… '+p+'%';}
+function finish(c){
+  outCanvas=c;processedPreview.src=c.toDataURL();downloadSection.classList.add('active');
+  hideLoading();setBusy(false);
+  if(actualFactor&&wantedFactor&&actualFactor<wantedFactor-0.01){
+    scaleNote.textContent='Large image: output at '+actualFactor.toFixed(2)+'× (the selected '+wantedFactor+'× exceeds browser limits)';
+    scaleNote.style.display='block';
+  }else{scaleNote.style.display='none';scaleNote.textContent='';}
+}
+function fail(e){
+  hideLoading();setBusy(false);
+  var code=(e&&e.message)||'ERR_UNKNOWN';
+  if(code==='CANCELLED')return;
+  alert(ERR[code]||('Processing failed: '+code));
+}
 processBtn.addEventListener('click',function(){
+  if(busy)return;
   if(!srcCanvas){alert('Choose an image first');return;}
-  showLoading(LOADING_TEXT);
+  setBusy(true);
+  showLoading('Upscaling, please wait… 0%');
   setTimeout(function(){
     try{var r=process(srcCanvas);
       if(r&&typeof r.then==='function'){r.then(finish).catch(fail);}else{finish(r);}
     }catch(e){fail(e);}
   },30);});
+cancelBtn.addEventListener('click',function(){
+  if(!busy)return;
+  if(window.Lab&&Lab.cancelUpscale)Lab.cancelUpscale();
+  hideLoading();setBusy(false);
+});
 downloadBtn.addEventListener('click',function(){
   if(!outCanvas)return;
   if(window.__download){window.__download(outCanvas,FILENAME);}else{var a=document.createElement('a');a.download=FILENAME;a.href=outCanvas.toDataURL(FORMAT,QUALITY);a.click();}});
-var LOADING_TEXT='Upscaling, please wait…';
+var LOADING_TEXT='Upscaling, please wait';
 var FILENAME='upscaled.png';
 var FORMAT='png';
 var QUALITY=0.92;
 
 function process(src){
   var f=parseFloat(radio('upF'))||2;
+  wantedFactor=f;
   var maxSide=4000;
   if(src.width*f>maxSide||src.height*f>maxSide){
     f=Math.min(f,maxSide/Math.max(src.width,src.height));
-    if(f<1.05)throw new Error('This image is already too large to upscale further');
-    console.warn('Scale factor adjusted to '+f.toFixed(2));}
-  return Lab.upscale(src,f);}
+    if(f<1.05)throw new Error('ERR_ALREADY_LARGE');}
+  actualFactor=f;
+  return Lab.upscale(src,f,onProgress);}
 })();
 </script>
 <script src="/assets/js/main.js?v=20261108ml"></script>

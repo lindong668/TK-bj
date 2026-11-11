@@ -710,89 +710,74 @@
      * lanczos()（每次 2 次 Math.sin），3200x2400 放大实测 109s。
      * 现水平/垂直权重各预计算一次，再分两趟一维卷积，输出尺寸与旧版一致。
      * ============================================================ */
-    LAB.upscale = function (src, factor) {
+    /* V70.5：放大计算移入后台 Worker，主线程只负责 UI。
+     * 中英两份 lab.js 的这一段由同一模板生成，逐字一致。 */
+    var _upscaleJob = null;
+    LAB.upscale = function (src, factor, onProgress) {
         var w = src.naturalWidth || src.width, h = src.naturalHeight || src.height;
         var nw = Math.round(w * factor), nh = Math.round(h * factor);
+        if (!(w > 0 && h > 0) || nw * nh > 40000000) {
+            return Promise.reject(new Error('ERR_TOO_LARGE'));
+        }
         var sctx = drawTo(src, w, h).getContext('2d', { willReadFrequently: true });
         var sd = sctx.getImageData(0, 0, w, h).data;
-        var out = makeCanvas(nw, nh);
-        var octx = out.getContext('2d', { willReadFrequently: true });
-        var oim = octx.createImageData(nw, nh), od = oim.data;
-
-        function lanczos(t, a) {
-            if (t === 0) return 1;
-            if (Math.abs(t) >= a) return 0;
-            var pt = Math.PI * t;
-            return a * Math.sin(pt) * Math.sin(pt / a) / (pt * pt);
-        }
-        var A = 3, TAP = 2 * A;                 /* dx/dy = -A+1..A，共 6 个抽头 */
-        var xScale = nw / w, yScale = nh / h;
-
-        function clampIdx(v, hi) { return v < 0 ? 0 : (v > hi ? hi : v); }
-
-        /* 水平权重表：每列 6 个权重 + 源列索引 + 权重和 */
-        var hW = new Float32Array(nw * TAP), hI = new Int32Array(nw * TAP), hS = new Float32Array(nw);
-        for (var x = 0; x < nw; x++) {
-            var sx = (x + 0.5) / xScale - 0.5, sxi = Math.floor(sx), sum = 0;
-            for (var k = 0; k < TAP; k++) {
-                var dx = -A + 1 + k, wx = lanczos(sx - (sxi + dx), A);
-                hW[x * TAP + k] = wx;
-                hI[x * TAP + k] = clampIdx(sxi + dx, w - 1);
-                sum += wx;
+        return new Promise(function (resolve, reject) {
+            var worker;
+            try { worker = new Worker('/assets/js/upscale-worker.js?v=20261111f'); }
+            catch (e) { reject(new Error('ERR_NO_WORKER')); return; }
+            var settled = false;
+            function cleanup() {
+                if (_upscaleJob && _upscaleJob.worker === worker) _upscaleJob = null;
+                try { worker.terminate(); } catch (e2) {}
             }
-            hS[x] = sum;
-        }
-        /* 垂直权重表：每行 6 个权重 + 源行索引 + 权重和 */
-        var vW = new Float32Array(nh * TAP), vI = new Int32Array(nh * TAP), vS = new Float32Array(nh);
-        for (var y = 0; y < nh; y++) {
-            var sy = (y + 0.5) / yScale - 0.5, syi = Math.floor(sy), sum2 = 0;
-            for (var k2 = 0; k2 < TAP; k2++) {
-                var dy2 = -A + 1 + k2, wy = lanczos(sy - (syi + dy2), A);
-                vW[y * TAP + k2] = wy;
-                vI[y * TAP + k2] = clampIdx(syi + dy2, h - 1);
-                sum2 += wy;
+            _upscaleJob = {
+                worker: worker,
+                cancel: function () {
+                    if (settled) return;
+                    settled = true;
+                    try { worker.postMessage({ type: 'cancel' }); } catch (e3) {}
+                    cleanup();
+                    reject(new Error('CANCELLED'));
+                }
+            };
+            worker.onmessage = function (ev) {
+                var m = ev.data || {};
+                if (m.type === 'progress') {
+                    if (onProgress) { try { onProgress(m.pct); } catch (e4) {} }
+                    return;
+                }
+                if (m.type === 'error') {
+                    if (settled) return;
+                    settled = true; cleanup();
+                    reject(new Error(m.message === 'OUT_TOO_LARGE' ? 'ERR_TOO_LARGE' : 'ERR_WORKER_FAIL'));
+                    return;
+                }
+                if (m.type === 'done') {
+                    if (settled) return;
+                    settled = true;
+                    var out = makeCanvas(m.nw, m.nh);
+                    out.getContext('2d').putImageData(
+                        new ImageData(new Uint8ClampedArray(m.buffer), m.nw, m.nh), 0, 0);
+                    cleanup(); resolve(out);
+                }
+            };
+            worker.onerror = function () {
+                if (settled) return;
+                settled = true; cleanup();
+                reject(new Error('ERR_WORKER_FAIL'));
+            };
+            try {
+                worker.postMessage(
+                    { type: 'start', w: w, h: h, nw: nw, nh: nh, buffer: sd.buffer },
+                    [sd.buffer]);
+            } catch (e5) {
+                if (settled) return;
+                settled = true; cleanup();
+                reject(new Error('ERR_START_FAIL'));
             }
-            vS[y] = sum2;
-        }
-
-        /* 第一趟：水平重采样 w -> nw。超大图回退 8bit 中间缓存，避免再吃几百 MB */
-        var tmp = (nw * h * 4 <= 40000000)
-            ? new Float32Array(nw * h * 4)
-            : new Uint8ClampedArray(nw * h * 4);
-        for (var yy = 0; yy < h; yy++) {
-            var row = yy * w * 4, trow = yy * nw * 4;
-            for (var xx = 0; xx < nw; xx++) {
-                var r = 0, g = 0, b = 0, aa = 0, ws = hS[xx], o = trow + xx * 4;
-                if (ws > 0) {
-                    for (var k3 = 0; k3 < TAP; k3++) {
-                        var wt = hW[xx * TAP + k3];
-                        if (wt === 0) continue;
-                        var si = row + hI[xx * TAP + k3] * 4;
-                        r += sd[si] * wt; g += sd[si + 1] * wt; b += sd[si + 2] * wt; aa += sd[si + 3] * wt;
-                    }
-                    tmp[o] = r / ws; tmp[o + 1] = g / ws; tmp[o + 2] = b / ws; tmp[o + 3] = aa / ws;
-                } else { tmp[o + 3] = 255; }
-            }
-        }
-        /* 第二趟：垂直重采样 h -> nh */
-        for (var y2 = 0; y2 < nh; y2++) {
-            var ws2 = vS[y2], orow = y2 * nw * 4;
-            for (var x2 = 0; x2 < nw; x2++) {
-                var r2 = 0, g2 = 0, b2 = 0, a2 = 0, oi = orow + x2 * 4;
-                if (ws2 > 0) {
-                    for (var k4 = 0; k4 < TAP; k4++) {
-                        var wt2 = vW[y2 * TAP + k4];
-                        if (wt2 === 0) continue;
-                        var ti = vI[y2 * TAP + k4] * nw * 4 + x2 * 4;
-                        r2 += tmp[ti] * wt2; g2 += tmp[ti + 1] * wt2; b2 += tmp[ti + 2] * wt2; a2 += tmp[ti + 3] * wt2;
-                    }
-                    od[oi] = r2 / ws2; od[oi + 1] = g2 / ws2; od[oi + 2] = b2 / ws2; od[oi + 3] = a2 / ws2;
-                } else { od[oi + 3] = 255; }
-            }
-        }
-        octx.putImageData(oim, 0, 0);
-        return out;
+        });
     };
+    LAB.cancelUpscale = function () { if (_upscaleJob) _upscaleJob.cancel(); };
     /* ============================================================
      * 10. 颜色提取（k-means）
      * ============================================================ */

@@ -49,7 +49,7 @@ export default {
      */
     if (url.pathname === '/ads.txt' || url.pathname === '/Ads.txt') {
       return new Response(
-        'google.com, pub-8915931557404979, DIRECT, f08c47fe0942fa0\n',
+        'google.com, pub-8915931557404979, DIRECT, f08c47fec0942fa0\n',
         { status: 200, headers: {
             'content-type': 'text/plain',
             'X-Content-Type-Options': 'nosniff',

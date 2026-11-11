@@ -7,16 +7,30 @@
 > | 域名 | **https://piccalc.com（根域）** |
 > | Worker 名 | `tk-bj` |
 > | 形态 | **Cloudflare Workers + Assets** |
-> | 本包版本 | **V70** = 远端现行版 + URL 形态统一与全站整改 |
-> | 生成日期 | 2026-11-10 |
+> | 本包版本 | **V70.6** = V70 全站整改 + 后台 Worker 放大修复 |
+> | 生成日期 | 2026-11-11 |
 > | 关键特性 | 44 组中英独立 URL；canonical / hreflang / sitemap / 内链全部**无扩展名**；guides 旧路径 301 到 /tools/ |
+
+---
+
+## ★★ V70.6 现行说明（2026-11-11，优先级高于下面所有历史章节）
+
+放大工具（`/tools/upscale`、`/zh/tools/upscale`）已改为 **Web Worker 后台分块计算**：
+
+- 新增 `public/assets/js/upscale-worker.js`（中英共用一份）：Lanczos3 按输出行分块、回传进度、支持取消、输出上限 4000 万像素；主线程不再被计算冻结，不会再弹「页面无响应」。
+- 中英两份 `lab.js` 的 `LAB.upscale` 段**逐字一致**（此前优化只改了英文那份，是中文站卡死的根因）。
+- 32 个引用 `lab.js` 的 HTML 版本号统一 `?v=20261111f`。**改样式或算法必须同步升版本号**，否则 CDN 会吞旧副本（V70.2 的 Safari 拉一屏就是栽在这里）。
+- 带 `.html` 的请求由 Worker **301** 到无扩展名（不再是 CF Assets 的 307 临时跳）。
+- 其余资产（`ads.txt` / `robots.txt` / `sitemap.xml` / `_headers` / `src/index.js` / 配置 / 广告位 / URL）逐字节未动。
+
+详见同目录 `1号_PicStudio_V70_一步部署说明.md` 与 `1号_PicStudio_V70_全站整改与广告位上线_复审报告.md`。
 
 ---
 
 ## ★ V70 现行说明（2026-11-10，以下历史章节如与之冲突，以本节为准）
 
 **线上实测**：无扩展名地址 `https://piccalc.com/about` = **200**（最终页面）；
-带 `.html` 的 `https://piccalc.com/about.html` = **307** 跳到无扩展名（CF Assets 默认行为，属正常）。
+带 `.html` 的 `https://piccalc.com/about.html` = **301** 跳到无扩展名（V70.4 起由 Worker 归一，永久跳；旧的 CF Assets 307 临时跳已取代）。
 整改前全站 84 页 canonical、252 条 hreflang、1576 条站内链接、sitemap 84 条 loc
 全部写 `.html`，**规范地址指向的不是最终 200 页面**；同时 Worker 里还留着
 「无扩展名 → 301 补 `.html`」的反向逻辑（线上因探测拿不到 200 而永不触发，属死代码，
