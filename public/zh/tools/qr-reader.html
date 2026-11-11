@@ -234,7 +234,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 </footer>
 <script src="/zh/assets/js/preview.js?v=20261108ml"></script>
 <script src="/zh/assets/js/download.js?v=20261109dl"></script>
-<script src="/zh/assets/js/lab.js?v=20261111d"></script>
+<script src="/zh/assets/js/lab.js?v=20261111e"></script>
 <script>
 (function(){
 var $=function(id){return document.getElementById(id);};
@@ -324,7 +324,7 @@ function decode(){
         '· 网络受限导致备用识别库加载失败<br>'+
         '建议换一张更清晰、端正的截图再试。</div>';
     });
-  }).catch(function(e){hideLoading();alert('识别出错：'+e.message);});}
+  }).catch(function(e){hideLoading();alert('识别出错，请换一张更清晰、端正的截图再试');});}
 function finish(list){
   hideLoading();
   resultText.value=list.join('\n\n');

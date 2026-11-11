@@ -272,8 +272,8 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 </footer>
 <script src="/zh/assets/js/preview.js?v=20261108ml"></script>
 <script src="/zh/assets/js/download.js?v=20261109dl"></script>
-<script src="/zh/assets/js/lab.js?v=20261111d"></script>
-<script src="/zh/assets/js/qrcode.js?v=20261111d"></script><script>
+<script src="/zh/assets/js/lab.js?v=20261111e"></script>
+<script src="/zh/assets/js/qrcode.js?v=20261111e"></script><script>
 (function(){
 var $=function(id){return document.getElementById(id);};
 var canvas=$('qrCanvas'),meta=$('qrMeta'),errBox=$('qrErr'),
@@ -353,7 +353,7 @@ function generate(){
       logoSize:parseFloat($('logoSize').value)/100});
     meta.textContent='版本 '+qr.version+' · 纠错 '+ec+' · '+qr.size+'×'+qr.size+' 模块';
     downloadSection.classList.add('active');
-  }catch(e){errBox.textContent=e.message;downloadSection.classList.remove('active');}}
+  }catch(e){errBox.textContent='内容有误，请检查输入后重试';downloadSection.classList.remove('active');}}
 ['ecc','fgColor','bgColor','dotShape','logoSize'].forEach(function(id){
   $(id).addEventListener('input',generate);
   $(id).addEventListener('change',generate);});

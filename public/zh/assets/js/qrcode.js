@@ -545,6 +545,8 @@
     var TEMPLATES = {
         text: function (v) { return v; },
         url: function (v) {
+            v = String(v == null ? '' : v).trim();
+            if (!v) return '';                      /* 空输入不生成无意义的 https:// 码 */
             if (!/^https?:\/\//i.test(v)) v = 'https://' + v;
             return v;
         },

@@ -271,7 +271,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 </footer>
 <script src="/zh/assets/js/preview.js?v=20261108ml"></script>
 <script src="/zh/assets/js/download.js?v=20261109dl"></script>
-<script src="/zh/assets/js/lab.js?v=20261111d"></script>
+<script src="/zh/assets/js/lab.js?v=20261111e"></script>
 <script>
 (function(){
 var $=function(id){return document.getElementById(id);};
@@ -314,7 +314,7 @@ function checked(id){var el=$(id);return el?el.checked:false;}
 function showLoading(t){loadingText.textContent=t||'处理中…';loadingOverlay.classList.add('active');}
 function hideLoading(){loadingOverlay.classList.remove('active');}
 function finish(c){outCanvas=c;processedPreview.src=c.toDataURL();downloadSection.classList.add('active');hideLoading();}
-function fail(e){hideLoading();alert('处理失败：'+(e&&e.message||e));}
+function fail(e){hideLoading();alert('处理失败，请换一张图片后重试');}
 function runProcess(){
   if(!srcCanvas){return;}
   showLoading(LOADING_TEXT);

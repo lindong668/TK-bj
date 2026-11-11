@@ -706,6 +706,9 @@
 
     /* ============================================================
      * 9. 高质量放大（Lanczos3）
+     * V70.5：两趟可分离 + 权重预算。旧版每个输出像素算 6x6=36 次
+     * lanczos()（每次 2 次 Math.sin），3200x2400 放大实测 109s。
+     * 现水平/垂直权重各预计算一次，再分两趟一维卷积，输出尺寸与旧版一致。
      * ============================================================ */
     LAB.upscale = function (src, factor) {
         var w = src.naturalWidth || src.width, h = src.naturalHeight || src.height;
@@ -722,43 +725,74 @@
             var pt = Math.PI * t;
             return a * Math.sin(pt) * Math.sin(pt / a) / (pt * pt);
         }
-        var A = 3;
+        var A = 3, TAP = 2 * A;                 /* dx/dy = -A+1..A，共 6 个抽头 */
         var xScale = nw / w, yScale = nh / h;
 
+        function clampIdx(v, hi) { return v < 0 ? 0 : (v > hi ? hi : v); }
+
+        /* 水平权重表：每列 6 个权重 + 源列索引 + 权重和 */
+        var hW = new Float32Array(nw * TAP), hI = new Int32Array(nw * TAP), hS = new Float32Array(nw);
+        for (var x = 0; x < nw; x++) {
+            var sx = (x + 0.5) / xScale - 0.5, sxi = Math.floor(sx), sum = 0;
+            for (var k = 0; k < TAP; k++) {
+                var dx = -A + 1 + k, wx = lanczos(sx - (sxi + dx), A);
+                hW[x * TAP + k] = wx;
+                hI[x * TAP + k] = clampIdx(sxi + dx, w - 1);
+                sum += wx;
+            }
+            hS[x] = sum;
+        }
+        /* 垂直权重表：每行 6 个权重 + 源行索引 + 权重和 */
+        var vW = new Float32Array(nh * TAP), vI = new Int32Array(nh * TAP), vS = new Float32Array(nh);
         for (var y = 0; y < nh; y++) {
-            var sy = (y + 0.5) / yScale - 0.5;
-            var syi = Math.floor(sy);
-            for (var x = 0; x < nw; x++) {
-                var sx = (x + 0.5) / xScale - 0.5;
-                var sxi = Math.floor(sx);
-                var r = 0, g = 0, b = 0, a = 0, wsum = 0;
-                for (var dy = -A + 1; dy <= A; dy++) {
-                    var py = Math.min(h - 1, Math.max(0, syi + dy));
-                    var wy = lanczos(sy - (syi + dy), A);
-                    if (wy === 0) continue;
-                    for (var dx = -A + 1; dx <= A; dx++) {
-                        var px = Math.min(w - 1, Math.max(0, sxi + dx));
-                        var wx = lanczos(sx - (sxi + dx), A);
-                        if (wx === 0) continue;
-                        var ww = wx * wy;
-                        var i4 = (py * w + px) * 4;
-                        r += sd[i4] * ww; g += sd[i4 + 1] * ww; b += sd[i4 + 2] * ww; a += sd[i4 + 3] * ww;
-                        wsum += ww;
+            var sy = (y + 0.5) / yScale - 0.5, syi = Math.floor(sy), sum2 = 0;
+            for (var k2 = 0; k2 < TAP; k2++) {
+                var dy2 = -A + 1 + k2, wy = lanczos(sy - (syi + dy2), A);
+                vW[y * TAP + k2] = wy;
+                vI[y * TAP + k2] = clampIdx(syi + dy2, h - 1);
+                sum2 += wy;
+            }
+            vS[y] = sum2;
+        }
+
+        /* 第一趟：水平重采样 w -> nw。超大图回退 8bit 中间缓存，避免再吃几百 MB */
+        var tmp = (nw * h * 4 <= 40000000)
+            ? new Float32Array(nw * h * 4)
+            : new Uint8ClampedArray(nw * h * 4);
+        for (var yy = 0; yy < h; yy++) {
+            var row = yy * w * 4, trow = yy * nw * 4;
+            for (var xx = 0; xx < nw; xx++) {
+                var r = 0, g = 0, b = 0, aa = 0, ws = hS[xx], o = trow + xx * 4;
+                if (ws > 0) {
+                    for (var k3 = 0; k3 < TAP; k3++) {
+                        var wt = hW[xx * TAP + k3];
+                        if (wt === 0) continue;
+                        var si = row + hI[xx * TAP + k3] * 4;
+                        r += sd[si] * wt; g += sd[si + 1] * wt; b += sd[si + 2] * wt; aa += sd[si + 3] * wt;
                     }
-                }
-                var oi = (y * nw + x) * 4;
-                if (wsum > 0) {
-                    od[oi] = clamp255(r / wsum);
-                    od[oi + 1] = clamp255(g / wsum);
-                    od[oi + 2] = clamp255(b / wsum);
-                    od[oi + 3] = clamp255(a / wsum);
+                    tmp[o] = r / ws; tmp[o + 1] = g / ws; tmp[o + 2] = b / ws; tmp[o + 3] = aa / ws;
+                } else { tmp[o + 3] = 255; }
+            }
+        }
+        /* 第二趟：垂直重采样 h -> nh */
+        for (var y2 = 0; y2 < nh; y2++) {
+            var ws2 = vS[y2], orow = y2 * nw * 4;
+            for (var x2 = 0; x2 < nw; x2++) {
+                var r2 = 0, g2 = 0, b2 = 0, a2 = 0, oi = orow + x2 * 4;
+                if (ws2 > 0) {
+                    for (var k4 = 0; k4 < TAP; k4++) {
+                        var wt2 = vW[y2 * TAP + k4];
+                        if (wt2 === 0) continue;
+                        var ti = vI[y2 * TAP + k4] * nw * 4 + x2 * 4;
+                        r2 += tmp[ti] * wt2; g2 += tmp[ti + 1] * wt2; b2 += tmp[ti + 2] * wt2; a2 += tmp[ti + 3] * wt2;
+                    }
+                    od[oi] = r2 / ws2; od[oi + 1] = g2 / ws2; od[oi + 2] = b2 / ws2; od[oi + 3] = a2 / ws2;
                 } else { od[oi + 3] = 255; }
             }
         }
         octx.putImageData(oim, 0, 0);
         return out;
     };
-
     /* ============================================================
      * 10. 颜色提取（k-means）
      * ============================================================ */

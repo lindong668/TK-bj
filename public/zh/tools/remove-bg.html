@@ -297,7 +297,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 <div class="loading-overlay" id="loadingOverlay"><div class="spinner"></div><div class="loading-text"><span>正在处理，请稍候…</span></div></div>
 <script src="/zh/assets/js/preview.js?v=20261108ml"></script>
 <script src="/zh/assets/js/download.js?v=20261109dl"></script>
-<script src="/zh/assets/js/tools.js?v=20261111d"></script>
+<script src="/zh/assets/js/tools.js?v=20261111e"></script>
 <script src="/zh/assets/js/icon-crop.js?v=20261108ml"></script>
 <script>
 
@@ -434,7 +434,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
             }
             document.getElementById('icoExtra').style.display = 'block';
         } catch (e) {
-            alert(((window.PSLang && PSLang.get() === 'zh') ? '生成 ICO 失败：' : 'ICO build failed: ') + e.message);
+            alert(((window.PSLang && PSLang.get() === 'zh') ? '生成 ICO 失败，请换一张图片重试' : 'ICO build failed, please try another image'));
         } finally { btn.disabled = false; }
     });
 

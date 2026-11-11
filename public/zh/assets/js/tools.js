@@ -81,7 +81,7 @@ class ImageTool {
         } catch (err) {
             console.error('[PicStudio] load failed', err);
             alert((window.PSLang && PSLang.get() === 'zh')
-                ? '无法读取这张图片：' + err.message + '\n请确认它是图片文件（视频、RAW、损坏文件不支持）。'
+                ? '无法读取这张图片，请确认它是图片文件（视频、RAW、损坏文件不支持）。'
                 : 'Cannot read this image: ' + err.message + '\nVideos, RAW files and broken files are not supported.');
         }
     }
@@ -169,7 +169,7 @@ class ImageTool {
             this.downloadSection.classList.add('active');
         } catch (err) {
             console.error('Processing error:', err);
-            alert('处理失败：' + err.message);
+            alert('处理失败，请换一张图片后重试');
         } finally {
             this.isProcessing = false;
             this.showLoading(false);

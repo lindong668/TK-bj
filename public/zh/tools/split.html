@@ -250,7 +250,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 </footer>
 <script src="/zh/assets/js/preview.js?v=20261108ml"></script>
 <script src="/zh/assets/js/download.js?v=20261109dl"></script>
-<script src="/zh/assets/js/lab.js?v=20261111d"></script>
+<script src="/zh/assets/js/lab.js?v=20261111e"></script>
 <script>
 (function(){
 var $=function(id){return document.getElementById(id);};
@@ -314,7 +314,7 @@ processBtn.addEventListener('click',function(){
       downloadSection.classList.add('active');
       $('outInfo').textContent='共分割成 '+pieces.length+' 段';
       loadingOverlay.classList.remove('active');
-    }catch(e){loadingOverlay.classList.remove('active');alert('分割失败：'+e.message);}
+    }catch(e){loadingOverlay.classList.remove('active');alert('分割失败，请换一张图片重试');}
   },30);});
 })();
 </script>

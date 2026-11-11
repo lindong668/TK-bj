@@ -295,7 +295,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 <div class="loading-overlay" id="loadingOverlay"><div class="spinner"></div><div class="loading-text"><span>Processing, please wait…</span></div></div>
 <script src="/assets/js/preview.js?v=20261108ml"></script>
 <script src="/assets/js/download.js?v=20261109dl"></script>
-<script src="/assets/js/tools.js?v=20261111d"></script>
+<script src="/assets/js/tools.js?v=20261111e"></script>
 <script src="/assets/js/icon-crop.js?v=20261108ml"></script>
 <script>
 
@@ -365,7 +365,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
     });
 
     btn.addEventListener('click', async () => {
-        if (!srcCanvas) { alert((window.PSLang && PSLang.get() === 'zh') ? 'Please choose an image first.' : 'Please choose an image first.'); return; }
+        if (!srcCanvas) { alert((window.PSLang && PSLang.get() === 'zh') ? '请先选择一张图片。' : 'Please choose an image first.'); return; }
         const sizes = Array.from(document.querySelectorAll('input[name="icoSize"]:checked'))
             .map(x => parseInt(x.value, 10)).sort((a, b) => a - b);
         if (!sizes.length) { alert((window.PSLang && PSLang.get() === 'zh') ? 'Tick at least one icon size.' : 'Pick at least one size.'); return; }

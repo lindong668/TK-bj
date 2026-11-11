@@ -266,7 +266,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 <div class="loading-overlay" id="loadingOverlay"><div class="spinner"></div><div class="loading-text"><span>正在处理，请稍候…</span></div></div>
 <script src="/zh/assets/js/preview.js?v=20261108ml"></script>
 <script src="/zh/assets/js/download.js?v=20261109dl"></script>
-<script src="/zh/assets/js/tools.js?v=20261111d"></script>
+<script src="/zh/assets/js/tools.js?v=20261111e"></script>
 <script>
 
     let loadedA = null, loadedB = null, diffCache = null;
@@ -369,7 +369,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
             if (loadedA) refreshView();
             else alert((window.PSLang && PSLang.get() === 'zh')
                 ? '图片 B 已选好，请先在上方上传图片 A。' : 'Image B is ready. Please add image A above.');
-        } catch (err) { alert('Image B: ' + err.message); }
+        } catch (err) { alert('图片 B 读取失败，请换一张图片重试。'); }
     });
     function buildCanvas() {
         const W = loadedA.width, H = loadedA.height;
@@ -389,7 +389,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
     }
     const origDownload = tool.download.bind(tool);
     tool.download = function () {
-        if (!loadedA || !loadedB) { alert('Please choose both images first.'); return; }
+        if (!loadedA || !loadedB) { alert('请先选择两张图片。'); return; }
         tool.processedCanvas = buildCanvas(); origDownload();
     };
     document.getElementById('processBtn').addEventListener('click', refreshView);
