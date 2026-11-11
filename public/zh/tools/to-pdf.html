@@ -11,7 +11,6 @@
 <meta content="PicStudio 品牌分享图" property="og:image:alt"/>
 <meta content="summary_large_image" name="twitter:card"/>
 <meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
-<meta content="ca-pub-8915931557404979" name="google-adsense-account"/>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>图片转 PDF — A4 或按图片尺寸</title>
@@ -29,7 +28,7 @@
 
 <meta content="图片转 PDF — A4 或按图片尺寸 | PicStudio" name="twitter:title"/>
 <meta content="把多张图片合成一个 PDF，可选 A4 或匹配图片尺寸，支持调整页序并即时下载。" name="twitter:description"/>
-<link href="/assets/css/style.css?v=20261111d" rel="stylesheet"/>
+<link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
 <style>.content-section{padding:48px 0;background:transparent;border-top:1px solid var(--border)}
 .content-section .container{max-width:860px}
 .content-block{margin-bottom:40px}
@@ -160,7 +159,7 @@
 </div>
 <div class="controls" id="controls">
 <div class="control-group">
-<label class="control-label">页面尺寸</label>
+<label for="pfA4" class="control-label">页面尺寸</label>
 <div class="radio-group">
 <div class="radio-option"><input checked="" id="pfA4" name="pfSize" type="radio" value="a4"/><label for="pfA4">A4（595×842）</label></div>
 <div class="radio-option"><input id="pfFit" name="pfSize" type="radio" value="fit"/><label for="pfFit">跟随图片尺寸</label></div>
@@ -168,7 +167,7 @@
 <div class="control-hint">选 A4 便于打印，选「跟随图片」保持原始比例不变形</div>
 </div>
 <div class="control-group">
-<label class="control-label">图片清晰度</label>
+<label for="pfQ" class="control-label">图片清晰度</label>
 <input id="pfQ" max="100" min="50" type="range" value="85"/>
 <div class="control-hint">越高越清晰但文件越大，85 是常用平衡点</div>
 </div>
@@ -241,7 +240,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 </div>
 </footer>
 <script src="/zh/assets/js/preview.js?v=20261108ml"></script>
-<script src="/zh/assets/js/download.js?v=20261111d2"></script>
+<script src="/zh/assets/js/download.js?v=20261109dl"></script>
 <script src="/zh/assets/js/lab.js?v=20261111f"></script>
 <script>
 (function(){
@@ -312,7 +311,7 @@ downloadBtn.addEventListener('click',function(){
   document.body.removeChild(a);setTimeout(function(){URL.revokeObjectURL(url);},2000);});
 })();
 </script>
-<script src="/zh/assets/js/main.js?v=20261111m2"></script>
+<script src="/zh/assets/js/main.js?v=20261111g"></script>
 <script src="/zh/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/zh/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/zh/assets/js/ux.js?v=20261108ml"></script>

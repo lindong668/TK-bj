@@ -291,7 +291,7 @@
             });
         }).catch(function (err) {
             console.error('[download]', err);
-            alert(t('无法创建文件，请重试。', 'Could not create the file. Please try again.'));
+            alert(t('Could not create the file, please try again', 'Could not create the file. Please try again.'));
         });
     };
 

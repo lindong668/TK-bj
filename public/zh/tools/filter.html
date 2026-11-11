@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html data-lang="zh" lang="zh-CN">
 <head>
-<meta content="ca-pub-8915931557404979" name="google-adsense-account"/>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>在线照片滤镜 — 黑白、复古、冷调、暖调</title>
@@ -100,7 +99,7 @@
 <meta content="PicStudio 品牌分享图" property="og:image:alt"/>
 
 <meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
-<link href="/assets/css/style.css?v=20261111d" rel="stylesheet"/>
+<link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
 <style>
       html[data-lang="en"] [data-lang-block="zh"] { display: none !important; }
       html[data-lang="zh"] [data-lang-block="en"] { display: none !important; }
@@ -154,8 +153,8 @@
 </div>
 <div class="controls" id="controls">
 <div class="control-group">
-<label class="control-label">选择滤镜</label>
-<select id="filterSelect">
+<label for="filterSelect" class="control-label">选择滤镜</label>
+<select id="filterSelect" name="filterSelect">
 <option value="grayscale">黑白</option>
 <option value="sepia">复古棕调</option>
 <option value="cool">冷色调</option>
@@ -168,7 +167,7 @@
 </select>
 </div>
 <div class="control-group">
-<label class="control-label">滤镜强度</label>
+<label for="filterStrength" class="control-label">滤镜强度</label>
 <input id="filterStrength" max="100" min="0" type="range" value="100"/>
 <div class="control-hint" id="strengthHint">强度：100%</div>
 </div>
@@ -291,7 +290,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 <div class="loading-text">正在处理中，请稍候...</div>
 </div>
 <script src="/zh/assets/js/preview.js?v=20261108ml"></script>
-<script src="/zh/assets/js/download.js?v=20261111d2"></script>
+<script src="/zh/assets/js/download.js?v=20261109dl"></script>
 <script src="/zh/assets/js/tools.js?v=20261111e"></script>
 <script>
     const strengthSlider = document.getElementById('filterStrength');
@@ -395,7 +394,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 
     document.getElementById('processBtn').addEventListener('click', () => tool.process());
     </script>
-<script src="/zh/assets/js/main.js?v=20261111m2"></script>
+<script src="/zh/assets/js/main.js?v=20261111g"></script>
 <script src="/zh/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/zh/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/zh/assets/js/ux.js?v=20261108ml"></script>

@@ -11,7 +11,6 @@
 <meta content="PicStudio 品牌分享图" property="og:image:alt"/>
 <meta content="summary_large_image" name="twitter:card"/>
 <meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
-<meta content="ca-pub-8915931557404979" name="google-adsense-account"/>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>在线给图片加水印 — 文字或 Logo | PicStudio</title>
@@ -29,7 +28,7 @@
 
 <meta content="在线给图片加水印 — 文字或 Logo | PicStudio | PicStudio" name="twitter:title"/>
 <meta content="添加文字或 Logo 水印，支持平铺、位置、透明度与大小调整，不上传任何图片。" name="twitter:description"/>
-<link href="/assets/css/style.css?v=20261111d" rel="stylesheet"/>
+<link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
 <style>.content-section{padding:48px 0;background:transparent;border-top:1px solid var(--border)}
 .content-section .container{max-width:860px}
 .content-block{margin-bottom:40px}
@@ -153,24 +152,24 @@
 </div>
 <div class="controls" id="controls">
 <div class="control-group">
-<label class="control-label">水印类型</label>
+<label for="wmText" class="control-label">水印类型</label>
 <div class="radio-group">
 <div class="radio-option"><input checked="" id="wmText" name="wmMode" type="radio" value="text"/><label for="wmText">文字水印</label></div>
 <div class="radio-option"><input id="wmImage" name="wmMode" type="radio" value="image"/><label for="wmImage">图片水印（Logo）</label></div>
 </div>
 </div>
 <div class="control-group" id="textGroup">
-<label class="control-label">水印文字</label>
+<label for="wmText2" class="control-label">水印文字</label>
 <input id="wmText2" maxlength="60" style="width:100%;padding:10px;border:1px solid #e2e8f0;border-radius:8px;font-size:.95rem;" type="text" value="© PicStudio"/>
 <div class="control-hint">支持中英文，建议带上品牌名或账号</div>
 </div>
 <div class="control-group" id="imgGroup" style="display:none;">
-<label class="control-label">选择 Logo 图片</label>
+<label for="logoInput" class="control-label">选择 Logo 图片</label>
 <input accept="image/*" id="logoInput" style="padding:8px;" type="file"/>
 <div class="control-hint">建议用透明背景的 PNG，效果更好</div>
 </div>
 <div class="control-group">
-<label class="control-label">水印位置</label>
+<label for="pTile" class="control-label">水印位置</label>
 <div class="radio-group">
 <div class="radio-option"><input checked="" id="pTile" name="wmPos" type="radio" value="tile"/><label for="pTile">全图平铺</label></div>
 </div>
@@ -187,17 +186,17 @@
 </div>
 </div>
 <div class="control-group">
-<label class="control-label">不透明度</label>
+<label for="wmOpacity" class="control-label">不透明度</label>
 <input id="wmOpacity" max="100" min="5" type="range" value="35"/>
 <div class="control-hint">太低起不到作用，太高影响观看，30%–50% 较常见</div>
 </div>
 <div class="control-group">
-<label class="control-label">水印大小</label>
+<label for="wmScale" class="control-label">水印大小</label>
 <input id="wmScale" max="200" min="30" type="range" value="100"/>
 <div class="control-hint">相对图片短边的比例</div>
 </div>
 <div class="control-group">
-<label class="control-label">文字颜色</label>
+<label for="wmColor" class="control-label">文字颜色</label>
 <input id="wmColor" style="width:60px;height:36px;border:1px solid #e2e8f0;border-radius:6px;" type="color" value="#ffffff"/>
 <div class="control-hint">浅色图选深色，深色图选白色。系统会自动描一层反色轮廓，白底白字也看得清</div>
 </div>
@@ -269,7 +268,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 </div>
 </footer>
 <script src="/zh/assets/js/preview.js?v=20261108ml"></script>
-<script src="/zh/assets/js/download.js?v=20261111d2"></script>
+<script src="/zh/assets/js/download.js?v=20261109dl"></script>
 <script src="/zh/assets/js/lab.js?v=20261111f"></script>
 <script>
 (function(){
@@ -362,7 +361,7 @@ function process(src){
 }
 })();
 </script>
-<script src="/zh/assets/js/main.js?v=20261111m2"></script>
+<script src="/zh/assets/js/main.js?v=20261111g"></script>
 <script src="/zh/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/zh/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/zh/assets/js/ux.js?v=20261108ml"></script>

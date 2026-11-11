@@ -1539,68 +1539,32 @@ a.lang-toggle:hover { border-color:#818cf8; color:#fff; background:rgba(79,70,22
 @media (max-width: 640px) {
     .back-link { padding: 8px 13px; font-size: 13.5px; }
 }
-/* ===== V71 广告位（全站唯一实现 · 响应式自适应单元）=====
-   投放的是 Google 响应式单元（data-ad-format="auto" +
-   data-full-width-responsive="true"），高度由 Google 决定：
-     · 默认 / 未填充 / 状态未知：桌面 height 90px，手机 height 50px，
-       容器保持占位，不折叠、不隐藏、不 display:none；背景透明、无边框。
-     · 填充后：ads.js 监听 ins 的 data-ad-status="filled"，给容器加
-       .is-filled，height 改为 auto，完全跟随广告自然高度，不裁切、不设 max-height。
-   宽度：桌面 728 / max-width 100%；手机 100% / max-width 320。
-   margin:32px auto 同时满足「上下各 32px」与「离可点击元素 ≥32px」。
-   未填充时 Google 仍会给 ins 写入内联 height:280px（里面是一个空的 728×280
-   iframe），若不处理会溢出容器压住下方正文、并拦截点击。因此仅在
-   .ad-slot:not(.is-filled) 时用 !important 把 ins 压回占位高度并裁剪；
-   一旦 filled，该规则立即失效，容器与 ins 都回到 auto，不做任何裁切。
-   结构上预留固定尺寸单元：slot id 由 .ad-slot 的 data-slot-desktop /
-   data-slot-mobile 提供，缺省回退 ins 上的 data-ad-slot，切换只改数据。 */
-.ad-slot{
-  display:block;
-  width:728px;
-  max-width:100%;
-  height:90px;
-  margin:32px auto;
-  padding:0;
-  background:transparent;
-  border:0;
-  box-shadow:none;
-  overflow:visible;
+/* ===== V70.8 广告位（AdSense 自适应单元 slot 1784463687）=====
+   两态设计，同时守住 iPhone Safari 与 AdSense 政策：
+   · 未填充（默认 / data-ad-status="unfilled"）：内外两层锁 90/100px、overflow:hidden、
+     ins 与 iframe 绝对定位脱离文档流 —— 防脚本注入的探测元素把首页拉成一屏空白。
+     此态容器内没有任何广告创意，隐藏的是空占位，不涉及「隐藏广告」。
+   · 填充后（data-ad-status="filled" 或 ins 内出现可见 iframe）：ads-config.js 给
+     .ad-block / .ad-slot 加 .is-filled，高度改 auto、overflow:visible、contain:none，
+     ins 与 iframe 回到文档流，创意多高就显示多高，绝不裁切。
+     不改写广告内部 width/height，不由 JS 设固定高度；不依赖 :has()，兼容旧版 iOS Safari。 */
+.ad-block{position:relative;display:block;height:90px;min-height:90px;max-height:90px;max-width:728px;margin:20px auto;padding:0;overflow:hidden;contain:layout paint;flex:0 0 auto;background:transparent;border:0;border-radius:0;box-shadow:none}
+.ad-slot{display:block;position:relative;width:728px;max-width:100%;height:90px!important;min-height:90px!important;max-height:90px!important;margin:0 auto;padding:0;overflow:hidden!important;contain:layout paint;background:transparent;border:0;border-radius:0;box-shadow:none}
+.ad-slot ins.adsbygoogle{position:absolute!important;top:0;left:0;display:block!important;width:100%;max-width:100%;overflow:hidden!important;background:transparent!important;border:0!important}
+.ad-slot iframe{position:absolute!important;top:0;left:50%!important;transform:translateX(-50%)!important;display:block!important;border:0!important;background:transparent!important}
+@media(max-width:640px){
+  .ad-block{height:100px;min-height:100px;max-height:100px;max-width:320px;margin:16px auto}
+  .ad-slot{width:100%;max-width:320px;height:100px!important;min-height:100px!important;max-height:100px!important}
 }
-.ad-slot > ins.adsbygoogle,
-.ad-slot > ins.adsbygoogle iframe,
-.ad-slot iframe{
-  display:block;
-  width:100%;
-  max-width:100%;
-  margin:0;
-  padding:0;
-  border:0;
-  background:transparent;
+@media(min-width:641px){
+  .ad-block{height:90px;min-height:90px;max-height:90px;max-width:728px}
+  .ad-slot{width:728px;height:90px!important;min-height:90px!important;max-height:90px!important}
 }
-/* 未填充 / 状态未知：把 ins 压回占位高度并裁掉空 iframe 的溢出。
-   只作用于 :not(.is-filled)，填充后自动失效，不会裁切真实广告。 */
-.ad-slot:not(.is-filled) > ins.adsbygoogle{
-  height:90px !important;
-  overflow:hidden !important;
-}
-/* 仅在 Google 明确回报 filled 后放开高度，避免未填充时留下大块空白 */
-.ad-slot.is-filled{
-  height:auto;
-}
-@media (max-width:640px){
-  .ad-slot{
-    width:100%;
-    max-width:320px;
-    height:50px;
-    margin:32px auto;
-  }
-  .ad-slot:not(.is-filled) > ins.adsbygoogle{
-    height:50px !important;
-  }
-  .ad-slot.is-filled{
-    height:auto;
-  }
-}
+/* 填充态：置于媒体查询之后、特异性更高，覆盖上面所有锁高/裁切规则 */
+.ad-block.is-filled{height:auto!important;min-height:0!important;max-height:none!important;overflow:visible!important;contain:none!important}
+.ad-slot.is-filled{height:auto!important;min-height:0!important;max-height:none!important;overflow:visible!important;contain:none!important}
+.ad-slot.is-filled ins.adsbygoogle{position:relative!important;top:auto!important;left:auto!important;overflow:visible!important}
+.ad-slot.is-filled iframe{position:relative!important;top:auto!important;left:auto!important;transform:none!important}
 #tools{padding-bottom:24px}
 #guides{padding-top:24px}
 @media (max-width:768px){
