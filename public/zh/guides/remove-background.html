@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html data-lang="zh" lang="zh-CN">
 <head>
-<meta content="ca-pub-8915931557404979" name="google-adsense-account"/>
-<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8915931557404979"></script>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>透明图与干净边缘：Alpha、白边与图标 | PicStudio</title>
@@ -69,7 +67,7 @@
 <meta content="PicStudio 品牌分享图" property="og:image:alt"/>
 
 <meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
-<link href="/assets/css/style.css?v=20261111c" rel="stylesheet"/>
+<link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
 <style>
       html[data-lang="en"] [data-lang-block="zh"] { display: none !important; }
       html[data-lang="zh"] [data-lang-block="en"] { display: none !important; }
@@ -108,7 +106,7 @@
 <div class="content-block"><h2><span>alpha 通道到底是什么</span></h2><p><span>PNG 的每个像素除了红绿蓝，还能带第四个值 alpha：0 是全透明，255 是全不透明。透明 PNG 不是「把背景删掉的图」，而是背景像素被赋成 alpha 0 的图。所以透明 Logo 能叠在任何底色上，而没有 alpha 的 JPG 永远带一块实底。</span></p></div><div class="content-block"><h2><span>纯色边是可解的问题</span></h2><p><span>如果图片有一圈纯白边，检测它是确定性的：读像素缓冲、从四角取色，再由外向内逐行逐列走，直到某一行/列出现与取样色差异超过容差的像素；外接框以外全是均匀边，可以精确裁掉。这是对数字做算术，不是靠判断。</span></p></div><div class="content-block"><h2><span>公式的边界在哪</span></h2><p><span>渐变、投影、抗锯齿边，以及主体和边缘同色，都会让基于容差的扫描犯难。柔和阴影是一行行慢慢变暗的，找不到「边缘到此为止」的那一行。所以好工具会把容差交给你，并明确显示四边各裁掉多少像素——让你能核对，而不是盲信。</span></p></div><div class="content-block"><h2><span>图标与 favicon 的干净边缘</span></h2><p><span>小图标会被大幅缩小：1024 px 的 Logo 在标签页里只有 16 px。细字和细线会消失，所以要用粗一点、简单的轮廓，留 10~15% 内边距，并带 alpha 导出。多尺寸 .ico 里放六份各自单独缩小的图，比让浏览器把一张 256 px 图缩到所有场景要清楚得多。</span></p></div><div class="ps-hl" style="background:#fde047;color:#0f172a;border:2px solid #f59e0b;border-radius:10px;padding:14px 16px;margin:14px 0;font-size:14px;line-height:1.85;font-weight:600;box-shadow:0 0 0 4px rgba(253,224,71,.12)">⚠️ <span style="background:#0f172a;color:#fde047;padding:2px 7px;border-radius:5px;font-weight:800;white-space:nowrap">16 × 16 请只放单字母 / 纯色几何 / 两色高对比 Logo</span>：二维码、人脸、小字、细线、渐变压进去只会剩几块色，任何算法都补不回细节。<b>建议从 32 × 32 起看细节，二维码与人像最低 64 × 64</b>；16 档是给老浏览器和 Windows 小图标做兼容的。<br/>📐 完整说明见 <a href="/zh/guides/id-photo-sizes" style="color:#1d4ed8;text-decoration:underline;font-weight:700">图片尺寸与像素标准</a>。</div><div class="content-block"><h2><span>为什么这里确定性比猜更靠谱</span></h2><p><span>学习模型能出漂亮结果，但恰好在上面这些场景上不可预测，而且需要模型、密钥或上传。对于纯色边裁切、容器生成这类任务，固定公式每次输出一致、可离线运行，也绝不把图片送出去。按场景选对工具，比选最炫的工具更重要。</span></p></div>
 <div class="content-block"><h2><span>常见问题</span></h2><div class="faq-item"><div class="faq-question"><span>透明 PNG 为什么显示一块白底？</span></div><div class="faq-answer"><span>要么是查看器垫了白底，要么文件被存成了 JPG。检查 alpha 通道：PNG、WebP、ICO 能带透明，JPG 不能。</span></div></div><div class="faq-item"><div class="faq-question"><span>渐变边能自动去掉吗？</span></div><div class="faq-answer"><span>基于容差的扫描靠不住。请手动裁剪，或调低容差并接受留一点渐变。</span></div></div><div class="faq-item"><div class="faq-question"><span>去白边会上传图片吗？</span></div><div class="faq-answer"><span>不会。它读取浏览器内的像素缓冲，在本地 canvas 上裁切。</span></div></div><div class="faq-item"><div class="faq-question"><span>会用到 AI 模型吗？</span></div><div class="faq-answer"><span>不会。PicStudio 工具只用 Canvas 像素运算、格式解码和文件容器，不涉及 AI 模型、云端服务或上传。</span></div></div></div>
 <div class="content-block"><h2>试试其它工具</h2>
-<div class="related-tools"><a class="related-tool" href="/zh/tools/trim-edges"><span>✂️</span><span>自动去白边</span></a><a class="related-tool" href="/zh/tools/remove-bg"><span>🎯</span><span>ICO 图标 / Favicon 生成器</span></a><a class="related-tool" href="/zh/tools/rounded"><span>⬜</span><span>圆角</span></a><a class="related-tool" href="/zh/"><span>📚</span><span>全部图片指南</span></a></div></div>
+<div class="related-tools"><a class="related-tool" href="/zh/tools/trim-edges"><span>✂️</span><span>自动去白边</span></a><a class="related-tool" href="/zh/tools/icon-maker"><span>🎯</span><span>ICO 图标 / Favicon 生成器</span></a><a class="related-tool" href="/zh/tools/rounded"><span>⬜</span><span>圆角</span></a><a class="related-tool" href="/zh/"><span>📚</span><span>全部图片指南</span></a></div></div>
 <div class="note-box" style="margin-bottom:40px;"><p><span>PicStudio 所有工具都在浏览器本地运行，图片不会上传。</span></p></div>
 </div>
 </section>
@@ -140,7 +138,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 </div>
 </div>
 </footer>
-<script src="/zh/assets/js/main.js?v=20261108ml"></script>
+<script src="/zh/assets/js/main.js?v=20261111g"></script>
 <script src="/zh/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/zh/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/zh/assets/js/ux.js?v=20261108ml"></script>

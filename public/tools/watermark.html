@@ -11,8 +11,6 @@
 <meta content="PicStudio brand share image" property="og:image:alt"/>
 <meta content="summary_large_image" name="twitter:card"/>
 <meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
-<meta content="ca-pub-8915931557404979" name="google-adsense-account"/>
-<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8915931557404979"></script>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Add Watermark to Images Online - Text or Logo | PicStudio</title>
@@ -30,7 +28,7 @@
 
 <meta content="Add Watermark to Images Online - Text or Logo | PicStudio" name="twitter:title"/>
 <meta content="Add text or logo watermarks with tiling, position, opacity and size controls. Protect your work without uploading anything." name="twitter:description"/>
-<link href="/assets/css/style.css?v=20261111c" rel="stylesheet"/>
+<link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
 <style>.content-section{padding:48px 0;background:transparent;border-top:1px solid var(--border)}
 .content-section .container{max-width:860px}
 .content-block{margin-bottom:40px}
@@ -188,33 +186,33 @@
 <div class="preview-area" id="previewArea">
 <div class="preview-box">
 <h3>Original</h3>
-<img alt="Original" id="originalPreview"/ data-ph="1">
+<img alt="Original" id="originalPreview" data-ph="1">
 </div>
 <div class="preview-box">
 <h3>Result</h3>
-<img alt="Result" id="processedPreview"/ data-ph="1">
+<img alt="Result" id="processedPreview" data-ph="1">
 </div>
 </div>
 <div class="controls" id="controls">
 <div class="control-group">
-<label class="control-label">Watermark type</label>
+<label for="wmText" class="control-label">Watermark type</label>
 <div class="radio-group">
 <div class="radio-option"><input checked="" id="wmText" name="wmMode" type="radio" value="text"/><label for="wmText">Text watermark</label></div>
 <div class="radio-option"><input id="wmImage" name="wmMode" type="radio" value="image"/><label for="wmImage">Image watermark (logo)</label></div>
 </div>
 </div>
 <div class="control-group" id="textGroup">
-<label class="control-label">Watermark text</label>
+<label for="wmText2" class="control-label">Watermark text</label>
 <input id="wmText2" maxlength="60" style="width:100%;padding:10px;border:1px solid #e2e8f0;border-radius:8px;font-size:.95rem;" type="text" value="© PicStudio"/>
 <div class="control-hint">English or Chinese; include a brand or handle</div>
 </div>
 <div class="control-group" id="imgGroup" style="display:none;">
-<label class="control-label">Choose a logo image</label>
+<label for="logoInput" class="control-label">Choose a logo image</label>
 <input accept="image/*" id="logoInput" style="padding:8px;" type="file"/>
 <div class="control-hint">A transparent PNG works best</div>
 </div>
 <div class="control-group">
-<label class="control-label">Watermark position</label>
+<label for="pTile" class="control-label">Watermark position</label>
 <div class="radio-group">
 <div class="radio-option"><input checked="" id="pTile" name="wmPos" type="radio" value="tile"/><label for="pTile">Tile across image</label></div>
 </div>
@@ -231,17 +229,17 @@
 </div>
 </div>
 <div class="control-group">
-<label class="control-label">Opacity</label>
+<label for="wmOpacity" class="control-label">Opacity</label>
 <input id="wmOpacity" max="100" min="5" type="range" value="35"/>
 <div class="control-hint">Too low has no effect and too high spoils the image; 30%–50% is typical</div>
 </div>
 <div class="control-group">
-<label class="control-label">Watermark size</label>
+<label for="wmScale" class="control-label">Watermark size</label>
 <input id="wmScale" max="200" min="30" type="range" value="100"/>
 <div class="control-hint">Ratio of the image's short edge</div>
 </div>
 <div class="control-group">
-<label class="control-label">Text colour</label>
+<label for="wmColor" class="control-label">Text colour</label>
 <input id="wmColor" style="width:60px;height:36px;border:1px solid #e2e8f0;border-radius:6px;" type="color" value="#ffffff"/>
 <div class="control-hint">Use a dark colour on light images and white on dark ones. An inverted outline is added automatically, so white text stays legible even on white.</div>
 </div>
@@ -406,7 +404,7 @@ function process(src){
 }
 })();
 </script>
-<script src="/assets/js/main.js?v=20261108ml"></script>
+<script src="/assets/js/main.js?v=20261111g"></script>
 <script src="/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/assets/js/ux.js?v=20261108ml"></script>

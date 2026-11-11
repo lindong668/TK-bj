@@ -19,6 +19,8 @@
 
 # ads.txt 必须显式声明 text/plain，AdSense 抓取器只认这个 MIME
 # 若被猜成 text/html，会导致 ads.txt 判定失败、审核卡住
+# V70.7：run_worker_first=true 时本路径由 src/index.js 硬拦截直接返回，
+#        此段仅作静态兜底；缓存头已与 Worker 统一为 max-age=3600，不再打架。
 /ads.txt
   Content-Type: text/plain
   Cache-Control: public, max-age=3600

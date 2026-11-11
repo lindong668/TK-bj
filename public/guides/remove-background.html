@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html data-lang="en" lang="en">
 <head>
-<meta content="ca-pub-8915931557404979" name="google-adsense-account"/>
-<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8915931557404979"></script>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Transparent Images &amp; Clean Edges: Alpha, Borders and Favicons | PicStudio</title>
+<title>Transparent Images &amp; Clean Edges | PicStudio</title>
 <meta content="A practical guide to alpha channels, transparent PNGs, uniform borders and clean icon edges — and why deterministic pixel operations beat guesswork for everyday editing." name="description"/>
 <meta content="transparent png, alpha channel, clean edges, white border trim, favicon transparency, solid border removal" name="keywords"/>
 <link href="https://piccalc.com/guides/remove-background" rel="canonical"/>
@@ -75,7 +73,7 @@
 <meta content="PicStudio brand share image" property="og:image:alt"/>
 
 <meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
-<link href="/assets/css/style.css?v=20261111c" rel="stylesheet"/>
+<link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
 <style>
       html[data-lang="en"] [data-lang-block="zh"] { display: none !important; }
       html[data-lang="zh"] [data-lang-block="en"] { display: none !important; }
@@ -113,7 +111,7 @@
 <div class="content-block"><h2><span>What an alpha channel actually is</span></h2><p><span>Every pixel in a PNG can carry a fourth value besides red, green and blue: alpha, from 0 (fully transparent) to 255 (fully opaque). A transparent PNG is not "a picture with the background deleted" — it is a picture where background pixels were assigned alpha 0. That is why a transparent logo blends over any colour, while a JPG (which has no alpha) always brings a solid block with it.</span></p></div><div class="content-block"><h2><span>Uniform borders are a solvable problem</span></h2><p><span>If an image has a plain white margin, detecting it is deterministic: read the pixel buffer, sample the colour at the four corners, then walk inward until a row or column contains a pixel that differs by more than a chosen tolerance. Everything outside that bounding box is uniform border and can be cropped exactly. This is arithmetic on numbers, not a judgement call.</span></p></div><div class="content-block"><h2><span>Where the formula reaches its limit</span></h2><p><span>Gradients, drop shadows, anti-aliased edges and subjects whose colour matches the margin all confuse a tolerance-based scan. A soft shadow slowly darkens row after row, so there is no single row where "border ends". This is why a good tool exposes the tolerance and shows how many pixels it removed on each side: you can verify the result instead of trusting it.</span></p></div><div class="content-block"><h2><span>Clean edges for icons and favicons</span></h2><p><span>Small icons are downscaled hard: a 1024 px logo becomes 16 px in a tab. Fine text and thin lines disappear, so start with a bold, simple silhouette, keep 10–15% padding, and export with an alpha channel. A multi-size .ico keeps six separately downscaled copies, which looks far better than letting the browser shrink one 256 px image for every context.</span></p></div><div class="ps-hl" style="background:#fde047;color:#0f172a;border:2px solid #f59e0b;border-radius:10px;padding:14px 16px;margin:14px 0;font-size:14px;line-height:1.85;font-weight:600;box-shadow:0 0 0 4px rgba(253,224,71,.12)">⚠️ <span style="background:#0f172a;color:#fde047;padding:2px 7px;border-radius:5px;font-weight:800;white-space:nowrap">At 16 × 16, use only a single letter, a flat geometric mark or a two-colour high-contrast logo</span>: QR codes, faces, tiny text, thin lines and gradients collapse into a few blocks of colour that no algorithm can restore. <b>Start at 32 × 32 for visible detail; use 64 × 64 or larger for QR codes and portraits</b>. The 16 px entry is for legacy browsers and Windows small icons.<br/>📐 Full guidance: <a href="/guides/id-photo-sizes" style="color:#1d4ed8;text-decoration:underline;font-weight:700">Image Size &amp; Pixel Standards</a>.</div><div class="content-block"><h2><span>Why deterministic beats guessing here</span></h2><p><span>A learned model can produce beautiful results, but it is also unpredictable on the exact cases above and needs a model, an API key or an upload. For uniform borders, trimming and container generation, a fixed formula gives the same output every time, runs offline, and never sends your image anywhere. Pick the right tool for the job rather than the most impressive one.</span></p></div>
 <div class="content-block"><h2><span>Frequently asked questions</span></h2><div class="faq-item"><div class="faq-question"><span>Why does my transparent PNG show a white box?</span></div><div class="faq-answer"><span>The viewer is placing it on a white canvas, or the file was saved as JPG. Check the alpha channel; PNG, WebP and ICO can carry transparency, JPG cannot.</span></div></div><div class="faq-item"><div class="faq-question"><span>Can I remove a gradient border automatically?</span></div><div class="faq-answer"><span>Not reliably with a tolerance-based scan. Crop it manually, or lower the tolerance and accept that some gradient remains.</span></div></div><div class="faq-item"><div class="faq-question"><span>Does edge trimming upload my image?</span></div><div class="faq-answer"><span>No. It reads the pixel buffer in your browser and crops a local canvas.</span></div></div><div class="faq-item"><div class="faq-question"><span>Is any AI model involved?</span></div><div class="faq-answer"><span>No. PicStudio tools use Canvas pixel operations, format decoding and file containers only — no AI model, no cloud service, no upload.</span></div></div></div>
 <div class="content-block"><h2>Try other tools</h2>
-<div class="related-tools"><a class="related-tool" href="/tools/trim-edges"><span>✂️</span><span>Auto Trim Edges</span></a><a class="related-tool" href="/tools/remove-bg"><span>🎯</span><span>ICO &amp; Favicon Generator</span></a><a class="related-tool" href="/tools/rounded"><span>⬜</span><span>Rounded Corners</span></a><a class="related-tool" href="/"><span>📚</span><span>All Image Guides</span></a></div></div>
+<div class="related-tools"><a class="related-tool" href="/tools/trim-edges"><span>✂️</span><span>Auto Trim Edges</span></a><a class="related-tool" href="/tools/icon-maker"><span>🎯</span><span>ICO &amp; Favicon Generator</span></a><a class="related-tool" href="/tools/rounded"><span>⬜</span><span>Rounded Corners</span></a><a class="related-tool" href="/"><span>📚</span><span>All Image Guides</span></a></div></div>
 <div class="note-box" style="margin-bottom:40px;"><p><span>All PicStudio tools run locally in your browser. Your images are never uploaded.</span></p></div>
 </div>
 </section>
@@ -145,7 +143,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 </div>
 </div>
 </footer>
-<script src="/assets/js/main.js?v=20261108ml"></script>
+<script src="/assets/js/main.js?v=20261111g"></script>
 <script src="/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/assets/js/ux.js?v=20261108ml"></script>

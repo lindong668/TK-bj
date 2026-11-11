@@ -11,8 +11,6 @@
 <meta content="PicStudio 品牌分享图" property="og:image:alt"/>
 <meta content="summary_large_image" name="twitter:card"/>
 <meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
-<meta content="ca-pub-8915931557404979" name="google-adsense-account"/>
-<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8915931557404979"></script>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>给图片局部打码 — 遮挡车牌与人脸</title>
@@ -30,7 +28,7 @@
 
 <meta content="给图片局部打码 — 遮挡车牌与人脸 | PicStudio" name="twitter:title"/>
 <meta content="整图马赛克，或在指定区域画框打码，用来遮挡车牌、人脸与证件信息。处理在本地完成且不可逆。" name="twitter:description"/>
-<link href="/assets/css/style.css?v=20261111c" rel="stylesheet"/>
+<link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
 <style>.content-section{padding:48px 0;background:transparent;border-top:1px solid var(--border)}
 .content-section .container{max-width:860px}
 .content-block{margin-bottom:40px}
@@ -145,21 +143,21 @@
 <div class="preview-area" id="previewArea">
 <div class="preview-box">
 <h3>原始图片</h3>
-<img alt="原图" id="originalPreview"/ data-ph="1">
+<img alt="原图" id="originalPreview" data-ph="1">
 </div>
 <div class="preview-box">
 <h3>打码结果</h3>
-<img alt="结果预览" id="processedPreview"/ data-ph="1">
+<img alt="结果预览" id="processedPreview" data-ph="1">
 </div>
 </div>
 <div class="controls" id="controls">
 <div class="control-group">
-<label class="control-label">马赛克块大小</label>
+<label for="msBlock" class="control-label">马赛克块大小</label>
 <input id="msBlock" max="60" min="4" type="range" value="14"/>
 <div class="control-hint">块越大越模糊，遮挡效果越强</div>
 </div>
 <div class="control-group">
-<label class="control-label">遮挡范围</label>
+<label for="msAll" class="control-label">遮挡范围</label>
 <div class="radio-group">
 <div class="radio-option"><input checked="" id="msAll" name="msScope" type="radio" value="all"/><label for="msAll">整张图</label></div>
 <div class="radio-option"><input id="msSel" name="msScope" type="radio" value="sel"/><label for="msSel">仅框选区域</label></div>
@@ -441,7 +439,7 @@ function process(src){
   return Lab.mosaic(c,{block:num('msBlock',14),regions:regions});}
 })();
 </script>
-<script src="/zh/assets/js/main.js?v=20261108ml"></script>
+<script src="/zh/assets/js/main.js?v=20261111g"></script>
 <script src="/zh/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/zh/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/zh/assets/js/ux.js?v=20261108ml"></script>

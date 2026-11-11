@@ -11,8 +11,6 @@
 <meta content="PicStudio 品牌分享图" property="og:image:alt"/>
 <meta content="summary_large_image" name="twitter:card"/>
 <meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
-<meta content="ca-pub-8915931557404979" name="google-adsense-account"/>
-<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8915931557404979"></script>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>在线调整亮度、对比度与饱和度 | PicStudio</title>
@@ -30,7 +28,7 @@
 
 <meta content="在线调整亮度、对比度与饱和度 | PicStudio | PicStudio" name="twitter:title"/>
 <meta content="调整亮度、对比度、饱和度、色温、伽马、锐化与暗角，实时预览，导出无损 PNG。全程浏览器本地处理。" name="twitter:description"/>
-<link href="/assets/css/style.css?v=20261111c" rel="stylesheet"/>
+<link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
 <style>.content-section{padding:48px 0;background:transparent;border-top:1px solid var(--border)}
 .content-section .container{max-width:860px}
 .content-block{margin-bottom:40px}
@@ -145,50 +143,50 @@
 <div class="preview-area" id="previewArea">
 <div class="preview-box">
 <h3>原始图片</h3>
-<img alt="原图" id="originalPreview"/ data-ph="1">
+<img alt="原图" id="originalPreview" data-ph="1">
 </div>
 <div class="preview-box">
 <h3>调色结果</h3>
-<img alt="结果预览" id="processedPreview"/ data-ph="1">
+<img alt="结果预览" id="processedPreview" data-ph="1">
 </div>
 </div>
 <div class="controls" id="controls">
 <div class="control-group">
-<label class="control-label">亮度</label>
+<label for="adjBright" class="control-label">亮度</label>
 <input id="adjBright" max="100" min="-100" type="range" value="0"/>
 </div>
 <div class="control-group">
-<label class="control-label">对比度</label>
+<label for="adjContrast" class="control-label">对比度</label>
 <input id="adjContrast" max="100" min="-100" type="range" value="0"/>
 <div class="control-hint">提高会让亮的更亮、暗的更暗，画面更通透</div>
 </div>
 <div class="control-group">
-<label class="control-label">饱和度</label>
+<label for="adjSat" class="control-label">饱和度</label>
 <input id="adjSat" max="100" min="-100" type="range" value="0"/>
 <div class="control-hint">拉到 -100 即变为黑白</div>
 </div>
 <div class="control-group">
-<label class="control-label">色温</label>
+<label for="adjTemp" class="control-label">色温</label>
 <input id="adjTemp" max="100" min="-100" type="range" value="0"/>
 <div class="control-hint">正值偏暖（黄），负值偏冷（蓝）</div>
 </div>
 <div class="control-group">
-<label class="control-label">伽马（中间调）</label>
+<label for="adjGamma" class="control-label">伽马（中间调）</label>
 <input id="adjGamma" max="300" min="30" type="range" value="100"/>
 <div class="control-hint">只提亮中间调，比直接加亮度更自然</div>
 </div>
 <div class="control-group">
-<label class="control-label">锐化</label>
+<label for="adjSharpen" class="control-label">锐化</label>
 <input id="adjSharpen" max="100" min="0" type="range" value="0"/>
 <div class="control-hint">让边缘更清晰，扫文档建议 30–60</div>
 </div>
 <div class="control-group">
-<label class="control-label">暗角</label>
+<label for="adjVig" class="control-label">暗角</label>
 <input id="adjVig" max="100" min="0" type="range" value="0"/>
 <div class="control-hint">四周压暗，突出中心主体</div>
 </div>
 <div class="control-group">
-<label class="control-label">一键滤镜</label>
+<label for="fxNone" class="control-label">一键滤镜</label>
 <div class="radio-group">
 <div class="radio-option"><input checked="" id="fxNone" name="adjFx" type="radio" value="none"/><label for="fxNone">无</label></div>
 <div class="radio-option"><input id="fxBw" name="adjFx" type="radio" value="bw"/><label for="fxBw">黑白</label></div>
@@ -338,7 +336,7 @@ function process(src){
 }
 })();
 </script>
-<script src="/zh/assets/js/main.js?v=20261108ml"></script>
+<script src="/zh/assets/js/main.js?v=20261111g"></script>
 <script src="/zh/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/zh/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/zh/assets/js/ux.js?v=20261108ml"></script>

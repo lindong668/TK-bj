@@ -11,8 +11,6 @@
 <meta content="PicStudio brand share image" property="og:image:alt"/>
 <meta content="summary_large_image" name="twitter:card"/>
 <meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
-<meta content="ca-pub-8915931557404979" name="google-adsense-account"/>
-<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8915931557404979"></script>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Merge Images - Vertical, Horizontal or Grid</title>
@@ -30,7 +28,7 @@
 
 <meta content="Merge Images Online - Vertical, Horizontal or Grid | PicStudio" name="twitter:title"/>
 <meta content="Combine multiple images vertically, horizontally or into a grid. Adjust spacing, background colour and alignment." name="twitter:description"/>
-<link href="/assets/css/style.css?v=20261111c" rel="stylesheet"/>
+<link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
 <style>.content-section{padding:48px 0;background:transparent;border-top:1px solid var(--border)}
 .content-section .container{max-width:860px}
 .content-block{margin-bottom:40px}
@@ -201,11 +199,11 @@
 <div class="stitch-hint" id="stitchOrderHint"></div>
 <div class="result-box" id="resultBox">
 <h3>Merged result</h3>
-<img alt="Result" id="resultImg"/ data-ph="1">
+<img alt="Result" id="resultImg" data-ph="1">
 </div>
 <div class="controls" id="controls">
 <div class="control-group">
-<label class="control-label">Layout direction</label>
+<label for="sdV" class="control-label">Layout direction</label>
 <div class="radio-group">
 <div class="radio-option"><input checked="" id="sdV" name="stDir" type="radio" value="v"/><label for="sdV">Vertical</label></div>
 <div class="radio-option"><input id="sdH" name="stDir" type="radio" value="h"/><label for="sdH">Horizontal</label></div>
@@ -213,20 +211,20 @@
 </div>
 </div>
 <div class="control-group" id="colGroup" style="display:none;">
-<label class="control-label">Images per row</label>
+<label for="stCols" class="control-label">Images per row</label>
 <input id="stCols" max="6" min="2" style="width:100%;padding:10px;border:1px solid #e2e8f0;border-radius:8px;" type="number" value="3"/>
 </div>
 <div class="control-group">
-<label class="control-label">Image spacing (px)</label>
+<label for="stGap" class="control-label">Image spacing (px)</label>
 <input id="stGap" max="60" min="0" type="range" value="8"/>
 </div>
 <div class="control-group">
-<label class="control-label">Background colour</label>
+<label for="stBg" class="control-label">Background colour</label>
 <input id="stBg" style="width:60px;height:36px;border:1px solid #e2e8f0;border-radius:6px;" type="color" value="#ffffff"/>
 <div class="control-hint">Padding uses this colour when ratios differ</div>
 </div>
 <div class="control-group">
-<label class="control-label">Alignment</label>
+<label for="saC" class="control-label">Alignment</label>
 <div class="radio-group">
 <div class="radio-option"><input checked="" id="saC" name="stAlign" type="radio" value="center"/><label for="saC">Centre</label></div>
 <div class="radio-option"><input id="saS" name="stAlign" type="radio" value="start"/><label for="saS">Top / left</label></div>
@@ -385,7 +383,7 @@ function process(list){
     bg:val('stBg')||'#ffffff',align:radio('stAlign'),cols:Math.round(num('stCols',3))});}
 })();
 </script>
-<script src="/assets/js/main.js?v=20261108ml"></script>
+<script src="/assets/js/main.js?v=20261111g"></script>
 <script src="/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/assets/js/ux.js?v=20261108ml"></script>

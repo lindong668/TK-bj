@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html data-lang="en" lang="en">
 <head>
-<meta content="ca-pub-8915931557404979" name="google-adsense-account"/>
-<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8915931557404979"></script>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Icon and Favicon Generator Online | PicStudio</title>
@@ -107,7 +105,7 @@
 <meta content="PicStudio brand share image" property="og:image:alt"/>
 
 <meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
-<link href="/assets/css/style.css?v=20261111c" rel="stylesheet"/>
+<link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
 <style>
       html[data-lang="en"] [data-lang-block="zh"] { display: none !important; }
       html[data-lang="zh"] [data-lang-block="en"] { display: none !important; }
@@ -149,7 +147,7 @@
 <div class="upload-hint">Any image works — drag a square selection over the part you want as the icon</div>
 <input accept="image/*,.heic,.heif,.avif,.ico,.bmp,.svg" id="fileInput" type="file"/>
 </div>
-<div class="ps-hl" style="background:#fde047;color:#0f172a;border:2px solid #f59e0b;border-radius:10px;padding:14px 16px;margin:14px 0;font-size:14px;line-height:1.85;font-weight:600;box-shadow:0 0 0 4px rgba(253,224,71,.12)">⚠️ <span style="background:#0f172a;color:#fde047;padding:2px 7px;border-radius:5px;font-weight:800;white-space:nowrap">Read this before picking 32 px or smaller</span>: those sizes hold only a few hundred pixels. <b>QR codes, faces, tiny text, thin lines and gradients</b> turn into mush and no resampling can bring the detail back.<br/>✅ <b>Start at 64 px</b>; only flat geometric marks or single-letter logos belong at 32 px. Need a <b>16 × 16</b> compatibility entry? Use the <a href="/tools/remove-bg" style="color:#1d4ed8;text-decoration:underline;font-weight:700">ICO / Favicon Generator</a> (16 / 32 / 48 / 64 / 128 / 256 in one pass).<br/>📐 See the <a href="/guides/id-photo-sizes" style="color:#1d4ed8;text-decoration:underline;font-weight:700">Image Size &amp; Pixel Standards</a> guide.</div>
+<div class="ps-hl" style="background:#fde047;color:#0f172a;border:2px solid #f59e0b;border-radius:10px;padding:14px 16px;margin:14px 0;font-size:14px;line-height:1.85;font-weight:600;box-shadow:0 0 0 4px rgba(253,224,71,.12)">⚠️ <span style="background:#0f172a;color:#fde047;padding:2px 7px;border-radius:5px;font-weight:800;white-space:nowrap">Read this before picking 32 px or smaller</span>: those sizes hold only a few hundred pixels. <b>QR codes, faces, tiny text, thin lines and gradients</b> turn into mush and no resampling can bring the detail back.<br/>✅ <b>Start at 64 px</b>; only flat geometric marks or single-letter logos belong at 32 px. Need a <b>16 × 16</b> compatibility entry? Use the <a href="/guides/remove-background" style="color:#1d4ed8;text-decoration:underline;font-weight:700">ICO / Favicon Generator</a> (16 / 32 / 48 / 64 / 128 / 256 in one pass).<br/>📐 See the <a href="/guides/id-photo-sizes" style="color:#1d4ed8;text-decoration:underline;font-weight:700">Image Size &amp; Pixel Standards</a> guide.</div>
 <div class="preview-area" id="previewArea">
 <div class="preview-box">
 <h3><span>① Original — pick the square area</span></h3>
@@ -158,12 +156,12 @@
 </div>
 <div class="preview-box">
 <h3>Icon preview</h3>
-<img alt="Result" id="processedPreview"/ data-ph="1">
+<img alt="Result" id="processedPreview" data-ph="1">
 </div>
 </div>
 <div class="controls" id="controls">
 <div class="control-group">
-<label class="control-label">Output size</label>
+<label for="size512" class="control-label">Output size</label>
 <div class="radio-group">
 <div class="radio-option">
 <input id="size512" name="iconSize" type="radio" value="512"/>
@@ -188,12 +186,12 @@
 </div>
 </div>
 <div class="control-group">
-<label class="control-label">Corner radius</label>
+<label for="cornerRadius" class="control-label">Corner radius</label>
 <input id="cornerRadius" max="50" min="0" type="range" value="20"/>
 <div class="control-hint" id="radiusHint">20%</div>
 </div>
 <div class="control-group">
-<label class="control-label">Backdrop style</label>
+<label for="bgNone" class="control-label">Backdrop style</label>
 <div class="radio-group">
 <div class="radio-option">
 <input checked="" id="bgNone" name="bgStyle" type="radio" value="none"/>
@@ -210,7 +208,7 @@
 </div>
 </div>
 <div class="control-group" id="bgColorGroup" style="display:none;">
-<label class="control-label">Background colour</label>
+<label for="iconBgColor" class="control-label">Background colour</label>
 <input id="iconBgColor" style="width:60px;height:40px;border:none;border-radius:8px;cursor:pointer;" type="color" value="#6366f1"/>
 </div>
 <button class="btn btn-primary btn-lg" id="processBtn" style="width:100%;">Generate icon</button>
@@ -271,7 +269,7 @@
 <div class="content-block">
 <h2>FAQ about icon making</h2>
 <div class="faq-list">
-<div class="ps-hl" style="background:#fde047;color:#0f172a;border:2px solid #f59e0b;border-radius:10px;padding:14px 16px;margin:14px 0;font-size:14px;line-height:1.85;font-weight:600;box-shadow:0 0 0 4px rgba(253,224,71,.12)">⚠️ <b>Blurry small icons are not a bug</b>: below 32 px, QR codes, faces and tiny text collapse into colour blocks. <b>Start at 64 px</b>; for a 16 × 16 compatibility entry use the <a href="/tools/remove-bg" style="color:#1d4ed8;text-decoration:underline;font-weight:700">ICO / Favicon Generator</a>.</div>
+<div class="ps-hl" style="background:#fde047;color:#0f172a;border:2px solid #f59e0b;border-radius:10px;padding:14px 16px;margin:14px 0;font-size:14px;line-height:1.85;font-weight:600;box-shadow:0 0 0 4px rgba(253,224,71,.12)">⚠️ <b>Blurry small icons are not a bug</b>: below 32 px, QR codes, faces and tiny text collapse into colour blocks. <b>Start at 64 px</b>; for a 16 × 16 compatibility entry use the <a href="/guides/remove-background" style="color:#1d4ed8;text-decoration:underline;font-weight:700">ICO / Favicon Generator</a>.</div>
 <div class="faq-item">
 <div class="faq-question">Can I use a tall screenshot or a wide photo?</div>
 <div class="faq-answer">Nothing is stretched. Just drag the square selection over the area you want — tall screenshots work fine.</div>
@@ -426,7 +424,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
     };
     document.getElementById('processBtn').addEventListener('click', () => cropTool.process());
     </script>
-<script src="/assets/js/main.js?v=20261108ml"></script>
+<script src="/assets/js/main.js?v=20261111g"></script>
 <script src="/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/assets/js/ux.js?v=20261108ml"></script>

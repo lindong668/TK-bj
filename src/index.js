@@ -1,6 +1,10 @@
 /**
- * PicStudio 静态资源服务（V70）
+ * PicStudio 静态资源服务（V70.8）
  * 负责把 /public 下的文件吐出去，补安全与 SEO 响应头。
+ *
+ * ★ V70.8：remove-bg 错页 301 归一到 icon-maker；广告填充后放开容器高度不裁切。
+ * ★ V70.7：www 上的带 .html 请求一次 301 直达 apex 无扩展名终态（消除双跳）；
+ *   ads.txt 缓存头与 _headers 统一为 max-age=3600；ads.txt 内容一字未改。
  *
  * ★ V70 URL 形态统一（2026-11-10）· r2 补无扩展名本地兜底
  *   线上实测：无扩展名地址 200（最终页）。
@@ -24,6 +28,19 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
+    /* ★ V70.7：把带 .html 的路径归一成无扩展名，www 与 apex 共用同一套规则。
+     * 目的：www.piccalc.com/tools/crop.html 原先是 301 到 apex 的 .html，
+     * 再由 apex 301 到无扩展名，形成双跳。现在 www 分支直接跳到终态。
+     * /index.html → / ；/zh/index.html → /zh/ ；/guides/index.html → /guides/
+     */
+    function normalizeHtmlPath(p) {
+      if (!p.endsWith('.html')) return p;
+      const clean = p.slice(0, -5);
+      if (clean === '/index' || clean === '') return '/';
+      if (clean.endsWith('/index')) return clean.slice(0, -6) + '/';
+      return clean;
+    }
+
     /* ★★ www → apex 的 301 重定向（页面路径一律跳转）
      * V70 终版例外：机器文件（ads.txt / robots.txt / sitemap.xml / 站长验证文件）
      * 在 www 上也【直接 200】，不经过 301。
@@ -37,15 +54,32 @@ export default {
       '/google6474e28bb6098302.html',
       '/2e63d291b36d4ca8a6b1f2bf2c17fa2e.txt'
     ]);
+
+    /* ★ V70.8：/tools/remove-bg 历史错页（内容其实是 ICO 生成器，与 icon-maker 重复）
+     * 永久 301 归一到 icon-maker，中英各一条；www 上也一次跳到 apex 终态，不产生双跳。
+     * 静态文件同时改写为跳转兜底页，避免 Worker 未命中时展示错误内容。 */
+    const RETIRED_PATHS = {
+      '/tools/remove-bg': '/tools/icon-maker',
+      '/tools/remove-bg.html': '/tools/icon-maker',
+      '/zh/tools/remove-bg': '/zh/tools/icon-maker',
+      '/zh/tools/remove-bg.html': '/zh/tools/icon-maker'
+    };
+    if (RETIRED_PATHS[url.pathname]) {
+      return Response.redirect('https://piccalc.com' + RETIRED_PATHS[url.pathname] + url.search, 301);
+    }
     if (url.hostname === 'www.piccalc.com' && !MACHINE_PATHS.has(url.pathname)) {
-      return Response.redirect('https://piccalc.com' + url.pathname + url.search, 301);
+      /* V70.7：若路径带 .html，这里一次跳到无扩展名终态，不再产生第二跳。 */
+      const dest = normalizeHtmlPath(url.pathname);
+      return Response.redirect('https://piccalc.com' + dest + url.search, 301);
     }
 
-    /* ★★ ads.txt 拦截（V22 修复，V25 说明更新）
+    /* ★★ ads.txt 拦截（V22 修复，V70.7 缓存头统一）
      * 两个不变的关键点：
      *   1. Content-Type 用纯 text/plain（不带 charset）
      *   2. nosniff 防止被二次猜测 MIME
-     * AdSense 抓取器跟随 301 后在 apex 拿到 200。
+     * www 与 apex 都在本分支直接 200，不跳转。
+     * V70.7：缓存头与 public/_headers 里的 /ads.txt 段统一为 3600，
+     *        避免两处一个 3600 一个 86400 自相矛盾；文件内容一字未改。
      */
     if (url.pathname === '/ads.txt' || url.pathname === '/Ads.txt') {
       return new Response(
@@ -53,7 +87,7 @@ export default {
         { status: 200, headers: {
             'content-type': 'text/plain',
             'X-Content-Type-Options': 'nosniff',
-            'cache-control': 'public, max-age=86400'
+            'cache-control': 'public, max-age=3600'
         } }
       );
     }
@@ -158,12 +192,7 @@ export default {
      *       /index.html、/zh/index.html、/guides/index.html 归到目录根。
      */
     if (pathname.endsWith('.html') && !MACHINE_PATHS.has(pathname)) {
-      const clean = pathname.replace(/\.html$/, '');
-      let target;
-      if (clean === '/index' || clean === '') target = '/';
-      else if (clean.endsWith('/index')) target = clean.slice(0, -6) + '/';
-      else target = clean;
-      return Response.redirect(url.origin + target + url.search, 301);
+      return Response.redirect(url.origin + normalizeHtmlPath(pathname) + url.search, 301);
     }
 
     // 无扩展名请求直接交给 ASSETS：线上这些路径就是最终 200 页面。

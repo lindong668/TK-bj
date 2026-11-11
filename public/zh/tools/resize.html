@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html data-lang="zh" lang="zh-CN">
 <head>
-<meta content="ca-pub-8915931557404979" name="google-adsense-account"/>
-<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8915931557404979"></script>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>按比例或精确像素调整图片尺寸</title>
@@ -101,7 +99,7 @@
 <meta content="PicStudio 品牌分享图" property="og:image:alt"/>
 
 <meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
-<link href="/assets/css/style.css?v=20261111c" rel="stylesheet"/>
+<link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
 <style>
       html[data-lang="en"] [data-lang-block="zh"] { display: none !important; }
       html[data-lang="zh"] [data-lang-block="en"] { display: none !important; }
@@ -146,18 +144,18 @@
 <div class="preview-area" id="previewArea">
 <div class="preview-box">
 <h3>原始图片</h3>
-<img alt="原图" id="originalPreview"/ data-ph="1">
+<img alt="原图" id="originalPreview" data-ph="1">
 <div id="originalSize" style="margin-top:12px;font-size:13px;color:var(--text-muted);"></div>
 </div>
 <div class="preview-box">
 <h3>调整结果</h3>
-<img alt="结果预览" id="processedPreview"/ data-ph="1">
+<img alt="结果预览" id="processedPreview" data-ph="1">
 <div id="resultSize" style="margin-top:12px;font-size:13px;color:var(--text-muted);"></div>
 </div>
 </div>
 <div class="controls" id="controls">
 <div class="control-group">
-<label class="control-label">调整模式</label>
+<label for="modePercent" class="control-label">调整模式</label>
 <div class="radio-group">
 <div class="radio-option">
 <input checked="" id="modePercent" name="resizeMode" type="radio" value="percent"/>
@@ -175,24 +173,24 @@
 </div>
 
 <div class="control-group" id="percentGroup">
-<label class="control-label">缩放比例</label>
+<label for="percent" class="control-label">缩放比例</label>
 <input id="percent" max="300" min="10" type="range" value="100"/>
 <div class="control-hint" id="percentHint">100%</div>
 </div>
 
 <div class="control-group" id="pixelsGroup" style="display:none;">
-<label class="control-label">宽度（像素）</label>
+<label for="targetWidth" class="control-label">宽度（像素）</label>
 <input id="targetWidth" min="1" placeholder="Width" type="number"/>
 <div style="height:12px;"></div>
-<label class="control-label">高度（像素）</label>
+<label for="targetHeight" class="control-label">高度（像素）</label>
 <input id="targetHeight" min="1" placeholder="Height" type="number"/>
 <div class="control-hint">
 <input checked="" id="keepAspect" type="checkbox"/><span>保持宽高比</span></div>
 </div>
 
 <div class="control-group" id="presetGroup" style="display:none;">
-<label class="control-label">选择预设</label>
-<select id="presetSelect">
+<label for="presetSelect" class="control-label">选择预设</label>
+<select id="presetSelect" name="presetSelect">
 <option value="1920x1080">1920×1080 (Full HD)</option>
 <option value="1280x720">1280×720 (HD)</option>
 <option value="1080x1080">1080×1080 (Instagram 方形)</option>
@@ -418,7 +416,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 
     document.getElementById('processBtn').addEventListener('click', () => tool.process());
     </script>
-<script src="/zh/assets/js/main.js?v=20261108ml"></script>
+<script src="/zh/assets/js/main.js?v=20261111g"></script>
 <script src="/zh/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/zh/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/zh/assets/js/ux.js?v=20261108ml"></script>
