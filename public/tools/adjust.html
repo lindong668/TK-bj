@@ -277,6 +277,8 @@
 </div>
 </div>
 </section>
+
+<section class="static-explain" style="max-width:860px;margin:36px auto 0;padding:0 20px 8px;"><h2 style="font-size:20px;margin:0 0 12px;">What the sliders actually do to a pixel</h2><p style="line-height:1.9;color:var(--text-secondary,#64748b);margin:0 0 14px;">Colour Adjust is not a black box. Brightness adds the same value to every RGB channel, so any input above 255 minus the setting is clipped to white. Contrast applies factor x (old - 128) + 128, which pivots around mid-grey and can crush shadows and clip highlights at the same time. Gamma applies a power curve that pins 0 and 255 while lifting midtones. Saturation uses luma 0.299R + 0.587G + 0.114B; at -100 every pixel collapses onto that grey value. Sharpening uses an unsharp mask, original + (original - blur) x strength, where 30-60 suits scanned documents. Everything runs locally in the browser.</p><h3 style="font-size:16px;margin:0 0 8px;">Original measured reports using this tool</h3><ul style="line-height:1.9;color:var(--text-secondary,#64748b);margin:0 0 8px 22px;"><li><a href="/guides/adjust-curve-lab">Three Sliders, Three Curves — a Colour Adjust lab notebook</a></li><li><a href="/guides/transparency-accident-report">Transparency accident report</a></li></ul></section>
 <footer class="footer">
 <div class="container">
 <div class="footer-content">

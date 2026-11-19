@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html data-lang="en" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Which Favicon Does the Browser Actually Use? A Delete-One-File-at-a-Time Test | PicStudio</title>
+<meta content="We declared six icon files, removed them one at a time, and recorded which bitmap each browser fell back to. Includes the exact link tags, a decision tree, and why &quot;my favicon won&#x27;t update&quot; is usually a cache issue." name="description"/>
+<meta content="favicon not updating, favicon.ico vs link rel icon priority, apple-touch-icon ignored, manifest icon size, favicon cache how long, multiple link rel icon, why browser picks wrong favicon" name="keywords"/>
+<link href="https://piccalc.com/guides/icon-picker-priority" rel="canonical"/>
+<meta content="index,follow,max-image-preview:large" name="robots"/>
+<meta content="article" property="og:type"/>
+<meta content="PicStudio" property="og:site_name"/>
+<meta content="en_US" property="og:locale"/>
+<meta content="Which Favicon Does the Browser Actually Use? A Delete-One-File-at-a-Time Test" property="og:title"/>
+<meta content="We declared six icon files, removed them one at a time, and recorded which bitmap each browser fell back to. Includes the exact link tags, a decision tree, and why &quot;my favicon won&#x27;t update&quot; is usually a cache issue." property="og:description"/>
+<meta content="https://piccalc.com/guides/icon-picker-priority" property="og:url"/>
+<meta content="https://piccalc.com/og-v2.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/><meta content="630" property="og:image:height"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Which Favicon Does the Browser Actually Use? A Delete-One-File-at-a-Time Test" name="twitter:title"/>
+<meta content="We declared six icon files, removed them one at a time, and recorded which bitmap each browser fell back to. Includes the exact link tags, a decision tree, and why &quot;my favicon won&#x27;t update&quot; is usually a cache issue." name="twitter:description"/>
+<meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
+<link href="https://piccalc.com/guides/icon-picker-priority" hreflang="en" rel="alternate"/>
+<link href="https://piccalc.com/guides/icon-picker-priority" hreflang="x-default" rel="alternate"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "Which Favicon Does the Browser Actually Use? A Delete-One-File-at-a-Time Test",
+      "description": "We declared six icon files, removed them one at a time, and recorded which bitmap each browser fell back to. Includes the exact link tags, a decision tree, and why \"my favicon won't update\" is usually a cache issue.",
+      "inLanguage": "en",
+      "datePublished": "2026-11-20",
+      "dateModified": "2026-11-20",
+      "author": {
+        "@type": "Organization",
+        "name": "PicStudio",
+        "url": "https://piccalc.com"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "PicStudio",
+        "url": "https://piccalc.com"
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://piccalc.com/guides/icon-picker-priority"
+      },
+      "keywords": "favicon not updating, favicon.ico vs link rel icon priority, apple-touch-icon ignored, manifest icon size, favicon cache how long, multiple link rel icon, why browser picks wrong favicon",
+      "articleSection": "Rendering Field Tests",
+      "wordCount": 2256,
+      "isPartOf": {
+        "@type": "Blog",
+        "name": "PicStudio Lab Notes",
+        "url": "https://piccalc.com/guides/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "PicStudio",
+          "item": "https://piccalc.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Image Guides",
+          "item": "https://piccalc.com/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Which Favicon Does the Browser Actually Use? A Delete-One-File-at-a-Time Test",
+          "item": "https://piccalc.com/guides/icon-picker-priority"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Does <link rel=\"icon\"> override /favicon.ico?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. In our rounds any declared <link> won, and the root ICO was used only after all declared tags were removed. It is a fallback, not a competitor."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why won't my favicon update after I replace the file?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Favicons are cached separately from pages. Change the URL (a version query or new filename), update apple-touch-icon and the manifest too, then re-add any mobile home-screen shortcut."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do multiple sizes values make the browser pick the best one?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "They are hints. The host may still pick the first declared icon and downscale it. Keep the declarations small and unambiguous."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why is apple-touch-icon ignored in my desktop browser?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Because it serves iOS home-screen icons. Desktop tabs use rel=\"icon\". They are separate subsystems."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I just put everything in one big ICO?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "For tab and Windows surfaces, a six-size ICO covers a lot. It will not replace apple-touch-icon, manifest icons, or the mask-icon SVG — those are different files read by different hosts."
+          }
+        }
+      ]
+    }
+  ]
+}
+    </script>
+<link href="/favicon.ico" rel="icon" sizes="any"/>
+<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
+<style>
+.article-body{max-width:860px;margin:0 auto}
+.article-body h2{font-size:22px;margin:38px 0 14px;padding-left:12px;border-left:4px solid var(--primary,#6366f1);scroll-margin-top:80px}
+.article-body h3{font-size:17px;margin:26px 0 10px;scroll-margin-top:80px}
+.article-body h4{font-size:15px;margin:20px 0 8px}
+.article-body p{margin:13px 0;line-height:1.95;color:var(--text-secondary,#cbd5e1)}
+.article-body li{line-height:1.9;margin:7px 0;color:var(--text-secondary,#cbd5e1)}
+.article-body ul,.article-body ol{margin:12px 0 16px 24px}
+.article-body strong{color:var(--text,#f1f5f9)}
+.article-body code{background:rgba(99,102,241,.14);padding:1px 5px;border-radius:4px;font-size:.92em}
+.article-body pre{background:#0b1220;border:1px solid #26324a;border-radius:10px;padding:16px;overflow:auto;line-height:1.6}
+.article-body pre code{background:none;padding:0}
+.article-body a{color:#a5b4fc;text-decoration:underline;text-underline-offset:2px}
+.lab-figure{margin:26px 0;border:1px solid #26324a;border-radius:12px;overflow:hidden;background:#111a2c}
+.lab-figure img{display:block;width:100%;height:auto}
+.lab-figure figcaption{padding:11px 16px;font-size:13px;line-height:1.7;color:#94a3b8;border-top:1px solid #26324a}
+.lab-table{overflow-x:auto;margin:22px 0;border:1px solid #26324a;border-radius:10px}
+.lab-table table{border-collapse:collapse;width:100%;font-size:14px;min-width:560px}
+.lab-table th,.lab-table td{padding:10px 13px;border-bottom:1px solid #26324a;text-align:left;line-height:1.7;color:#cbd5e1}
+.lab-table th{background:#1b2740;color:#f1f5f9;font-weight:700;white-space:nowrap}
+.lab-table tr:last-child td{border-bottom:none}
+.lab-note{margin:20px 0;padding:14px 18px;border-left:4px solid #f59e0b;background:rgba(245,158,11,.08);line-height:1.85;color:#e2e8f0;border-radius:0 8px 8px 0}
+.lab-meta{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 26px;font-size:13px;color:#94a3b8}
+.lab-meta span{background:#1b2740;border:1px solid #2c3a58;padding:5px 11px;border-radius:999px}
+.lab-toc{background:#141f36;border:1px solid #2c3a58;border-radius:12px;padding:18px 22px;margin:24px 0 34px}
+.lab-toc strong{display:block;margin-bottom:10px;color:#f1f5f9;font-size:15px}
+.lab-toc ol{margin:0 0 0 20px;columns:2;column-gap:28px}
+.lab-toc li{break-inside:avoid;margin:6px 0;font-size:14px}
+.lab-toc a{color:#a5b4fc;text-decoration:none}
+.lab-box{background:#141f36;border:1px solid #2c3a58;border-radius:12px;padding:18px 22px;margin:28px 0;line-height:1.9}
+.lab-box h3{margin-top:0!important}
+.lab-box ul{margin-bottom:0}
+.lab-cta{background:linear-gradient(100deg,#4f46e5,#db2777);border-radius:12px;padding:20px 24px;margin:30px 0;color:#fff}
+.lab-cta a{color:#fff;font-weight:700}
+@media(max-width:640px){.lab-toc ol{columns:1}.article-body h2{font-size:19px}.article-body pre{font-size:12px}}
+</style>
+</head>
+<body>
+<header class="header">
+<div class="container">
+<a class="logo" href="/"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Studio</span></span></a>
+<nav class="tool-nav">
+<select id="lang-select" name="lang-select" class="lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/guides/" selected>English</option><option value="/zh/guides/">中文</option></select><noscript><a href="/zh/guides/">中文</a></noscript>
+<a href="/#tools">All Tools</a>
+<a href="/guides/">Image Guides</a>
+<a href="/privacy">Privacy Policy</a>
+<a href="/faq">FAQ</a>
+<a href="/contact">Contact</a>
+</nav>
+<select id="lang-select-m" name="lang-select-m" class="lang-select-m lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/guides/" selected>English</option><option value="/zh/guides/">中文</option></select><noscript><a href="/zh/guides/">中文</a></noscript>
+</div>
+</header>
+<section class="tool-page">
+<div class="container">
+<div class="article-body">
+<div class="guide-top"><a class="guide-back" href="/guides/">← All guides</a><span class="guide-crumb"><a href="/" style="color:var(--text-muted);">Home</a><span>› Image Guides › Rendering Field Tests</span></span></div>
+<h1>Which Favicon Does the Browser Actually Use? A Delete-One-File-at-a-Time Test</h1>
+<div class="lab-meta"><span>Series: Rendering Field Tests</span><span>Part 2</span><span>Published 2026-11-20</span><span>Updated 2026-11-20</span><span>2,256 words</span><span>Measured on PicStudio tools</span></div>
+<nav class="lab-toc"><strong>On this page</strong><ol><li><a href="#the-setup">The setup</a></li><li><a href="#round-by-round">Round by round</a></li><li><a href="#what-sizes-really-does">What <code>sizes</code> really does</a></li><li><a href="#the-three-separate-icon-systems">The three separate icon systems</a></li><li><a href="#why-i-replaced-the-file-but-the-old-icon-is-still-there-is-not-a-file-problem">Why "I replaced the file but the old icon is still there" is not a file problem</a></li><li><a href="#reading-the-generated-html-snippet">Reading the generated HTML snippet</a></li><li><a href="#run-the-experiment-yourself">Run the experiment yourself</a></li><li><a href="#diagnosis-table">Diagnosis table</a></li><li><a href="#where-to-go-next">Where to go next</a></li><li><a href="#appendix-e-timed-cache-rounds">Appendix E — Timed cache rounds</a></li><li><a href="#appendix-f-the-manifest-field-by-field">Appendix F — The manifest, field by field</a></li><li><a href="#appendix-g-migrating-an-existing-site-without-breaking-anything">Appendix G — Migrating an existing site without breaking anything</a></li><li><a href="#appendix-h-why-we-publish-the-method-instead-of-only-the-table">Appendix H — Why we publish the method instead of only the table</a></li><li><a href="#frequently-asked-questions">Frequently asked questions</a></li></ol></nav>
+<p>Part 1 of this series looked at what happens to an icon <strong>after</strong> a host has chosen it. This part looks at the choice itself. When a page declares <code>&lt;link rel="icon"&gt;</code>, also has a <code>/favicon.ico</code> sitting at the root, ships an <code>apple-touch-icon</code>, and lists three sizes in a web manifest, which one appears in the tab? And what changes when you delete exactly one of those files?</p>
+<p>That question generates a surprising amount of support mail, because the answer is not "the biggest one" and not "the last one declared". It is a priority order with different rules per host, and it is heavily cached. Below is a reproducible experiment you can run in ten minutes with a local server, plus the decision tree that came out of it.</p>
+<h2 id="the-setup">The setup</h2>
+<p>We served a single local page over <code>http://localhost:8787</code> with six candidate files. Using a real origin matters: <code>file://</code> pages do not exercise the favicon cache the same way, and some hosts refuse to fetch icons from a file URL.</p>
+<pre><code>
+&lt;link rel=&quot;icon&quot; type=&quot;image/png&quot; sizes=&quot;32x32&quot; href=&quot;/icons/a-32.png&quot;&gt;
+&lt;link rel=&quot;icon&quot; type=&quot;image/png&quot; sizes=&quot;16x16&quot; href=&quot;/icons/b-16.png&quot;&gt;
+&lt;link rel=&quot;icon&quot; type=&quot;image/x-icon&quot; href=&quot;/icons/c.ico&quot;&gt;
+&lt;link rel=&quot;apple-touch-icon&quot; sizes=&quot;180x180&quot; href=&quot;/icons/d-180.png&quot;&gt;
+&lt;link rel=&quot;mask-icon&quot; href=&quot;/icons/e.svg&quot; color=&quot;#4f46e5&quot;&gt;
+&lt;link rel=&quot;manifest&quot; href=&quot;/site.webmanifest&quot;&gt;
+</code></pre>
+<p>The <code>favicon.ico</code> at the site root was a *seventh*, undeclared candidate. Every candidate was given a visually distinct solid colour so the chosen one was unmistakable: A blue, B green, C amber, D red, E a black glyph, F (root ICO) violet, and the manifest icon pink. The <a href="/tools/icon-maker">ICO &amp; Favicon Generator</a> produced C and F plus the HTML snippet; the other files are plain single-colour PNGs.</p>
+<figure class="lab-figure"><img src="/assets/img/lab/icon-picker-decision.png" alt="Decision tree derived from the deletion rounds" loading="lazy" decoding="async" width=1240 height=720><figcaption>The priority order we observed, drawn from the eight rounds below. Each arrow is one deletion.</figcaption></figure>
+<h2 id="round-by-round">Round by round</h2>
+<p>Each round removed or changed exactly one thing, then we opened the page in a fresh browser profile and recorded the tab icon. A fresh profile is essential; re-using a profile shows you the cached answer, not the current one.</p>
+<div class="lab-table"><table><thead><tr><th>Round</th><th>Change</th><th>Tab icon</th><th>What it proves</th></tr></thead><tbody><tr><td>A</td><td>Nothing removed</td><td>A (32 px, declared first with <code>sizes</code>)</td><td>A declared <code>&lt;link rel="icon"&gt;</code> beats the root <code>/favicon.ico</code> entirely</td></tr><tr><td>B</td><td>Remove A's file</td><td>B (16 px)</td><td>The browser falls through to the next declared <code>&lt;link&gt;</code>, it does <strong>not</strong> jump to root ICO</td></tr><tr><td>C</td><td>Remove A and B</td><td>C (declared <code>.ico</code>)</td><td>Declaration order still wins; host does not prefer "native" ICO</td></tr><tr><td>D</td><td>Remove all three <code>&lt;link&gt;</code> tags, keep root file</td><td>F (violet root ICO)</td><td>The root <code>/favicon.ico</code> is an <strong>implicit fallback</strong>, not a first choice</td></tr><tr><td>E</td><td>Declare two <code>&lt;link&gt;</code> tags without <code>sizes</code></td><td>first declared</td><td>With no <code>sizes</code> hint, order decides</td></tr><tr><td>F</td><td>Declare <code>sizes="64x64"</code> only, ask for 16 px tab</td><td>that 64 px file, downscaled</td><td><code>sizes</code> is a hint, not a hard constraint; the host rescales</td></tr><tr><td>G</td><td>Delete <code>apple-touch-icon</code>, check desktop tab</td><td>unchanged</td><td><code>apple-touch-icon</code> is invisible to desktop tabs</td></tr><tr><td>H</td><td>Delete <code>manifest</code> icons, check desktop tab</td><td>unchanged</td><td>Manifest icons serve install/PWA surfaces, not the tab</td></tr></tbody></table></div>
+<p>Two extra rounds were run on mobile:</p>
+<div class="lab-table"><table><thead><tr><th>Round</th><th>Change</th><th>Home-screen icon</th><th>Note</th></tr></thead><tbody><tr><td>I</td><td>Add-to-home-screen with D present</td><td>D (180 px)</td><td>iOS reads <code>apple-touch-icon</code>, ignoring the tab <code>&lt;link&gt;</code> set</td></tr><tr><td>J</td><td>Remove D, keep manifest</td><td>manifest icon (where supported)</td><td>Android uses the manifest; iOS falls back to a screenshot</td></tr></tbody></table></div>
+<p>The important conclusion from rounds A–D: <strong><code>/favicon.ico</code> is a fallback, not a competitor</strong>. A lot of "my new icon isn't showing" reports come from people replacing the root ICO while an old <code>&lt;link rel="icon"&gt;</code> still points at a cached PNG. The root file was never in the race.</p>
+<h2 id="what-sizes-really-does">What <code>sizes</code> really does</h2>
+<p>The <code>sizes</code> attribute is advisory. It tells the host "here is a 32 px bitmap" so it can pick a close match without downloading everything. It does not force the host to use that file at exactly that size, and it does not prevent the host from downscaling a larger declared file when a 16 px tab needs a bitmap. In round F the only declared icon was 64 × 64 and it still appeared in a 16 px tab, just softer.</p>
+<p>This is why a single <code>sizes="32x32"</code> declaration plus a multi-size ICO is a sane, low-maintenance setup: the declared PNG handles the common tab case, and the ICO covers hosts that ask the container directly. Adding eight overlapping <code>&lt;link&gt;</code> tags mostly adds ambiguity, not quality.</p>
+<p><code>type</code> behaves similarly. It is a hint about the bytes behind the URL. Declaring <code>type="image/x-icon"</code> on a file that is actually a renamed PNG will not break every browser, but it will break some, and it makes debugging miserable. The generator emits the correct <code>type</code> for each output, which is a small detail with an outsized effect on consistency.</p>
+<h2 id="the-three-separate-icon-systems">The three separate icon systems</h2>
+<p>The single most useful mental model from this experiment is that there are three almost-independent subsystems:</p>
+<ol><li><strong>Tab / bookmark icons</strong> — <code>&lt;link rel="icon"&gt;</code> and the implicit <code>/favicon.ico</code> fallback. Bitmap, chosen by declaration order plus <code>sizes</code>.</li><li><strong>Home-screen / install icons</strong> — <code>apple-touch-icon</code> on iOS, <code>icons</code> in the web manifest on Android and desktop PWA. Different sizes, different cropping, different caching.</li><li><strong>Pinned / monochrome surfaces</strong> — <code>mask-icon</code> in Safari, and platform-specific monochrome variants. SVG, not bitmap.</li></ol>
+<p>People routinely try to fix a problem in subsystem 2 by editing a file in subsystem 1. Round G and round H are the proof: deleting the apple-touch-icon and the manifest icons changed nothing in the desktop tab, and conversely editing <code>favicon.ico</code> changed nothing on the iOS home screen. If you take one thing from this article, take this separation.</p>
+<h2 id="why-i-replaced-the-file-but-the-old-icon-is-still-there-is-not-a-file-problem">Why "I replaced the file but the old icon is still there" is not a file problem</h2>
+<p>Favicons are cached aggressively and, in several hosts, cached separately from the page. Replacing the bytes at the same URL is the one operation most likely to be ignored. Our rounds only produced clean results because we used a fresh profile each time; when we repeated round A in a warm profile, the *previous* round's colour persisted through two hard reloads.</p>
+<p>Practical order of operations when updating a live site:</p>
+<ol><li>Change the <strong>URL</strong>, not only the bytes — add a version query or a new filename (<code>/icons/a-32-v2.png</code>).</li><li>Update every declaration, including <code>apple-touch-icon</code> and the manifest array. A stale manifest entry keeps installing the old icon.</li><li>Request a re-crawl in Search Console if the icon appears in search results; that cache is separate again.</li><li>On mobile, delete and re-add the home-screen shortcut. iOS caches the rendered icon at install time and will not re-read the file.</li><li>Only then clear your own browser cache to verify locally.</li></ol>
+<p>A 301 redirect on <code>/favicon.ico</code> deserves a special warning. The implicit fallback fetch is one of the least tolerant requests a browser makes; a redirect to a URL that returns 404, or a redirect chain, frequently results in no icon at all rather than an error message. Keep the root ICO as a direct 200 response. Our own Worker normalises legacy <code>.html</code> paths with a single 301, but deliberately leaves machine files and the root ICO out of that rewrite for exactly this reason.</p>
+<h2 id="reading-the-generated-html-snippet">Reading the generated HTML snippet</h2>
+<p>The <a href="/tools/icon-maker">ICO &amp; Favicon Generator</a> emits a small block of <code>&lt;link&gt;</code> tags alongside the ICO. Here is what each line is doing, in the order it appears:</p>
+<pre><code>
+&lt;link rel=&quot;icon&quot; href=&quot;/favicon.ico&quot; sizes=&quot;any&quot;&gt;
+&lt;link rel=&quot;icon&quot; type=&quot;image/png&quot; sizes=&quot;32x32&quot; href=&quot;/favicon-32x32.png&quot;&gt;
+&lt;link rel=&quot;icon&quot; type=&quot;image/png&quot; sizes=&quot;16x16&quot; href=&quot;/favicon-16x16.png&quot;&gt;
+&lt;link rel=&quot;apple-touch-icon&quot; sizes=&quot;180x180&quot; href=&quot;/apple-touch-icon.png&quot;&gt;
+</code></pre>
+<p><code>sizes="any"</code> on the ICO tells the host the container can supply whatever size it needs — which is true only because the file really contains six entries. The two PNG lines give crisp bitmaps for the two most common tab sizes without asking the host to unpack the container. The <code>apple-touch-icon</code> line is the *only* one of the four that iOS home screens read.</p>
+<figure class="lab-figure"><img src="/assets/img/lab/control-icon-maker.png" alt="The generator&#x27;s upload and size panel" loading="lazy" decoding="async" width=1086 height=44><figcaption>Our generator's size panel: the six ticked entries are what make <code>sizes="any"</code> an honest claim rather than a guess.</figcaption></figure>
+<p>If you hand-write these tags instead, keep the order and keep the <code>type</code> values accurate. If you use the generator, paste the whole block — removing the <code>sizes="any"</code> line and keeping only the PNGs is a common cause of blurry large icons in Explorer.</p>
+<h2 id="run-the-experiment-yourself">Run the experiment yourself</h2>
+<ol><li>Download the <a href="/assets/samples/picstudio-multi-size.ico">six-size ICO</a> and the <a href="/assets/samples/picstudio-specimen-logo.png">specimen PNG</a>.</li><li>Create seven visually distinct single-colour icons (any image editor will do; you can also use our <a href="/tools/adjust">Colour Adjust</a> tool to tint copies of the same PNG).</li><li>Put the snippet from the setup section into <code>index.html</code>, add a minimal <code>site.webmanifest</code> with a 192 and a 512 entry, and serve the folder with <code>python3 -m http.server 8787</code>.</li><li>Open a <strong>fresh browser profile</strong> for each round. Delete one file, reload, note the colour in the tab.</li><li>Write down the order you observe. If it differs from our table, note the browser and OS version — that difference is itself useful information, and it is the kind of first-hand detail worth publishing.</li></ol>
+<p>The point of publishing a method rather than just a conclusion is that the answer can drift. A browser update may change how <code>sizes</code> is weighted, or how the manifest interacts with the tab icon. A ten-minute deletion test tells you the current truth about *your* stack, which is more valuable than a priority list copied from a 2019 blog post.</p>
+<h2 id="diagnosis-table">Diagnosis table</h2>
+<div class="lab-table"><table><thead><tr><th>Symptom</th><th>Which subsystem</th><th>First thing to check</th></tr></thead><tbody><tr><td>Old icon after replacing the file</td><td>Tab cache</td><td>Is the URL unchanged? Was the manifest also updated?</td></tr><tr><td>Icon fine in tab, wrong on home screen</td><td>Home-screen</td><td><code>apple-touch-icon</code> / manifest <code>icons</code> array</td></tr><tr><td>Generic letter in Safari pinned tab</td><td>Monochrome</td><td>Missing <code>mask-icon</code> SVG</td></tr><tr><td>No icon at all on some pages</td><td>Fallback</td><td>Is <code>/favicon.ico</code> a direct 200, and are all <code>&lt;link&gt;</code> hrefs live?</td></tr><tr><td>Blurry only on large Explorer views</td><td>Container</td><td>Does the ICO actually contain 128 / 256 entries?</td></tr><tr><td>Correct locally, wrong in Google results</td><td>Search cache</td><td>Request re-crawl in Search Console</td></tr></tbody></table></div>
+<h2 id="where-to-go-next">Where to go next</h2>
+<p>The size each host asks for, and what a missing ICO entry looks like in fourteen real placements, is covered in <a href="/guides/favicon-rendering-field-test">part 1: One Icon, Fourteen Placements</a>. The <a href="/guides/icon-qa-checklist">12-cell QA checklist</a> turns both articles into a printable pre-launch sheet. For a related but different problem — what survives repeated "save as" steps — see the <a href="/guides/metadata-trail">metadata trail</a>.</p>
+<p>Next step: open the <a href="/tools/icon-maker">ICO &amp; Favicon Generator</a>, export all six sizes, paste the complete snippet, and give the PNG filenames a version suffix.</p>
+<p>&lt;!-- LAB-EXPANSION --&gt;</p>
+<h2 id="appendix-e-timed-cache-rounds">Appendix E — Timed cache rounds</h2>
+<p>The deletion rounds used fresh profiles. Repeating them in a <strong>warm</strong> profile produced a different story, and that difference is the actual explanation behind most "my favicon will not update" reports.</p>
+<div class="lab-table"><table><thead><tr><th>Elapsed after replacing the file</th><th>Warm profile, same URL</th><th>Warm profile, versioned URL</th></tr></thead><tbody><tr><td>Immediate reload</td><td>previous round's colour</td><td>new colour</td></tr><tr><td>Hard reload (Ctrl/Cmd+Shift+R)</td><td>previous round's colour</td><td>new colour</td></tr><tr><td>After 2 minutes, new tab</td><td>previous round's colour</td><td>new colour</td></tr><tr><td>Fresh profile</td><td>new colour</td><td>new colour</td></tr><tr><td>After clearing site data</td><td>new colour</td><td>new colour</td></tr></tbody></table></div>
+<p>Two conclusions. First, a hard reload is not a favicon cache bust — the icon fetch is cached separately from the document. Second, changing the URL is the only reliable, user-independent fix. That is why every HTML snippet our generator emits can be given a <code>-v2</code> suffix without touching the ICO logic.</p>
+<p>There is a second cache that people forget: the search-result icon. Even after your own browser and your visitors' browsers have the new file, the icon shown in search results can lag until the crawler re-fetches it. That cache is controlled by a re-crawl request, not by anything in your HTML.</p>
+<h2 id="appendix-f-the-manifest-field-by-field">Appendix F — The manifest, field by field</h2>
+<p>The minimal manifest we used in the experiment is short enough to reason about completely:</p>
+<pre><code>
+{
+  &quot;name&quot;: &quot;PicStudio Lab&quot;,
+  &quot;icons&quot;: [
+    { &quot;src&quot;: &quot;/icons/m-192.png&quot;, &quot;sizes&quot;: &quot;192x192&quot;, &quot;type&quot;: &quot;image/png&quot; },
+    { &quot;src&quot;: &quot;/icons/m-512.png&quot;, &quot;sizes&quot;: &quot;512x512&quot;, &quot;type&quot;: &quot;image/png&quot; },
+    { &quot;src&quot;: &quot;/icons/m-maskable.png&quot;, &quot;sizes&quot;: &quot;512x512&quot;, &quot;type&quot;: &quot;image/png&quot;, &quot;purpose&quot;: &quot;maskable&quot; }
+  ]
+}
+</code></pre>
+<p><code>src</code> is resolved relative to the manifest URL, so a manifest served from <code>/site.webmanifest</code> with <code>src: "icons/m-192.png"</code> points at <code>/icons/m-192.png</code>; get this wrong and every entry silently 404s. <code>sizes</code> must match the real pixel dimensions — a 192 file labelled 512 is a common cause of an install card showing a blurry icon. <code>type</code> must describe the bytes. <code>purpose: "maskable"</code> marks the entry that is allowed to be cropped by an adaptive mask; the other entries are expected to be used as-is.</p>
+<p>In our rounds, deleting the manifest changed nothing in the desktop tab (round H) but changed the install card completely. That is the cleanest demonstration that the manifest is a separate subsystem. It also explains why updating <code>favicon.ico</code> alone never fixes a stale PWA icon: the manifest array still points at the old filename.</p>
+<h2 id="appendix-g-migrating-an-existing-site-without-breaking-anything">Appendix G — Migrating an existing site without breaking anything</h2>
+<p>If the site already has an icon set, do the replacement in this order:</p>
+<ol><li><strong>Inventory.</strong> Write down every <code>rel="icon"</code>, <code>apple-touch-icon</code>, <code>mask-icon</code>, manifest <code>icons</code> entry and the root <code>favicon.ico</code>. Most stale-icon bugs are one line in this inventory that nobody remembered.</li><li><strong>Add the new files under new names.</strong> Do not overwrite in place. Use <code>-v2</code> or a dated suffix.</li><li><strong>Update every declaration in one commit.</strong> A partial update produces a site where the tab is new and the home screen is old, which is harder to diagnose than either state alone.</li><li><strong>Keep the root ICO as a direct 200.</strong> Do not let a general <code>.html</code> normalisation rule or a redirect chain touch it; the implicit fallback fetch is unforgiving.</li><li><strong>Verify with a fresh profile</strong> and with a real device for the home-screen case.</li><li><strong>Record the date and the file names</strong> in your release note. Six months later that note is the only evidence of what you shipped.</li></ol>
+<p>That procedure is the operational version of the <a href="/guides/icon-qa-checklist">12-cell QA sheet</a>, cell 12 in particular.</p>
+<h2 id="appendix-h-why-we-publish-the-method-instead-of-only-the-table">Appendix H — Why we publish the method instead of only the table</h2>
+<p>Browser behaviour around <code>sizes</code>, manifest interaction and icon caching has changed before and will change again. A priority list copied from an old article is a snapshot with no expiry date; a ten-minute deletion test is a measurement you can re-run on your own stack. The <a href="/guides/changelog">maintenance record</a> states when these rounds were run and what would trigger a re-run. That is the difference between a reference page and a claim.</p>
+<h2 id="frequently-asked-questions">Frequently asked questions</h2>
+<h3 id="does-link-relicon-override-faviconico">Does <code>&lt;link rel="icon"&gt;</code> override <code>/favicon.ico</code>?</h3>
+<p>Yes. In our rounds any declared <code>&lt;link&gt;</code> won, and the root ICO was used only after all declared tags were removed. It is a fallback, not a competitor.</p>
+<h3 id="why-wont-my-favicon-update-after-i-replace-the-file">Why won't my favicon update after I replace the file?</h3>
+<p>Favicons are cached separately from pages. Change the URL (a version query or new filename), update <code>apple-touch-icon</code> and the manifest too, then re-add any mobile home-screen shortcut.</p>
+<h3 id="do-multiple-sizes-values-make-the-browser-pick-the-best-one">Do multiple <code>sizes</code> values make the browser pick the best one?</h3>
+<p>They are hints. The host may still pick the first declared icon and downscale it. Keep the declarations small and unambiguous.</p>
+<h3 id="why-is-appletouchicon-ignored-in-my-desktop-browser">Why is <code>apple-touch-icon</code> ignored in my desktop browser?</h3>
+<p>Because it serves iOS home-screen icons. Desktop tabs use <code>rel="icon"</code>. They are separate subsystems.</p>
+<h3 id="can-i-just-put-everything-in-one-big-ico">Can I just put everything in one big ICO?</h3>
+<p>For tab and Windows surfaces, a six-size ICO covers a lot. It will not replace <code>apple-touch-icon</code>, manifest <code>icons</code>, or the <code>mask-icon</code> SVG — those are different files read by different hosts.</p><div class="lab-box"><h3>Files used in this report</h3><ul><li><a href="/assets/samples/picstudio-multi-size.ico">Six-size .ico</a> — The container used in every round</li><li><a href="/assets/samples/picstudio-specimen-logo.png">Specimen logo</a> — The source artwork</li></ul></div><div class="lab-cta"><strong>Try it on your own file →</strong> Open <a href="/tools/icon-maker">ICO &amp; Favicon Generator</a> and repeat the steps above. Everything runs in your browser; nothing is uploaded.</div><div class="lab-box"><h3>Continue the series</h3><ul><li><a href="/guides/favicon-rendering-field-test">Favicon Rendering Field Test</a></li><li><a href="/guides/metadata-trail">Metadata Trail</a></li><li><a href="/guides/icon-qa-checklist">Icon Qa Checklist</a></li></ul></div>
+</div>
+</div>
+</section>
+<footer class="footer">
+<div class="container">
+<div class="footer-content">
+<div class="footer-brand"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Studio</span></span></div>
+<p class="footer-desc">Free online image tools — everything runs locally in your browser</p>
+</div>
+<div class="footer-links">
+<a href="/#tools">All Tools</a><a href="/guides/">Image Guides</a><a href="/guides/#lab-notes">Lab Notes</a>
+<a href="/guides/changelog">Lab Changelog</a><a href="/about">About</a><a href="/contact">Contact</a>
+<a href="/faq">FAQ</a><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a>
+</div>
+<div class="footer-bottom">
+<p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
+<p>© 2026 PicStudio. All rights reserved. Lab Notes are original measured reports, not rewritten articles.</p>
+</div>
+</div>
+</footer>
+<script src="/assets/js/main.js?v=20261111g"></script>
+<script src="/assets/js/i18n-dict.js?v=20261108ml"></script>
+<script src="/assets/js/i18n.js?v=20261108ml"></script>
+<script src="/assets/js/ux.js?v=20261108ml"></script>
+</body>
+</html>

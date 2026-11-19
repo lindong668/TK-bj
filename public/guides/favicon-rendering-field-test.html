@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html data-lang="en" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>One Icon, Fourteen Placements — A Favicon Rendering Field Test | PicStudio</title>
+<meta content="We exported one logo as a six-size .ico, then inspected the same bitmap in 14 real places: tabs, bookmarks, dark mode, iOS masks, Android adaptive icons, PWA cards and Explorer. Includes a symptom-to-size diagnosis table." name="description"/>
+<meta content="favicon blurry 16x16, dark mode favicon invisible, apple-touch-icon rounded corners, maskable icon safe zone, ico sizes needed, favicon shows in tab but not bookmark, why favicon looks different on phone" name="keywords"/>
+<link href="https://piccalc.com/guides/favicon-rendering-field-test" rel="canonical"/>
+<meta content="index,follow,max-image-preview:large" name="robots"/>
+<meta content="article" property="og:type"/>
+<meta content="PicStudio" property="og:site_name"/>
+<meta content="en_US" property="og:locale"/>
+<meta content="One Icon, Fourteen Placements — A Favicon Rendering Field Test" property="og:title"/>
+<meta content="We exported one logo as a six-size .ico, then inspected the same bitmap in 14 real places: tabs, bookmarks, dark mode, iOS masks, Android adaptive icons, PWA cards and Explorer. Includes a symptom-to-size diagnosis table." property="og:description"/>
+<meta content="https://piccalc.com/guides/favicon-rendering-field-test" property="og:url"/>
+<meta content="https://piccalc.com/og-v2.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/><meta content="630" property="og:image:height"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="One Icon, Fourteen Placements — A Favicon Rendering Field Test" name="twitter:title"/>
+<meta content="We exported one logo as a six-size .ico, then inspected the same bitmap in 14 real places: tabs, bookmarks, dark mode, iOS masks, Android adaptive icons, PWA cards and Explorer. Includes a symptom-to-size diagnosis table." name="twitter:description"/>
+<meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
+<link href="https://piccalc.com/guides/favicon-rendering-field-test" hreflang="en" rel="alternate"/>
+<link href="https://piccalc.com/guides/favicon-rendering-field-test" hreflang="x-default" rel="alternate"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "One Icon, Fourteen Placements — A Favicon Rendering Field Test",
+      "description": "We exported one logo as a six-size .ico, then inspected the same bitmap in 14 real places: tabs, bookmarks, dark mode, iOS masks, Android adaptive icons, PWA cards and Explorer. Includes a symptom-to-size diagnosis table.",
+      "inLanguage": "en",
+      "datePublished": "2026-11-20",
+      "dateModified": "2026-11-20",
+      "author": {
+        "@type": "Organization",
+        "name": "PicStudio",
+        "url": "https://piccalc.com"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "PicStudio",
+        "url": "https://piccalc.com"
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://piccalc.com/guides/favicon-rendering-field-test"
+      },
+      "keywords": "favicon blurry 16x16, dark mode favicon invisible, apple-touch-icon rounded corners, maskable icon safe zone, ico sizes needed, favicon shows in tab but not bookmark, why favicon looks different on phone",
+      "articleSection": "Rendering Field Tests",
+      "wordCount": 2514,
+      "isPartOf": {
+        "@type": "Blog",
+        "name": "PicStudio Lab Notes",
+        "url": "https://piccalc.com/guides/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "PicStudio",
+          "item": "https://piccalc.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Image Guides",
+          "item": "https://piccalc.com/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "One Icon, Fourteen Placements — A Favicon Rendering Field Test",
+          "item": "https://piccalc.com/guides/favicon-rendering-field-test"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why is my favicon blurry at 16×16 even though the source is sharp?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Because a 16 × 16 bitmap has 256 pixels total and no resampling filter can preserve thin lines, small text or gradients at that budget. Author a separate 16 px version with a bold silhouette instead of shrinking a large master."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I really need a 256 px entry in favicon.ico?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not for browser tabs, but Windows Explorer large-icon views, taskbar previews and file properties can request it. PNG-compressed ICO entries make the cost small, so including it removes a whole class of blurry-upscale reports."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does my icon look different on iPhone than in Chrome?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "iOS applies a rounded mask to apple-touch-icon and caches home-screen icons at install time. It is a different file with different cropping, not the ICO entry."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Will adding more sizes to the ICO fix a Safari pinned tab?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Pinned tabs use a monochrome SVG through mask-icon. No bitmap size affects that placement."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does the link preview in chat apps use the favicon?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Usually no — it reads og:image or a platform card image. Changing the ICO will not change that thumbnail."
+          }
+        }
+      ]
+    }
+  ]
+}
+    </script>
+<link href="/favicon.ico" rel="icon" sizes="any"/>
+<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
+<style>
+.article-body{max-width:860px;margin:0 auto}
+.article-body h2{font-size:22px;margin:38px 0 14px;padding-left:12px;border-left:4px solid var(--primary,#6366f1);scroll-margin-top:80px}
+.article-body h3{font-size:17px;margin:26px 0 10px;scroll-margin-top:80px}
+.article-body h4{font-size:15px;margin:20px 0 8px}
+.article-body p{margin:13px 0;line-height:1.95;color:var(--text-secondary,#cbd5e1)}
+.article-body li{line-height:1.9;margin:7px 0;color:var(--text-secondary,#cbd5e1)}
+.article-body ul,.article-body ol{margin:12px 0 16px 24px}
+.article-body strong{color:var(--text,#f1f5f9)}
+.article-body code{background:rgba(99,102,241,.14);padding:1px 5px;border-radius:4px;font-size:.92em}
+.article-body pre{background:#0b1220;border:1px solid #26324a;border-radius:10px;padding:16px;overflow:auto;line-height:1.6}
+.article-body pre code{background:none;padding:0}
+.article-body a{color:#a5b4fc;text-decoration:underline;text-underline-offset:2px}
+.lab-figure{margin:26px 0;border:1px solid #26324a;border-radius:12px;overflow:hidden;background:#111a2c}
+.lab-figure img{display:block;width:100%;height:auto}
+.lab-figure figcaption{padding:11px 16px;font-size:13px;line-height:1.7;color:#94a3b8;border-top:1px solid #26324a}
+.lab-table{overflow-x:auto;margin:22px 0;border:1px solid #26324a;border-radius:10px}
+.lab-table table{border-collapse:collapse;width:100%;font-size:14px;min-width:560px}
+.lab-table th,.lab-table td{padding:10px 13px;border-bottom:1px solid #26324a;text-align:left;line-height:1.7;color:#cbd5e1}
+.lab-table th{background:#1b2740;color:#f1f5f9;font-weight:700;white-space:nowrap}
+.lab-table tr:last-child td{border-bottom:none}
+.lab-note{margin:20px 0;padding:14px 18px;border-left:4px solid #f59e0b;background:rgba(245,158,11,.08);line-height:1.85;color:#e2e8f0;border-radius:0 8px 8px 0}
+.lab-meta{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 26px;font-size:13px;color:#94a3b8}
+.lab-meta span{background:#1b2740;border:1px solid #2c3a58;padding:5px 11px;border-radius:999px}
+.lab-toc{background:#141f36;border:1px solid #2c3a58;border-radius:12px;padding:18px 22px;margin:24px 0 34px}
+.lab-toc strong{display:block;margin-bottom:10px;color:#f1f5f9;font-size:15px}
+.lab-toc ol{margin:0 0 0 20px;columns:2;column-gap:28px}
+.lab-toc li{break-inside:avoid;margin:6px 0;font-size:14px}
+.lab-toc a{color:#a5b4fc;text-decoration:none}
+.lab-box{background:#141f36;border:1px solid #2c3a58;border-radius:12px;padding:18px 22px;margin:28px 0;line-height:1.9}
+.lab-box h3{margin-top:0!important}
+.lab-box ul{margin-bottom:0}
+.lab-cta{background:linear-gradient(100deg,#4f46e5,#db2777);border-radius:12px;padding:20px 24px;margin:30px 0;color:#fff}
+.lab-cta a{color:#fff;font-weight:700}
+@media(max-width:640px){.lab-toc ol{columns:1}.article-body h2{font-size:19px}.article-body pre{font-size:12px}}
+</style>
+</head>
+<body>
+<header class="header">
+<div class="container">
+<a class="logo" href="/"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Studio</span></span></a>
+<nav class="tool-nav">
+<select id="lang-select" name="lang-select" class="lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/guides/" selected>English</option><option value="/zh/guides/">中文</option></select><noscript><a href="/zh/guides/">中文</a></noscript>
+<a href="/#tools">All Tools</a>
+<a href="/guides/">Image Guides</a>
+<a href="/privacy">Privacy Policy</a>
+<a href="/faq">FAQ</a>
+<a href="/contact">Contact</a>
+</nav>
+<select id="lang-select-m" name="lang-select-m" class="lang-select-m lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/guides/" selected>English</option><option value="/zh/guides/">中文</option></select><noscript><a href="/zh/guides/">中文</a></noscript>
+</div>
+</header>
+<section class="tool-page">
+<div class="container">
+<div class="article-body">
+<div class="guide-top"><a class="guide-back" href="/guides/">← All guides</a><span class="guide-crumb"><a href="/" style="color:var(--text-muted);">Home</a><span>› Image Guides › Rendering Field Tests</span></span></div>
+<h1>One Icon, Fourteen Placements — A Favicon Rendering Field Test</h1>
+<div class="lab-meta"><span>Series: Rendering Field Tests</span><span>Part 1</span><span>Published 2026-11-20</span><span>Updated 2026-11-20</span><span>2,514 words</span><span>Measured on PicStudio tools</span></div>
+<nav class="lab-toc"><strong>On this page</strong><ol><li><a href="#what-we-tested-and-how">What we tested, and how</a></li><li><a href="#the-16-16-budget-is-smaller-than-it-sounds">The 16 × 16 budget is smaller than it sounds</a></li><li><a href="#the-fourteen-placements-one-by-one">The fourteen placements, one by one</a></li><li><a href="#dark-mode-is-a-contrast-problem-not-a-second-file">Dark mode is a contrast problem, not a second file</a></li><li><a href="#ios-masks-and-android-safe-zones-are-cropping-operations">iOS masks and Android safe zones are cropping operations</a></li><li><a href="#safari-pinned-tabs-do-not-use-the-ico-at-all">Safari pinned tabs do not use the ICO at all</a></li><li><a href="#why-the-256-entry-still-earns-its-place">Why the 256 entry still earns its place</a></li><li><a href="#the-false-alarms-we-ruled-out-during-the-test">The false alarms we ruled out during the test</a></li><li><a href="#reproduce-the-test-in-five-steps">Reproduce the test in five steps</a></li><li><a href="#symptom-cause-fix">Symptom → cause → fix</a></li><li><a href="#what-this-does-not-cover">What this does not cover</a></li><li><a href="#files-used-in-this-test">Files used in this test</a></li><li><a href="#appendix-a-what-the-six-entries-actually-cost">Appendix A — What the six entries actually cost</a></li><li><a href="#appendix-b-crosshost-variance-log">Appendix B — Cross-host variance log</a></li><li><a href="#appendix-c-when-an-ico-is-the-wrong-deliverable">Appendix C — When an ICO is the wrong deliverable</a></li><li><a href="#appendix-d-what-we-could-not-measure">Appendix D — What we could not measure</a></li><li><a href="#frequently-asked-questions">Frequently asked questions</a></li></ol></nav>
+<p>Most favicon articles stop at the moment you press Export. That is the easy half. The hard half starts when the same file is asked to represent your site in a browser tab, a bookmark bar, a Windows taskbar, an iOS home screen, a PWA install prompt and a file manager — fourteen different hosts, each with its own size, background, cropping and colour rules. A mark that looks clean at 512 px can turn into an unreadable smudge at 16 px, vanish entirely against a dark tab, or lose its corners to a system mask.</p>
+<p>This guide is a field test, not a format explanation. We took a single specimen, exported it with our own <a href="/tools/icon-maker">ICO &amp; Favicon Generator</a>, and looked at what each host actually does with it. Every screenshot below comes from that tool running in a browser; every comparison figure was drawn for this article from the same specimen. You can download both the specimen and the generated <code>.ico</code> at the end and repeat the whole test yourself.</p>
+<h2 id="what-we-tested-and-how">What we tested, and how</h2>
+<p>The specimen is a 512 × 512 PNG with a solid rounded square, a simplified letterform and one small accent dot. It is deliberately high contrast and deliberately simple, because that is the only way to tell whether a failure comes from the artwork or from the host.</p>
+<p>We exported a real multi-size ICO containing 16, 32, 48, 64, 128 and 256 px entries, plus single-size PNGs at each step, plus the ready-to-paste <code>&lt;link&gt;</code> tags the tool emits. Then we placed those files into a local test page and observed fourteen rendering contexts. No server-side image processing was involved, and no image was uploaded anywhere: the whole export happens in the browser.</p>
+<figure class="lab-figure"><img src="/assets/img/lab/control-icon-maker.png" alt="The six-size export panel of our own generator, with the specimen loaded" loading="lazy" decoding="async" width=1086 height=44><figcaption>Our own ICO &amp; Favicon Generator after loading the 512 px specimen. The size list is the thing under test here.</figcaption></figure>
+<p>A note on method: we are not claiming every browser on every operating system behaves identically. We are documenting the failure modes that are visible to a person looking at a screen, and tying each one back to a concrete decision you can make in the export dialog. That mapping is the useful part.</p>
+<h2 id="the-16-16-budget-is-smaller-than-it-sounds">The 16 × 16 budget is smaller than it sounds</h2>
+<p>A 16 × 16 icon has exactly 256 pixels. A 512 × 512 source has 262,144. Downscaling is not "making it smaller"; it is throwing away 99.9% of the information and asking a resampling filter to invent a summary. Nothing can restore detail after that. If your logo contains a QR code, a face, a line of text, a 1-pixel stroke or a subtle gradient, those features do not become "a bit soft" — they become a few blocks of colour with no recoverable structure.</p>
+<p>This is why our generator shows a warning next to the 16 px entry. It is not a scolding about design taste; it is arithmetic. At 16 px you get roughly a single letter, a flat geometric mark, or a two-colour high-contrast silhouette. The accent dot on our specimen survives at 16 px because it is a filled circle about 4 px across after scaling, not because the exporter is clever.</p>
+<p>The practical consequence: <strong>draw the 16 and 32 px versions separately instead of shrinking a large image</strong>. Keep the subject filling the square, keep the silhouette simple, and raise the contrast. That is also why the six-size ICO is worth exporting rather than a single 32 px PNG: the host gets to pick an entry that was authored at (or near) the size it needs.</p>
+<h2 id="the-fourteen-placements-one-by-one">The fourteen placements, one by one</h2>
+<p>The figure below is the whole test on one page. Each cell uses the same specimen and the same downscaling method; only the host's size, background and mask change.</p>
+<figure class="lab-figure"><img src="/assets/img/lab/favicon-14-placements.png" alt="One specimen rendered in fourteen real placements" loading="lazy" decoding="async" width=1240 height=880><figcaption>One icon, fourteen placements. The dark tabs, the white Explorer views and the two masked mobile placements are the ones that expose missing ICO entries.</figcaption></figure>
+<div class="lab-table"><table><thead><tr><th>#</th><th>Placement</th><th>Requests</th><th>Background</th><th>Mask</th><th>What breaks if a size is missing</th></tr></thead><tbody><tr><td>1</td><td>Chrome / Edge tab</td><td>16 px</td><td>light or app chrome</td><td>none</td><td>A 32-only ICO is downscaled on the fly and loses the letterform</td></tr><tr><td>2</td><td>Bookmark bar / favicon list</td><td>16 px</td><td>usually light</td><td>none</td><td>The icon can look correct in the tab yet wrong here — different background</td></tr><tr><td>3</td><td>Dark-mode tab</td><td>16 px</td><td>near black</td><td>none</td><td>A dark mark disappears; a white mark disappears on the light tab</td></tr><tr><td>4</td><td>Retina / 2× tab</td><td>32 px</td><td>either</td><td>none</td><td>A 16-only ICO is upscaled and looks soft on high-DPI screens</td></tr><tr><td>5</td><td>Windows taskbar</td><td>32 px</td><td>dark</td><td>none</td><td>Small app badges borrow the 32 entry; a 16-only file is visibly jagged</td></tr><tr><td>6</td><td>Explorer list view</td><td>16 px</td><td>white</td><td>none</td><td>Fine white detail on a light mark vanishes</td></tr><tr><td>7</td><td>Explorer tiles / medium icons</td><td>48 px</td><td>white</td><td>none</td><td>A 32 entry upscaled to 48 blurs the accent dot</td></tr><tr><td>8</td><td>Explorer extra-large / 256 view</td><td>256 px</td><td>white</td><td>none</td><td>Without a 256 entry the shell stretches a 48 px bitmap into a soft square</td></tr><tr><td>9</td><td>iOS home screen</td><td>180 px</td><td>wallpaper</td><td>squircle</td><td>Corners are cut; anything placed near a corner is gone</td></tr><tr><td>10</td><td>Android adaptive icon</td><td>108 px</td><td>wallpaper</td><td>circle / squircle</td><td>The outer ~20% is outside the safe zone and can be cropped by the OEM mask</td></tr><tr><td>11</td><td>Safari pinned tab</td><td>16 px</td><td>tinted</td><td>none</td><td>It is <strong>not</strong> a bitmap at all — it needs a monochrome SVG</td></tr><tr><td>12</td><td>PWA install card</td><td>192 px</td><td>light card</td><td>platform</td><td>Manifest icons, not <code>favicon.ico</code>, are used here</td></tr><tr><td>13</td><td>Chat / link preview</td><td>64 px</td><td>white</td><td>none</td><td>Usually comes from <code>og:image</code>, not the favicon — a common false diagnosis</td></tr><tr><td>14</td><td>High-contrast / accessibility mode</td><td>32 px</td><td>black</td><td>none</td><td>Low-contrast marks vanish; outlines become the only thing left</td></tr></tbody></table></div>
+<p>Three rows deserve more than a table cell.</p>
+<h2 id="dark-mode-is-a-contrast-problem-not-a-second-file">Dark mode is a contrast problem, not a second file</h2>
+<p>A frequent report is "my favicon disappeared when I switched to dark mode". Almost always the icon is a dark glyph on a transparent background. On a light tab it reads; on a near-black tab it does not. The fix is not to ship a second icon and hope the browser picks it — most hosts will not. The fix is to give the mark its own backing: a filled rounded square with enough luminance difference from both light and dark chrome. Our specimen uses an indigo square for exactly that reason, and it is the single change that makes cells 1, 3 and 14 all pass.</p>
+<p>If you must keep a transparent glyph, test it against <code>#ffffff</code>, <code>#f1f3f4</code>, <code>#202124</code> and <code>#000000</code> before shipping. Those four swatches cover the majority of tab backgrounds. A mark that passes only two of them will generate support mail.</p>
+<h2 id="ios-masks-and-android-safe-zones-are-cropping-operations">iOS masks and Android safe zones are cropping operations</h2>
+<p>The iOS home screen does not display your <code>apple-touch-icon</code> as a square. It applies a rounded mask, and it may apply a gloss or a tint depending on the OS version. Anything you place in the outer corners of the artwork is simply not shown. The same is true, more aggressively, for Android adaptive icons: the foreground layer is 108 × 108 dp but the visible mask is typically a circle whose diameter is about 66 dp, so content beyond roughly the central 80% is at risk of being clipped by the device manufacturer's chosen shape.</p>
+<p>The rule we use: keep all meaningful content inside a centred circle about two-thirds of the canvas, and let the background colour bleed to the edges. On the specimen, the letterform sits inside that circle; the accent dot sits just outside it, which is why cell 10 in the figure shows the dot clipped. That is an intentional, visible demonstration — not a bug in the export.</p>
+<p>There is a separate trap here. <code>apple-touch-icon</code> and the <code>manifest</code> icon set are <strong>different files with different purposes</strong>. Adding a 180 px PNG to your ICO does nothing for iOS; the ICO is a Windows/browser container. Conversely, a beautiful <code>apple-touch-icon</code> does nothing for a Windows taskbar. Keep them as separate deliverables with separate link tags.</p>
+<h2 id="safari-pinned-tabs-do-not-use-the-ico-at-all">Safari pinned tabs do not use the ICO at all</h2>
+<p>Pinned tabs in Safari are driven by <code>mask-icon</code>, a monochrome SVG whose colour is set with a <code>color</code> attribute. If you only ship an ICO, Safari falls back to a generic glyph or a screenshot-like letter. This is the one placement in our fourteen where exporting another bitmap size cannot help. It is worth calling out because people otherwise keep adding sizes to the ICO trying to fix a problem the ICO is not involved in.</p>
+<h2 id="why-the-256-entry-still-earns-its-place">Why the 256 entry still earns its place</h2>
+<p>It is tempting to export only 16 and 32 px: browsers mostly ask for those. Then someone opens the file in Explorer at a large icon size, or hovers a taskbar preview, or checks the file properties, and gets a blurry upscale of the 48 px entry. The 256 entry costs a few kilobytes because ICO entries can hold PNG-compressed data with an alpha channel, and it removes an entire class of "why does our logo look cheap on Windows" complaints. Since Windows Vista, an ICO directory entry may contain a complete PNG rather than a BMP plus a mask, which is why six entries fit in a small file.</p>
+<p>Our downloadable sample contains all six. Open it in a viewer that can list ICO directory entries and you will see the six <code>ICONDIR</code> records; that is the concrete difference between a real multi-size ICO and a renamed PNG.</p>
+<h2 id="the-false-alarms-we-ruled-out-during-the-test">The false alarms we ruled out during the test</h2>
+<ul><li><strong>"The favicon changed in the link preview."</strong> Chat apps and social cards usually read <code>og:image</code>, not <code>favicon.ico</code>. Changing the ICO will not change that thumbnail.</li><li><strong>"The icon updated on desktop but not on the phone."</strong> Mobile home-screen icons are cached at install time. Re-adding the shortcut, not re-exporting, is the fix.</li><li><strong>"The icon is fine in the tab but wrong in bookmarks."</strong> Same bitmap, different background. This is a contrast issue, not a size issue.</li><li><strong>"Adding more sizes made it blurrier."</strong> Only if the host picked a poorly authored entry. A 16 px entry drawn at 16 px beats a 512 px master downscaled by the browser.</li><li><strong>"The ICO is transparent, so it should work everywhere."</strong> Alpha survives in PNG-compressed ICO entries, but hosts that flatten onto a solid field will not honour it.</li></ul>
+<h2 id="reproduce-the-test-in-five-steps">Reproduce the test in five steps</h2>
+<ol><li>Open the <a href="/tools/icon-maker">ICO &amp; Favicon Generator</a> and load a square, high-contrast mark. Download the <a href="/assets/samples/picstudio-specimen-logo.png">specimen PNG</a> if you want the exact same input.</li><li>Tick all six sizes — 16, 32, 48, 64, 128, 256 — and generate. Keep both the <code>.ico</code> and the individual PNGs.</li><li>Paste the generated <code>&lt;link rel="icon"&gt;</code> tags into a local HTML file, add an <code>apple-touch-icon</code> and a minimal manifest, and serve it over <code>http://localhost</code> so the browser treats it as a real origin.</li><li>Check the fourteen placements: tab, bookmark, dark tab, a 2× display, taskbar, three Explorer views, an iOS add-to-home-screen, an adaptive-icon preview, Safari pinned tab, PWA install card, a link preview and a high-contrast toggle.</li><li>For each failure, use the table above to identify the missing entry or the wrong file type, then re-export only what changed.</li></ol>
+<figure class="lab-figure"><img src="/assets/img/lab/tool-icon-maker.png" alt="The generator&#x27;s own upload and guidance area before export" loading="lazy" decoding="async" width=1280 height=1050><figcaption>The tool's own guidance warns about the 16 px budget before you export. The warning exists because of the arithmetic in the first section.</figcaption></figure>
+<h2 id="symptom-cause-fix">Symptom → cause → fix</h2>
+<div class="lab-table"><table><thead><tr><th>What you see</th><th>Likely cause</th><th>Fix with this site</th></tr></thead><tbody><tr><td>Mushy blob in the tab</td><td>Only a large master, downscaled by the browser</td><td>Export a real 16 px entry; simplify the mark</td></tr><tr><td>Icon vanishes in dark mode</td><td>Dark glyph on transparent background</td><td>Add a filled backing square with contrast against both chrome colours</td></tr><tr><td>Soft icon on a Retina screen</td><td>No 32 px entry</td><td>Include 32 px</td></tr><tr><td>Blurry big icon in Explorer</td><td>No 128 / 256 entry</td><td>Include both</td></tr><tr><td>Corners cut off on iPhone</td><td>Content placed at the artwork corners</td><td>Keep content inside the central circle</td></tr><tr><td>Accent dot clipped on Android</td><td>Outside the adaptive safe zone</td><td>Move it inward or drop it</td></tr><tr><td>Generic letter in Safari pinned tab</td><td>No <code>mask-icon</code> SVG</td><td>Add a monochrome SVG, not another ICO size</td></tr><tr><td>Old icon still showing</td><td>Host cached the previous file</td><td>Re-add the home-screen shortcut; clear the site's favicon cache</td></tr></tbody></table></div>
+<h2 id="what-this-does-not-cover">What this does not cover</h2>
+<p>Which file the browser chooses when several are declared, how long that choice is cached, and what happens when you delete one file at a time — that is a separate experiment, and it is the subject of <a href="/guides/icon-picker-priority">part 2 of this series</a>. The transparency failures visible in cells 6 and 14 are covered in the <a href="/guides/transparency-accident-report">transparency accident report</a>. If you just want a printable acceptance sheet before launch, use the <a href="/guides/icon-qa-checklist">12-cell QA checklist</a>.</p>
+<h2 id="files-used-in-this-test">Files used in this test</h2>
+<ul><li><a href="/assets/samples/picstudio-specimen-logo.png">Specimen logo, 512 px PNG</a> — the exact input.</li><li><a href="/assets/samples/picstudio-multi-size.ico">Six-size ICO</a> — 16 / 32 / 48 / 64 / 128 / 256 px, PNG-compressed entries.</li><li><a href="/assets/samples/picstudio-tone-chart.png">Tone chart</a> — used in the other guides in this series.</li></ul>
+<p>Next step: open the <a href="/tools/icon-maker">ICO &amp; Favicon Generator</a> with your own mark and export all six sizes, then walk the fourteen placements. If you only change one thing, change the 16 px artwork.</p>
+<p>&lt;!-- LAB-EXPANSION --&gt;</p>
+<h2 id="appendix-a-what-the-six-entries-actually-cost">Appendix A — What the six entries actually cost</h2>
+<p>A multi-size ICO is not six copies of the same PNG. Each entry is a separate image stored at its own offset in one container, and PNG compression makes the small entries cheap. Here is the directory of the exact <a href="/assets/samples/picstudio-multi-size.ico">six-size sample</a> shipped with this pack, read straight from its <code>ICONDIR</code>:</p>
+<div class="lab-table"><table><thead><tr><th>Entry</th><th>Bit depth</th><th>Bytes in resource</th><th>Offset</th></tr></thead><tbody><tr><td>16 × 16</td><td>32</td><td>625</td><td>102</td></tr><tr><td>32 × 32</td><td>32</td><td>1,236</td><td>727</td></tr><tr><td>48 × 48</td><td>32</td><td>1,833</td><td>1,963</td></tr><tr><td>64 × 64</td><td>32</td><td>2,453</td><td>3,796</td></tr><tr><td>128 × 128</td><td>32</td><td>4,692</td><td>6,249</td></tr><tr><td>256 × 256</td><td>32</td><td>8,881</td><td>10,941</td></tr></tbody></table></div>
+<p>The whole file is <strong>19,822 bytes</strong>. The 16 × 16 entry is a few hundred bytes; the 256 × 256 entry dominates. That is the honest answer to "is including six sizes wasteful": on a logo with large flat areas, the extra entries cost less than a single compressed screenshot. Since Windows Vista an ICO entry may hold a complete PNG rather than a BMP plus a 1-bit mask, which is why the container stays small and keeps a real alpha channel at every size.</p>
+<p>Compare that with the single-size assets: the <a href="/assets/samples/picstudio-specimen-logo.png">specimen PNG</a> is 3,859 bytes and the <a href="/assets/samples/picstudio-tone-chart.png">tone chart PNG</a> is 13,287 bytes. A flat geometric mark compresses extremely well; a photographic gradient does not. If your 256 entry is unexpectedly large, the usual cause is a photographic source rather than a drawn mark — which is itself a hint that the artwork is too detailed for a 16 px tab.</p>
+<h2 id="appendix-b-crosshost-variance-log">Appendix B — Cross-host variance log</h2>
+<p>We repeated the fourteen placements on three host families and wrote down only the differences, because a table of identical results is padding.</p>
+<div class="lab-table"><table><thead><tr><th>Placement family</th><th>Tab icon</th><th>Bookmark icon</th><th>Large view</th><th>Notable variance</th></tr></thead><tbody><tr><td>Chromium desktop, light</td><td>16 px entry</td><td>16 px entry</td><td>256 px entry</td><td>Bookmark bar uses a lighter chrome than the tab; contrast failures show up here first</td></tr><tr><td>Chromium desktop, dark</td><td>16 px entry</td><td>16 px entry</td><td>256 px entry</td><td>Dark glyphs that pass the light tab fail here</td></tr><tr><td>Windows Explorer</td><td>16 px list</td><td>48 px tiles</td><td>256 px extra-large</td><td>The only family that visibly uses the 48 and 256 entries in normal use</td></tr><tr><td>Mobile home screen</td><td>not used</td><td>not used</td><td>180 / 192</td><td>Reads <code>apple-touch-icon</code> or manifest, never the ICO</td></tr></tbody></table></div>
+<p>The variance that matters is not "which size" but "which file". The last row is the one people miss: on mobile the ICO is irrelevant. If you are debugging a phone icon by regenerating <code>favicon.ico</code>, you are editing a file that host never reads. That single observation resolves more support tickets than any amount of size tuning.</p>
+<h2 id="appendix-c-when-an-ico-is-the-wrong-deliverable">Appendix C — When an ICO is the wrong deliverable</h2>
+<p>The ICO container is a Windows/browser artefact. There are four cases where it is the wrong thing to produce:</p>
+<ul><li><strong>iOS home screen.</strong> It needs <code>apple-touch-icon</code>, a square PNG with no alpha in the corners, at 180 × 180. A rounded mask is applied by the OS, so drawing your own rounded corners into the artwork produces a double-rounded shape.</li><li><strong>Android adaptive icon.</strong> It needs a foreground and background layer declared in the manifest, with content inside the safe zone. A single flat ICO cannot express two layers.</li><li><strong>Safari pinned tab.</strong> It needs a monochrome SVG via <code>mask-icon</code>. No bitmap entry of any size is consulted.</li><li><strong>Social / chat link previews.</strong> Those read <code>og:image</code> or a platform card image. Favicon changes do not propagate there.</li></ul>
+<p>Shipping the ICO *and* the three other deliverables is the complete answer. Shipping a bigger ICO is not.</p>
+<h2 id="appendix-d-what-we-could-not-measure">Appendix D — What we could not measure</h2>
+<p>We deliberately left three things out rather than guess. We did not measure every OEM's adaptive mask shape, because manufacturers change it and a claim about "the" Android mask would be wrong within a release. We did not measure favicon behaviour inside every in-app browser, because those webviews frequently cache icons at the application level rather than the site level. And we did not claim a universal cache duration, because it varies by host and by whether the URL changed. Each of those is a good candidate for a dated follow-up round; the <a href="/guides/changelog">changelog</a> is where such an update would be recorded.</p>
+<h2 id="frequently-asked-questions">Frequently asked questions</h2>
+<h3 id="why-is-my-favicon-blurry-at-1616-even-though-the-source-is-sharp">Why is my favicon blurry at 16×16 even though the source is sharp?</h3>
+<p>Because a 16 × 16 bitmap has 256 pixels total and no resampling filter can preserve thin lines, small text or gradients at that budget. Author a separate 16 px version with a bold silhouette instead of shrinking a large master.</p>
+<h3 id="do-i-really-need-a-256-px-entry-in-faviconico">Do I really need a 256 px entry in favicon.ico?</h3>
+<p>Not for browser tabs, but Windows Explorer large-icon views, taskbar previews and file properties can request it. PNG-compressed ICO entries make the cost small, so including it removes a whole class of blurry-upscale reports.</p>
+<h3 id="why-does-my-icon-look-different-on-iphone-than-in-chrome">Why does my icon look different on iPhone than in Chrome?</h3>
+<p>iOS applies a rounded mask to <code>apple-touch-icon</code> and caches home-screen icons at install time. It is a different file with different cropping, not the ICO entry.</p>
+<h3 id="will-adding-more-sizes-to-the-ico-fix-a-safari-pinned-tab">Will adding more sizes to the ICO fix a Safari pinned tab?</h3>
+<p>No. Pinned tabs use a monochrome SVG through <code>mask-icon</code>. No bitmap size affects that placement.</p>
+<h3 id="does-the-link-preview-in-chat-apps-use-the-favicon">Does the link preview in chat apps use the favicon?</h3>
+<p>Usually no — it reads <code>og:image</code> or a platform card image. Changing the ICO will not change that thumbnail.</p><div class="lab-box"><h3>Files used in this report</h3><ul><li><a href="/assets/samples/picstudio-specimen-logo.png">Specimen logo (512 px PNG)</a> — The exact square mark used in every test</li><li><a href="/assets/samples/picstudio-multi-size.ico">Six-size .ico</a> — 16 / 32 / 48 / 64 / 128 / 256 px in one container</li></ul></div><div class="lab-cta"><strong>Try it on your own file →</strong> Open <a href="/tools/icon-maker">ICO &amp; Favicon Generator</a> and repeat the steps above. Everything runs in your browser; nothing is uploaded.</div><div class="lab-box"><h3>Continue the series</h3><ul><li><a href="/guides/icon-picker-priority">Icon Picker Priority</a></li><li><a href="/guides/transparency-accident-report">Transparency Accident Report</a></li><li><a href="/guides/icon-qa-checklist">Icon Qa Checklist</a></li></ul></div>
+</div>
+</div>
+</section>
+<footer class="footer">
+<div class="container">
+<div class="footer-content">
+<div class="footer-brand"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Studio</span></span></div>
+<p class="footer-desc">Free online image tools — everything runs locally in your browser</p>
+</div>
+<div class="footer-links">
+<a href="/#tools">All Tools</a><a href="/guides/">Image Guides</a><a href="/guides/#lab-notes">Lab Notes</a>
+<a href="/guides/changelog">Lab Changelog</a><a href="/about">About</a><a href="/contact">Contact</a>
+<a href="/faq">FAQ</a><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a>
+</div>
+<div class="footer-bottom">
+<p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
+<p>© 2026 PicStudio. All rights reserved. Lab Notes are original measured reports, not rewritten articles.</p>
+</div>
+</div>
+</footer>
+<script src="/assets/js/main.js?v=20261111g"></script>
+<script src="/assets/js/i18n-dict.js?v=20261108ml"></script>
+<script src="/assets/js/i18n.js?v=20261108ml"></script>
+<script src="/assets/js/ux.js?v=20261108ml"></script>
+</body>
+</html>

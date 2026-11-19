@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html data-lang="en" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The 12-Cell Icon QA Sheet — Check Before You Ship | PicStudio</title>
+<meta content="A printable acceptance sheet that turns five field tests into twelve pass/fail checks. Each cell tells you what to look at, what failure looks like, which PicStudio tool fixes it and which article explains why." name="description"/>
+<meta content="favicon checklist before launch, icon qa checklist, why my logo looks bad small, favicon too detailed 16px, pre-launch icon checklist, app icon acceptance test" name="keywords"/>
+<link href="https://piccalc.com/guides/icon-qa-checklist" rel="canonical"/>
+<meta content="index,follow,max-image-preview:large" name="robots"/>
+<meta content="article" property="og:type"/>
+<meta content="PicStudio" property="og:site_name"/>
+<meta content="en_US" property="og:locale"/>
+<meta content="The 12-Cell Icon QA Sheet — Check Before You Ship" property="og:title"/>
+<meta content="A printable acceptance sheet that turns five field tests into twelve pass/fail checks. Each cell tells you what to look at, what failure looks like, which PicStudio tool fixes it and which article explains why." property="og:description"/>
+<meta content="https://piccalc.com/guides/icon-qa-checklist" property="og:url"/>
+<meta content="https://piccalc.com/og-v2.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/><meta content="630" property="og:image:height"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="The 12-Cell Icon QA Sheet — Check Before You Ship" name="twitter:title"/>
+<meta content="A printable acceptance sheet that turns five field tests into twelve pass/fail checks. Each cell tells you what to look at, what failure looks like, which PicStudio tool fixes it and which article explains why." name="twitter:description"/>
+<meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
+<link href="https://piccalc.com/guides/icon-qa-checklist" hreflang="en" rel="alternate"/>
+<link href="https://piccalc.com/guides/icon-qa-checklist" hreflang="x-default" rel="alternate"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "The 12-Cell Icon QA Sheet — Check Before You Ship",
+      "description": "A printable acceptance sheet that turns five field tests into twelve pass/fail checks. Each cell tells you what to look at, what failure looks like, which PicStudio tool fixes it and which article explains why.",
+      "inLanguage": "en",
+      "datePublished": "2026-11-20",
+      "dateModified": "2026-11-20",
+      "author": {
+        "@type": "Organization",
+        "name": "PicStudio",
+        "url": "https://piccalc.com"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "PicStudio",
+        "url": "https://piccalc.com"
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://piccalc.com/guides/icon-qa-checklist"
+      },
+      "keywords": "favicon checklist before launch, icon qa checklist, why my logo looks bad small, favicon too detailed 16px, pre-launch icon checklist, app icon acceptance test",
+      "articleSection": "Checklists",
+      "wordCount": 1964,
+      "isPartOf": {
+        "@type": "Blog",
+        "name": "PicStudio Lab Notes",
+        "url": "https://piccalc.com/guides/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "PicStudio",
+          "item": "https://piccalc.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Image Guides",
+          "item": "https://piccalc.com/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "The 12-Cell Icon QA Sheet — Check Before You Ship",
+          "item": "https://piccalc.com/guides/icon-qa-checklist"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why does my logo look bad at 16 pixels?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A 16 × 16 icon has 256 pixels total. Thin lines, small text and gradients cannot survive that budget. Draw a separate, bolder 16 px version."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I check whether an ICO really contains multiple sizes?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Inspect the ICO directory entries, or compare against a known-good six-size file. A renamed single PNG will look fine in a tab and fail in Explorer's large-icon view."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should the checklist be re-run after a browser update?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, at least the cells covering icon selection and dark mode. The ten-minute deletion test in part 2 is the fast version."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What counts as a pass?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "All twelve cells readable on both light and dark backgrounds, a six-entry ICO, and every declared href returning 200. Any failure in cells 01, 03, 04, 06, 11 or 12 blocks the release."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I skip the iOS cell if I do not target mobile?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "You can, but record it as a dated exception in the release note rather than silently ignoring it."
+          }
+        }
+      ]
+    }
+  ]
+}
+    </script>
+<link href="/favicon.ico" rel="icon" sizes="any"/>
+<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
+<style>
+.article-body{max-width:860px;margin:0 auto}
+.article-body h2{font-size:22px;margin:38px 0 14px;padding-left:12px;border-left:4px solid var(--primary,#6366f1);scroll-margin-top:80px}
+.article-body h3{font-size:17px;margin:26px 0 10px;scroll-margin-top:80px}
+.article-body h4{font-size:15px;margin:20px 0 8px}
+.article-body p{margin:13px 0;line-height:1.95;color:var(--text-secondary,#cbd5e1)}
+.article-body li{line-height:1.9;margin:7px 0;color:var(--text-secondary,#cbd5e1)}
+.article-body ul,.article-body ol{margin:12px 0 16px 24px}
+.article-body strong{color:var(--text,#f1f5f9)}
+.article-body code{background:rgba(99,102,241,.14);padding:1px 5px;border-radius:4px;font-size:.92em}
+.article-body pre{background:#0b1220;border:1px solid #26324a;border-radius:10px;padding:16px;overflow:auto;line-height:1.6}
+.article-body pre code{background:none;padding:0}
+.article-body a{color:#a5b4fc;text-decoration:underline;text-underline-offset:2px}
+.lab-figure{margin:26px 0;border:1px solid #26324a;border-radius:12px;overflow:hidden;background:#111a2c}
+.lab-figure img{display:block;width:100%;height:auto}
+.lab-figure figcaption{padding:11px 16px;font-size:13px;line-height:1.7;color:#94a3b8;border-top:1px solid #26324a}
+.lab-table{overflow-x:auto;margin:22px 0;border:1px solid #26324a;border-radius:10px}
+.lab-table table{border-collapse:collapse;width:100%;font-size:14px;min-width:560px}
+.lab-table th,.lab-table td{padding:10px 13px;border-bottom:1px solid #26324a;text-align:left;line-height:1.7;color:#cbd5e1}
+.lab-table th{background:#1b2740;color:#f1f5f9;font-weight:700;white-space:nowrap}
+.lab-table tr:last-child td{border-bottom:none}
+.lab-note{margin:20px 0;padding:14px 18px;border-left:4px solid #f59e0b;background:rgba(245,158,11,.08);line-height:1.85;color:#e2e8f0;border-radius:0 8px 8px 0}
+.lab-meta{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 26px;font-size:13px;color:#94a3b8}
+.lab-meta span{background:#1b2740;border:1px solid #2c3a58;padding:5px 11px;border-radius:999px}
+.lab-toc{background:#141f36;border:1px solid #2c3a58;border-radius:12px;padding:18px 22px;margin:24px 0 34px}
+.lab-toc strong{display:block;margin-bottom:10px;color:#f1f5f9;font-size:15px}
+.lab-toc ol{margin:0 0 0 20px;columns:2;column-gap:28px}
+.lab-toc li{break-inside:avoid;margin:6px 0;font-size:14px}
+.lab-toc a{color:#a5b4fc;text-decoration:none}
+.lab-box{background:#141f36;border:1px solid #2c3a58;border-radius:12px;padding:18px 22px;margin:28px 0;line-height:1.9}
+.lab-box h3{margin-top:0!important}
+.lab-box ul{margin-bottom:0}
+.lab-cta{background:linear-gradient(100deg,#4f46e5,#db2777);border-radius:12px;padding:20px 24px;margin:30px 0;color:#fff}
+.lab-cta a{color:#fff;font-weight:700}
+@media(max-width:640px){.lab-toc ol{columns:1}.article-body h2{font-size:19px}.article-body pre{font-size:12px}}
+</style>
+</head>
+<body>
+<header class="header">
+<div class="container">
+<a class="logo" href="/"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Studio</span></span></a>
+<nav class="tool-nav">
+<select id="lang-select" name="lang-select" class="lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/guides/" selected>English</option><option value="/zh/guides/">中文</option></select><noscript><a href="/zh/guides/">中文</a></noscript>
+<a href="/#tools">All Tools</a>
+<a href="/guides/">Image Guides</a>
+<a href="/privacy">Privacy Policy</a>
+<a href="/faq">FAQ</a>
+<a href="/contact">Contact</a>
+</nav>
+<select id="lang-select-m" name="lang-select-m" class="lang-select-m lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/guides/" selected>English</option><option value="/zh/guides/">中文</option></select><noscript><a href="/zh/guides/">中文</a></noscript>
+</div>
+</header>
+<section class="tool-page">
+<div class="container">
+<div class="article-body">
+<div class="guide-top"><a class="guide-back" href="/guides/">← All guides</a><span class="guide-crumb"><a href="/" style="color:var(--text-muted);">Home</a><span>› Image Guides › Checklists</span></span></div>
+<h1>The 12-Cell Icon QA Sheet — Check Before You Ship</h1>
+<div class="lab-meta"><span>Series: Checklists</span><span>Part 1</span><span>Published 2026-11-20</span><span>Updated 2026-11-20</span><span>1,964 words</span><span>Measured on PicStudio tools</span></div>
+<nav class="lab-toc"><strong>On this page</strong><ol><li><a href="#how-to-use-the-sheet">How to use the sheet</a></li><li><a href="#cell-01-16-px-silhouette">Cell 01 — 16 px silhouette</a></li><li><a href="#cell-02-32-px-detail">Cell 02 — 32 px detail</a></li><li><a href="#cell-03-dark-mode">Cell 03 — dark mode</a></li><li><a href="#cell-04-light-mode">Cell 04 — light mode</a></li><li><a href="#cell-05-rounded-mask">Cell 05 — rounded mask</a></li><li><a href="#cell-06-transparent-edge">Cell 06 — transparent edge</a></li><li><a href="#cell-07-no-thin-lines">Cell 07 — no thin lines</a></li><li><a href="#cell-08-no-tiny-text">Cell 08 — no tiny text</a></li><li><a href="#cell-09-square-crop">Cell 09 — square crop</a></li><li><a href="#cell-10-no-halo">Cell 10 — no halo</a></li><li><a href="#cell-11-ico-really-has-six-sizes">Cell 11 — ICO really has six sizes</a></li><li><a href="#cell-12-html-tags-pasted-and-live">Cell 12 — HTML tags pasted and live</a></li><li><a href="#the-passfail-rule-written-down">The pass/fail rule, written down</a></li><li><a href="#a-release-note-you-can-copy">A release note you can copy</a></li><li><a href="#keeping-the-sheet-useful-over-time">Keeping the sheet useful over time</a></li><li><a href="#where-each-cell-came-from">Where each cell came from</a></li><li><a href="#files">Files</a></li><li><a href="#appendix-u-scoring-card">Appendix U — Scoring card</a></li><li><a href="#appendix-v-three-release-records-filled-in">Appendix V — Three release records, filled in</a></li><li><a href="#appendix-w-how-to-log-a-failure-properly">Appendix W — How to log a failure properly</a></li><li><a href="#appendix-x-onepage-print-version">Appendix X — One-page print version</a></li><li><a href="#frequently-asked-questions">Frequently asked questions</a></li></ol></nav>
+<p>The five field tests in this series produce a lot of conclusions. This page collapses them into one sheet you can actually use: twelve cells, each with a pass example and a fail example, each tied to a specific tool on this site. Print it, tick it, and only then upload the icon set.</p>
+<p>It is also the page that keeps the rest of the series honest. A guide that ends with "hope it looks good" is not an acceptance test. A checklist with a defined failure condition is.</p>
+<figure class="lab-figure"><img src="/assets/img/lab/icon-qa-12.png" alt="The twelve-cell QA sheet" loading="lazy" decoding="async" width=1240 height=760><figcaption>Left half of each cell = pass, right half = fail. Drawn from the same specimen used in every test in this series.</figcaption></figure>
+<h2 id="how-to-use-the-sheet">How to use the sheet</h2>
+<p>Load the <a href="/assets/samples/picstudio-specimen-logo.png">specimen logo</a> into the <a href="/tools/icon-maker">ICO &amp; Favicon Generator</a>, export all six sizes, then walk the twelve cells in order with <strong>your</strong> icon. Keep two browser windows open: one with a white page, one with a near-black page. Most of the twelve checks are just "look at both".</p>
+<p>A cell fails if you cannot tell what the mark is, or if any part of it is clipped, haloed, or invisible. Do not average the results. One failed cell means the set is not ready; the fix is listed next to it.</p>
+<h2 id="cell-01-16-px-silhouette">Cell 01 — 16 px silhouette</h2>
+<p><strong>Look at:</strong> the icon at 16 × 16 on a light tab. <strong>Fail if:</strong> the letterform collapses into a coloured blob, or two adjacent shapes merge. A 16 × 16 bitmap has 256 pixels total; there is no budget for thin strokes, tiny text, faces, QR codes or gradients. <strong>Fix:</strong> draw the 16 px version separately with a bold silhouette; do not shrink a 512 px master. <strong>Why:</strong> <a href="/guides/favicon-rendering-field-test">part 1, the 16 px budget</a>.</p>
+<h2 id="cell-02-32-px-detail">Cell 02 — 32 px detail</h2>
+<p><strong>Look at:</strong> a Retina tab or the Windows taskbar. <strong>Fail if:</strong> small accent elements vanish or the edge is jagged. <strong>Fix:</strong> include a real 32 px ICO entry, authored at 32 px. <strong>Why:</strong> rows 4 and 5 of the fourteen-placement table. <strong>Tool:</strong> <a href="/tools/icon-maker">ICO &amp; Favicon Generator</a>.</p>
+<h2 id="cell-03-dark-mode">Cell 03 — dark mode</h2>
+<p><strong>Look at:</strong> a near-black tab (<code>#202124</code>). <strong>Fail if:</strong> a dark glyph disappears. <strong>Fix:</strong> give the mark a filled backing square whose luminance contrasts with both light and dark chrome. <strong>Why:</strong> dark mode is a contrast problem, not a second-file problem. <strong>Tool:</strong> <a href="/tools/adjust">Colour Adjust</a> to test contrast variants before re-exporting.</p>
+<h2 id="cell-04-light-mode">Cell 04 — light mode</h2>
+<p><strong>Look at:</strong> a white tab / white Explorer view. <strong>Fail if:</strong> a white or pale glyph disappears. This is the mirror of cell 03 and the reason a mark must pass four swatches: <code>#ffffff</code>, <code>#f1f3f4</code>, <code>#202124</code>, <code>#000000</code>. <strong>Fix:</strong> same backing-square approach. <strong>Why:</strong> <a href="/guides/favicon-rendering-field-test">fourteen placements, cells 2 and 6</a>.</p>
+<h2 id="cell-05-rounded-mask">Cell 05 — rounded mask</h2>
+<p><strong>Look at:</strong> an iOS add-to-home-screen preview. <strong>Fail if:</strong> content near the four corners is cut off. <strong>Fix:</strong> keep all meaningful content inside a centred circle about two-thirds of the canvas; let the background bleed to the edges. <strong>Why:</strong> iOS applies a squircle mask to <code>apple-touch-icon</code>. <strong>Tool:</strong> <a href="/tools/rounded">Rounded Corners</a> to preview the crop.</p>
+<h2 id="cell-06-transparent-edge">Cell 06 — transparent edge</h2>
+<p><strong>Look at:</strong> the feathered <a href="/assets/samples/picstudio-soft-alpha.png">soft-alpha specimen</a> or your own anti-aliased edge on both black and white. <strong>Fail if:</strong> a uniform dark ring follows the edge, or dark triangles appear at corners. <strong>Fix:</strong> re-encode a clean RGBA PNG. <strong>Why:</strong> <a href="/guides/transparency-accident-report">failure 4 and 5 in the transparency accident report</a>. <strong>Tool:</strong> <a href="/tools/convert">Convert Format</a>.</p>
+<h2 id="cell-07-no-thin-lines">Cell 07 — no thin lines</h2>
+<p><strong>Look at:</strong> the 16 px render again, specifically any 1-pixel stroke. <strong>Fail if:</strong> the stroke breaks into dashes or disappears. <strong>Fix:</strong> thicken the stroke to at least 2 px at the target size, or remove it. <strong>Why:</strong> downsampling discards sub-pixel detail; the <a href="/guides/adjust-curve-lab">adjustment curve lab</a> shows what happens to values at the extremes.</p>
+<h2 id="cell-08-no-tiny-text">Cell 08 — no tiny text</h2>
+<p><strong>Look at:</strong> any lettering other than a single bold initial. <strong>Fail if:</strong> words are unreadable. <strong>Fix:</strong> replace text with a symbol. A favicon is not a business card. <strong>Why:</strong> cell 01's arithmetic. <strong>Tool:</strong> <a href="/tools/icon-maker">ICO &amp; Favicon Generator</a>, 16 px preview.</p>
+<h2 id="cell-09-square-crop">Cell 09 — square crop</h2>
+<p><strong>Look at:</strong> the source artwork. <strong>Fail if:</strong> the source is a tall screenshot or a wide photo and the interesting part is off-centre. <strong>Fix:</strong> drag the square selection onto the part you want before generating; do not stretch the whole image into a square. <strong>Why:</strong> our generator's crop step exists for exactly this. <strong>Tool:</strong> <a href="/tools/icon-maker">ICO &amp; Favicon Generator</a> or <a href="/tools/crop">Smart Crop</a>.</p>
+<h2 id="cell-10-no-halo">Cell 10 — no halo</h2>
+<p><strong>Look at:</strong> the edge on a light background after any corner or blur operation. <strong>Fail if:</strong> a dirty fringe survives. <strong>Fix:</strong> re-encode once and re-check; if it persists, re-export from the source editor with straight alpha. <strong>Why:</strong> <a href="/guides/transparency-accident-report">failure 4, premultiplied alpha</a>. <strong>Tool:</strong> <a href="/tools/convert">Convert Format</a>.</p>
+<h2 id="cell-11-ico-really-has-six-sizes">Cell 11 — ICO really has six sizes</h2>
+<p><strong>Look at:</strong> the ICO directory, not the filename. <strong>Fail if:</strong> the file is a renamed PNG with a single image. <strong>Fix:</strong> export with all six sizes ticked — 16 / 32 / 48 / 64 / 128 / 256. <strong>Why:</strong> <code>sizes="any"</code> is only an honest claim if the container holds multiple entries, and Explorer's 256 view exposes the lie. <strong>Tool:</strong> <a href="/tools/icon-maker">ICO &amp; Favicon Generator</a>; compare with the <a href="/assets/samples/picstudio-multi-size.ico">known-good six-size sample</a>.</p>
+<h2 id="cell-12-html-tags-pasted-and-live">Cell 12 — HTML tags pasted and live</h2>
+<p><strong>Look at:</strong> the deployed page source and a direct request to each <code>href</code>. <strong>Fail if:</strong> any declared href 404s, or <code>/favicon.ico</code> goes through a redirect chain, or the manifest still lists the old filename. <strong>Fix:</strong> paste the complete generated snippet, give filenames a version suffix, keep the root ICO as a direct 200. <strong>Why:</strong> <a href="/guides/icon-picker-priority">rounds A–D of the priority test</a>. <strong>Tool:</strong> <a href="/tools/icon-maker">ICO &amp; Favicon Generator</a> snippet + <a href="/tools/base64">Base64 Converter</a> for byte checks.</p>
+<figure class="lab-figure"><img src="/assets/img/lab/control-rounded.png" alt="The rounded-corners controls with a real specimen loaded" loading="lazy" decoding="async" width=1152 height=415><figcaption>Our Rounded Corners panel. Use it to preview cell 05 before touching the exported ICO.</figcaption></figure>
+<h2 id="the-passfail-rule-written-down">The pass/fail rule, written down</h2>
+<ul><li><strong>Pass:</strong> all twelve cells readable and intact on both light and dark backgrounds, with a six-entry ICO and live tags.</li><li><strong>Conditional pass:</strong> one cell fails for a platform you do not support (for example, no iOS home-screen shortcut). Record the exception in the release note.</li><li><strong>Fail:</strong> any of cells 01, 03, 04, 06, 11 or 12 fails. These are the ones that produce visible breakage or no icon at all.</li></ul>
+<p>Writing the rule down matters more than the individual cells. A checklist without a decision rule becomes a decorative list.</p>
+<h2 id="a-release-note-you-can-copy">A release note you can copy</h2>
+<aside class="lab-note">Icon set v2 checked against the 12-cell QA sheet on 2026-11-20. Six-size ICO regenerated. PNG filenames versioned to <code>-v2</code>; <code>apple-touch-icon</code>, manifest array and <code>mask-icon</code> updated in the same commit. Verified in fresh browser profiles on light and dark tabs, plus one iOS add-to-home-screen. Known exception: none.</aside>
+<p>That note is short, dated and falsifiable. It is also the kind of first-hand record that makes a site worth returning to, which is why we publish our own <a href="/guides/changelog">lab changelog</a> rather than silently editing pages.</p>
+<h2 id="keeping-the-sheet-useful-over-time">Keeping the sheet useful over time</h2>
+<p>A checklist rots if nobody maintains it. Three habits keep it accurate without turning it into a chore:</p>
+<ol><li><strong>Re-run the sheet whenever a browser or OS major version changes the icon pipeline.</strong> The <a href="/guides/icon-picker-priority">delete-one-file-at-a-time test</a> is the ten-minute version of that check.</li><li><strong>Record the date and the tool versions in the release note.</strong> A year later, "it passed" is meaningless; "it passed on 2026-11-20 with these versions" is evidence.</li><li><strong>Add new cells when a new failure mode shows up, and say what was added in the changelog.</strong> The sheet grows by observed failures, not by guesswork.</li></ol>
+<p>That maintenance habit is the reason this site groups its long-form writing into three labelled series — Rendering Field Tests, Failure Forensics and Checklists — instead of publishing an undifferentiated pile of posts. Each new piece has a place, and each place has a reader who knows what to expect. The <a href="/guides/">guides index</a> lists all of them.</p>
+<h2 id="where-each-cell-came-from">Where each cell came from</h2>
+<div class="lab-table"><table><thead><tr><th>Cell</th><th>Source article</th><th>Tool</th></tr></thead><tbody><tr><td>01, 02, 08, 09, 11</td><td><a href="/guides/favicon-rendering-field-test">One Icon, Fourteen Placements</a></td><td>ICO &amp; Favicon Generator</td></tr><tr><td>03, 04</td><td><a href="/guides/favicon-rendering-field-test">Fourteen Placements</a></td><td>Colour Adjust</td></tr><tr><td>05</td><td><a href="/guides/favicon-rendering-field-test">Fourteen Placements</a></td><td>Rounded Corners</td></tr><tr><td>06, 10</td><td><a href="/guides/transparency-accident-report">Transparency Accident Report</a></td><td>Convert Format</td></tr><tr><td>07</td><td><a href="/guides/adjust-curve-lab">Adjustment Curve Lab</a></td><td>Colour Adjust</td></tr><tr><td>12</td><td><a href="/guides/icon-picker-priority">Which Favicon Does the Browser Use?</a></td><td>ICO &amp; Favicon Generator</td></tr><tr><td>Release hygiene</td><td><a href="/guides/metadata-trail">Metadata Trail</a></td><td>EXIF Viewer &amp; Cleaner</td></tr></tbody></table></div>
+<h2 id="files">Files</h2>
+<ul><li><a href="/assets/samples/picstudio-specimen-logo.png">Specimen logo</a> — known-good reference.</li><li><a href="/assets/samples/picstudio-multi-size.ico">Six-size ICO</a> — known-good container.</li><li><a href="/assets/samples/picstudio-soft-alpha.png">Soft-alpha specimen</a> — for cells 06 and 10.</li></ul>
+<p>Next step: open the <a href="/tools/icon-maker">ICO &amp; Favicon Generator</a>, export your own set, and tick the twelve cells. Then read the <a href="/guides/">guides index</a> for the next series.</p>
+<p>&lt;!-- LAB-EXPANSION --&gt;</p>
+<h2 id="appendix-u-scoring-card">Appendix U — Scoring card</h2>
+<p>Twelve equal ticks are easy to game, so here is a weighted version. Record a score on the release note rather than a vague "looks fine".</p>
+<div class="lab-table"><table><thead><tr><th>Cells</th><th>Weight</th><th>Why</th></tr></thead><tbody><tr><td>01, 03, 04</td><td>×3</td><td>Unreadable or invisible at the two most common backgrounds</td></tr><tr><td>06, 10, 11</td><td>×2</td><td>Edge damage and a fake multi-size container produce visible breakage</td></tr><tr><td>12</td><td>×2</td><td>A dead <code>href</code> means no icon at all on some pages</td></tr><tr><td>02, 05, 07, 08, 09</td><td>×1</td><td>Important, but usually confined to one placement</td></tr></tbody></table></div>
+<p>Maximum score is 26. <strong>Release threshold: 24 or higher, with zero failures in the ×3 and ×2 groups.</strong> A mark that fails cell 01 cannot be compensated by passing cells 07 and 08, because those are the same underlying problem seen twice. Writing the weights down prevents the most common failure of a checklist: ticking everything because nothing looks catastrophically broken.</p>
+<h2 id="appendix-v-three-release-records-filled-in">Appendix V — Three release records, filled in</h2>
+<p>These are example records in the exact format we use, so the sheet produces an artefact rather than a feeling.</p>
+<div class="lab-table"><table><thead><tr><th>Date</th><th>Set</th><th>Score</th><th>Exceptions</th><th>Follow-up</th></tr></thead><tbody><tr><td>2026-11-20</td><td>Lab specimen v1</td><td>26/26</td><td>none</td><td>none</td></tr><tr><td>2026-11-20</td><td>Client mark A</td><td>21/26</td><td>cell 05 (no iOS shortcut targeted)</td><td>re-check after browser major release</td></tr><tr><td>2026-11-20</td><td>Client mark B</td><td>17/26</td><td>cells 01, 03, 11 failed</td><td>redraw 16 px, add backing square, regenerate six-size ICO</td></tr></tbody></table></div>
+<p>The third row is the useful one: it names the failed cells and the concrete fixes, so the next round has a starting point. A record that only says "needs work" is not a record.</p>
+<h2 id="appendix-w-how-to-log-a-failure-properly">Appendix W — How to log a failure properly</h2>
+<p>When a cell fails, capture five things before changing anything:</p>
+<ol><li><strong>Which cell</strong> and which background it failed on.</li><li><strong>The file name and its byte size</strong> — 19,822 bytes for our known-good ICO, for comparison.</li><li><strong>The host and version</strong> (browser, OS, device).</li><li><strong>A screenshot</strong> taken before the fix, on both light and dark pages.</li><li><strong>The one change you are about to make</strong>, written before you make it.</li></ol>
+<p>That discipline is what turns a one-off annoyance into a new cell or a new round in a field test. The <a href="/guides/changelog">Lab Changelog</a> records additions to this sheet for exactly that reason: the sheet grows from observed failures, not from a brainstorm.</p>
+<h2 id="appendix-x-onepage-print-version">Appendix X — One-page print version</h2>
+<p>If you want the sheet on paper, the twelve checks reduce to twelve lines:</p>
+<ol><li>16 px silhouette readable? 2. 32 px detail intact? 3. Dark tab visible? 4. Light tab visible? 5. Corners survive the mask? 6. Transparent edge clean on black and white? 7. No thin strokes? 8. No tiny text? 9. Square crop on the right subject? 10. No halo? 11. ICO has six directory entries? 12. Every declared href returns 200?</li></ol>
+<p>Tick each, sum the weighted score from Appendix U, date it, and file it. That is the whole pre-launch review. The detailed cell descriptions above exist to explain *why* a tick is or is not justified — the print version exists so the review actually happens.</p>
+<h2 id="frequently-asked-questions">Frequently asked questions</h2>
+<h3 id="why-does-my-logo-look-bad-at-16-pixels">Why does my logo look bad at 16 pixels?</h3>
+<p>A 16 × 16 icon has 256 pixels total. Thin lines, small text and gradients cannot survive that budget. Draw a separate, bolder 16 px version.</p>
+<h3 id="how-do-i-check-whether-an-ico-really-contains-multiple-sizes">How do I check whether an ICO really contains multiple sizes?</h3>
+<p>Inspect the ICO directory entries, or compare against a known-good six-size file. A renamed single PNG will look fine in a tab and fail in Explorer's large-icon view.</p>
+<h3 id="should-the-checklist-be-rerun-after-a-browser-update">Should the checklist be re-run after a browser update?</h3>
+<p>Yes, at least the cells covering icon selection and dark mode. The ten-minute deletion test in part 2 is the fast version.</p>
+<h3 id="what-counts-as-a-pass">What counts as a pass?</h3>
+<p>All twelve cells readable on both light and dark backgrounds, a six-entry ICO, and every declared href returning 200. Any failure in cells 01, 03, 04, 06, 11 or 12 blocks the release.</p>
+<h3 id="can-i-skip-the-ios-cell-if-i-do-not-target-mobile">Can I skip the iOS cell if I do not target mobile?</h3>
+<p>You can, but record it as a dated exception in the release note rather than silently ignoring it.</p><div class="lab-box"><h3>Files used in this report</h3><ul><li><a href="/assets/samples/picstudio-specimen-logo.png">Specimen logo</a> — Use as the known-good reference</li><li><a href="/assets/samples/picstudio-multi-size.ico">Six-size ICO</a> — Use as the known-good container</li></ul></div><div class="lab-cta"><strong>Try it on your own file →</strong> Open <a href="/tools/icon-maker">ICO &amp; Favicon Generator</a> and repeat the steps above. Everything runs in your browser; nothing is uploaded.</div><div class="lab-box"><h3>Continue the series</h3><ul><li><a href="/guides/favicon-rendering-field-test">Favicon Rendering Field Test</a></li><li><a href="/guides/icon-picker-priority">Icon Picker Priority</a></li><li><a href="/guides/transparency-accident-report">Transparency Accident Report</a></li><li><a href="/guides/metadata-trail">Metadata Trail</a></li></ul></div>
+</div>
+</div>
+</section>
+<footer class="footer">
+<div class="container">
+<div class="footer-content">
+<div class="footer-brand"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Studio</span></span></div>
+<p class="footer-desc">Free online image tools — everything runs locally in your browser</p>
+</div>
+<div class="footer-links">
+<a href="/#tools">All Tools</a><a href="/guides/">Image Guides</a><a href="/guides/#lab-notes">Lab Notes</a>
+<a href="/guides/changelog">Lab Changelog</a><a href="/about">About</a><a href="/contact">Contact</a>
+<a href="/faq">FAQ</a><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a>
+</div>
+<div class="footer-bottom">
+<p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
+<p>© 2026 PicStudio. All rights reserved. Lab Notes are original measured reports, not rewritten articles.</p>
+</div>
+</div>
+</footer>
+<script src="/assets/js/main.js?v=20261111g"></script>
+<script src="/assets/js/i18n-dict.js?v=20261108ml"></script>
+<script src="/assets/js/i18n.js?v=20261108ml"></script>
+<script src="/assets/js/ux.js?v=20261108ml"></script>
+</body>
+</html>

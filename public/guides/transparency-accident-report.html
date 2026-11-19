@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html data-lang="en" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Transparent PNG Turned Black, White or Haloed — An Accident Report | PicStudio</title>
+<meta content="A forensic classification of six ways transparency gets destroyed: flattened alpha, palette tRNS, premultiplication halos, viewer backgrounds, Office re-encoding and chat-app transcoding. Includes an edge-first identification flow and fixes with our own tools." name="description"/>
+<meta content="transparent png black background, png transparency turns white, alpha premultiplied dark halo, black fringe around transparent png, png transparent background black in word, does base64 preserve transparency" name="keywords"/>
+<link href="https://piccalc.com/guides/transparency-accident-report" rel="canonical"/>
+<meta content="index,follow,max-image-preview:large" name="robots"/>
+<meta content="article" property="og:type"/>
+<meta content="PicStudio" property="og:site_name"/>
+<meta content="en_US" property="og:locale"/>
+<meta content="Transparent PNG Turned Black, White or Haloed — An Accident Report" property="og:title"/>
+<meta content="A forensic classification of six ways transparency gets destroyed: flattened alpha, palette tRNS, premultiplication halos, viewer backgrounds, Office re-encoding and chat-app transcoding. Includes an edge-first identification flow and fixes with our own tools." property="og:description"/>
+<meta content="https://piccalc.com/guides/transparency-accident-report" property="og:url"/>
+<meta content="https://piccalc.com/og-v2.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/><meta content="630" property="og:image:height"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Transparent PNG Turned Black, White or Haloed — An Accident Report" name="twitter:title"/>
+<meta content="A forensic classification of six ways transparency gets destroyed: flattened alpha, palette tRNS, premultiplication halos, viewer backgrounds, Office re-encoding and chat-app transcoding. Includes an edge-first identification flow and fixes with our own tools." name="twitter:description"/>
+<meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
+<link href="https://piccalc.com/guides/transparency-accident-report" hreflang="en" rel="alternate"/>
+<link href="https://piccalc.com/guides/transparency-accident-report" hreflang="x-default" rel="alternate"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "Transparent PNG Turned Black, White or Haloed — An Accident Report",
+      "description": "A forensic classification of six ways transparency gets destroyed: flattened alpha, palette tRNS, premultiplication halos, viewer backgrounds, Office re-encoding and chat-app transcoding. Includes an edge-first identification flow and fixes with our own tools.",
+      "inLanguage": "en",
+      "datePublished": "2026-11-20",
+      "dateModified": "2026-11-20",
+      "author": {
+        "@type": "Organization",
+        "name": "PicStudio",
+        "url": "https://piccalc.com"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "PicStudio",
+        "url": "https://piccalc.com"
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://piccalc.com/guides/transparency-accident-report"
+      },
+      "keywords": "transparent png black background, png transparency turns white, alpha premultiplied dark halo, black fringe around transparent png, png transparent background black in word, does base64 preserve transparency",
+      "articleSection": "Failure Forensics",
+      "wordCount": 2418,
+      "isPartOf": {
+        "@type": "Blog",
+        "name": "PicStudio Lab Notes",
+        "url": "https://piccalc.com/guides/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "PicStudio",
+          "item": "https://piccalc.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Image Guides",
+          "item": "https://piccalc.com/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Transparent PNG Turned Black, White or Haloed — An Accident Report",
+          "item": "https://piccalc.com/guides/transparency-accident-report"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why does my transparent PNG have a black background in one program and a checkerboard in another?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "That is the viewer's canvas colour, not the file. Open it in a second program or on a coloured web page; if the background follows the program, the alpha is intact."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I restore transparency after saving as JPEG?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. JPEG has no alpha channel and the flattening colour is baked into the pixels. Re-export from the original source with alpha, or rebuild the mask."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What causes a thin dark outline around a soft transparent edge?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Usually premultiplied alpha handled as straight alpha, or RGB values darkened under semi-transparent pixels. It is a different bug from a solid black background."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does converting a PNG to Base64 lose transparency?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Base64 is a byte-for-byte text encoding. If transparency disappears, look at the CSS background or a canvas export step instead."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why do rounded corners show dark triangles?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The corner alpha was set to zero but the underlying RGB was left stale. Re-encode to a clean RGBA PNG and inspect the corners on both light and dark backgrounds."
+          }
+        }
+      ]
+    }
+  ]
+}
+    </script>
+<link href="/favicon.ico" rel="icon" sizes="any"/>
+<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
+<style>
+.article-body{max-width:860px;margin:0 auto}
+.article-body h2{font-size:22px;margin:38px 0 14px;padding-left:12px;border-left:4px solid var(--primary,#6366f1);scroll-margin-top:80px}
+.article-body h3{font-size:17px;margin:26px 0 10px;scroll-margin-top:80px}
+.article-body h4{font-size:15px;margin:20px 0 8px}
+.article-body p{margin:13px 0;line-height:1.95;color:var(--text-secondary,#cbd5e1)}
+.article-body li{line-height:1.9;margin:7px 0;color:var(--text-secondary,#cbd5e1)}
+.article-body ul,.article-body ol{margin:12px 0 16px 24px}
+.article-body strong{color:var(--text,#f1f5f9)}
+.article-body code{background:rgba(99,102,241,.14);padding:1px 5px;border-radius:4px;font-size:.92em}
+.article-body pre{background:#0b1220;border:1px solid #26324a;border-radius:10px;padding:16px;overflow:auto;line-height:1.6}
+.article-body pre code{background:none;padding:0}
+.article-body a{color:#a5b4fc;text-decoration:underline;text-underline-offset:2px}
+.lab-figure{margin:26px 0;border:1px solid #26324a;border-radius:12px;overflow:hidden;background:#111a2c}
+.lab-figure img{display:block;width:100%;height:auto}
+.lab-figure figcaption{padding:11px 16px;font-size:13px;line-height:1.7;color:#94a3b8;border-top:1px solid #26324a}
+.lab-table{overflow-x:auto;margin:22px 0;border:1px solid #26324a;border-radius:10px}
+.lab-table table{border-collapse:collapse;width:100%;font-size:14px;min-width:560px}
+.lab-table th,.lab-table td{padding:10px 13px;border-bottom:1px solid #26324a;text-align:left;line-height:1.7;color:#cbd5e1}
+.lab-table th{background:#1b2740;color:#f1f5f9;font-weight:700;white-space:nowrap}
+.lab-table tr:last-child td{border-bottom:none}
+.lab-note{margin:20px 0;padding:14px 18px;border-left:4px solid #f59e0b;background:rgba(245,158,11,.08);line-height:1.85;color:#e2e8f0;border-radius:0 8px 8px 0}
+.lab-meta{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 26px;font-size:13px;color:#94a3b8}
+.lab-meta span{background:#1b2740;border:1px solid #2c3a58;padding:5px 11px;border-radius:999px}
+.lab-toc{background:#141f36;border:1px solid #2c3a58;border-radius:12px;padding:18px 22px;margin:24px 0 34px}
+.lab-toc strong{display:block;margin-bottom:10px;color:#f1f5f9;font-size:15px}
+.lab-toc ol{margin:0 0 0 20px;columns:2;column-gap:28px}
+.lab-toc li{break-inside:avoid;margin:6px 0;font-size:14px}
+.lab-toc a{color:#a5b4fc;text-decoration:none}
+.lab-box{background:#141f36;border:1px solid #2c3a58;border-radius:12px;padding:18px 22px;margin:28px 0;line-height:1.9}
+.lab-box h3{margin-top:0!important}
+.lab-box ul{margin-bottom:0}
+.lab-cta{background:linear-gradient(100deg,#4f46e5,#db2777);border-radius:12px;padding:20px 24px;margin:30px 0;color:#fff}
+.lab-cta a{color:#fff;font-weight:700}
+@media(max-width:640px){.lab-toc ol{columns:1}.article-body h2{font-size:19px}.article-body pre{font-size:12px}}
+</style>
+</head>
+<body>
+<header class="header">
+<div class="container">
+<a class="logo" href="/"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Studio</span></span></a>
+<nav class="tool-nav">
+<select id="lang-select" name="lang-select" class="lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/guides/" selected>English</option><option value="/zh/guides/">中文</option></select><noscript><a href="/zh/guides/">中文</a></noscript>
+<a href="/#tools">All Tools</a>
+<a href="/guides/">Image Guides</a>
+<a href="/privacy">Privacy Policy</a>
+<a href="/faq">FAQ</a>
+<a href="/contact">Contact</a>
+</nav>
+<select id="lang-select-m" name="lang-select-m" class="lang-select-m lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/guides/" selected>English</option><option value="/zh/guides/">中文</option></select><noscript><a href="/zh/guides/">中文</a></noscript>
+</div>
+</header>
+<section class="tool-page">
+<div class="container">
+<div class="article-body">
+<div class="guide-top"><a class="guide-back" href="/guides/">← All guides</a><span class="guide-crumb"><a href="/" style="color:var(--text-muted);">Home</a><span>› Image Guides › Failure Forensics</span></span></div>
+<h1>Transparent PNG Turned Black, White or Haloed — An Accident Report</h1>
+<div class="lab-meta"><span>Series: Failure Forensics</span><span>Part 1</span><span>Published 2026-11-20</span><span>Updated 2026-11-20</span><span>2,418 words</span><span>Measured on PicStudio tools</span></div>
+<nav class="lab-toc"><strong>On this page</strong><ol><li><a href="#the-specimen-and-why-a-soft-edge-matters">The specimen and why a soft edge matters</a></li><li><a href="#failure-1-the-viewer-not-the-file">Failure 1 — the viewer, not the file</a></li><li><a href="#failure-2-alpha-discarded-by-a-format-that-cannot-hold-it">Failure 2 — alpha discarded by a format that cannot hold it</a></li><li><a href="#failure-3-palette-png-and-the-1bit-trns-chunk">Failure 3 — palette PNG and the 1-bit <code>tRNS</code> chunk</a></li><li><a href="#failure-4-premultiplied-alpha-and-the-dark-halo">Failure 4 — premultiplied alpha and the dark halo</a></li><li><a href="#failure-5-cornerradius-and-border-operations">Failure 5 — corner-radius and border operations</a></li><li><a href="#failure-6-transcoding-on-the-way-to-someone-else">Failure 6 — transcoding on the way to someone else</a></li><li><a href="#the-edgefirst-identification-flow">The edge-first identification flow</a></li><li><a href="#what-each-of-our-tools-actually-changes">What each of our tools actually changes</a></li><li><a href="#a-concrete-repair-walkthrough">A concrete repair walkthrough</a></li><li><a href="#what-we-deliberately-did-not-test">What we deliberately did not test</a></li><li><a href="#files">Files</a></li><li><a href="#appendix-i-bytelevel-evidence-for-each-failure">Appendix I — Byte-level evidence for each failure</a></li><li><a href="#appendix-j-alpha-capability-by-container">Appendix J — Alpha capability by container</a></li><li><a href="#appendix-k-a-tenline-acceptance-script">Appendix K — A ten-line acceptance script</a></li><li><a href="#appendix-l-what-a-repair-cannot-do">Appendix L — What a repair cannot do</a></li><li><a href="#frequently-asked-questions">Frequently asked questions</a></li></ol></nav>
+<p>"My transparent PNG has a black background" is not one bug. It is at least six different bugs that happen to produce the same sentence in a support ticket. The file may be fine and the viewer may be lying; the alpha may have been discarded during a save; the RGB values under the transparent pixels may be wrong even though the alpha is correct; or an entirely different program may have re-encoded the file on the way to your screen.</p>
+<p>This is an accident report, not a definition of alpha channels. We built one specimen with a deliberately soft, feathered edge — the kind of edge that exposes every one of these failures — and pushed it through the paths people actually use: an image viewer, a word processor, a format converter, a chat app, a Base64 round-trip and a corner-radius operation. Then we classified the results by looking at the edge first, because the edge tells you which layer broke.</p>
+<figure class="lab-figure"><img src="/assets/img/lab/alpha-forensics.png" alt="Four outcomes that all get reported as &quot;my PNG has a background&quot;" loading="lazy" decoding="async" width=1240 height=620><figcaption>Correct alpha on a checkerboard, alpha flattened on black, alpha flattened on white, and a dark halo from bad premultiplication. Only the first two are file problems.</figcaption></figure>
+<h2 id="the-specimen-and-why-a-soft-edge-matters">The specimen and why a soft edge matters</h2>
+<p>A hard-edged circle hides premultiplication errors: every pixel is either fully opaque or fully transparent, so wrong RGB values under fully transparent pixels never show. Our specimen is a solid blue disc whose alpha falls off gradually over about 14 px. That gradient is the diagnostic instrument. If the RGB under the semi-transparent ring is wrong, the ring turns dark or muddy. If it is flattened, the gradient becomes a hard step against a solid field. You can download it as <a href="/assets/samples/picstudio-soft-alpha.png">picstudio-soft-alpha.png</a> and repeat everything below.</p>
+<p>We also used the <a href="/assets/samples/picstudio-specimen-logo.png">solid specimen logo</a> for the corner-radius case, where a hard edge is actually the thing under test.</p>
+<h2 id="failure-1-the-viewer-not-the-file">Failure 1 — the viewer, not the file</h2>
+<p>Several viewers draw "transparent" as white, some as black, some as a checkerboard, and some as the application's theme colour. A file opened in a viewer that paints a black canvas looks exactly like a file whose alpha was destroyed, but the bytes are untouched.</p>
+<p><strong>How to tell:</strong> open the same file in two different programs, or paste it into a browser on a page with a coloured background. If the background follows the program, the file is fine. This is the single most common false alarm, and it is worth ruling out before you touch the image.</p>
+<h2 id="failure-2-alpha-discarded-by-a-format-that-cannot-hold-it">Failure 2 — alpha discarded by a format that cannot hold it</h2>
+<p>JPEG has no alpha channel. Saving a transparent PNG as JPEG must flatten it onto something, and different encoders choose different fill colours: black, white, or the pixel RGB values that happened to sit under the transparent area (often garbage). That is where "transparent PNG turned black in Word" usually comes from — not from Word rendering, but from the export step that produced a JPEG.</p>
+<p>The same thing happens with some <code>image/bmp</code> writers, with older GIF exports that keep only a 1-bit transparency flag, and with PDF pipelines that rasterise onto a white page. <strong>How to tell:</strong> check the file's actual format and its channel count, not its name. A <code>.png</code> extension on JPEG bytes is more common than people expect, and browsers sniff content rather than trusting the extension.</p>
+<p><strong>Fix with this site:</strong> open <a href="/tools/convert">Convert Format</a>, keep PNG (or WebP with alpha) as the output, and re-export. Do not round-trip through JPEG on the way.</p>
+<figure class="lab-figure"><img src="/assets/img/lab/control-convert.png" alt="The Convert Format controls with the specimen loaded" loading="lazy" decoding="async" width=1152 height=434><figcaption>Our own Convert Format panel. The output format choice is the whole failure-2 decision.</figcaption></figure>
+<h2 id="failure-3-palette-png-and-the-1bit-trns-chunk">Failure 3 — palette PNG and the 1-bit <code>tRNS</code> chunk</h2>
+<p>An indexed (palette) PNG can carry transparency only through a <code>tRNS</code> chunk, which is effectively one transparent palette entry. A feathered edge with 200 distinct alpha levels cannot be represented; quantisation collapses it into a hard, jagged boundary. The result looks like a white or dark fringe with stair-steps, not a smooth fade.</p>
+<p><strong>How to tell:</strong> the edge is jagged rather than smooth, and the image has a small colour count. Re-saving as RGBA PNG fixes it; re-saving as palette PNG again does not.</p>
+<p>This one is easy to misdiagnose as "bad anti-aliasing". It is a colour-mode limitation, not an anti-aliasing setting.</p>
+<h2 id="failure-4-premultiplied-alpha-and-the-dark-halo">Failure 4 — premultiplied alpha and the dark halo</h2>
+<p>This is the interesting one, and the reason the specimen has a soft edge.</p>
+<p>In straight (unassociated) alpha, a pixel stores its true colour and its opacity separately. In premultiplied (associated) alpha, the stored RGB has already been multiplied by alpha. Both are valid representations, but they must be tagged and handled consistently. If a pipeline treats premultiplied RGB as straight — or multiplies twice, or darkens RGB under semi-transparent pixels and then composites onto a light background — the semi-transparent ring picks up a <strong>dark fringe</strong>. It is not a black background: the interior is fine, and only the transition band is dirty.</p>
+<p><strong>How to tell:</strong> look at the ring, not the centre. A uniform dark outline that follows the soft edge is premultiplication damage. A solid field behind the whole shape is a flattening problem. Those two fixes are unrelated, which is why generic advice ("re-save as PNG") so often fails.</p>
+<p>The maths is simple. For a pixel with straight colour <code>C</code> and alpha <code>a</code>, correct compositing over background <code>B</code> is <code>a·C + (1−a)·B</code>. If the stored <code>C</code> has already been multiplied by <code>a</code> and the compositor multiplies again, the result is <code>a²·C + …</code> — too dark by exactly the amount that shows up as a halo. The bigger the feather, the more pixels are affected.</p>
+<p><strong>Fix with this site:</strong> re-encode through <a href="/tools/convert">Convert Format</a> to a fresh RGBA PNG, then check the edge on both a light and a dark page. If the halo persists, the damage is upstream of the file you were given and you need to re-export from the source editor with straight alpha.</p>
+<h2 id="failure-5-cornerradius-and-border-operations">Failure 5 — corner-radius and border operations</h2>
+<p>Adding rounded corners means setting the alpha of the pixels outside the radius to zero. If the tool only sets alpha but leaves the old RGB values, some viewers and some later pipelines will reveal those stale colours as dark triangles in the corners. This is the same class of bug as failure 4, applied to a hard edge.</p>
+<p><strong>How to tell:</strong> the artefacts are localised to the four corners and are absent on straight edges.</p>
+<p><strong>Fix with this site:</strong> use <a href="/tools/rounded">Rounded Corners</a> and then re-encode once through <a href="/tools/convert">Convert Format</a>. Inspect the corners against both black and white. Our <a href="/guides/icon-qa-checklist">12-cell QA checklist</a> includes this exact check as cell 6.</p>
+<h2 id="failure-6-transcoding-on-the-way-to-someone-else">Failure 6 — transcoding on the way to someone else</h2>
+<p>Chat apps, CDN image transforms, email clients and "optimise before upload" browser extensions routinely re-encode images. A transparent PNG sent through a pipeline that targets JPEG or a flattened WebP comes out the other end with a solid background. The sender sees the original; the recipient sees the accident.</p>
+<p><strong>How to tell:</strong> compare the file sizes and formats at both ends. If the received file is a JPEG and the sent file was a PNG, no rendering setting will recover the alpha — it was discarded in transit.</p>
+<p>A Base64 round-trip, by contrast, is lossless for alpha: encoding bytes as text and decoding them returns exactly the same PNG, including <code>tRNS</code> and ICC chunks. If a Base64 image appears to have lost transparency, the usual cause is a CSS background on the <code>&lt;img&gt;</code> or a <code>canvas</code> export that flattened it, not the Base64 step. Our <a href="/tools/base64">Base64 Converter</a> is useful for proving this: encode the specimen, decode it, and compare the two files byte for byte.</p>
+<h2 id="the-edgefirst-identification-flow">The edge-first identification flow</h2>
+<p>Work down this list in order; it is arranged so that each step is cheaper than the one after it.</p>
+<ol><li><strong>Open in a second viewer on a coloured page.</strong> Background follows the program → failure 1, file is fine. Stop here.</li><li><strong>Check the real container and channel count.</strong> JPEG / BMP / flattened WebP → failure 2.</li><li><strong>Look at the edge.</strong> Solid field behind everything → flattening. Jagged stair-steps → failure 3 (palette). Dark ring only → failure 4 (premultiplication). Dark corners only → failure 5.</li><li><strong>Compare sent and received files.</strong> Different format or much smaller → failure 6 (transcoding).</li><li><strong>Only now re-encode.</strong> A re-encode before step 1 destroys the evidence and often the alpha along with it.</li></ol>
+<p>That order is the whole point of a forensic approach. Most published advice starts at step 5, which is why it fixes some cases and makes others worse.</p>
+<h2 id="what-each-of-our-tools-actually-changes">What each of our tools actually changes</h2>
+<div class="lab-table"><table><thead><tr><th>Tool</th><th>What it does to alpha</th><th>Use it for</th><th>Do not use it for</th></tr></thead><tbody><tr><td><a href="/tools/convert">Convert Format</a></td><td>Re-encodes into a container that can hold alpha</td><td>Failures 2, 3, 4, 5 after diagnosis</td><td>Recovering an alpha that was discarded upstream</td></tr><tr><td><a href="/tools/rounded">Rounded Corners</a></td><td>Writes new alpha at the corners</td><td>Failure 5, icon corner masks</td><td>Fixing a global dark fringe</td></tr><tr><td><a href="/tools/compress">Compress Image</a></td><td>Re-quantises / re-encodes, may drop ancillary chunks</td><td>Reducing size when alpha is already correct</td><td>Any case where the edge is already damaged</td></tr><tr><td><a href="/tools/base64">Base64 Converter</a></td><td>Byte-for-byte text round-trip, no pixel change</td><td>Proving failure 6 was not the encoding step</td><td>Repairing a flattened file</td></tr><tr><td><a href="/tools/to-pdf">Image to PDF</a></td><td>Rasterises onto a page</td><td>Print delivery</td><td>Preserving transparency for later editing</td></tr><tr><td><a href="/tools/exif">EXIF Viewer &amp; Cleaner</a></td><td>Reads / removes metadata</td><td>Cleaning a file before sharing</td><td>Anything about pixel data</td></tr></tbody></table></div>
+<p>One caution about compression: aggressive quantisation can convert an RGBA PNG into a palette PNG and silently reintroduce failure 3. If you compress a soft-edged logo, check the edge afterwards rather than trusting the file size saving.</p>
+<h2 id="a-concrete-repair-walkthrough">A concrete repair walkthrough</h2>
+<p>Take the <a href="/assets/samples/picstudio-soft-alpha.png">soft-alpha specimen</a> and deliberately damage it by exporting a JPEG from any editor. Now:</p>
+<ol><li>Open <a href="/tools/convert">Convert Format</a>, load the damaged JPEG, export PNG. Note that the black field is now baked into the pixels — conversion cannot invent alpha. This demonstrates why step 1 of the flow matters.</li><li>Go back to the original PNG, load it into <a href="/tools/rounded">Rounded Corners</a>, apply a radius, export, and inspect the four corners on a white page and a black page.</li><li>Encode that output with <a href="/tools/base64">Base64 Converter</a>, decode it, and compare — the edges should be identical, proving the round-trip is innocent.</li><li>Load the original into <a href="/tools/exif">EXIF Viewer &amp; Cleaner</a> and strip metadata. The alpha is unchanged, which separates "metadata cleaning" from "pixel re-encoding" — two operations people often conflate.</li></ol>
+<p>The fourth step connects to the <a href="/guides/metadata-trail">metadata trail</a>, which tracks what survives repeated saves in the other direction: fields rather than pixels.</p>
+<h2 id="what-we-deliberately-did-not-test">What we deliberately did not test</h2>
+<p>We did not test proprietary editor-specific "save for web" presets, because their behaviour changes between versions and would make this report obsolete within a release cycle. We did not test every CDN transform, because the failure class is the same regardless of vendor. And we did not attempt to recover alpha from a flattened JPEG — that is not a repair, it is a re-creation, and it belongs in a different tool.</p>
+<h2 id="files">Files</h2>
+<ul><li><a href="/assets/samples/picstudio-soft-alpha.png">Soft-alpha specimen</a> — the feathered edge used for every diagnosis.</li><li><a href="/assets/samples/picstudio-specimen-logo.png">Solid specimen logo</a> — used for corner checks.</li><li><a href="/assets/samples/picstudio-multi-size.ico">Six-size ICO</a> — see the <a href="/guides/favicon-rendering-field-test">favicon field test</a> for the transparency behaviour of ICO entries.</li></ul>
+<p>Next step: open <a href="/tools/convert">Convert Format</a> with your own problem file, but run the identification flow first.</p>
+<p>&lt;!-- LAB-EXPANSION --&gt;</p>
+<h2 id="appendix-i-bytelevel-evidence-for-each-failure">Appendix I — Byte-level evidence for each failure</h2>
+<p>Looking at the file header settles several arguments faster than looking at the picture. The <a href="/assets/samples/picstudio-soft-alpha.png">soft-alpha specimen</a> is 26,214 bytes; here is what to inspect for each failure class:</p>
+<div class="lab-table"><table><thead><tr><th>Check</th><th>What to look for</th><th>Failure it identifies</th></tr></thead><tbody><tr><td>First 8 bytes</td><td><code>89 50 4E 47 0D 0A 1A 0A</code></td><td>A <code>.png</code> name on JPEG bytes — failure 2</td></tr><tr><td><code>IHDR</code> colour type</td><td><code>6</code> = RGBA, <code>4</code> = grey+alpha, <code>3</code> = indexed</td><td>Indexed with only <code>tRNS</code> — failure 3</td></tr><tr><td><code>tRNS</code> chunk present</td><td>one palette entry transparent</td><td>Hard jagged edge — failure 3</td></tr><tr><td><code>iCCP</code> / <code>sRGB</code> chunk</td><td>profile tag</td><td>Colour shift after re-encode, related to failure 2</td></tr><tr><td>Alpha histogram</td><td>many distinct alpha values vs two</td><td>A feathered edge collapsed to 1-bit — failure 3</td></tr><tr><td>RGB under near-zero alpha</td><td>should be the true colour, not black</td><td>Dark halo — failure 4</td></tr></tbody></table></div>
+<p>The last row is the one worth automating. If you read a pixel with alpha 2 and find RGB <code>(0,0,0)</code> where the artwork is blue, a later composite onto white will produce a dark fringe. If instead you find RGB <code>(56,189,248)</code> with alpha 2, the file is straight-alpha correct and the viewer is at fault. No amount of re-encoding fixes the first case if the source editor keeps writing it; you need to re-export from the source.</p>
+<h2 id="appendix-j-alpha-capability-by-container">Appendix J — Alpha capability by container</h2>
+<div class="lab-table"><table><thead><tr><th>Container</th><th>Alpha model</th><th>Feathered edge</th><th>Notes</th></tr></thead><tbody><tr><td>PNG, colour type 6</td><td>8- or 16-bit straight alpha</td><td>yes</td><td>The safe default for exchange</td></tr><tr><td>PNG, colour type 3 (indexed)</td><td><code>tRNS</code> palette entry</td><td>no, effectively 1-bit</td><td>Quantisation artefact, failure 3</td></tr><tr><td>WebP (lossy / lossless)</td><td>8-bit alpha</td><td>yes</td><td>Widely supported; check the encoder's alpha flag</td></tr><tr><td>GIF</td><td>1-bit transparency</td><td>no</td><td>Hard edges only; not a PNG substitute</td></tr><tr><td>JPEG</td><td>none</td><td>impossible</td><td>Always flattens, failure 2</td></tr><tr><td>ICO with PNG entries</td><td>PNG alpha per entry</td><td>yes</td><td>Since Vista; see the <a href="/guides/favicon-rendering-field-test">favicon field test</a></td></tr><tr><td>AVIF</td><td>alpha, encoder-dependent</td><td>yes</td><td>Verify the specific encoder rather than assuming</td></tr><tr><td>SVG</td><td>painted geometry, no bitmap alpha</td><td>n/a</td><td>The right choice for <code>mask-icon</code></td></tr></tbody></table></div>
+<p>The table is useful because it turns "which format should I use" into a property lookup. If the deliverable needs a feathered edge, JPEG and GIF are excluded before anyone opens an editor.</p>
+<h2 id="appendix-k-a-tenline-acceptance-script">Appendix K — A ten-line acceptance script</h2>
+<p>You do not need an image library to catch the two most expensive failures. In a browser, draw the file onto a canvas and read back a few pixels:</p>
+<pre><code>
+const c = document.createElement(&#x27;canvas&#x27;);
+const x = c.getContext(&#x27;2d&#x27;);
+x.drawImage(img, 0, 0);
+const corner = x.getImageData(0, 0, 1, 1).data;
+const edge   = x.getImageData(r, 0, 1, 1).data;
+// corner[3] === 0 means the corner alpha was written
+// a dark edge pixel with alpha &gt; 0 and low RGB suggests failure 4
+</code></pre>
+<p>Run it on a light page and a dark page. A correct file gives <code>alpha = 0</code> at the corner and a smooth alpha ramp along the feather; a flattened file gives <code>alpha = 255</code> everywhere; a premultiplied-accident file gives a dark RGB ring where alpha is partial. That is the whole edge-first flow from the main article, expressed as two <code>getImageData</code> calls.</p>
+<p>This also explains why <a href="/tools/base64">Base64 Converter</a> is useful in a diagnosis: a byte-for-byte round-trip leaves every one of those readings unchanged, so any difference you observe after encoding must come from a canvas render or a CSS background, not from the encoding.</p>
+<h2 id="appendix-l-what-a-repair-cannot-do">Appendix L — What a repair cannot do</h2>
+<p>Be explicit about the boundary, because it saves time. A re-encode can fix colour-mode limitations, stale RGB under transparent pixels, and container mistakes. It cannot reconstruct alpha that was discarded by an earlier JPEG export, it cannot recover a face that was flattened into the background, and it cannot undo a chat app's re-encode once the recipient has the flattened copy. In those cases the only correct action is to go back to the last file that still had alpha — which is why the identification flow starts by ruling out the viewer before touching anything.</p>
+<h2 id="frequently-asked-questions">Frequently asked questions</h2>
+<h3 id="why-does-my-transparent-png-have-a-black-background-in-one-program-and-a-checkerboard-in-another">Why does my transparent PNG have a black background in one program and a checkerboard in another?</h3>
+<p>That is the viewer's canvas colour, not the file. Open it in a second program or on a coloured web page; if the background follows the program, the alpha is intact.</p>
+<h3 id="can-i-restore-transparency-after-saving-as-jpeg">Can I restore transparency after saving as JPEG?</h3>
+<p>No. JPEG has no alpha channel and the flattening colour is baked into the pixels. Re-export from the original source with alpha, or rebuild the mask.</p>
+<h3 id="what-causes-a-thin-dark-outline-around-a-soft-transparent-edge">What causes a thin dark outline around a soft transparent edge?</h3>
+<p>Usually premultiplied alpha handled as straight alpha, or RGB values darkened under semi-transparent pixels. It is a different bug from a solid black background.</p>
+<h3 id="does-converting-a-png-to-base64-lose-transparency">Does converting a PNG to Base64 lose transparency?</h3>
+<p>No. Base64 is a byte-for-byte text encoding. If transparency disappears, look at the CSS background or a canvas export step instead.</p>
+<h3 id="why-do-rounded-corners-show-dark-triangles">Why do rounded corners show dark triangles?</h3>
+<p>The corner alpha was set to zero but the underlying RGB was left stale. Re-encode to a clean RGBA PNG and inspect the corners on both light and dark backgrounds.</p><div class="lab-box"><h3>Files used in this report</h3><ul><li><a href="/assets/samples/picstudio-soft-alpha.png">Soft-alpha specimen</a> — A 420 px circle with a deliberately feathered edge</li><li><a href="/assets/samples/picstudio-specimen-logo.png">Solid specimen</a> — For the corner-radius comparison</li></ul></div><div class="lab-cta"><strong>Try it on your own file →</strong> Open <a href="/tools/convert">Convert Format</a> and repeat the steps above. Everything runs in your browser; nothing is uploaded.</div><div class="lab-box"><h3>Continue the series</h3><ul><li><a href="/guides/adjust-curve-lab">Adjust Curve Lab</a></li><li><a href="/guides/metadata-trail">Metadata Trail</a></li><li><a href="/guides/icon-qa-checklist">Icon Qa Checklist</a></li></ul></div>
+</div>
+</div>
+</section>
+<footer class="footer">
+<div class="container">
+<div class="footer-content">
+<div class="footer-brand"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Studio</span></span></div>
+<p class="footer-desc">Free online image tools — everything runs locally in your browser</p>
+</div>
+<div class="footer-links">
+<a href="/#tools">All Tools</a><a href="/guides/">Image Guides</a><a href="/guides/#lab-notes">Lab Notes</a>
+<a href="/guides/changelog">Lab Changelog</a><a href="/about">About</a><a href="/contact">Contact</a>
+<a href="/faq">FAQ</a><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a>
+</div>
+<div class="footer-bottom">
+<p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
+<p>© 2026 PicStudio. All rights reserved. Lab Notes are original measured reports, not rewritten articles.</p>
+</div>
+</div>
+</footer>
+<script src="/assets/js/main.js?v=20261111g"></script>
+<script src="/assets/js/i18n-dict.js?v=20261108ml"></script>
+<script src="/assets/js/i18n.js?v=20261108ml"></script>
+<script src="/assets/js/ux.js?v=20261108ml"></script>
+</body>
+</html>

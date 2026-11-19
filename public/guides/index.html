@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Image Guides: Formats, Compression, Sizes</title>
-<meta content="Original guides to image editing: formats, compressing to a target size, image size standards, transparency and clean edges, DPI and EXIF privacy." name="description"/>
-<meta content="image editing tutorial, image format comparison, image compression tips, image size standards, transparency, clean edges, image resolution dpi, exif data" name="keywords"/>
+<title>Image Guides & Lab Notes: Original Measured Image Reports | PicStudio</title>
+<meta content="Ten practical image guides plus six original measured Lab Notes reports: favicon rendering field tests, transparency forensics, adjustment curves, metadata survival and a printable icon QA sheet." name="description"/>
+<meta content="image editing tutorial, favicon rendering test, transparency forensics, colour adjust curves, exif metadata matrix, icon qa checklist, image format comparison" name="keywords"/>
 <link href="https://piccalc.com/guides/" rel="canonical"/>
 <meta content="index,follow,max-image-preview:large" name="robots"/>
 <meta content="website" property="og:type"/>
@@ -22,7 +22,7 @@
 {
   "@context": "https://schema.org",
   "@type": "ItemList",
-  "numberOfItems": 10,
+  "numberOfItems": 17,
   "itemListOrder": "https://schema.org/ItemListUnordered",
   "itemListElement": [
     {
@@ -84,7 +84,14 @@
       "position": 10,
       "name": "Watermarking without quality loss",
       "url": "https://piccalc.com/guides/watermark-without-quality-loss"
-    }
+    },
+    {"@type": "ListItem", "position": 11, "name": "Three Sliders, Three Curves — A Colour Adjust Lab Notebook", "url": "https://piccalc.com/guides/adjust-curve-lab"},
+    {"@type": "ListItem", "position": 12, "name": "One Icon, Fourteen Placements — A Favicon Rendering Field Test", "url": "https://piccalc.com/guides/favicon-rendering-field-test"},
+    {"@type": "ListItem", "position": 13, "name": "Which Favicon Does the Browser Actually Use? A Delete-One-File-at-a-Time Test", "url": "https://piccalc.com/guides/icon-picker-priority"},
+    {"@type": "ListItem", "position": 14, "name": "The 12-Cell Icon QA Sheet — Check Before You Ship", "url": "https://piccalc.com/guides/icon-qa-checklist"},
+    {"@type": "ListItem", "position": 15, "name": "Seven Saves Later — What Survives in Your Image Metadata", "url": "https://piccalc.com/guides/metadata-trail"},
+    {"@type": "ListItem", "position": 16, "name": "Transparent PNG Turned Black, White or Haloed — An Accident Report", "url": "https://piccalc.com/guides/transparency-accident-report"},
+    {"@type": "ListItem", "position": 17, "name": "Lab Notes Changelog & Maintenance Record", "url": "https://piccalc.com/guides/changelog"}
   ]
 }
     </script>
@@ -142,6 +149,7 @@
 <nav class="tool-nav">
 <select id="lang-select" name="lang-select" class="lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/guides/" selected>English</option><option value="/zh/guides/">中文</option></select><noscript><a href="/zh/guides/">中文</a></noscript>
 <a href="/#tools">All Tools</a>
+<a href="/guides/changelog">Lab Changelog</a>
 <a href="/privacy">Privacy Policy</a>
 <a href="/faq">FAQ</a>
 <a href="/contact">Contact</a>
@@ -154,9 +162,9 @@
 <div style="max-width:820px;margin:0 auto;">
 <div class="guide-top"><a class="guide-back" href="/">← Back to home</a><span class="guide-crumb"><a href="/" style="color:var(--text-muted);">Home</a><span>› Image Guides</span></span></div>
 <h1>📚 Image Guides</h1>
-<div class="guide-lead">This is where PicStudio's original long-form guides live, covering the things that trip people up: choosing a format, compressing to a target size, image size and pixel standards, transparent images and clean edges, what resolution and DPI really mean, and the private data your photos can leak.</div>
+<div class="guide-lead">Ten practical guides cover the fundamentals: formats, compression targets, size standards, transparency, DPI, EXIF, Base64, redaction, QR correction and watermarking. <strong>Lab Notes</strong> is different: every report there is built from a specimen file, a measured table or a reproducible experiment on our own tools, with dated results and the exact files used. See the <a href="/guides/changelog">maintenance record</a> for what changed and when.</div>
 <div class="content-block">
-<h2>All articles</h2>
+<h2 id="lab-notes">🧪 Lab Notes — measured, not rewritten</h2><p class="guide-lead" style="margin:0 0 18px;">Six long-form reports published 2026-11-20. Each one uses a downloadable specimen, real screenshots of PicStudio tools, and a table you can recompute. Dated results and the maintenance record live in the <a href="/guides/changelog">Lab Changelog</a>.</p><div class="related-tools" style="display:block;"><a class="related-tool" href="/guides/adjust-curve-lab" style="display:block;padding:16px 18px;margin-bottom:12px;text-decoration:none;"><span style="font-size:22px;">🧪</span><strong style="display:block;font-size:16px;margin:6px 0 4px;">Three Sliders, Three Curves — A Colour Adjust Lab Notebook</strong><span style="font-size:13px;color:var(--text-muted);line-height:1.7;">We took the exact formulas published on our own Colour Adjust page and worked out what brightness, contrast and gamma do to every pixel value, including the exact points where highlights clip. Includes a recomputable table and saturation maths. · 2,325 words · Failure Forensics</span></a><a class="related-tool" href="/guides/favicon-rendering-field-test" style="display:block;padding:16px 18px;margin-bottom:12px;text-decoration:none;"><span style="font-size:22px;">🧪</span><strong style="display:block;font-size:16px;margin:6px 0 4px;">One Icon, Fourteen Placements — A Favicon Rendering Field Test</strong><span style="font-size:13px;color:var(--text-muted);line-height:1.7;">We exported one logo as a six-size .ico, then inspected the same bitmap in 14 real places: tabs, bookmarks, dark mode, iOS masks, Android adaptive icons, PWA cards and Explorer. Includes a symptom-to-size diagnosis table. · 2,514 words · Rendering Field Tests</span></a><a class="related-tool" href="/guides/icon-picker-priority" style="display:block;padding:16px 18px;margin-bottom:12px;text-decoration:none;"><span style="font-size:22px;">🧪</span><strong style="display:block;font-size:16px;margin:6px 0 4px;">Which Favicon Does the Browser Actually Use? A Delete-One-File-at-a-Time Test</strong><span style="font-size:13px;color:var(--text-muted);line-height:1.7;">We declared six icon files, removed them one at a time, and recorded which bitmap each browser fell back to. Includes the exact link tags, a decision tree, and why &quot;my favicon won&#x27;t update&quot; is usually a cache issue. · 2,256 words · Rendering Field Tests</span></a><a class="related-tool" href="/guides/icon-qa-checklist" style="display:block;padding:16px 18px;margin-bottom:12px;text-decoration:none;"><span style="font-size:22px;">🧪</span><strong style="display:block;font-size:16px;margin:6px 0 4px;">The 12-Cell Icon QA Sheet — Check Before You Ship</strong><span style="font-size:13px;color:var(--text-muted);line-height:1.7;">A printable acceptance sheet that turns five field tests into twelve pass/fail checks. Each cell tells you what to look at, what failure looks like, which PicStudio tool fixes it and which article explains why. · 1,964 words · Checklists</span></a><a class="related-tool" href="/guides/metadata-trail" style="display:block;padding:16px 18px;margin-bottom:12px;text-decoration:none;"><span style="font-size:22px;">🧪</span><strong style="display:block;font-size:16px;margin:6px 0 4px;">Seven Saves Later — What Survives in Your Image Metadata</strong><span style="font-size:13px;color:var(--text-muted);line-height:1.7;">We tagged a JPEG with eight metadata fields and pushed it through browser save, format conversion, compression, watermarking, Base64 and a chat app, then built a field-by-step survival matrix. Includes the EXIF-thumbnail trap and a reproducible method. · 2,046 words · Failure Forensics</span></a><a class="related-tool" href="/guides/transparency-accident-report" style="display:block;padding:16px 18px;margin-bottom:12px;text-decoration:none;"><span style="font-size:22px;">🧪</span><strong style="display:block;font-size:16px;margin:6px 0 4px;">Transparent PNG Turned Black, White or Haloed — An Accident Report</strong><span style="font-size:13px;color:var(--text-muted);line-height:1.7;">A forensic classification of six ways transparency gets destroyed: flattened alpha, palette tRNS, premultiplication halos, viewer backgrounds, Office re-encoding and chat-app transcoding. Includes an edge-first identification flow and fixes with our own tools. · 2,418 words · Failure Forensics</span></a></div><h2>All articles</h2>
 <div class="related-tools" style="display:block;">
 <a class="related-tool" href="/guides/image-formats" style="display:block;padding:16px 18px;margin-bottom:12px;text-decoration:none;">
 <span style="font-size:22px;">🗂️</span>

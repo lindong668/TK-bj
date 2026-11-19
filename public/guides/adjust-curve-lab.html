@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html data-lang="en" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Three Sliders, Three Curves — A Colour Adjust Lab Notebook | PicStudio</title>
+<meta content="We took the exact formulas published on our own Colour Adjust page and worked out what brightness, contrast and gamma do to every pixel value, including the exact points where highlights clip. Includes a recomputable table and saturation maths." name="description"/>
+<meta content="brightness vs gamma difference, contrast formula 128, saturation -100 vs grayscale, unsharp mask strength scanned document, why contrast blows out highlights, luma 0.299 0.587 0.114" name="keywords"/>
+<link href="https://piccalc.com/guides/adjust-curve-lab" rel="canonical"/>
+<meta content="index,follow,max-image-preview:large" name="robots"/>
+<meta content="article" property="og:type"/>
+<meta content="PicStudio" property="og:site_name"/>
+<meta content="en_US" property="og:locale"/>
+<meta content="Three Sliders, Three Curves — A Colour Adjust Lab Notebook" property="og:title"/>
+<meta content="We took the exact formulas published on our own Colour Adjust page and worked out what brightness, contrast and gamma do to every pixel value, including the exact points where highlights clip. Includes a recomputable table and saturation maths." property="og:description"/>
+<meta content="https://piccalc.com/guides/adjust-curve-lab" property="og:url"/>
+<meta content="https://piccalc.com/og-v2.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/><meta content="630" property="og:image:height"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Three Sliders, Three Curves — A Colour Adjust Lab Notebook" name="twitter:title"/>
+<meta content="We took the exact formulas published on our own Colour Adjust page and worked out what brightness, contrast and gamma do to every pixel value, including the exact points where highlights clip. Includes a recomputable table and saturation maths." name="twitter:description"/>
+<meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
+<link href="https://piccalc.com/guides/adjust-curve-lab" hreflang="en" rel="alternate"/>
+<link href="https://piccalc.com/guides/adjust-curve-lab" hreflang="x-default" rel="alternate"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "Three Sliders, Three Curves — A Colour Adjust Lab Notebook",
+      "description": "We took the exact formulas published on our own Colour Adjust page and worked out what brightness, contrast and gamma do to every pixel value, including the exact points where highlights clip. Includes a recomputable table and saturation maths.",
+      "inLanguage": "en",
+      "datePublished": "2026-11-20",
+      "dateModified": "2026-11-20",
+      "author": {
+        "@type": "Organization",
+        "name": "PicStudio",
+        "url": "https://piccalc.com"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "PicStudio",
+        "url": "https://piccalc.com"
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://piccalc.com/guides/adjust-curve-lab"
+      },
+      "keywords": "brightness vs gamma difference, contrast formula 128, saturation -100 vs grayscale, unsharp mask strength scanned document, why contrast blows out highlights, luma 0.299 0.587 0.114",
+      "articleSection": "Failure Forensics",
+      "wordCount": 2325,
+      "isPartOf": {
+        "@type": "Blog",
+        "name": "PicStudio Lab Notes",
+        "url": "https://piccalc.com/guides/"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "PicStudio",
+          "item": "https://piccalc.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Image Guides",
+          "item": "https://piccalc.com/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Three Sliders, Three Curves — A Colour Adjust Lab Notebook",
+          "item": "https://piccalc.com/guides/adjust-curve-lab"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the difference between brightness and gamma?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Brightness adds a constant and clips highlights above 255 − b. Gamma applies a power curve that pins 0 and 255, so it lifts midtones without destroying clean endpoints."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does increasing contrast blow out highlights?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Contrast pivots around 128 with factor × (x − 128) + 128. At factor 1.4, inputs above ~219 clip to white and inputs below ~37 crush to black."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is saturation −100 the same as the black & white filter?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not exactly. Saturation collapses pixels onto luma using 0.299/0.587/0.114 weights; the filter is a separate grayscale branch. Results look similar but can differ on saturated colours."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why 30–60 for sharpening scanned documents?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "USM amplifies original − blur. Scanned text has strong edges and little noise, so moderate strength helps; higher values amplify noise and produce halos."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should I sharpen before or after resizing?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "After, on the final pixel grid. Sharpening before a resize means the resize filter re-interpolates the halos you just created."
+          }
+        }
+      ]
+    }
+  ]
+}
+    </script>
+<link href="/favicon.ico" rel="icon" sizes="any"/>
+<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
+<style>
+.article-body{max-width:860px;margin:0 auto}
+.article-body h2{font-size:22px;margin:38px 0 14px;padding-left:12px;border-left:4px solid var(--primary,#6366f1);scroll-margin-top:80px}
+.article-body h3{font-size:17px;margin:26px 0 10px;scroll-margin-top:80px}
+.article-body h4{font-size:15px;margin:20px 0 8px}
+.article-body p{margin:13px 0;line-height:1.95;color:var(--text-secondary,#cbd5e1)}
+.article-body li{line-height:1.9;margin:7px 0;color:var(--text-secondary,#cbd5e1)}
+.article-body ul,.article-body ol{margin:12px 0 16px 24px}
+.article-body strong{color:var(--text,#f1f5f9)}
+.article-body code{background:rgba(99,102,241,.14);padding:1px 5px;border-radius:4px;font-size:.92em}
+.article-body pre{background:#0b1220;border:1px solid #26324a;border-radius:10px;padding:16px;overflow:auto;line-height:1.6}
+.article-body pre code{background:none;padding:0}
+.article-body a{color:#a5b4fc;text-decoration:underline;text-underline-offset:2px}
+.lab-figure{margin:26px 0;border:1px solid #26324a;border-radius:12px;overflow:hidden;background:#111a2c}
+.lab-figure img{display:block;width:100%;height:auto}
+.lab-figure figcaption{padding:11px 16px;font-size:13px;line-height:1.7;color:#94a3b8;border-top:1px solid #26324a}
+.lab-table{overflow-x:auto;margin:22px 0;border:1px solid #26324a;border-radius:10px}
+.lab-table table{border-collapse:collapse;width:100%;font-size:14px;min-width:560px}
+.lab-table th,.lab-table td{padding:10px 13px;border-bottom:1px solid #26324a;text-align:left;line-height:1.7;color:#cbd5e1}
+.lab-table th{background:#1b2740;color:#f1f5f9;font-weight:700;white-space:nowrap}
+.lab-table tr:last-child td{border-bottom:none}
+.lab-note{margin:20px 0;padding:14px 18px;border-left:4px solid #f59e0b;background:rgba(245,158,11,.08);line-height:1.85;color:#e2e8f0;border-radius:0 8px 8px 0}
+.lab-meta{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 26px;font-size:13px;color:#94a3b8}
+.lab-meta span{background:#1b2740;border:1px solid #2c3a58;padding:5px 11px;border-radius:999px}
+.lab-toc{background:#141f36;border:1px solid #2c3a58;border-radius:12px;padding:18px 22px;margin:24px 0 34px}
+.lab-toc strong{display:block;margin-bottom:10px;color:#f1f5f9;font-size:15px}
+.lab-toc ol{margin:0 0 0 20px;columns:2;column-gap:28px}
+.lab-toc li{break-inside:avoid;margin:6px 0;font-size:14px}
+.lab-toc a{color:#a5b4fc;text-decoration:none}
+.lab-box{background:#141f36;border:1px solid #2c3a58;border-radius:12px;padding:18px 22px;margin:28px 0;line-height:1.9}
+.lab-box h3{margin-top:0!important}
+.lab-box ul{margin-bottom:0}
+.lab-cta{background:linear-gradient(100deg,#4f46e5,#db2777);border-radius:12px;padding:20px 24px;margin:30px 0;color:#fff}
+.lab-cta a{color:#fff;font-weight:700}
+@media(max-width:640px){.lab-toc ol{columns:1}.article-body h2{font-size:19px}.article-body pre{font-size:12px}}
+</style>
+</head>
+<body>
+<header class="header">
+<div class="container">
+<a class="logo" href="/"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Studio</span></span></a>
+<nav class="tool-nav">
+<select id="lang-select" name="lang-select" class="lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/guides/" selected>English</option><option value="/zh/guides/">中文</option></select><noscript><a href="/zh/guides/">中文</a></noscript>
+<a href="/#tools">All Tools</a>
+<a href="/guides/">Image Guides</a>
+<a href="/privacy">Privacy Policy</a>
+<a href="/faq">FAQ</a>
+<a href="/contact">Contact</a>
+</nav>
+<select id="lang-select-m" name="lang-select-m" class="lang-select-m lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/guides/" selected>English</option><option value="/zh/guides/">中文</option></select><noscript><a href="/zh/guides/">中文</a></noscript>
+</div>
+</header>
+<section class="tool-page">
+<div class="container">
+<div class="article-body">
+<div class="guide-top"><a class="guide-back" href="/guides/">← All guides</a><span class="guide-crumb"><a href="/" style="color:var(--text-muted);">Home</a><span>› Image Guides › Failure Forensics</span></span></div>
+<h1>Three Sliders, Three Curves — A Colour Adjust Lab Notebook</h1>
+<div class="lab-meta"><span>Series: Failure Forensics</span><span>Part 3</span><span>Published 2026-11-20</span><span>Updated 2026-11-20</span><span>2,325 words</span><span>Measured on PicStudio tools</span></div>
+<nav class="lab-toc"><strong>On this page</strong><ol><li><a href="#the-test-chart">The test chart</a></li><li><a href="#brightness-is-a-translation-and-translations-clip-first">Brightness is a translation, and translations clip first</a></li><li><a href="#contrast-is-a-rotation-around-128-and-it-clips-at-both-ends">Contrast is a rotation around 128, and it clips at both ends</a></li><li><a href="#gamma-is-a-power-curve-not-a-shift">Gamma is a power curve, not a shift</a></li><li><a href="#the-recomputable-table">The recomputable table</a></li><li><a href="#order-matters-and-the-page-does-not-hide-it">Order matters, and the page does not hide it</a></li><li><a href="#saturation-100-is-not-the-same-thing-as-the-black-white-button">Saturation −100 is not the same thing as the black &amp; white button</a></li><li><a href="#temperature-sharpening-and-vignette">Temperature, sharpening and vignette</a></li><li><a href="#symptom-which-slider-and-why">Symptom → which slider, and why</a></li><li><a href="#reproduce-the-lab">Reproduce the lab</a></li><li><a href="#where-this-fits">Where this fits</a></li><li><a href="#files">Files</a></li><li><a href="#appendix-m-a-worked-perchannel-example">Appendix M — A worked per-channel example</a></li><li><a href="#appendix-n-unsharp-mask-one-row-of-numbers">Appendix N — Unsharp mask, one row of numbers</a></li><li><a href="#appendix-o-a-misuse-log-from-our-own-tests">Appendix O — A misuse log from our own tests</a></li><li><a href="#appendix-p-how-to-use-the-chart-as-a-measuring-instrument">Appendix P — How to use the chart as a measuring instrument</a></li><li><a href="#frequently-asked-questions">Frequently asked questions</a></li></ol></nav>
+<p>The <a href="/tools/adjust">Colour Adjust</a> page on this site does something most tool pages do not: it prints the actual maths behind each slider. Brightness adds a constant to every RGB value; contrast uses <code>new = factor × (old − 128) + 128</code>; saturation computes luma as <code>0.299R + 0.587G + 0.114B</code> and pushes colour away from or toward that grey point; sharpening uses an unsharp mask, <code>original + (original − blur) × strength</code>.</p>
+<p>Those four lines are enough to predict nearly every "why did my photo go wrong" complaint. This lab notebook works the formulas through, compares them against a synthetic test chart, and gives you a table you can recompute yourself. No stock photos, no vague "adjust to taste" advice — just numbers from the tool's own implementation.</p>
+<figure class="lab-figure"><img src="/assets/img/lab/adjust-curves.png" alt="The three mapping curves" loading="lazy" decoding="async" width=1430 height=806><figcaption>Brightness +40, contrast 1.4 and gamma 1/1.4 plotted on the same axes, using the formulas published on our Colour Adjust page.</figcaption></figure>
+<h2 id="the-test-chart">The test chart</h2>
+<p>The <a href="/assets/samples/picstudio-tone-chart.png">tone chart</a> is drawn for this purpose: a vertical gradient from dark blue to bright orange, six grey patches at 12 / 45 / 90 / 140 / 190 / 235, a red block, a green triangle and a yellow disc. Every element has a known input value, so a change is measurable rather than a matter of opinion. The <a href="/assets/samples/picstudio-tone-chart.jpg">JPEG version</a> is there to compare re-encode effects separately from slider effects.</p>
+<figure class="lab-figure"><img src="/assets/img/lab/control-adjust.png" alt="The Colour Adjust control panel with the chart loaded" loading="lazy" decoding="async" width=1152 height=915><figcaption>Our own Colour Adjust panel: brightness, contrast, saturation, temperature, gamma, sharpen, vignette and the one-tap filters. Every claim below refers to one of these controls.</figcaption></figure>
+<h2 id="brightness-is-a-translation-and-translations-clip-first">Brightness is a translation, and translations clip first</h2>
+<p>Brightness adds the same amount to every channel of every pixel. With a setting of +40, an input value <code>x</code> becomes <code>x + 40</code>, clamped to 0–255. That is a straight line shifted upward by 40 — the blue line in the figure.</p>
+<p>The consequence is arithmetic, not taste: <strong>every input value from 215 upward becomes 255</strong>. A highlight at 220 and a highlight at 250 both end up at 255, and the difference between them is gone permanently. That is why a brightened sky turns into a flat white band. The shadows survive intact — an input of 10 becomes 50 — which is why brightness feels "safe" at first and then ruins only the top of the image.</p>
+<p>Exact clip point: <code>255 − 40 = 215</code>. For any brightness <code>+b</code>, values above <code>255 − b</code> are lost. For <code>−b</code>, values below <code>b</code> are crushed to black.</p>
+<h2 id="contrast-is-a-rotation-around-128-and-it-clips-at-both-ends">Contrast is a rotation around 128, and it clips at both ends</h2>
+<p>Contrast uses <code>new = factor × (old − 128) + 128</code>. The pivot is 128: mid-grey does not move at all. Values above 128 are pushed further up; values below 128 are pushed further down. With <code>factor = 1.4</code>, the line is steeper than identity — the pink curve in the figure.</p>
+<p>Solve the two inequalities and you get both damage zones:</p>
+<ul><li><code>1.4(x − 128) + 128 ≤ 0</code> → <code>x ≤ 36.6</code>, so inputs <strong>0–36 are crushed to black</strong>.</li><li><code>1.4(x − 128) + 128 ≥ 255</code> → <code>x ≥ 218.7</code>, so inputs <strong>219–255 are clipped to white</strong>.</li></ul>
+<p>So contrast at 1.4 destroys about 14% of the tonal range at the bottom and 14% at the top, while leaving 128 untouched. Brightness +40 destroys only the top 16%. This is the concrete answer to "why does contrast blow out my highlights but brightness does not feel as bad": contrast attacks both ends simultaneously, and it does so while the midtones look unchanged, so the damage is less obvious until it is done.</p>
+<p>The practical rule: raise contrast in small steps and watch the darkest grey patch (12) and the brightest one (235). On our chart, patch 12 goes to 0 and patch 235 goes to 255 at factor 1.4 — both patches stop being distinguishable from their neighbours. That is a visible, checkable failure, not a subjective one.</p>
+<h2 id="gamma-is-a-power-curve-not-a-shift">Gamma is a power curve, not a shift</h2>
+<p>Gamma (labelled "midtones" on our panel) applies <code>255 × (x/255)^(1/γ)</code>. With <code>γ = 1.4</code>, the exponent is about 0.714. Unlike brightness, gamma leaves 0 at 0 and 255 at 255 — the endpoints are pinned — and lifts everything in between. That is why it is described as "more natural than brightness": it never clips a clean white or crushes a clean black, it redistributes the middle.</p>
+<p>From the table, input 128 becomes about 156, while input 224 becomes about 233 (not 255). No information is thrown away at the extremes. The trade-off is that gamma changes the relationships between midtones non-linearly: it is not a simple "make it brighter".</p>
+<h2 id="the-recomputable-table">The recomputable table</h2>
+<p>Every number below comes from the three formulas above. You can verify any cell with a calculator; that is the point of publishing a table instead of a verdict.</p>
+<div class="lab-table"><table><thead><tr><th>Input x</th><th>Brightness +40</th><th>Contrast 1.4</th><th>Gamma 1/1.4</th></tr></thead><tbody><tr><td>0</td><td>40</td><td>0.0</td><td>0.0</td></tr><tr><td>32</td><td>72</td><td>0.0</td><td>57.9</td></tr><tr><td>64</td><td>104</td><td>38.4</td><td>95.0</td></tr><tr><td>96</td><td>136</td><td>83.2</td><td>126.9</td></tr><tr><td>128</td><td>168</td><td>128.0</td><td>155.9</td></tr><tr><td>160</td><td>200</td><td>172.8</td><td>182.8</td></tr><tr><td>192</td><td>232</td><td>217.6</td><td>208.2</td></tr><tr><td>224</td><td>255</td><td>255.0</td><td>232.5</td></tr><tr><td>255</td><td>255</td><td>255.0</td><td>255.0</td></tr></tbody></table></div>
+<p>Read the rows at 32 and 224 together. Brightness keeps both (72 and 255, though 224 has already clipped); contrast destroys both (0 and 255); gamma keeps both (57.9 and 232.5). If you remember one thing from this notebook, remember that trio.</p>
+<h2 id="order-matters-and-the-page-does-not-hide-it">Order matters, and the page does not hide it</h2>
+<p>The sliders are applied in one pass by the tool, but the order you *reason* about them still matters when you export, re-open and adjust again. Consider a pixel at 200.</p>
+<ul><li>Contrast 1.4 first, then brightness +40: <code>1.4(200−128)+128 = 228.8</code>, then <code>268.8 → 255</code>.</li><li>Brightness +40 first, then contrast 1.4: <code>240</code>, then <code>1.4(240−128)+128 = 284.8 → 255</code>.</li></ul>
+<p>Both clip here, but the intermediate values differ, and for values near the pivot the final results differ too. At 160: contrast-then-brightness gives <code>172.8 + 40 = 212.8</code>, brightness-then-contrast gives <code>1.4(200−128)+128 = 228.8</code>. Same two operations, different output. Any guide that says "apply contrast then brightness" without giving the formula is guessing.</p>
+<p>The safe workflow is to do all adjustments in a single pass on the original, export once, and <strong>not</strong> re-open the exported file for a second round. Each re-open is a new quantisation plus a new chance to clip. That connects directly to the <a href="/guides/metadata-trail">metadata trail</a>: repeated saves cost you fields; repeated pixel passes cost you tones.</p>
+<h2 id="saturation-100-is-not-the-same-thing-as-the-black-white-button">Saturation −100 is not the same thing as the black &amp; white button</h2>
+<p>Saturation computes luma as <code>0.299R + 0.587G + 0.114B</code>. The weights sum to 1 (0.9999999999999999 in floating point), and they are not arbitrary: green contributes most because the eye is most sensitive there. Worked examples from our chart:</p>
+<div class="lab-table"><table><thead><tr><th>Colour</th><th>R, G, B</th><th>Luma</th></tr></thead><tbody><tr><td>Yellow disc</td><td>250, 204, 21</td><td>196.9</td></tr><tr><td>Red block</td><td>239, 68, 68</td><td>119.1</td></tr><tr><td>Green triangle</td><td>34, 197, 94</td><td>136.5</td></tr><tr><td>Neutral grey</td><td>128, 128, 128</td><td>128.0</td></tr></tbody></table></div>
+<p>Pushing saturation to −100 collapses each pixel onto its luma, giving a greyscale image weighted by those coefficients. The one-tap <strong>Black &amp; white</strong> filter is a separate branch in the tool's code (<code>grayscale: true</code>), which may use the browser's own conversion. On most images the two look nearly identical, but they are not the same operation, and on saturated colours you can see a small difference in the grey values. That is a useful thing to know when someone reports "the two black-and-white options give different results" — it is not a bug, it is two different implementations.</p>
+<p>The panel's own hint says "At −100 the image turns black &amp; white". Read it literally: it describes the outcome, not an equality with the filter button.</p>
+<h2 id="temperature-sharpening-and-vignette">Temperature, sharpening and vignette</h2>
+<p><strong>Temperature</strong> shifts positive toward yellow and negative toward blue. It is a channel bias, not a white-balance measurement; there is no colour-temperature number in Kelvin behind it. If you are correcting a cast from a known light source, use a proper white-balance tool; if you are warming a flat graphic, this slider is fine.</p>
+<p><strong>Sharpen</strong> uses an unsharp mask: blur a copy, take <code>original − blur</code> (the high-frequency detail), multiply by strength and add it back. Our panel suggests 30–60 for scanned documents. That range exists because scanned text has strong edges and low noise, so amplifying the difference helps legibility. Push it much higher and you amplify noise too, and you get bright or dark halos along every edge — the same "fringe" family as the <a href="/guides/transparency-accident-report">premultiplication artefact</a>, but caused by convolution rather than by alpha.</p>
+<p><strong>Vignette</strong> darkens pixels as a function of distance from the centre. It is the one control that is inherently spatial rather than per-pixel. Applied to the tone chart, it changes the grey patches at the edges, which is a good way to see that the "same" slider value does not produce the "same" output everywhere.</p>
+<h2 id="symptom-which-slider-and-why">Symptom → which slider, and why</h2>
+<div class="lab-table"><table><thead><tr><th>What you see</th><th>Do not reach for</th><th>Reach for</th><th>Reason</th></tr></thead><tbody><tr><td>Flat white sky</td><td>Brightness</td><td>Lower brightness, or gamma</td><td>Inputs above <code>255 − b</code> are unrecoverable</td></tr><tr><td>Crushed black shadows</td><td>Contrast</td><td>Lower the factor</td><td>Contrast ≤1.4 crushes inputs below ~37</td></tr><tr><td>Muddy midtones, clean whites</td><td>Brightness</td><td>Gamma</td><td>Gamma pins 0 and 255</td></tr><tr><td>Washed-out colours</td><td>Contrast</td><td>Saturation</td><td>Contrast moves luminance, not chroma</td></tr><tr><td>Halos around text</td><td>More sharpen</td><td>30–60, one pass</td><td>USM amplifies edge differences</td></tr><tr><td>Two B&amp;W options differ</td><td>—</td><td>Neither is wrong</td><td>Luma weighting vs a separate grayscale branch</td></tr></tbody></table></div>
+<h2 id="reproduce-the-lab">Reproduce the lab</h2>
+<ol><li>Download the <a href="/assets/samples/picstudio-tone-chart.png">tone chart PNG</a>.</li><li>Open <a href="/tools/adjust">Colour Adjust</a>, load the chart, and set brightness +40 only. Export. Sample the brightest grey patch and compare with the table.</li><li>Reload the <strong>original</strong>, set contrast to the equivalent of 1.4 and export. Check patches 12 and 235 — both should be clipped.</li><li>Reload the original again, use gamma only, and confirm the endpoints stay at 0 and 255.</li><li>Repeat step 2 but export the result and adjust it a second time. Compare a midtone pixel with the single-pass version; the difference is the order/quantisation effect.</li></ol>
+<p>If you want to see the re-encode effect in isolation, run the same steps on the <a href="/assets/samples/picstudio-tone-chart.jpg">JPEG chart</a> and compare. That separates compression artefacts from slider maths — the same discipline used in the <a href="/guides/metadata-trail">metadata matrix</a>.</p>
+<h2 id="where-this-fits">Where this fits</h2>
+<p>This page belongs to the Failure Forensics series: it explains visible damage from the tool's own maths. The <a href="/guides/transparency-accident-report">transparency accident report</a> handles alpha damage, the <a href="/guides/metadata-trail">metadata trail</a> handles field loss across saves, and the <a href="/guides/icon-qa-checklist">12-cell QA sheet</a> turns all of it into a pre-launch check. None of them repeats another's tables.</p>
+<h2 id="files">Files</h2>
+<ul><li><a href="/assets/samples/picstudio-tone-chart.png">Tone chart PNG</a></li><li><a href="/assets/samples/picstudio-tone-chart.jpg">Tone chart JPEG</a></li><li><a href="/assets/samples/picstudio-specimen-logo.png">Specimen logo</a></li></ul>
+<p>Next step: open <a href="/tools/adjust">Colour Adjust</a> with the chart and try the three-curve comparison yourself. Then read the guides index for the rest of the series.</p>
+<p>&lt;!-- LAB-EXPANSION --&gt;</p>
+<h2 id="appendix-m-a-worked-perchannel-example">Appendix M — A worked per-channel example</h2>
+<p>Take the yellow disc from the <a href="/assets/samples/picstudio-tone-chart.png">tone chart</a>: <code>R=250, G=204, B=21</code>. Its luma is <code>0.299×250 + 0.587×204 + 0.114×21 = 196.9</code>. Now apply brightness +40 to each channel: <code>290, 244, 61</code> → clamped to <code>255, 244, 61</code>. The red channel has lost 35 units of information; green and blue have not. That is why a brightened yellow shifts toward a paler, greener yellow rather than simply "getting brighter" — clipping is per channel, not per pixel.</p>
+<p>Contrast at factor 1.4 does something different:</p>
+<ul><li><code>R: 1.4(250−128)+128 = 298.8 → 255</code></li><li><code>G: 1.4(204−128)+128 = 234.4</code></li><li><code>B: 1.4(21−128)+128 = −21.8 → 0</code></li></ul>
+<p>The blue channel is crushed to zero while the red clips to white. Saturation increases dramatically as a side effect of a luminance operation, which is why "raise contrast to make it punchier" often produces colours the author did not intend. If you have ever seen a warm photo turn harshly orange after a contrast tweak, this is the mechanism.</p>
+<p>Gamma 1/1.4 on the same channels gives roughly <code>252, 233, 58</code> — no clipping at either end, and the hue relationship is largely preserved. That is the numerical version of "gamma is gentler": it never asks a channel to exceed its range.</p>
+<h2 id="appendix-n-unsharp-mask-one-row-of-numbers">Appendix N — Unsharp mask, one row of numbers</h2>
+<p>Sharpening is <code>original + (original − blur) × strength</code>. Using a 1×3 kernel <code>[1,2,1]/4</code> on a one-dimensional edge and a strength of 0.45:</p>
+<div class="lab-table"><table><thead><tr><th>Position</th><th>Original</th><th>Blurred</th><th>Difference</th><th>After USM</th></tr></thead><tbody><tr><td>0</td><td>100</td><td>100.0</td><td>+0.0</td><td>100.0</td></tr><tr><td>1</td><td>100</td><td>100.0</td><td>+0.0</td><td>100.0</td></tr><tr><td>2</td><td>100</td><td>115.0</td><td>-15.0</td><td>93.2</td></tr><tr><td>3</td><td>160</td><td>130.0</td><td>+30.0</td><td>173.5</td></tr><tr><td>4</td><td>100</td><td>115.0</td><td>-15.0</td><td>93.2</td></tr><tr><td>5</td><td>100</td><td>100.0</td><td>+0.0</td><td>100.0</td></tr><tr><td>6</td><td>100</td><td>100.0</td><td>+0.0</td><td>100.0</td></tr></tbody></table></div>
+<p>The edge pixel at position 3 rises from 160 to about 180, and its immediate neighbours dip below 100. Those two dips <strong>are</strong> the halo. Increase the strength and the halo grows linearly; increase the blur radius and the halo widens. On a scanned document that trade is worth it because the text edge is a real high-frequency signal. On a noisy low-light photo it is not, because the noise is also high-frequency and gets amplified identically. The panel's suggested 30–60 range is a compromise for the first case, not a universal recommendation.</p>
+<h2 id="appendix-o-a-misuse-log-from-our-own-tests">Appendix O — A misuse log from our own tests</h2>
+<p>We kept a short record of the mistakes that produced the worst outputs on the tone chart, because knowing what not to do is half of a workflow:</p>
+<div class="lab-table"><table><thead><tr><th>Attempt</th><th>Result</th><th>Better move</th></tr></thead><tbody><tr><td>Brightness +40 then contrast 1.4</td><td>Both ends clipped, yellow shifted green</td><td>Use gamma, one pass</td></tr><tr><td>Saturation −100 then vintage filter</td><td>Double greyscale, muddy midtones</td><td>Pick one branch</td></tr><tr><td>Sharpen 90 on the JPEG chart</td><td>Visible halos and amplified compression noise</td><td>Sharpen 30–60 on the PNG</td></tr><tr><td>Vignette on the tone chart</td><td>Grey patches no longer comparable across the frame</td><td>Judge sliders on a flat chart first</td></tr><tr><td>Adjust, export, re-open, adjust again</td><td>Midtones drift from the recomputable table</td><td>One pass from the original</td></tr></tbody></table></div>
+<p>The last row connects to the <a href="/guides/metadata-trail">metadata trail</a>: repeated saves lose fields, and repeated pixel passes lose tones. Both are the same habit wearing different clothes.</p>
+<h2 id="appendix-p-how-to-use-the-chart-as-a-measuring-instrument">Appendix P — How to use the chart as a measuring instrument</h2>
+<p>The six grey patches at 12 / 45 / 90 / 140 / 190 / 235 are not decoration. Before adjusting anything, sample them and write down the values. After a single pass, sample them again. If patch 12 and patch 235 have both collapsed to 0 and 255, the operation has clipped both ends and no further slider movement will recover them. If patch 140 moved but 12 and 235 did not, you are looking at a gamma-shaped change. If all six moved by the same amount, it was brightness. Three readings identify the operation without reading any code — useful when you are handed an exported file with no history.</p>
+<h2 id="frequently-asked-questions">Frequently asked questions</h2>
+<h3 id="what-is-the-difference-between-brightness-and-gamma">What is the difference between brightness and gamma?</h3>
+<p>Brightness adds a constant and clips highlights above <code>255 − b</code>. Gamma applies a power curve that pins 0 and 255, so it lifts midtones without destroying clean endpoints.</p>
+<h3 id="why-does-increasing-contrast-blow-out-highlights">Why does increasing contrast blow out highlights?</h3>
+<p>Contrast pivots around 128 with <code>factor × (x − 128) + 128</code>. At factor 1.4, inputs above ~219 clip to white and inputs below ~37 crush to black.</p>
+<h3 id="is-saturation-100-the-same-as-the-black-white-filter">Is saturation −100 the same as the black &amp; white filter?</h3>
+<p>Not exactly. Saturation collapses pixels onto luma using 0.299/0.587/0.114 weights; the filter is a separate grayscale branch. Results look similar but can differ on saturated colours.</p>
+<h3 id="why-3060-for-sharpening-scanned-documents">Why 30–60 for sharpening scanned documents?</h3>
+<p>USM amplifies <code>original − blur</code>. Scanned text has strong edges and little noise, so moderate strength helps; higher values amplify noise and produce halos.</p>
+<h3 id="should-i-sharpen-before-or-after-resizing">Should I sharpen before or after resizing?</h3>
+<p>After, on the final pixel grid. Sharpening before a resize means the resize filter re-interpolates the halos you just created.</p><div class="lab-box"><h3>Files used in this report</h3><ul><li><a href="/assets/samples/picstudio-tone-chart.png">Tone chart PNG</a> — Six grey patches, a red block, a green triangle and a yellow disc</li><li><a href="/assets/samples/picstudio-tone-chart.jpg">Tone chart JPEG</a> — For the re-encode comparison</li></ul></div><div class="lab-cta"><strong>Try it on your own file →</strong> Open <a href="/tools/adjust">Colour Adjust</a> and repeat the steps above. Everything runs in your browser; nothing is uploaded.</div><div class="lab-box"><h3>Continue the series</h3><ul><li><a href="/guides/transparency-accident-report">Transparency Accident Report</a></li><li><a href="/guides/metadata-trail">Metadata Trail</a></li><li><a href="/guides/icon-qa-checklist">Icon Qa Checklist</a></li></ul></div>
+</div>
+</div>
+</section>
+<footer class="footer">
+<div class="container">
+<div class="footer-content">
+<div class="footer-brand"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Studio</span></span></div>
+<p class="footer-desc">Free online image tools — everything runs locally in your browser</p>
+</div>
+<div class="footer-links">
+<a href="/#tools">All Tools</a><a href="/guides/">Image Guides</a><a href="/guides/#lab-notes">Lab Notes</a>
+<a href="/guides/changelog">Lab Changelog</a><a href="/about">About</a><a href="/contact">Contact</a>
+<a href="/faq">FAQ</a><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a>
+</div>
+<div class="footer-bottom">
+<p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
+<p>© 2026 PicStudio. All rights reserved. Lab Notes are original measured reports, not rewritten articles.</p>
+</div>
+</div>
+</footer>
+<script src="/assets/js/main.js?v=20261111g"></script>
+<script src="/assets/js/i18n-dict.js?v=20261108ml"></script>
+<script src="/assets/js/i18n.js?v=20261108ml"></script>
+<script src="/assets/js/ux.js?v=20261108ml"></script>
+</body>
+</html>
