@@ -149,6 +149,9 @@
 .meta-table td{color:var(--text-secondary);word-break:break-all}
 .warn-box{background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.35);border-radius:10px;padding:12px 14px;color:#fcd34d;font-size:.88rem;line-height:1.7;margin-top:12px}
 .ok-box{background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.38);border-radius:10px;padding:12px 14px;color:#6ee7b7;font-size:.88rem;line-height:1.7;margin-top:12px}</style>
+<noscript><div id="nojsNotice" style="margin:18px 0;padding:14px 18px;border-left:3px solid #f59e0b;background:rgba(245,158,11,.09);border-radius:6px;">
+<p style="margin:0;font-size:14px;line-height:1.8;color:var(--text-secondary,#475569);"><strong>图片处理需要 JavaScript。</strong>聚类在浏览器里运行，脚本被禁用时无法计算。下面的采样规则、结果波动原因和适用边界都是静态 HTML，可以直接阅读。</p>
+</div></noscript>
 <div class="upload-area" id="uploadArea">
 <div class="upload-icon">📁</div>
 <div class="upload-text">点击或拖拽图片到这里</div>
@@ -208,6 +211,26 @@
 <div class="content-block">
 <h2>关于颜色提取的常见问题</h2>
 <div class="faq-item"><h3>提取的颜色不准怎么办？</h3><p>K-means 的初始中心是随机的，同一张图多次提取可能略有差异。可以增减数量再试，或多次提取取稳定出现的颜色。</p></div><div class="faq-item"><h3>为什么看不到很亮或很暗的颜色？</h3><p>算法按像素数量聚类，占比很小的颜色（比如画面里一点点高光）可能不会被单独聚成一类。这种情况可以增加提取数量。</p></div><div class="faq-item"><h3>透明区域会影响结果吗？</h3><p>不会。程序会跳过透明度低于 50% 的像素，只对可见部分取色。</p></div><div class="faq-item"><h3>能保存色卡图片吗？</h3><p>当前版本只提供色值复制。需要图片可以截图，或用「图片拼接」把色块拼成一张。</p></div>
+</div>
+<div class="content-block" data-static-copy="palette">
+<h2>K-means 在这一页的真实参数</h2>
+<p>颜色数量可选 3–16 个。采样不是逐像素，而是按 max(1, floor(sqrt(宽 × 高 / 4000))) 的步长跳着取：一张 4000×3000 的照片大约取 4000 个样本，一张 800×600 的小图几乎逐像素读取。透明度低于 128 的像素直接跳过，半透明边缘不参与统计。</p>
+<p>初始中心是随机挑的，然后固定迭代 12 次。12 次不算多，但对这个样本量和 16 色以内的问题已经够收敛；再增加迭代，颜色变化通常小于一个色阶，肉眼分辨不出。</p>
+
+<h2>为什么同一张图两次结果不同</h2>
+<p>随机起点不同，最后收敛到的聚类就可能差一点。画面里有两块面积接近、颜色又接近的区域时最明显，它们可能这次被分成两类，下次并成一类。想要稳定结果，多提取几次，取反复出现的色值作为主色。</p>
+
+<h2>空簇会留下重复色</h2>
+<p>如果某一类在迭代中一个像素都没分到，程序不会重新播种，而是保留上一轮的中心。结果就是色卡里出现两个完全相同的十六进制值。看到重复色不是渲染错误，而是空簇的信号——说明你要求的颜色数超过了画面实际能分出的层次，调少一档通常就消失。</p>
+
+<h2>色卡按亮度排序，不是按占比</h2>
+<p>输出顺序是把颜色换算成亮度后由暗到亮排列，所以第一块并不等于「主色」。想知道哪个颜色占得多，需要自己回图里比对。这个排序的好处是色卡本身有层次，直接拿去做渐变或配色参考更顺眼。</p>
+
+<h2>它不能替代吸管</h2>
+<p>提取只读不写：不修改图片，不重新绘制，也不输出带色块的成品图。要精确取某一个像素的颜色，请用系统或设计软件的吸管；这里给的是整张图的代表色。当前版本也不提供色卡图片导出，需要图片可以截图，或用「图片拼接」把色块拼起来。</p>
+
+<h2>颜色数量怎么定</h2>
+<p>3–5 个适合提取品牌色、判断一张图的基调；6–10 个适合海报、封面这类需要一组配色的场景；12–16 个更接近渐变分段，但人眼一次记不住这么多，实际使用时通常还要再筛。数量越多，空簇和重复色的概率也越高。</p>
 </div>
 <div class="content-block">
 <h2>试试其它工具</h2>

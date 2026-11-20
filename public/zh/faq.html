@@ -75,7 +75,7 @@
       "name": "支持多大的图片？",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "建议单张小于 5MB、边长不超过 4000 像素。图片越大，本地运算越久，也越容易触发浏览器的内存限制。"
+        "text": "编辑器把工作画布的长边限制在 3000 像素，超过的图会先等比缩小再处理，所以手机原图可以直接用，但导出尺寸不会超过这个上限。图片越大，本地运算越久，也越容易触发浏览器的内存限制。"
       }
     },
     {
@@ -108,6 +108,46 @@
       "acceptedAnswer": {
         "@type": "Answer",
         "text": "站点通过 Google AdSense 展示广告维持运营。广告不影响任何工具的功能与使用次数，也不会影响图片处理结果。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "为什么编辑类工具只能导出 PNG？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "编辑类工具统一以 PNG 出图，避免透明区域和文字边缘被二次压缩破坏。需要 JPG、WebP 或 ICO，请再用格式转换或 ICO 生成器。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "长边超过 3000 像素的图会怎样？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "会先等比缩小到长边 3000 像素的工作画布再处理，导出尺寸不会超过这个上限。需要原始分辨率请在本机软件里处理。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "HEIC 照片能转成 JPG 吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "可以。HEIC/HEIF 只作为输入格式，进站后在格式转换里输出 JPG。能否读取取决于浏览器的解码能力。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "一次下载多张，为什么只保存了第一张？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "浏览器拦截了连续下载。允许本站下载多个文件后重新点击，并避免连续快速点击按钮。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "关掉页面后还能找回处理结果吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "不能。结果只存在当前标签页的内存里，关闭或刷新即清空，没有服务器副本可以恢复。"
       }
     }
   ]
@@ -173,7 +213,7 @@
 </div>
 <div class="faq-item">
 <div class="faq-question">支持多大的图片？</div>
-<div class="faq-answer">建议单张小于 5MB、边长不超过 4000 像素。图片越大，本地运算越久，也越容易触发浏览器的内存限制。</div>
+<div class="faq-answer">编辑器把工作画布的长边限制在 3000 像素，超过的图会先等比缩小再处理，所以手机原图可以直接用，但导出尺寸不会超过这个上限。图片越大，本地运算越久，也越容易触发浏览器的内存限制。</div>
 </div>
 <div class="faq-item">
 <div class="faq-question">为什么自动工具对有些图片效果不好？</div>
@@ -188,8 +228,24 @@
 <div class="faq-answer">可以。页面为移动端做了自适应，手机浏览器可以直接上传相册照片并处理，不过大图在手机上处理会明显慢于电脑。</div>
 </div>
 <div class="faq-item">
-<div class="faq-question">站内有广告，会影响使用吗？</div>
-<div class="faq-answer">站点通过 Google AdSense 展示广告维持运营。广告不影响任何工具的功能与使用次数，也不会影响图片处理结果。</div>
+<div class="faq-question">为什么编辑类工具只能导出 PNG？</div>
+<div class="faq-answer">编辑类工具（滤镜、尺寸、裁剪、标注、拼接、切分等）统一以 PNG 出图，这样透明区域和文字边缘不会被二次压缩破坏。需要 JPG、WebP 或 ICO，请把结果交给「格式转换」或「ICO 生成器」再存一次。</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">长边超过 3000 像素的图会怎样？</div>
+<div class="faq-answer">会先等比缩小到长边 3000 像素的工作画布，再执行操作。这是为了控制内存占用，避免大图让页面卡死。需要保留原始分辨率，请在本机软件里处理。</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">HEIC 照片能转成 JPG 吗？</div>
+<div class="faq-answer">可以。HEIC/HEIF 只作为输入格式，进站后在「格式转换」里输出 JPG 即可。能否读取取决于浏览器的解码能力，较旧的浏览器可能打不开。</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">一次下载多张，为什么只保存了第一张？</div>
+<div class="faq-answer">浏览器把连续下载当成弹窗拦截了。看地址栏右侧的提示，允许本站下载多个文件后重新点击；切分工具在每段之间留了约 350 毫秒，不要连续快速点击按钮。</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">关掉页面后还能找回处理结果吗？</div>
+<div class="faq-answer">不能。结果只存在当前标签页的内存里，关闭或刷新即清空，我们没有服务器副本可以恢复。满意后请立即下载到本地。</div>
 </div>
 </div>
 </div>

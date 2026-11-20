@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html data-lang="zh" lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>图片转 PDF 的页面几何：A4、像素与 242 dpi 的真相 | PicStudio</title>
+<meta content="为什么转出来的 PDF 有白边、为什么打印发虚、A4 与按图片尺寸该怎么选。用实际数字讲清 595.28pt、0.75 换算、2000 像素上限和 242 dpi 的关系。" name="description"/>
+<meta content="图片转PDF, A4尺寸, PDF页面大小, 242dpi, 图片转PDF白边, PDF打印清晰度" name="keywords"/>
+<link href="https://piccalc.com/zh/guides/image-to-pdf-page-geometry" rel="canonical"/>
+<meta content="index,follow,max-image-preview:large" name="robots"/>
+<meta content="article" property="og:type"/>
+<meta content="PicStudio" property="og:site_name"/>
+<meta content="zh_CN" property="og:locale"/>
+<meta content="en_US" property="og:locale:alternate"/>
+<meta content="图片转 PDF 的页面几何：A4、像素与 242 dpi 的真相" property="og:title"/>
+<meta content="为什么转出来的 PDF 有白边、为什么打印发虚、A4 与按图片尺寸该怎么选。用实际数字讲清页面尺寸与像素上限的关系。" property="og:description"/>
+<meta content="https://piccalc.com/zh/guides/image-to-pdf-page-geometry" property="og:url"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="图片转 PDF 的页面几何：A4、像素与 242 dpi 的真相" name="twitter:title"/>
+<meta content="为什么转出来的 PDF 有白边、为什么打印发虚、A4 与按图片尺寸该怎么选。用实际数字讲清页面尺寸与像素上限的关系。" name="twitter:description"/>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "图片转 PDF 的页面几何：A4、像素与 242 dpi 的真相",
+  "description": "用实际数字讲清 A4 页面尺寸、像素换算、单页上限与打印清晰度之间的关系。",
+  "inLanguage": "zh-CN",
+  "datePublished": "2026-11-20",
+  "dateModified": "2026-11-20",
+  "author": {"@type": "Organization", "name": "PicStudio", "url": "https://piccalc.com"},
+  "publisher": {"@type": "Organization", "name": "PicStudio", "url": "https://piccalc.com"},
+  "mainEntityOfPage": {"@type": "WebPage", "@id": "https://piccalc.com/zh/guides/image-to-pdf-page-geometry"},
+  "keywords": "图片转PDF, A4尺寸, PDF页面大小, 242dpi, 图片转PDF白边",
+  "articleSection": "Image Editing",
+  "wordCount": 2380
+}</script>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "PicStudio", "item": "https://piccalc.com/zh/"},
+    {"@type": "ListItem", "position": 2, "name": "图片处理指南", "item": "https://piccalc.com/zh/guides/"},
+    {"@type": "ListItem", "position": 3, "name": "图片转 PDF 的页面几何", "item": "https://piccalc.com/zh/guides/image-to-pdf-page-geometry"}
+  ]
+}</script>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "为什么转出来的 PDF 四周有白边？", "acceptedAnswer": {"@type": "Answer", "text": "A4 模式的页面是固定的 595.28×841.89pt，图片按比例缩放到页面内并居中，比例不一致时剩下的区域就是白边。要没有白边，请用“按图片尺寸”模式。"}},
+    {"@type": "Question", "name": "2000 像素够打印 A4 吗？", "acceptedAnswer": {"@type": "Answer", "text": "铺满 A4 时约等于 242 dpi，高于普通办公打印需要的 150–200 dpi，但低于印厂常要求的 300 dpi。印厂出片请用 2480×3508 像素以上的原图。"}},
+    {"@type": "Question", "name": "PDF 里的文字能搜索吗？", "acceptedAnswer": {"@type": "Answer", "text": "不能。这个工具把图片嵌入页面，不做 OCR，所以文字是图像像素，不能选中或搜索。"}},
+    {"@type": "Question", "name": "透明背景为什么变成了白色？", "acceptedAnswer": {"@type": "Answer", "text": "输出是 PDF 1.4，透明像素在写入前会合成到白色底上。需要别的底色，请先把图片背景改成目标颜色再转。"}}
+  ]
+}</script>
+<link href="/favicon.ico" rel="icon" sizes="any"/>
+<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<meta content="https://piccalc.com/og-v2.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="PicStudio 品牌分享图" property="og:image:alt"/>
+<meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
+<link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
+<style>
+.article-body{max-width:820px;margin:0 auto}
+.article-body h2{font-size:20px;margin:34px 0 12px;padding-left:12px;border-left:4px solid var(--primary)}
+.article-body h3{font-size:16px;margin:22px 0 8px}
+.article-body p{margin:12px 0;line-height:1.9;color:var(--text-secondary)}
+.article-body ul,.article-body ol{margin:12px 0 12px 22px;line-height:1.9;color:var(--text-secondary)}
+.article-body li{margin:7px 0}
+.article-body strong{color:var(--text)}
+.lead{font-size:16px;background:var(--bg-secondary);border-left:3px solid var(--primary);padding:14px 18px;border-radius:8px;margin:16px 0 26px;line-height:1.85;color:var(--text-secondary)}
+.crumb{font-size:13px;color:var(--text-muted);margin-bottom:14px}
+.crumb a{color:var(--text-muted)}
+</style>
+<style>
+html[data-lang="en"] [data-lang-block="zh"]{display:none!important}
+html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
+</style>
+<link href="https://piccalc.com/guides/image-to-pdf-page-geometry" hreflang="en" rel="alternate"/><link href="https://piccalc.com/zh/guides/image-to-pdf-page-geometry" hreflang="zh-CN" rel="alternate"/><link href="https://piccalc.com/guides/image-to-pdf-page-geometry" hreflang="x-default" rel="alternate"/></head>
+<body>
+<header class="header">
+<div class="container">
+<a class="logo" href="/zh/"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/><span class="logo-text">Pic<span class="accent">Studio</span></span></a>
+<nav class="tool-nav">
+<select id="lang-select" name="lang-select" class="lang-select" aria-label="语言" onchange="if(this.value)location.href=this.value"><option value="/guides/image-to-pdf-page-geometry">English</option><option value="/zh/guides/image-to-pdf-page-geometry" selected>中文</option></select><noscript><a href="/guides/image-to-pdf-page-geometry">English</a></noscript>
+<a href="/zh/#tools">全部工具</a>
+<a href="/zh/guides/">图片指南</a>
+<a href="/zh/privacy">隐私政策</a>
+<a href="/zh/contact">联系我们</a>
+</nav>
+</div>
+</header>
+<section class="tool-page">
+<div class="container">
+<div class="article-body">
+<div class="guide-top" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px;"><a class="guide-back" href="/zh/guides/">← 返回指南</a><div class="crumb"><a href="/zh/">首页</a> › <a href="/zh/guides/">图片指南</a> › 图片转 PDF</div></div>
+<h1>图片转 PDF 的页面几何：A4、像素与 242 dpi</h1>
+<p style="font-size:13px;color:var(--text-muted);margin:6px 0 0;">发布于 2026-11-20 · 阅读约 10 分钟</p>
+<div class="lead">「转成 PDF」听起来只是换个后缀，实际问题几乎都出在<strong>页面尺寸</strong>上：为什么四周有白边、为什么打印出来发虚、为什么文件大得发不出去。答案不在 PDF 本身，而在图片像素和纸张尺寸的换算里。</div>
+
+<div class="content-block">
+<h2>先记住两个数字：595.28 和 841.89</h2>
+<p>A4 在 PDF 的内部坐标里是 595.28 × 841.89 pt。pt 是排版单位，1 pt 等于 1/72 英寸，所以 595.28 pt ≈ 8.27 英寸 ≈ 210 毫米，841.89 pt ≈ 11.69 英寸 ≈ 297 毫米。看到这两个数就该知道：这是一张竖版 A4。</p>
+<p>本站的图片转 PDF 有两种模式，差别就在于页面由谁决定。A4 模式固定用上面这组数字，图片再按比例塞进去；「按图片尺寸」模式反过来，让页面跟着图片走，换算系数是 0.75，也就是 1 个像素当成 0.75 pt。</p>
+</div>
+
+<div class="content-block">
+<h2>A4 模式为什么会留白，而且不能靠调参数消掉</h2>
+<p>图片的比例和 A4 的比例很少刚好一致。手机照片常见 4:3 或 3:4，A4 是 1:1.414。工具的做法是等比缩放，让整张图能完整放进页面，然后居中——多出来的空白就是白边。它不会为了填满而裁掉图片边缘，因为裁切会丢内容，对合同、票据、证件这类材料不可接受。</p>
+<p>所以白边不是 bug，是「不裁切」的代价。想要零白边，只有两条路：一是改用「按图片尺寸」，页面等于图片，自然没有边；二是先在图片上把比例裁成 A4，再转。后者适合需要统一纸张、又不想留白的手册和作品集。</p>
+<div class="note-box"><p><strong>判断方法：</strong>把 PDF 放大到 200%，看白边是纯色还是带阴影。纯色且四边等宽，是页面留白；带阴影或渐变，说明白边本来就拍进了照片里，需要先去白边再转。</p></div>
+</div>
+
+<div class="content-block">
+<h2>2000 像素的单页上限，换算过来是 242 dpi</h2>
+<p>每一页嵌入的图片，长边最多 2000 像素，超过会等比缩小。这个数字放在 A4 上刚好可以算清楚：2000 ÷ 8.27 ≈ 242，也就是约 242 dpi。</p>
+<p>242 dpi 是什么水平？普通办公激光打印在 150–200 dpi 就能看清小字；照片冲印和画册通常要求 300 dpi。也就是说，这个上限对「打印出来看」是够的，对「印厂出片」不够。要真正达到 300 dpi 的 A4，需要 2480 × 3508 像素——已经超过单页上限，得换工具或直接排版。</p>
+<div class="table-wrap">
+<table class="spec">
+<thead><tr><th>用途</th><th>需要的像素（A4 铺满）</th><th>本站单页能否满足</th></tr></thead>
+<tbody>
+<tr><td>屏幕阅读、邮件附件</td><td>约 1000–1400 px 长边</td><td>可以，还有余量</td></tr>
+<tr><td>办公打印、合同、票据</td><td>约 1754–2339 px 长边（150–200 dpi）</td><td>可以，接近上限</td></tr>
+<tr><td>照片冲印、画册</td><td>2480 × 3508 px（300 dpi）</td><td>不行，会被缩到 2000 px</td></tr>
+</tbody>
+</table>
+</div>
+<p>如果只是把纸质材料电子化留档，2000 像素完全够用；如果是要交给印刷厂，请在原图阶段就保留高分辨率，并用专业排版软件输出，不要指望网页工具突破这个上限。</p>
+</div>
+
+<div class="content-block">
+<h2>「按图片尺寸」不是更清晰，只是没有白边</h2>
+<p>很多人以为选「按图片尺寸」能提高清晰度，其实它只改变页面大小，不改变像素数量。一张 1200 像素宽的图，无论哪种模式，嵌进 PDF 的仍然是 1200 像素，只是页面从 A4 变成了 900 pt 宽（1200 × 0.75）。</p>
+<p>它的实际好处有两个：文件更小，因为没有多余的白边区域需要描述；在手机上阅读更满，不用双指放大。适合做电子说明书、聊天记录汇总、设计稿预览。缺点是打印时纸张大小不标准，打印店可能需要重新排版。</p>
+</div>
+
+<div class="content-block">
+<h2>JPEG 质量：85 是一个稳妥的起点</h2>
+<p>质量范围 50–100，默认 85。它只影响嵌入 PDF 的那份位图，不会改动你的原文件，所以可以放心多试几次。</p>
+<ul>
+<li><strong>文字截图、表格：</strong>保持 85。低于 80 时，细笔画周围会出现蚊状噪点，打印出来更明显。</li>
+<li><strong>大面积纯色插画：</strong>可以降到 70，体积下降明显，肉眼几乎看不出。</li>
+<li><strong>扫描件、手写稿：</strong>不要低于 80。纸张纹理和铅笔灰阶最容易被压成块状。</li>
+</ul>
+<p>如果目标是把 30 页的材料压到 10 MB 以内，先降像素比先降质量更有效：把每页长边从 2000 降到 1500，体积大约降到原来的 56%，而清晰度损失比质量从 85 降到 60 更可控。</p>
+</div>
+
+<div class="content-block">
+<h2>透明背景会变成白色</h2>
+<p>输出格式是 PDF 1.4，这条写入链路不保留 alpha 通道，透明像素在合成阶段会被铺到白底上。PNG logo 直接转 PDF，边缘可能出现一圈白，放在深色页面上尤其明显。</p>
+<p>要避免，先把图片的背景改成目标底色再转：深色文档就填深色，米色纸张就填米色。这个步骤在「边框与留白」或「格式转换」里都能做，不需要专业软件。</p>
+</div>
+
+<div class="content-block">
+<h2>它做不到的四件事</h2>
+<p><strong>不做 OCR。</strong>PDF 里的文字是图像，不能选中、不能搜索、不能复制。需要可检索的文字，请用扫描类 App 的识别功能。</p>
+<p><strong>不自动转正。</strong>横着拍的文件转出来还是横的。转之前先用「旋转与镜像」摆正，否则阅读器里要手动转页。</p>
+<p><strong>不加书签和页码。</strong>多页材料没有目录，也没有页脚编号。需要这些，请在 PDF 编辑器里补。</p>
+<p><strong>不加密、不签名。</strong>文件生成后任何人都能打开和编辑，敏感材料请自行加密码。</p>
+</div>
+
+<div class="content-block">
+<h2>一套不会返工的操作顺序</h2>
+<ol class="steps">
+<li><strong>先处理单页图片。</strong>去白边、摆正方向、统一尺寸。顺序错了，后面每一步都要重来。</li>
+<li><strong>按用途选页面。</strong>要打印选 A4，只做电子传递选「按图片尺寸」。</li>
+<li><strong>调质量并生成。</strong>先用默认 85，看体积再决定要不要降。</li>
+<li><strong>在阅读器里翻一遍。</strong>重点看页序、方向、有没有半页空白，以及最后一页是否完整。</li>
+</ol>
+<p>页序由文件列表决定，不是文件名。批量选择时浏览器给的顺序常常和资源管理器不一致，生成前一定在列表里核对一遍。</p>
+</div>
+
+<div class="content-block">
+<h2>常见问题</h2>
+<div class="faq-list">
+<div class="faq-item"><div class="faq-question">为什么转出来只有几页，后面的图不见了？</div><div class="faq-answer">多半是其中一张图解码失败（常见于损坏的 HEIC 或扩展名与实际格式不符）。把可疑文件单独转成 PNG 再试，能快速定位。</div></div>
+<div class="faq-item"><div class="faq-question">文件超过 20 MB 发不出去怎么办？</div><div class="faq-answer">先把每页长边降到 1500 像素，再把质量降到 75。两步一起做，通常能压到原来的三分之一，比只降质量更有效。</div></div>
+<div class="faq-item"><div class="faq-question">PDF 打印出来比屏幕暗，是工具的问题吗？</div><div class="faq-answer">不是。屏幕是发光显示，纸张是反射，暗部天生会显得更闷。重要材料建议先打一张样张，再决定要不要整体提亮。</div></div>
+<div class="faq-item"><div class="faq-question">能不能把 PDF 再转回图片？</div><div class="faq-answer">本站不提供 PDF 转图片。需要拆页，请用 PDF 阅读器的导出功能或桌面软件。</div></div>
+</div>
+</div>
+
+<div class="content-block">
+<h2>相关工具</h2>
+<div class="related-tools">
+<a class="related-tool" href="/zh/tools/to-pdf"><span>📄</span><span>图片转 PDF</span></a>
+<a class="related-tool" href="/zh/tools/trim-edges"><span>🪄</span><span>自动去白边</span></a>
+<a class="related-tool" href="/zh/tools/resize"><span>📐</span><span>尺寸调整</span></a>
+<a class="related-tool" href="/zh/guides/long-screenshot-stitch-split"><span>📚</span><span>长截图拼接与切分</span></a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<footer class="footer">
+<div class="container">
+<div class="footer-content">
+<div class="footer-brand"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/><span class="logo-text">Pic<span class="accent">Studio</span></span></div>
+<p class="footer-desc">免费的在线图片处理工具，所有处理在浏览器本地完成</p>
+</div>
+<div class="footer-links">
+<a href="/zh/#tools">全部工具</a>
+<a href="/zh/guides/">图片指南</a>
+<a href="/zh/about">关于我们</a>
+<a href="/zh/contact">联系我们</a>
+<a href="/zh/faq">常见问题</a>
+<a href="/zh/privacy">隐私政策</a>
+<a href="/zh/terms">使用条款</a>
+</div>
+<div class="footer-bottom">
+<p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
+<p>&amp;copy; 2026 PicStudio. 保留所有权利。</p>
+</div>
+</div>
+</footer>
+<script src="/zh/assets/js/main.js?v=20261111g"></script>
+<script src="/zh/assets/js/i18n-dict.js?v=20261108ml"></script>
+<script src="/zh/assets/js/i18n.js?v=20261108ml"></script>
+<script src="/zh/assets/js/ux.js?v=20261108ml"></script>
+</body>
+</html>

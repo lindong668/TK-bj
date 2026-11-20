@@ -135,6 +135,9 @@
 <h1><span>🔍 双图对比</span></h1>
 <p><span>用滑块对照两张图，或直接高亮出哪些像素变了。</span></p>
 </div>
+<noscript><div id="nojsNotice" style="margin:18px 0;padding:14px 18px;border-left:3px solid #f59e0b;background:rgba(245,158,11,.09);border-radius:6px;">
+<p style="margin:0;font-size:14px;line-height:1.8;color:var(--text-secondary,#475569);"><strong>图片处理需要 JavaScript。</strong>对比在浏览器里合成，脚本被禁用时无法启动。下面的画布规则、差异计算方式和导出说明都是静态 HTML，可以直接阅读。</p>
+</div></noscript>
 <div class="upload-area" id="uploadArea">
 <div class="upload-icon">📁</div>
 <div class="upload-text">点击或拖拽图片到这里</div>
@@ -221,6 +224,27 @@
 <div class="faq-item"><div class="faq-question"><span>差异图为什么有噪点？</span></div><div class="faq-answer"><span>JPEG 压缩和二次编码会让像素值轻微偏移，有损图源会有噪点；用 PNG 做差异最干净。</span></div></div>
 <div class="faq-item"><div class="faq-question"><span>能对比 HEIC 照片吗？</span></div><div class="faq-answer"><span>可以。浏览器原生读不了时，HEIC/HEIF 会在 Web Worker 里本地解码。</span></div></div>
 <div class="faq-item"><div class="faq-question"><span>图片会上传吗？</span></div><div class="faq-answer"><span>不会。两张图都留在浏览器里，只绘制到本地 canvas。</span></div></div>
+</div>
+<div class="content-block" data-static-copy="image-compare">
+<h2>画布尺寸永远取 A</h2>
+<p>对比画布按第一张图（A）的宽高建立，A 不会被缩放，它是对比的基准。B 与 A 尺寸不同时，默认把 B 拉伸铺满 A 的画布；取消「尺寸不同时把 B 拉伸到 A 的画布」后，B 按原始比例绘制，多出的部分留空。</p>
+<p>这条规则决定了一个常见结果：A 的尺寸小、B 的尺寸大时，B 会被压小，细节可能被抹掉。想公平比较细节，先把两张图裁成同一尺寸。</p>
+
+<h2>差异高亮只算一次</h2>
+<p>拖动滑块只是移动遮罩，不重新计算，所以很顺。勾选差异高亮或点「对比 / 刷新」时才做一次逐像素比较，把不同的位置标出来。这也是为什么拖滑块流畅、切到差异模式会顿一下——它在遍历整张画布。</p>
+<p>改动图片后要重新勾选或刷新，高亮不会自动跟着变。</p>
+
+<h2>它不给相似度分数</h2>
+<p>这页不计算 PSNR、SSIM 之类的指标，也不判断「哪张更好」。它只把两张图叠在一起让你用眼睛看。需要客观数值，请用专门的图像质量工具；需要看文字有没有改错，人眼仍然是最可靠的。</p>
+
+<h2>尺寸不一致的三种处理</h2>
+<p>最稳妥的是先把两张图裁成同一尺寸再对比；其次是让 B 拉伸，适合看整体构图差异；最后是取消拉伸，适合看局部内容是否被裁掉。拉伸会让 B 变形，判断文字和线条时不要用它。</p>
+
+<h2>输出</h2>
+<p>当前画布可以导出为 PNG，尺寸等于 A。透明区域保留，滑块线条和标签会一并画进去，用作说明图正合适；需要干净的成品图，请分别导出两张原图。</p>
+
+<h2>适合与不适合的场景</h2>
+<p>适合：修图前后对比、压缩前后细节检查、两个版本的设计稿核对、截图里的文字改动确认。不适合：色彩管理（浏览器会统一到 sRGB，广色域差异看不出来）、动画逐帧对比、超过画布上限的超大图。</p>
 </div>
 <div class="content-block">
 <h2>试试其它工具</h2>

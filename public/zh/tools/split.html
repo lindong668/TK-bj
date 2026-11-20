@@ -146,6 +146,9 @@
 .result-box h3{font-size:1rem;color:var(--text-primary);margin-bottom:10px}
 .result-box img{max-width:100%;max-height:480px;border-radius:10px;border:1px solid var(--border);background:var(--bg-dark)}
 @media(max-width:640px){.thumb-item{width:calc(50% - 6px)}}</style>
+<noscript><div id="nojsNotice" style="margin:18px 0;padding:14px 18px;border-left:3px solid #f59e0b;background:rgba(245,158,11,.09);border-radius:6px;">
+<p style="margin:0;font-size:14px;line-height:1.8;color:var(--text-secondary,#475569);"><strong>图片处理需要 JavaScript。</strong>切分在浏览器里完成，脚本被禁用时无法启动。下面的切分算法、下载限制和常见问题都是静态 HTML，可以直接阅读。</p>
+</div></noscript>
 <div class="upload-area" id="uploadArea">
 <div class="upload-icon">📁</div>
 <div class="upload-text">点击或拖拽长图到这里</div>
@@ -212,6 +215,25 @@
 <div class="content-block">
 <h2>关于长图分割的常见问题</h2>
 <div class="faq-item"><h3>分割后画质会变差吗？</h3><p>不会。分割是纯粹的像素复制，不做缩放或压缩重编码，每段都与原图对应区域完全一致。</p></div><div class="faq-item"><h3>能横向分割吗？</h3><p>当前版本只支持纵向（按高度）分割，这是长图最常见的需求。横向需求可以先用「智能裁剪」处理。</p></div><div class="faq-item"><h3>一次下载全部会漏文件吗？</h3><p>浏览器对连续下载有频率限制，所以工具在每段之间加了 350 毫秒间隔。如果浏览器提示"是否允许下载多个文件"，请选择允许。</p></div><div class="faq-item"><h3>最多能切多少份？</h3><p>按份数最多 20 份；按高度则取决于原图总高度，理论上没有上限。</p></div>
+</div>
+<div class="content-block" data-static-copy="split">
+<h2>按份数和按高度是两套算法</h2>
+<p>按份数：可选 2–20 份，每份高度 = ceil(总高 ÷ 份数)。除不尽时，余数全部落在最后一段，所以最后一段可能比前面矮几个像素，甚至明显更矮。</p>
+<p>按高度：每段固定 100–8000 像素，前几段严格等高，最后一段吸收剩下的部分。比如 5000 像素的图按 1800 切，得到 1800、1800、1400 三段，而不是 1667×3。</p>
+
+<h2>切点落在文字行上怎么办</h2>
+<p>算法只按像素切，不认识内容。长截图里正好切在一行字中间时，两段各留半行，拼回去看着很难受。解决办法是把「按高度」调小 20–40 像素，让切点落进段落间距；或者先切，再把不合适的那一段单独重切一次。</p>
+<p>聊天记录另有一个技巧：按每屏的高度切（常见手机截图单屏约 1600–2400 像素），比按固定份数更接近阅读节奏。</p>
+
+<h2>为什么要等 350 毫秒</h2>
+<p>连续触发下载时，浏览器会把后面的文件当成弹窗拦截。这页在每段之间加了约 350 毫秒间隔，并在第一次下载时请求「允许下载多个文件」。如果仍然只拿到第一段，看地址栏右侧的拦截提示，允许后重新点下载。</p>
+<p>文件很多时不要连点按钮。等所有分段下载完再操作，避免重复触发。</p>
+
+<h2>只支持纵向</h2>
+<p>长图、聊天记录、网页整页截图都是纵向的，所以这页只做上下切分。需要左右切分，请用「裁剪」按区域分别导出，或用「图片拼接」把顺序反过来理解。</p>
+
+<h2>无损与体积</h2>
+<p>每一段都是原图的像素复制，不缩放、不重新编码压缩，放大看边缘和原图一致。输出格式是 PNG，所以全部加起来会比原 JPG 大，这是无损的代价。要控制体积，先压缩原图再切。</p>
 </div>
 <div class="content-block">
 <h2>试试其它工具</h2>

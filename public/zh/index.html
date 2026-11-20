@@ -406,6 +406,71 @@
 </div>
 </div>
 </section>
+<!-- V72 · 中文首页新增：组合流程、格式能力表、更新说明，added 2026-11-20 -->
+<section class="tools" id="workflows">
+<div class="container">
+<h2 class="section-title">四个真实任务，一个工具做不完</h2>
+<p style="text-align:center;color:var(--text-muted);font-size:14px;max-width:760px;margin:-10px auto 24px;">实际工作里更常见的是一串操作，而不是点一下就好。下面四种组合是这里用得最多的，顺序和每一步的边界都写清楚了，照着做不会在中途返工。</p>
+<div class="tools-grid">
+<a class="tool-card" href="/zh/tools/icon-maker">
+<span class="tool-icon">🎯</span>
+<span class="tool-name">1 · 给新站做一套 favicon</span>
+<span class="tool-desc">上传一张接近正方形的图，把裁剪框对准标志，勾选 16 / 32 / 48 / 64 / 128 / 256，下载一个多尺寸 <code>.ico</code>。iOS 主屏图标另存一张 180 px 的 PNG。二维码或一行小字在 16 px 下会糊成一团，32 px 以下请改用字母或纯色块。</span>
+</a>
+<a class="tool-card" href="/zh/tools/trim-edges">
+<span class="tool-icon">🛍️</span>
+<span class="tool-name">2 · 电商平台上架图</span>
+<span class="tool-desc">自动去白边先裁掉影棚留白 → 裁剪把每张统一成方形 → 尺寸调整套 800×800 预设，画面完全一致 → 压缩把单张压到平台上限。压缩一定放最后：先压再缩会把压缩痕迹放大成色块。</span>
+</a>
+<a class="tool-card" href="/zh/tools/stitch">
+<span class="tool-icon">📱</span>
+<span class="tool-name">3 · 先拼长图，再切片</span>
+<span class="tool-desc">同宽截图用竖拼、间隔设 0 合成一张长图 → 按固定高度切分，1500 px 正好覆盖大多数聊天窗口和票据页面。切分只是复制像素、不重新缩放，所以末段依然清晰，但总文件大小基本不变。</span>
+</a>
+<a class="tool-card" href="/zh/tools/to-pdf">
+<span class="tool-icon">🖨️</span>
+<span class="tool-name">4 · 扫描件合成可打印 PDF</span>
+<span class="tool-desc">去白边 → 页面方向不对就先用旋转与镜像摆正 → 图片转 PDF 选 A4、质量 85。单页上限 2000 px，铺满 A4 约等于 242 dpi，办公打印够用，但达不到印厂常要的 300 dpi。透明区域会被压到白底上。</span>
+</a>
+</div>
+
+<div class="content-block" style="max-width:860px;margin:34px auto 0;">
+<h2 style="font-size:1.2rem;color:var(--text-primary);margin-bottom:12px;">每种格式能带什么、不能带什么</h2>
+<table style="width:100%;border-collapse:collapse;font-size:.9rem;">
+<thead>
+<tr>
+<th style="border:1px solid var(--border);padding:9px 11px;text-align:left;background:var(--bg-dark);">格式</th>
+<th style="border:1px solid var(--border);padding:9px 11px;text-align:left;background:var(--bg-dark);">透明</th>
+<th style="border:1px solid var(--border);padding:9px 11px;text-align:left;background:var(--bg-dark);">动画</th>
+<th style="border:1px solid var(--border);padding:9px 11px;text-align:left;background:var(--bg-dark);">本站能否输出</th>
+</tr>
+</thead>
+<tbody style="color:var(--text-secondary);">
+<tr><td style="border:1px solid var(--border);padding:9px 11px;">PNG</td><td style="border:1px solid var(--border);padding:9px 11px;">支持，8 位 alpha</td><td style="border:1px solid var(--border);padding:9px 11px;">不支持（只取首帧）</td><td style="border:1px solid var(--border);padding:9px 11px;">所有编辑器的默认输出</td></tr>
+<tr><td style="border:1px solid var(--border);padding:9px 11px;">JPG</td><td style="border:1px solid var(--border);padding:9px 11px;">无，透明会被压平</td><td style="border:1px solid var(--border);padding:9px 11px;">不支持</td><td style="border:1px solid var(--border);padding:9px 11px;">仅「格式转换」</td></tr>
+<tr><td style="border:1px solid var(--border);padding:9px 11px;">WebP</td><td style="border:1px solid var(--border);padding:9px 11px;">支持，有损/无损均可</td><td style="border:1px solid var(--border);padding:9px 11px;">格式支持，本站不输出动画</td><td style="border:1px solid var(--border);padding:9px 11px;">仅「格式转换」</td></tr>
+<tr><td style="border:1px solid var(--border);padding:9px 11px;">AVIF</td><td style="border:1px solid var(--border);padding:9px 11px;">支持</td><td style="border:1px solid var(--border);padding:9px 11px;">格式支持，本站不输出动画</td><td style="border:1px solid var(--border);padding:9px 11px;">仅输入，解码取决于浏览器</td></tr>
+<tr><td style="border:1px solid var(--border);padding:9px 11px;">HEIC / HEIF</td><td style="border:1px solid var(--border);padding:9px 11px;">很少使用</td><td style="border:1px solid var(--border);padding:9px 11px;">实况照片会丢失动态</td><td style="border:1px solid var(--border);padding:9px 11px;">仅输入，浏览器没有编码器</td></tr>
+<tr><td style="border:1px solid var(--border);padding:9px 11px;">GIF</td><td style="border:1px solid var(--border);padding:9px 11px;">仅 1 位透明</td><td style="border:1px solid var(--border);padding:9px 11px;">格式支持，本站按静态图读取</td><td style="border:1px solid var(--border);padding:9px 11px;">仅输入</td></tr>
+<tr><td style="border:1px solid var(--border);padding:9px 11px;">SVG</td><td style="border:1px solid var(--border);padding:9px 11px;">支持</td><td style="border:1px solid var(--border);padding:9px 11px;">源文件可含动画</td><td style="border:1px solid var(--border);padding:9px 11px;">不输出，加载时已栅格化</td></tr>
+<tr><td style="border:1px solid var(--border);padding:9px 11px;">ICO</td><td style="border:1px solid var(--border);padding:9px 11px;">支持，按单个尺寸</td><td style="border:1px solid var(--border);padding:9px 11px;">不支持</td><td style="border:1px solid var(--border);padding:9px 11px;">「ICO 生成器」可输出 16–256 px</td></tr>
+</tbody>
+</table>
+<p style="color:var(--text-secondary);font-size:.86rem;line-height:1.75;margin-top:10px;">一条实用规则：先定格式，再动手编辑。JPG 在不同工具里反复保存三次，压缩损伤会叠加；用 PNG 做中间文件，每一步都是干净的，最后统一转一次即可。</p>
+</div>
+
+<div class="content-block" style="max-width:860px;margin:26px auto 0;">
+<h2 style="font-size:1.2rem;color:var(--text-primary);margin-bottom:10px;">更新说明 · 2026 年 11 月 20 日</h2>
+<ul style="color:var(--text-secondary);line-height:1.85;padding-left:20px;margin:0;">
+<li>新增四篇实测指南：<a href="/zh/guides/image-to-pdf-page-geometry">图片转 PDF 的页面几何</a>、<a href="/zh/guides/long-screenshot-stitch-split">长截图的拼接与切分</a>、<a href="/zh/guides/colour-palette-from-photo">从照片提取配色</a>、<a href="/zh/guides/trim-uniform-borders">裁掉均匀边框</a>。</li>
+<li>每个工具页都补上了完整说明——做法、上限、失败原因和常见问题——以纯 HTML 呈现，关闭 JavaScript 也能读完。</li>
+<li>工具页页脚不再显示内部构建号，带日期的变更记录统一放在<a href="/zh/guides/changelog">更新日志</a>。</li>
+</ul>
+</div>
+
+<p style="text-align:center;color:var(--text-muted);font-size:14px;margin:22px 0 0;">卡在某个具体问题上？<a href="/zh/faq">看常见问题</a>、翻<a href="/zh/guides/">图片指南</a>，或<a href="/zh/contact">把细节发给我们</a>。</p>
+</div>
+</section>
 <div class="ad-block">
 <div class="ad-slot"><ins class="adsbygoogle ps-ad" style="display:block" data-ps-slot="HOME_INLINE" data-ad-client="ca-pub-8915931557404979" data-ad-slot="1784463687" data-ad-format="auto" data-full-width-responsive="true"></ins></div>
 </div>

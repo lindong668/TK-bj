@@ -135,6 +135,9 @@
 <h1><span>🔄 旋转与镜像</span></h1>
 <p><span>把拍歪的照片扶正、给自拍做镜像、把扫描件转到任意角度，边角干净。</span></p>
 </div>
+<noscript><div id="nojsNotice" style="margin:18px 0;padding:14px 18px;border-left:3px solid #f59e0b;background:rgba(245,158,11,.09);border-radius:6px;">
+<p style="margin:0;font-size:14px;line-height:1.8;color:var(--text-secondary,#475569);"><strong>图片处理需要 JavaScript。</strong>旋转在浏览器画布上完成，脚本被禁用时无法启动。下面的角度规则、空白角填充和输出说明都是静态 HTML，可以直接阅读。</p>
+</div></noscript>
 <div class="upload-area" id="uploadArea">
 <div class="upload-icon">📁</div>
 <div class="upload-text">点击或拖拽图片到这里</div>
@@ -219,6 +222,27 @@
 <div class="faq-item"><div class="faq-question"><span>为什么旋转后边角是空的？</span></div><div class="faq-answer"><span>矩形旋转后不再填满水平的外接框。可以选填充色，或保持透明并导出 PNG。</span></div></div>
 <div class="faq-item"><div class="faq-question"><span>JPG 旋转后能保留透明吗？</span></div><div class="faq-answer"><span>JPG 本身没有 alpha 通道。需要透明角就下载 PNG（本工具默认就是 PNG）。</span></div></div>
 <div class="faq-item"><div class="faq-question"><span>照片会上传吗？</span></div><div class="faq-answer"><span>不会。旋转与镜像都是浏览器内的 Canvas 运算，文件从不离开设备。</span></div></div>
+</div>
+<div class="content-block" data-static-copy="id-photo">
+<h2>任意角度旋转后，四个角去哪了</h2>
+<p>把矩形转 15°，原图的四个角会转到画布外面，同时画布四角空出三角形区域。这页提供四种填充：透明、白色、黑色、自定义颜色。填充只作用于空白角，不会盖住原图内容。</p>
+<p>透明导出的 PNG 可以直接叠到别的背景上；白色适合打印和文档，也最接近扫描件的底色；黑色适合深色海报；自定义颜色用来匹配页面底色，避免出现一圈突兀的白角。</p>
+
+<h2>90° 快捷操作与任意角度的分工</h2>
+<p>90°、180° 和水平/垂直镜像走快捷按钮，结果边界整齐、没有空白角，适合纠正手机拍摄方向、翻拍稿和倒置的扫描件。任意角度滑块范围 −180° 到 180°，会产生空白角，适合把拍歪的文档摆正。</p>
+<p>两者可以叠加：先点 90° 把方向摆对，再用滑块微调 1–3°，比直接从原图拉一个大角度更容易控制。</p>
+
+<h2>镜像不改变画质</h2>
+<p>水平镜像左右翻转，垂直镜像上下翻转，像素值本身没有重采样，所以画质不会有任何损失。自拍矫正、检查设计稿对称性、翻拍文字时常用。注意镜像后的文字是反的，需要保持可读就不要用。</p>
+
+<h2>3000 像素的工作画布</h2>
+<p>旋转在长边不超过 3000 像素的工作画布上完成。更大的原图会先等比缩小；旋转后画布可能略微增大，但仍在同一量级。需要原始分辨率，请用本地软件处理。</p>
+
+<h2>输出与格式</h2>
+<p>默认导出 PNG，透明角才保得住。JPG 没有 alpha 通道，想要透明就得选 PNG；选白色或自定义色填充时，导出 JPG 再交给「格式转换」也可以。输入支持 HEIC/HEIF，仅作为来源，本站不导出 HEIC。</p>
+
+<h2>这一页不是证件照制作</h2>
+<p>页面地址里带着 id-photo，但实际功能是旋转与镜像，不提供换底、排版和证件照尺寸模板。需要一寸、二寸等规格，请先用「裁剪」按标准像素裁好，再用这一页把画面摆正。</p>
 </div>
 <div class="content-block">
 <h2>试试其它工具</h2>

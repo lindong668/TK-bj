@@ -135,6 +135,9 @@
 <h1><span>✏️ 图片标注</span></h1>
 <p><span>给截图或照片加箭头、方框、步骤序号和文字气泡。</span></p>
 </div>
+<noscript><div id="nojsNotice" style="margin:18px 0;padding:14px 18px;border-left:3px solid #f59e0b;background:rgba(245,158,11,.09);border-radius:6px;">
+<p style="margin:0;font-size:14px;line-height:1.8;color:var(--text-secondary,#475569);"><strong>图片处理需要 JavaScript。</strong>标注在浏览器画布上绘制，脚本被禁用时无法启动。下面的线宽换算、导出规则和适用边界都是静态 HTML，可以直接阅读。</p>
+</div></noscript>
 <div class="upload-area" id="uploadArea">
 <div class="upload-icon">📁</div>
 <div class="upload-text">点击或拖拽图片到这里</div>
@@ -221,9 +224,32 @@
 <div class="content-block">
 <h2><span>常见问题</span></h2>
 <div class="faq-item"><div class="faq-question"><span>放好之后还能改吗？</span></div><div class="faq-answer"><span>可以撤销最后一条，或清空重来；本版本不支持单独编辑某一条。</span></div></div>
-<div class="faq-item"><div class="faq-question"><span>导出会降低分辨率吗？</span></div><div class="faq-answer"><span>不会。画布保持原图像素尺寸，导出的 PNG 与源图 1:1。</span></div></div>
+<div class="faq-item"><div class="faq-question"><span>导出会降低分辨率吗？</span></div><div class="faq-answer"><span>原图长边不超过 3000 像素时，导出与源图 1:1；超过时画布会先等比缩到 3000 像素，再按这个尺寸导出。</span></div></div>
 <div class="faq-item"><div class="faq-question"><span>气泡文字为什么会溢出？</span></div><div class="faq-answer"><span>很长的文字只画一行。请把气泡文字写短，或拆成多个气泡。</span></div></div>
 <div class="faq-item"><div class="faq-question"><span>图片会上传吗？</span></div><div class="faq-answer"><span>不会，绘制和导出都是本地 Canvas 运算。</span></div></div>
+</div>
+<div class="content-block" data-static-copy="image-annotate">
+<h2>线宽会按画布比例换算</h2>
+<p>你在屏幕上看到的线宽是显示像素，导出时按实际图片尺寸与显示尺寸的比例换算：线宽 × 缩放比。所以预览里 4 px 的箭头，画到 3000 像素的原图上仍然是视觉上的 4 px，不会因为画布被浏览器压小而变成一条细线。</p>
+<p>反过来也成立：如果原图只有 600 像素宽，4 px 的线占比很大，导出后会显得很粗。给小图做标注时先把线宽降到 2–3。</p>
+
+<h2>导出即合并，不能再编辑</h2>
+<p>下载的是「原图 + 图形」压平后的 PNG，箭头、方框、序号、气泡都成了像素，不能单独拖动或改颜色。页面里的撤销只对当前编辑有效，下载后无法回退。需要保留可编辑版本，请自己留一份未标注的原图。</p>
+
+<h2>四种工具的适用场合</h2>
+<p><strong>箭头：</strong>指出位置，适合截图里的按钮、菜单项或报错行。箭头的尖端要落在目标上，尾巴留出一点距离，指向才清楚。</p>
+<p><strong>方框：</strong>圈定一块区域，适合表格里的某一行、聊天里的某句话。框太大会让人不知道重点在哪。</p>
+<p><strong>序号：</strong>写步骤，配合简短的文字说明。一张图里超过 6 个序号就很难跟读，宁可拆成两张。</p>
+<p><strong>气泡：</strong>放一两句备注。它只画一行，文字长了会溢出，这是最大的限制；写不下就拆成多个气泡，或改用序号加图外说明。</p>
+
+<h2>不要用它做隐私打码</h2>
+<p>半透明笔迹、细线方框都可能留下可辨认的轮廓，放大或调对比度后仍能读出内容。遮盖手机号、地址、人脸，请用「马赛克」把区域彻底像素化，不要用标注工具画个框就当打码。</p>
+
+<h2>3000 像素与输出格式</h2>
+<p>工作画布长边上限 3000 像素，超过会先等比缩小，标注坐标按缩小后的画布换算。结果固定导出 PNG，透明区域保留；要 JPG 请再用「格式转换」。</p>
+
+<h2>标注前的三个准备</h2>
+<p>先确定观看场景：发在聊天里的小图，字号和线宽都要加大；放进文档的大图，细线更耐看。再确定颜色：红色最醒目，但在红色主体上会消失，深色截图用黄色或白色更稳。最后想清楚只标一处还是多处——标得越多，读者越难判断哪个最重要。</p>
 </div>
 <div class="content-block">
 <h2>试试其它工具</h2>

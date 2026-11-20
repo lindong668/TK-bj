@@ -146,6 +146,9 @@
 .result-box h3{font-size:1rem;color:var(--text-primary);margin-bottom:10px}
 .result-box img{max-width:100%;max-height:480px;border-radius:10px;border:1px solid var(--border);background:var(--bg-dark)}
 @media(max-width:640px){.thumb-item{width:calc(50% - 6px)}}</style>
+<noscript><div id="nojsNotice" style="margin:18px 0;padding:14px 18px;border-left:3px solid #f59e0b;background:rgba(245,158,11,.09);border-radius:6px;">
+<p style="margin:0;font-size:14px;line-height:1.8;color:var(--text-secondary,#475569);"><strong>图片处理需要 JavaScript。</strong>拼接在浏览器画布上完成，脚本被禁用时无法启动。下面的尺寸计算、三种布局差异和上限说明都是静态 HTML，可以直接阅读。</p>
+</div></noscript>
 <div class="upload-area" id="uploadArea">
 <div class="upload-icon">📁</div>
 <div class="upload-text">点击或拖拽图片到这里</div>
@@ -221,6 +224,35 @@
 <div class="content-block">
 <h2>关于图片拼接的常见问题</h2>
 <div class="faq-item"><h3>最多能拼多少张？</h3><p>没有硬性限制，但总像素不能超过浏览器 Canvas 上限（约 16000×16000）。几十张普通照片通常没问题。</p></div><div class="faq-item"><h3>图片大小不一致怎么办？</h3><p>会用背景色填充留白。如果想统一，可以先用「智能裁剪」把所有图裁成相同比例再拼接。</p></div><div class="faq-item"><h3>拼出来的图太大能压缩吗？</h3><p>可以。下载后用「图片压缩」工具减小体积，或在拼接前先把每张图压缩好。</p></div><div class="faq-item"><h3>能自动按顺序排列吗？</h3><p>按你选择文件的顺序排列，可用 ↑ ↓ 按钮手动调整。文件名排序功能会在后续版本加入。</p></div>
+</div>
+<div class="content-block" data-static-copy="stitch">
+<h2>三种布局的像素账</h2>
+<div class="table-wrap">
+<table class="spec">
+<tbody>
+<tr><th>纵向（上下）</th><td>宽 = 各图最大宽，高 = 各图高之和 + 间隔；不缩放，按对齐方式留白</td></tr>
+<tr><th>横向（左右）</th><td>高 = 各图最大高，宽 = 各图宽之和 + 间隔；不缩放</td></tr>
+<tr><th>九宫格</th><td>格子 = 最大宽 × 最大高，列数 2–6；每张图按“填满格子”缩放并裁掉溢出部分</td></tr>
+</tbody>
+</table>
+</div>
+<p>很多人没注意到九宫格和竖拼的行为不同：竖拼、横拼从不改图片尺寸，比例不一的图会留白；九宫格为了让每格填满，会把图放大到刚好覆盖格子，再裁掉多出来的边。做九宫格前最好先把图裁成同一比例，否则主体可能被裁掉。</p>
+
+<h2>“不缩放”在竖拼里意味着什么</h2>
+<p>这页的竖拼和横拼不做重采样，所以不会因为拼接掉画质，但也不会自动对齐。两张宽度差 200 像素的长截图竖着拼，窄的那张两侧会各留 100 像素背景。要严丝合缝，先用「调整尺寸」把宽度统一，再回来拼。</p>
+<p>对齐方式只影响窄图在空白里的位置：居中、靠上/左、靠下/右。选哪种取决于内容——网页截图通常居中更自然，文档扫描件靠上对齐更整齐。</p>
+
+<h2>间隔 0–60 像素，默认 8</h2>
+<p>间隔区域填背景色。透明底导出后仍是透明，白色底就是白缝。做长图教程时 8–16 像素看起来最自然；做对比图时用 0，让两张图直接贴边。间隔是加在每两张图之间的，不是四周外边距。</p>
+
+<h2>画布上限</h2>
+<p>浏览器 canvas 有单边和总像素上限，不同内核不一样，常见单边上限在 1.6 万到 3.2 万像素之间。竖拼超过这个高度会失败或只画出一部分，尤其是在手机上。需要极长的图，先把每张图缩小，或分段拼接后再用其他方式合并。</p>
+
+<h2>顺序由文件列表决定</h2>
+<p>拼接顺序就是文件加入的顺序，不是文件名顺序。批量选择时浏览器给的顺序不一定和资源管理器一致，拼之前先看一遍列表，用上下按钮调整。文件名排序功能当前版本没有提供。</p>
+
+<h2>输出</h2>
+<p>结果导出 PNG，不写入拍摄信息，也不做额外压缩。拼接后的文件通常比单张大不少，需要小体积请再用「图片压缩」处理。</p>
 </div>
 <div class="content-block">
 <h2>试试其它工具</h2>

@@ -146,6 +146,9 @@
 .result-box h3{font-size:1rem;color:var(--text-primary);margin-bottom:10px}
 .result-box img{max-width:100%;max-height:480px;border-radius:10px;border:1px solid var(--border);background:var(--bg-dark)}
 @media(max-width:640px){.thumb-item{width:calc(50% - 6px)}}</style>
+<noscript><div id="nojsNotice" style="margin:18px 0;padding:14px 18px;border-left:3px solid #f59e0b;background:rgba(245,158,11,.09);border-radius:6px;">
+<p style="margin:0;font-size:14px;line-height:1.8;color:var(--text-secondary,#475569);"><strong>图片处理需要 JavaScript。</strong>PDF 在浏览器里组装，脚本被禁用时无法启动。下面的页面尺寸、像素上限和格式限制都是静态 HTML，可以直接阅读。</p>
+</div></noscript>
 <div class="upload-area" id="uploadArea">
 <div class="upload-icon">📁</div>
 <div class="upload-text">点击或拖拽图片到这里</div>
@@ -205,6 +208,27 @@
 <div class="content-block">
 <h2>关于图片转PDF的常见问题</h2>
 <div class="faq-item"><h3>生成的 PDF 能打印吗？</h3><p>能。选 A4 尺寸时页面就是标准打印尺寸，图片居中留白，直接打印即可。</p></div><div class="faq-item"><h3>为什么图片被缩小了？</h3><p>为保证生成速度和文件体积，单页超过 2000 像素会自动等比缩小。打印用途下 2000 像素已足够清晰。</p></div><div class="faq-item"><h3>PDF 里的文字可以选中吗？</h3><p>不能。本工具是把整张图片嵌入 PDF，不做文字识别（OCR），所以文字是图像的一部分，无法选中和搜索。</p></div><div class="faq-item"><h3>能设置 PDF 密码或权限吗？</h3><p>当前版本不支持加密。如需加密请用专业 PDF 软件二次处理。</p></div>
+</div>
+<div class="content-block" data-static-copy="to-pdf">
+<h2>两种页面尺寸的计算方式</h2>
+<p>A4 模式下页面固定为 595.28 × 841.89 pt，这是 72 dpi 下的标准 A4 尺寸。图片按比例缩放后居中放置，四周留白，不会被裁切。「按图片尺寸」模式让页面等于图片本身，换算系数是 0.75，也就是 1 像素变成 0.75 pt。</p>
+<p>打印选 A4：页边距、缩放都由阅读器按纸张处理，拿去打印店不会出现尺寸争议。只做电子传递选「按图片尺寸」：没有多余白边，文件更小，手机上看也更满。</p>
+
+<h2>2000 像素的单页上限意味着什么</h2>
+<p>每一页嵌入的图片长边最多 2000 像素，超过会等比缩小。放在 A4 上，这个像素数大约相当于 242 dpi，高于普通打印所需的 150–200 dpi。也就是说，为了打印而继续塞更大的图，肉眼几乎看不出差别，只会让文件变重、生成变慢。</p>
+
+<h2>JPEG 质量只管嵌入的那份位图</h2>
+<p>质量参数范围 50–100，默认 85。它只影响写进 PDF 的那份图像数据，不会改动你的原文件。文字截图、表格、图表在 85 下通常看不出损失；大面积纯色插画可以降到 70；扫描件和小字文档不建议低于 80，否则笔画边缘会糊。</p>
+
+<h2>透明会被压平到白色</h2>
+<p>输出的是 PDF 1.4，这条链路不支持把 alpha 原样带进去，透明像素在写入前会合成到白底上。带透明边的 PNG logo 放进 PDF 后，边缘可能出现一圈白，深色页面尤其明显。要避免，先把背景改成与 PDF 页面一致的底色，再转。</p>
+
+<h2>这个工具明确不做的事</h2>
+<p>不做 OCR，PDF 里的文字是图像，不能选中、不能搜索；不做自动旋转，横图不会自动转正；不支持书签、目录、页码、加密和权限设置。这些都需要在 PDF 编辑器里二次处理，本站不提供。</p>
+
+<h2>顺序、体积与常见判断</h2>
+<p>合并顺序就是文件列表的顺序，可以在列表里上下调整，改完再生成。体积主要由三件事决定：页数、每页像素数、JPEG 质量。一份 20 页的手机截图，默认参数下通常在几 MB；如果超过 20 MB，先把每页长边压到 1500 像素，比降质量更有效。</p>
+<p>生成后打不开或页面空白：多半是其中一张图格式异常（例如损坏的 HEIC）。把可疑文件单独转成 PNG 再试，可以快速定位。</p>
 </div>
 <div class="content-block">
 <h2>试试其它工具</h2>

@@ -135,6 +135,9 @@
 <h1><span>🖼️ 加边框与留白</span></h1>
 <p><span>给截图加框、给照片做画廊卡纸、给幻灯片留白，尺寸精确到像素。</span></p>
 </div>
+<noscript><div id="nojsNotice" style="margin:18px 0;padding:14px 18px;border-left:3px solid #f59e0b;background:rgba(245,158,11,.09);border-radius:6px;">
+<p style="margin:0;font-size:14px;line-height:1.8;color:var(--text-secondary,#475569);"><strong>图片处理需要 JavaScript。</strong>边框绘制在浏览器画布上完成，脚本被禁用时无法启动。下面的尺寸计算公式、分层顺序和输出规则都是静态 HTML，可以直接阅读。</p>
+</div></noscript>
 <div class="upload-area" id="uploadArea">
 <div class="upload-icon">📁</div>
 <div class="upload-text">点击或拖拽图片到这里</div>
@@ -219,6 +222,28 @@
 <div class="faq-item"><div class="faq-question"><span>为什么输出比原图大？</span></div><div class="faq-answer"><span>边框、留白和阴影边距是四边都加的，所以宽高各增加两倍总量。</span></div></div>
 <div class="faq-item"><div class="faq-question"><span>能保留透明圆角吗？</span></div><div class="faq-answer"><span>可以配合 PNG 透明流程使用；若想要纯透明蒙版，请用「圆角」工具。</span></div></div>
 <div class="faq-item"><div class="faq-question"><span>图片会上传吗？</span></div><div class="faq-answer"><span>不会，全部绘制都在浏览器内的离屏 canvas 完成。</span></div></div>
+</div>
+<div class="content-block" data-static-copy="blur">
+<h2>输出尺寸的准确算法</h2>
+<p>输出宽高 = 原图 + 2 ×（边框宽度 + 留白 + 阴影边距）。边框 0–200 像素，默认 24；留白 0–300 像素，默认 0；勾选阴影时额外留 30 像素边距。举例：800×600 的图，边框 24、留白 0、开阴影，输出是 800 + 2×(24+0+30) = 908，高 708。</p>
+<p>这一点常被忽略：开关阴影会让成图变大 60 像素，而不是在内部挤一挤。需要严格固定输出尺寸时，先关阴影。</p>
+
+<h2>三层是怎么叠上去的</h2>
+<p>从外到内依次是：阴影（如果有）→ 边框色 → 留白色 → 原图。边框是一个圆角矩形填色，留白是往里缩一圈再填色，原图再往里缩「边框 + 留白」的距离。所以边框是外圈的一环，不是画在图片内侧的线。</p>
+<p>圆角作用在最外层矩形上，向内逐层递减，保证每一层同心。圆角设得比外框的一半还大时，会被自动限制到一半，否则形状会破。</p>
+
+<h2>边框、卡纸、阴影分别解决什么</h2>
+<p><strong>边框</strong>是紧贴图片的一圈色边，用来把截图和页面背景分开，白色或深灰最常用。<strong>留白</strong>更像画廊卡纸，给照片一圈呼吸空间，适合作品展示和幻灯片。<strong>阴影</strong>制造悬浮感，适合把截图放进文档或落地页。</p>
+<p>三者叠加会显得很重。实际使用中通常只选一到两样：要干净就只加边框，要展示感就加卡纸和阴影。</p>
+
+<h2>透明图与深色底</h2>
+<p>PNG 的透明区域会保留，除非被边框或留白层盖住。透明 logo 加白边后再放到深色页面上，边缘不会出现杂色；反过来，透明图加浅色卡纸，卡纸会遮住透明部分，看起来像一块底板。</p>
+
+<h2>这一页不做模糊</h2>
+<p>页面地址里带着 blur，但功能是加边框与留白，不提供高斯模糊或背景虚化。需要把背景模糊，请用「马赛克」以外的专门工具；需要柔化整张图，这一页做不到。</p>
+
+<h2>输出</h2>
+<p>结果导出 PNG，尺寸按上面的公式计算，不做压缩。加边框后体积会随尺寸增加，需要小文件请再用「图片压缩」。</p>
 </div>
 <div class="content-block">
 <h2>试试其它工具</h2>
