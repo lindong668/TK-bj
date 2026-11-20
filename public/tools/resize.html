@@ -141,6 +141,10 @@
 <h1>📐 Resize Image</h1>
 <p>Scale by ratio, set exact pixels or crop to meet any platform's size requirements</p>
 </div>
+<noscript><div id="nojsNotice" style="margin:18px 0;padding:14px 18px;border-left:3px solid #f59e0b;background:rgba(245,158,11,.09);border-radius:6px;">
+<p style="margin:0;font-size:14px;line-height:1.8;color:var(--text-secondary,#475569);"><strong>This tool needs JavaScript to process images.</strong> The editor runs entirely inside your browser, so it cannot start with scripting turned off. Everything written below is plain HTML: the method, the numbers, the failure cases and the FAQ all read without it.</p>
+</div></noscript>
+
 <div class="upload-area" id="uploadArea">
 <div class="upload-icon">📁</div>
 <div class="upload-text">Click or drag an image here</div>
@@ -282,6 +286,50 @@
 </div>
 </div>
 </div>
+
+<div class="content-block" data-static-copy="resize">
+<h2>Three modes, three different contracts</h2>
+<p>The mode selector is not cosmetic; each option computes the output size by a different rule, and mixing them up is the most common reason a resized image comes back distorted.</p>
+<ul>
+<li><strong>By ratio</strong> scales both dimensions by the same percentage, from 10% to 300%. The two results are rounded independently with <code>Math.round</code>, so an odd size can drift by one pixel.</li>
+<li><strong>Exact pixels</strong> takes width and height separately. With "keep aspect ratio" on and only one field filled, the other side is computed from the original proportion. With both fields filled, both values are used as typed — the aspect lock is satisfied, not enforced, so filling both is how you deliberately stretch.</li>
+<li><strong>Preset size</strong> sets an exact width and height from a fixed list: 1920×1080, 1280×720, 1080×1080, 1080×1350, 1200×630, 800×800 and 414×896.</li>
+</ul>
+<p>That last one deserves a clear statement, because the page subtitle mentions cropping and the code does not crop. A preset sets the canvas to those dimensions and draws the whole image into it. A landscape photo sent to 1080×1350 is squeezed, not trimmed. To fill a portrait frame without distortion, resize with the aspect lock to the matching long edge, then cut the surplus with <a href="/tools/crop">Crop Image</a>.</p>
+
+<h2>Rounding drift, in real numbers</h2>
+<p>Rounding twice is harmless on large images and visible on small ones. Take a 999 × 1000 px file and scale it to 33%: the height becomes 330 and the width 330, so a 0.999 aspect ratio quietly becomes 1.000. Take 1001 × 1000 at 50%: 500 and 500, and the change is invisible. The drift only matters when you are matching a strict pixel box — an ID photo, a marketplace thumbnail, a favicon source — where the receiving system checks dimensions rather than appearance.</p>
+<p>Scaling down also crosses a quality threshold. Halving is gentle, because the browser's smoothing has four source pixels for every destination pixel. Going from 1200 px to 120 px is a ten-to-one reduction, and thin lines, small type and one-pixel borders turn into grey mush. For anything below about 25% of the original, resize in two steps — 50%, then 50% again — and compare; the two-step version usually keeps stems and edges cleaner.</p>
+
+<h2>The 3000-pixel working ceiling</h2>
+<p>Before any resize happens, the editor fits the source onto a canvas whose longest side is at most 3000 px and reports the reduction underneath the original preview. Every mode then works from that canvas. Two consequences follow. First, "By ratio 100%" on a 6000 px photo returns a 3000 px file, not the original size. Second, upscaling to 300% produces 9000 px of interpolated pixels that contain no more detail than the 3000 px source — useful for meeting a minimum-size requirement, useless for recovering sharpness.</p>
+<p>When the original really must be preserved at full resolution, do the resize outside the browser, or accept the cap and keep the untouched file as the master.</p>
+
+<h2>What resizing does not do</h2>
+<ul>
+<li><strong>It does not change the file's byte size predictably.</strong> Output is always PNG, so a 1200 px JPEG often becomes a larger 1200 px PNG. Use <a href="/tools/compress">Compress Image</a> or <a href="/tools/convert">Convert Format</a> afterwards when the target is a byte budget rather than a pixel box.</li>
+<li><strong>It does not sharpen.</strong> Interpolation softens edges as it averages them. A light unsharp mask afterwards — the <a href="/tools/adjust">Colour Adjust</a> page has one — restores local contrast without inventing detail.</li>
+<li><strong>It does not crop.</strong> See the preset note above.</li>
+<li><strong>It does not batch.</strong> One file per session.</li>
+</ul>
+
+<h2>Matching a platform's requirements</h2>
+<p>Platform specs are usually written as a pixel box plus a maximum file size, and the order matters. Resize first to the box, because interpolation changes the pixel count; compress second, because the encoder can then spend the byte budget on the final dimensions. Doing it the other way round means compressing pixels you are about to throw away, and often resizing after compression re-exposes artefacts that the smaller canvas would have hidden.</p>
+<p>For social sharing cards the 1200×630 preset is exact and needs no crop on a 1.91:1 source; a square source will be stretched. For a store front image at 800×800 the same rule applies: crop to square first, then apply the preset, and the result is undistorted by construction.</p>
+
+<h2>Two more questions this page gets</h2>
+<div class="faq-list">
+<div class="faq-item">
+<div class="faq-question">Why is my 6000 px photo 3000 px after a 100% resize?</div>
+<div class="faq-answer">Because the editor fits the source onto a canvas capped at 3000 px on the long side before processing. The readout under the original preview states the reduction. Anything larger is outside the range the in-browser loop is tuned for.</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">I filled in both width and height and the picture stretched. Why?</div>
+<div class="faq-answer">With both fields populated the two typed values are used as given, so the aspect lock has nothing left to calculate. Leave one field empty to have it derived, or switch to By ratio for a proportional scale.</div>
+</div>
+</div>
+</div>
+
 <div class="content-block">
 <h2>Try other tools</h2>
 <div class="related-tools">

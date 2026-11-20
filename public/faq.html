@@ -78,7 +78,7 @@
       "name": "What image sizes are supported?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "We recommend under 5 MB per image with edges no longer than 4000 px. Larger images take longer locally and are more likely to hit browser memory limits."
+        "text": "We recommend under 5 MB per image with edges no longer than 3000 px. Larger images take longer locally and are more likely to hit browser memory limits."
       }
     },
     {
@@ -154,6 +154,7 @@
 </div>
 <div class="content-block">
 <h2>FAQ</h2>
+<p style="color:var(--text-secondary);line-height:1.85;">Short answers to the questions that come up most often. Two longer notes are worth reading before the list if you are troubleshooting: <a href="/guides/resolution-dpi">how resolution and DPI relate to pixel size</a>, and <a href="/guides/#lab-notes">the Lab Notes</a>, where several of the behaviours below are measured rather than asserted.</p>
 <div class="faq-list">
 <div class="faq-item">
 <div class="faq-question">Are my images uploaded to a server?</div>
@@ -177,7 +178,7 @@
 </div>
 <div class="faq-item">
 <div class="faq-question">What image sizes are supported?</div>
-<div class="faq-answer">We recommend under 5 MB per image with edges no longer than 4000 px. Larger images take longer locally and are more likely to hit browser memory limits.</div>
+<div class="faq-answer">We recommend under 5 MB per image with edges no longer than 3000 px. Larger images take longer locally and are more likely to hit browser memory limits.</div>
 </div>
 <div class="faq-item">
 <div class="faq-question">Why do automatic tools struggle with some images?</div>
@@ -194,6 +195,38 @@
 <div class="faq-item">
 <div class="faq-question">There are ads — do they affect anything?</div>
 <div class="faq-answer">The site is funded by Google AdSense advertising. Ads do not affect any tool's features or usage limits, nor the image processing results.</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">Why does a tool page show no controls or do nothing when I click?</div>
+<div class="faq-answer">Every editor is JavaScript. If scripting is disabled, or an extension blocks it, the control panel never initialises and the page shows a notice above the upload area explaining that. Enable JavaScript for the site and reload; the written documentation below the tool still reads either way.</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">Why is my large photo smaller after processing?</div>
+<div class="faq-answer">The editors fit the source onto a working canvas capped at 3000 px on the longest side, and report the reduction under the original preview. A 6000 px photo therefore comes out at 3000 px. The cap exists because the pixel loops run in the tab, and it applies before any filter, rotate or trim.</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">Why is the download a PNG when I uploaded a JPG?</div>
+<div class="faq-answer">Most editors write PNG because it is lossless and keeps transparency. Only Convert Format writes JPG, WebP or ICO. If the PNG is too heavy, run it through Compress Image, or convert it once at the end of the workflow rather than after every step.</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">Does processing remove EXIF metadata?</div>
+<div class="faq-answer">Yes, as a side effect. Each result is re-encoded from a canvas, and a canvas carries no EXIF block, so GPS coordinates, capture time and camera details are not present in the output. This is not a metadata editor: individual tags cannot be kept or edited.</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">Can I use the tools offline?</div>
+<div class="faq-answer">After a page has loaded, all processing is local and continues to work if the connection drops. There is no offline installation or service worker, though, so the page itself has to be fetched once each time you start a new session.</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">Can I process several images at once?</div>
+<div class="faq-answer">No. Each tool handles one image per pass, and Stitch and Images to PDF accept a set only to combine it into one output. Repeating the same settings on the next file is the batch workflow; the numbers are deterministic, so the same values give the same transformation.</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">Why did trimming or background cleanup fail on my image?</div>
+<div class="faq-answer">Those tools compare pixels against a reference colour within a tolerance. Gradients, drop shadows, uneven lighting and anti-aliased edges fall outside a single reference, so the scan either finds nothing to remove or stops early. Adjust the tolerance, pick the edge colour manually, or crop by hand instead.</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">Is there a file size limit?</div>
+<div class="faq-answer">No explicit byte limit, but there is a practical one. A file under about 5 MB and under 3000 px on the long side will process comfortably on a desktop browser; larger files take longer and are more likely to exhaust the tab's memory, especially on a phone.</div>
 </div>
 </div>
 </div>

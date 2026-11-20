@@ -141,6 +141,10 @@
 <h1><span>✂️ Auto Trim White Edges</span></h1>
 <p><span>Scan the four sides, find rows and columns that are all the same colour, and crop them away in one click.</span></p>
 </div>
+<noscript><div id="nojsNotice" style="margin:18px 0;padding:14px 18px;border-left:3px solid #f59e0b;background:rgba(245,158,11,.09);border-radius:6px;">
+<p style="margin:0;font-size:14px;line-height:1.8;color:var(--text-secondary,#475569);"><strong>This tool needs JavaScript to process images.</strong> The editor runs entirely inside your browser, so it cannot start with scripting turned off. Everything written below is plain HTML: the method, the numbers, the failure cases and the FAQ all read without it.</p>
+</div></noscript>
+
 <div class="upload-area" id="uploadArea">
 <div class="upload-icon">📁</div>
 <div class="upload-text">Click or drag an image here</div>
@@ -221,6 +225,48 @@
 <div class="faq-item"><div class="faq-question"><span>Does it work on transparent images?</span></div><div class="faq-answer"><span>Yes. Fully transparent pixels count as background, so transparent padding is trimmed too.</span></div></div>
 <div class="faq-item"><div class="faq-question"><span>Is my image uploaded?</span></div><div class="faq-answer"><span>No. The pixel scan runs locally in your browser.</span></div></div>
 </div>
+
+<div class="content-block" data-static-copy="trim-edges">
+<h2>What "background" means to this scanner</h2>
+<p>The tool does not look for white. It builds a reference colour and then asks, for each pixel, whether that pixel is close enough to the reference. Two things decide the answer:</p>
+<ul>
+<li><strong>The reference.</strong> In the default mode it is the average of the four corner pixels, rounded per channel. If the corners differ — sky at the top, grass at the bottom, a drop shadow on one side — the average is a colour that appears nowhere in the image, and almost nothing gets trimmed. Switching to "Pick a colour" and choosing the actual border avoids that trap entirely.</li>
+<li><strong>The tolerance, measured as a cube.</strong> A pixel passes when the absolute difference in red, in green and in blue is each at most the tolerance. That is a box in colour space, not a sphere: at tolerance 18 a pure white reference accepts channel values from 237 to 255, so a cyan-tinted white at (237, 250, 255) passes while a warm grey at (255, 240, 240) fails on the green and blue channels.</li>
+</ul>
+<p>Fully transparent pixels count as background regardless of their colour, because their alpha is below 16. Transparent padding therefore disappears without any tolerance fiddling.</p>
+
+<h2>The scan samples, it does not inspect every pixel</h2>
+<p>Each row is tested by stepping across it in strides of <code>max(1, floor(width / 240))</code> pixels — at most about 240 samples per row, and the same rule vertically for columns. On a 3000 px wide image that is a sample every 12 px. A one-pixel hairline running the full width, or a spike of content that happens to land between samples, can be missed, and the row is then judged empty and removed. This is the mechanical explanation for "it cut off a thin part of my chart": the scan is a sampler, and the sampler skipped it.</p>
+<p>The four sides are trimmed in sequence — top, bottom, left, right — and each pass searches within the original bounds. A border that is only present on the left and right is handled correctly. A border interrupted by a bright element touching one edge stops that edge's pass at the interruption, which is why a scan with a page number in the margin often keeps a thin strip.</p>
+
+<h2>Rounded mode and its hard limit</h2>
+<p>The second mode additionally clears the four corner wedges left behind by rounded corners and anti-aliased edges. It does this with a flood fill seeded from each corner, following pixels that match that corner's own colour, and setting their alpha to zero. The fill is skipped entirely when width × height exceeds four million pixels — a number that is reachable here, since the working canvas allows up to 3000 × 3000. Above that the result note says corner cleanup was skipped, and the output keeps its wedge-shaped corners. If that happens, run the trim on a smaller copy, or clear the corners with the <a href="/tools/rounded">Rounded Corners</a> tool after trimming.</p>
+
+<h2>Reading the result line</h2>
+<p>After processing, the line under the preview reports the pixels removed from the left, right, top and bottom, followed by the new dimensions. Those four numbers are the fastest way to catch a bad pass: if the left value is zero on a scan that clearly has a margin, the reference colour is wrong. If the top value is hundreds of pixels on a document with a header, the tolerance is too high. Nothing is written to disk until the download button is pressed, so an incorrect pass costs one more click, not a lost file.</p>
+
+<h2>Where this stops being the right tool</h2>
+<ul>
+<li><strong>Gradients and shadows.</strong> A photographed page with a soft shadow along one side is not a uniform border; the shadow's edge becomes the new boundary and the trim lands in the wrong place. Use <a href="/tools/crop">Crop Image</a> and cut by eye.</li>
+<li><strong>Interior whitespace.</strong> Only the outer boundary is examined. A white band inside a screenshot stays, which is correct — trimming it would change the layout.</li>
+<li><strong>Background removal.</strong> Removing a white background behind a product is a different operation. This tool only crops the rectangle; the <a href="/tools/palette">Palette Extractor</a> and the transparency tools are not substitutes either.</li>
+<li><strong>Exact pixel targeting.</strong> If the result must be 1080 px wide, trim first and then resize; trimming never produces a round number by design.</li>
+</ul>
+<p>Output is a PNG at the trimmed size with the original alpha preserved. There is no undo, so the untouched upload remains the master copy.</p>
+
+<h2>Two more questions this page gets</h2>
+<div class="faq-list">
+<div class="faq-item">
+<div class="faq-question">Why did it trim a border that was not one colour?</div>
+<div class="faq-answer">Because the tolerance is a per-channel cube, not a strict equality test. At 18, a border whose channels vary by up to 18 each is treated as one colour. Lower the tolerance to 6–10 for a noisy but genuinely uniform border; the option to pick the colour manually also narrows the reference considerably.</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">Does trimming change the image resolution or recompress it?</div>
+<div class="faq-answer">It crops the canvas and re-encodes as PNG, so the retained pixels are copied one to one at their original scale — no resampling, no softening. Only the area outside the retained rectangle is discarded.</div>
+</div>
+</div>
+</div>
+
 <div class="content-block">
 <h2>Try other tools</h2>
 <div class="related-tools">

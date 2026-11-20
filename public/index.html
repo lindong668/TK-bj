@@ -198,7 +198,7 @@
 <div class="container">
 <h2 class="section-title">Read Before Use: 3 Common Image Processing Pitfalls</h2>
 <p class="picks-intro">Every tool here runs locally in your browser — no upload, no account, no waiting. These notes are drawn from our original long-form guides and cover the mistakes we see most often when preparing images for a website, a storefront or a client.</p>
-<p class="picks-intro">New: <a href="/guides/#lab-notes">Lab Notes</a> — six dated, measured reports built from specimen files and real screenshots of these tools, including a favicon rendering field test, a transparency accident report and a printable 12-cell icon QA sheet. <a href="/guides/changelog">What changed and when →</a> <span class="build-stamp" style="color:#94a3b8;font-size:12px">· Build V71-49578DC41880</span></p><!-- BUILD_FINGERPRINT V71-49578DC41880 -->
+<p class="picks-intro">New: <a href="/guides/#lab-notes">Lab Notes</a> — six dated, measured reports built from specimen files and real screenshots of these tools, including a favicon rendering field test, a transparency accident report and a printable 12-cell icon QA sheet. <a href="/guides/changelog">What changed and when →</a></p><!-- BUILD_FINGERPRINT V72-20261120 -->
 <div class="picks-grid">
 <article class="pick-card">
 <h3>Avoid QR codes and faces in small icons</h3>
@@ -411,6 +411,73 @@
 </div>
 </div>
 </section>
+
+<!-- Workflow combinations: added 2026-11-20 -->
+<section class="tools" id="workflows">
+<div class="container">
+<h2 class="section-title">Four jobs that need more than one tool</h2>
+<p style="text-align:center;color:var(--text-muted);font-size:14px;max-width:760px;margin:-10px auto 24px;">Most real tasks are a short chain rather than a single click. These are the four combinations people use most often here, with the order that actually works and the limit of each step spelled out.</p>
+<div class="tools-grid">
+<a class="tool-card" href="/tools/icon-maker">
+<span class="tool-icon">🎯</span>
+<span class="tool-name">1 · A favicon for a new site</span>
+<span class="tool-desc">Upload any square-ish image, drag the crop box over the mark, tick 16 / 32 / 48 / 64 / 128 / 256 and download one multi-size <code>.ico</code>. Add the 180 px PNG separately for iOS home screens. A QR code or a line of small type disappears at 16 px — use a letter or a flat shape below 32 px.</span>
+</a>
+<a class="tool-card" href="/tools/trim-edges">
+<span class="tool-icon">🛍️</span>
+<span class="tool-name">2 · A storefront product set</span>
+<span class="tool-desc">Trim Edges removes the uniform studio margin → Crop makes every shot square → Resize with the 800×800 preset gives identical frames → Compress brings each file under the marketplace limit. Compress last: resizing after compression re-exposes artefacts.</span>
+</a>
+<a class="tool-card" href="/tools/stitch">
+<span class="tool-icon">📱</span>
+<span class="tool-name">3 · One long screenshot, then slices</span>
+<span class="tool-desc">Stitch vertically at gap 0 to join captures taken at the same width, then Split by fixed height — 1500 px fits most chat and ticket windows. Splitting copies pixels without rescaling, so the last slice is sharp but the total weight stays roughly the same.</span>
+</a>
+<a class="tool-card" href="/tools/to-pdf">
+<span class="tool-icon">🖨️</span>
+<span class="tool-name">4 · Scans into a printable PDF</span>
+<span class="tool-desc">Trim Edges → Rotate &amp; Flip if the page is sideways → Images to PDF at A4, quality 85. Each page is capped at 2000 px, which is about 242 dpi across A4 — enough for an office printer, below a print shop's 300 dpi request. Transparency is flattened onto white.</span>
+</a>
+</div>
+
+<div class="content-block" style="max-width:860px;margin:34px auto 0;">
+<h2 style="font-size:1.2rem;color:var(--text-primary);margin-bottom:12px;">What each format can and cannot carry</h2>
+<table style="width:100%;border-collapse:collapse;font-size:.9rem;">
+<thead>
+<tr>
+<th style="border:1px solid var(--border);padding:9px 11px;text-align:left;background:var(--bg-dark);">Format</th>
+<th style="border:1px solid var(--border);padding:9px 11px;text-align:left;background:var(--bg-dark);">Transparency</th>
+<th style="border:1px solid var(--border);padding:9px 11px;text-align:left;background:var(--bg-dark);">Animation</th>
+<th style="border:1px solid var(--border);padding:9px 11px;text-align:left;background:var(--bg-dark);">Written by this site</th>
+</tr>
+</thead>
+<tbody style="color:var(--text-secondary);">
+<tr><td style="border:1px solid var(--border);padding:9px 11px;">PNG</td><td style="border:1px solid var(--border);padding:9px 11px;">Yes, 8-bit alpha</td><td style="border:1px solid var(--border);padding:9px 11px;">No (first frame only)</td><td style="border:1px solid var(--border);padding:9px 11px;">Every editor — the default output</td></tr>
+<tr><td style="border:1px solid var(--border);padding:9px 11px;">JPG</td><td style="border:1px solid var(--border);padding:9px 11px;">None — flattened</td><td style="border:1px solid var(--border);padding:9px 11px;">No</td><td style="border:1px solid var(--border);padding:9px 11px;">Convert Format only</td></tr>
+<tr><td style="border:1px solid var(--border);padding:9px 11px;">WebP</td><td style="border:1px solid var(--border);padding:9px 11px;">Yes, lossy or lossless</td><td style="border:1px solid var(--border);padding:9px 11px;">Yes (not written here)</td><td style="border:1px solid var(--border);padding:9px 11px;">Convert Format only</td></tr>
+<tr><td style="border:1px solid var(--border);padding:9px 11px;">AVIF</td><td style="border:1px solid var(--border);padding:9px 11px;">Yes</td><td style="border:1px solid var(--border);padding:9px 11px;">Yes (not written here)</td><td style="border:1px solid var(--border);padding:9px 11px;">Input only — decoding depends on the browser</td></tr>
+<tr><td style="border:1px solid var(--border);padding:9px 11px;">HEIC / HEIF</td><td style="border:1px solid var(--border);padding:9px 11px;">Rarely used</td><td style="border:1px solid var(--border);padding:9px 11px;">Live photos lose motion</td><td style="border:1px solid var(--border);padding:9px 11px;">Input only — no encoder in browsers</td></tr>
+<tr><td style="border:1px solid var(--border);padding:9px 11px;">GIF</td><td style="border:1px solid var(--border);padding:9px 11px;">1-bit only</td><td style="border:1px solid var(--border);padding:9px 11px;">Yes (not written here)</td><td style="border:1px solid var(--border);padding:9px 11px;">Input only, decoded as a still</td></tr>
+<tr><td style="border:1px solid var(--border);padding:9px 11px;">SVG</td><td style="border:1px solid var(--border);padding:9px 11px;">Yes</td><td style="border:1px solid var(--border);padding:9px 11px;">Possible in source</td><td style="border:1px solid var(--border);padding:9px 11px;">No — rasterised on load, output is a bitmap</td></tr>
+<tr><td style="border:1px solid var(--border);padding:9px 11px;">ICO</td><td style="border:1px solid var(--border);padding:9px 11px;">Yes, per entry</td><td style="border:1px solid var(--border);padding:9px 11px;">No</td><td style="border:1px solid var(--border);padding:9px 11px;">ICO Generator (16–256 px entries)</td></tr>
+</tbody>
+</table>
+<p style="color:var(--text-secondary);font-size:.86rem;line-height:1.75;margin-top:10px;">The practical rule: choose the format before editing, not after. Re-saving a JPEG three times across different tools compounds compression damage, while PNG intermediates keep every step clean and can be converted once at the end.</p>
+</div>
+
+<div class="content-block" style="max-width:860px;margin:26px auto 0;">
+<h2 style="font-size:1.2rem;color:var(--text-primary);margin-bottom:10px;">Updates — 20 November 2026</h2>
+<ul style="color:var(--text-secondary);line-height:1.85;padding-left:20px;margin:0;">
+<li>Four new measured guides: <a href="/guides/image-to-pdf-page-geometry">page geometry for image-to-PDF</a>, <a href="/guides/long-screenshot-stitch-split">stitching and slicing long screenshots</a>, <a href="/guides/colour-palette-from-photo">extracting palettes</a> and <a href="/guides/trim-uniform-borders">trimming uniform borders</a>.</li>
+<li>Every tool page now carries its full documentation — method, limits, failure cases and FAQ — as plain HTML that reads with JavaScript switched off.</li>
+<li>Tool pages no longer show an internal build identifier in the footer; the dated record lives in the <a href="/guides/changelog">Lab Changelog</a>.</li>
+</ul>
+</div>
+
+<p style="text-align:center;color:var(--text-muted);font-size:14px;margin:22px 0 0;">Still stuck on a specific failure? <a href="/faq">Read the FAQ</a>, check <a href="/guides/">the guides</a>, or <a href="/contact">send the details</a>.</p>
+</div>
+</section>
+
 <div class="ad-block">
 <div class="ad-slot"><ins class="adsbygoogle ps-ad" style="display:block" data-ps-slot="HOME_INLINE" data-ad-client="ca-pub-8915931557404979" data-ad-slot="1784463687" data-ad-format="auto" data-full-width-responsive="true"></ins></div>
 </div>
@@ -498,7 +565,7 @@
 </div>
 <div class="faq-item">
 <div class="faq-question">Which image formats are supported?</div>
-<div class="faq-answer">PNG, JPG/JPEG, WebP, BMP and GIF are supported for both input and output.</div>
+<div class="faq-answer">Input accepts PNG, JPG/JPEG, WebP, GIF, BMP, SVG, AVIF, ICO and HEIC/HEIF. Output depends on the page: the editors write PNG (lossless, keeps transparency) and only Convert Format writes JPG, WebP or ICO. HEIC is input-only, because browsers decode it but cannot encode it.</div>
 </div>
 <div class="faq-item">
 <div class="faq-question">Is there a usage limit?</div>
@@ -514,7 +581,7 @@
 </div>
 <div class="faq-item">
 <div class="faq-question">What image sizes are supported?</div>
-<div class="faq-answer">We recommend under 5 MB per image with edges no longer than 4000 px. Larger images take longer to process locally and are more likely to hit memory limits. Photos shot on a phone can usually be processed directly.</div>
+<div class="faq-answer">We recommend under 5 MB per image with edges no longer than 3000 px. Larger images take longer to process locally and are more likely to hit memory limits. Photos shot on a phone can usually be processed directly.</div>
 </div>
 <div class="faq-item">
 <div class="faq-question">Why do automatic tools struggle with some images?</div>

@@ -141,6 +141,10 @@
 <h1><span>🔄 Rotate &amp; Flip Image</span></h1>
 <p><span>Straighten a tilted shot, mirror a selfie or turn a scan by any angle — with clean corners.</span></p>
 </div>
+<noscript><div id="nojsNotice" style="margin:18px 0;padding:14px 18px;border-left:3px solid #f59e0b;background:rgba(245,158,11,.09);border-radius:6px;">
+<p style="margin:0;font-size:14px;line-height:1.8;color:var(--text-secondary,#475569);"><strong>This tool needs JavaScript to process images.</strong> The editor runs entirely inside your browser, so it cannot start with scripting turned off. Everything written below is plain HTML: the method, the numbers, the failure cases and the FAQ all read without it.</p>
+</div></noscript>
+
 <div class="upload-area" id="uploadArea">
 <div class="upload-icon">📁</div>
 <div class="upload-text">Click or drag an image here</div>
@@ -226,6 +230,40 @@
 <div class="faq-item"><div class="faq-question"><span>Can I rotate a JPG and keep transparency?</span></div><div class="faq-answer"><span>JPG has no alpha channel. If you need transparent corners, download as PNG (the default here).</span></div></div>
 <div class="faq-item"><div class="faq-question"><span>Are my photos uploaded?</span></div><div class="faq-answer"><span>No. Rotation and flipping are Canvas operations inside your browser; the file never leaves your device.</span></div></div>
 </div>
+
+<div class="content-block">
+<h2>Two kinds of rotation, and only one of them invents pixels</h2>
+<p>A quarter turn — 90°, 180°, 270° — moves whole pixels. No new values are calculated, so the image is unchanged apart from its orientation. Any other angle forces the renderer to resample: every output pixel is computed from a neighbourhood of input pixels, which softens fine detail very slightly. The effect is invisible after one rotation and cumulative after several, which is why the right workflow is to decide the final angle once rather than to nudge it repeatedly.</p>
+
+<h2>What fills the corners</h2>
+<p>Rotating a rectangle by anything other than a quarter turn leaves four triangular gaps. The fill control decides what goes there:</p>
+<ul>
+<li><strong>Transparent</strong> — the gaps stay empty. This only survives in formats with an alpha channel; JPEG will render them as a solid colour.</li>
+<li><strong>White</strong> — the safe choice for documents, scans and anything destined for print on white paper.</li>
+<li><strong>Black</strong> — useful for dark-theme screenshots and for making a deliberate vignette effect.</li>
+<li><strong>Custom</strong> — match a page background, a brand colour or the dominant tone of the photo.</li>
+</ul>
+<p>If the output is a JPEG and the fill is transparent, the gaps are flattened to an opaque colour. Choose white or black explicitly instead, so the result is predictable rather than dependent on the encoder.</p>
+
+<h2>Straightening a crooked scan</h2>
+<p>A page photographed by hand is usually off by between half a degree and three degrees. The workflow that works is: rotate by a small free angle until a horizontal rule in the document looks level, then trim the new background at the edges, then crop to the content. Doing it in the other order wastes work, because cropping first leaves the rotation to introduce fresh background along the newly exposed edges.</p>
+<p>Judging the angle is easier against a straight reference than by eye on text. Zoom to 100%, find a table rule or a margin, and adjust in 0.5° steps.</p>
+
+<h2>Flip is not rotation</h2>
+<p>Horizontal and vertical flips mirror the image. Text becomes unreadable mirror-writing and faces become subtly wrong, because human features are not symmetric. Flip is the right operation for fixing a selfie taken with a mirrored front camera, or for correcting a scan that was fed upside down through a document feeder. It is the wrong operation for "making the photo face the other way" in any context where the subject matters.</p>
+
+<h2>Why this page lives at /tools/id-photo</h2>
+<p>The address predates the current tool and is kept so that old links and search results continue to work. The page is Rotate &amp; Flip; the tool it once hosted is no longer offered. Nothing about the address changes what the tool does, but it is worth knowing if you arrived expecting something else.</p>
+
+<h2>Practical limits</h2>
+<ul>
+<li><strong>No perspective correction.</strong> A page photographed at an angle has converging edges; rotation cannot square it up.</li>
+<li><strong>No automatic horizon detection.</strong> The angle is yours to choose.</li>
+<li><strong>No lossless mode for free angles.</strong> Only quarter turns are pixel-exact.</li>
+<li><strong>No batch rotation.</strong> One image per session.</li>
+</ul>
+</div>
+
 <div class="content-block">
 <h2>Try other tools</h2>
 <div class="related-tools">

@@ -189,6 +189,10 @@
 .result-box h3{font-size:1rem;color:var(--text-primary);margin-bottom:10px}
 .result-box img{max-width:100%;max-height:480px;border-radius:10px;border:1px solid var(--border);background:var(--bg-dark)}
 @media(max-width:640px){.thumb-item{width:calc(50% - 6px)}}</style>
+<noscript><div id="nojsNotice" style="margin:18px 0;padding:14px 18px;border-left:3px solid #f59e0b;background:rgba(245,158,11,.09);border-radius:6px;">
+<p style="margin:0;font-size:14px;line-height:1.8;color:var(--text-secondary,#475569);"><strong>This tool needs JavaScript to process images.</strong> The editor runs entirely inside your browser, so it cannot start with scripting turned off. Everything written below is plain HTML: the method, the numbers, the failure cases and the FAQ all read without it.</p>
+</div></noscript>
+
 <div class="upload-area" id="uploadArea">
 <div class="upload-icon">📁</div>
 <div class="upload-text">Click or drag an image here</div>
@@ -249,6 +253,44 @@
 <h2>FAQ about image to PDF</h2>
 <div class="faq-item"><h3>Can the PDF be printed?</h3><p>Yes. With A4 the page is a standard print size, the image is centred with margins, and you can print directly.</p></div><div class="faq-item"><h3>Why was my image scaled down?</h3><p>To keep generation fast and files small, anything over 2000 px per page is scaled down proportionally. For printing, 2000 px is already plenty sharp.</p></div><div class="faq-item"><h3>Can text in the PDF be selected?</h3><p>No. This tool embeds the whole image without OCR, so text is part of the picture and cannot be selected or searched.</p></div><div class="faq-item"><h3>Can I set a password or permissions?</h3><p>Encryption is not supported in this version. Use dedicated PDF software if you need it.</p></div>
 </div>
+
+<div class="content-block" data-static-copy="to-pdf">
+<h2>What is inside the PDF this page writes</h2>
+<p>The output is PDF 1.4 with one image per page. Each image is encoded as a JPEG stream and placed with a transformation matrix, so the file opens in any reader without embedded fonts, without JavaScript and without optional features. There is no text layer: the pages are pictures of pages. That single fact decides where this tool is appropriate — it is a delivery format for scans and photo sets, not a substitute for a document editor.</p>
+<p>Because the image is JPEG rather than a lossless stream, the quality slider is a real trade-off. At the default of 85, a photographed A4 page is usually indistinguishable on screen and clearly cheaper than 100. At 50, small type starts to show ringing around the strokes, and the artefacts survive every later re-save because they are baked into the page. For a contract or an invoice, keep 85 or higher; for a photo contact sheet that will only be viewed on a phone, 60 is defensible.</p>
+
+<h2>A4 versus match-image, in real dimensions</h2>
+<p>A4 pages are 595.28 × 841.89 points. A point is 1/72 inch, which makes A4 exactly 210 × 297 mm. An image is fitted with <code>min(pageWidth / imageWidth, pageHeight / imageHeight)</code> and centred, so nothing is cropped and nothing is stretched; the leftover area is page margin. A portrait phone photo therefore lands as a tall picture with wide side margins, and a landscape photo lands with generous top and bottom margins.</p>
+<p>"Match image size" removes the margin by setting the page to the image's own pixel dimensions multiplied by 0.75. A 2000-pixel-wide photo produces a page 1500 points wide — about 20.8 inches — which is the correct choice for archiving a set at a fixed scale, and the wrong choice for anything that will be printed on office paper. Choose the page size before you generate, because regenerating is the only way to change it.</p>
+
+<h2>The 2000-pixel per-page cap</h2>
+<p>Images are scaled down so that the longest side does not exceed 2000 px before they are embedded. At A4 width that works out to roughly 242 dpi, comfortably above the 150 dpi that most office printers actually resolve. It is, however, below the 300 dpi that a print shop may ask for, and the extra detail is discarded at generation time, not at print time. If a client requires 300 dpi at A4 — 2480 px across — this pipeline cannot deliver it, and the honest options are to compose the PDF in a desktop tool or to accept the lower figure.</p>
+
+<h2>Transparency, colour and rotation</h2>
+<ul>
+<li><strong>Transparency is flattened onto white.</strong> A transparent PNG becomes a white-backed page. There is no alpha channel in a JPEG stream; a logo with a transparent background will show a white box if the page is printed on tinted paper.</li>
+<li><strong>Colour profiles are not carried across.</strong> The browser decodes the source into sRGB canvas values, and the PDF stores those numbers without an ICC profile. A wide-gamut source is therefore converted, not preserved.</li>
+<li><strong>Rotation is not offered.</strong> A sideways scan stays sideways. Rotate it with the <a href="/tools/id-photo">Rotate &amp; Flip</a> tool before adding it to the set.</li>
+<li><strong>Page order is the thumbnail order.</strong> Use the arrow buttons; the number in the list is the page number, not the upload order.</li>
+</ul>
+
+<h2>Where the output disappoints, and why</h2>
+<p>The most common complaint is file size. Twenty phone photos at quality 85 can produce a 15–30 MB PDF, because each page is a separate JPEG with no shared dictionary and no downsampling beyond the 2000 px cap. Lowering quality to 70 usually cuts that roughly in half with little visible change at screen size. The second complaint is a grey or yellow cast on scanned pages: the page is a photograph of paper, and the camera's white balance is preserved. Correct it with <a href="/tools/adjust">Colour Adjust</a> before generating, since the PDF has no editing step afterwards.</p>
+<p>If the goal is a searchable document, this is the wrong tool by design. Nothing here performs OCR, adds bookmarks, sets a title in the document properties, or attaches metadata. It produces a faithful picture book.</p>
+
+<h2>Two more questions this page gets</h2>
+<div class="faq-list">
+<div class="faq-item">
+<div class="faq-question">Can I add or remove a page after the PDF is generated?</div>
+<div class="faq-answer">No. The file is written once from the current thumbnail list. Adjust the list and generate again — this takes the same time regardless of how many attempts you make, because the images stay in the browser.</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">Why is the page size in points rather than millimetres?</div>
+<div class="faq-answer">PDF geometry is defined in points, 72 to the inch. A4's 595.28 × 841.89 pt is exactly 210 × 297 mm; readers display either unit, and print dialogs convert automatically.</div>
+</div>
+</div>
+</div>
+
 <div class="content-block">
 <h2>Try other tools</h2>
 <div class="related-grid"><a class="related-card" href="/tools/stitch"><span class="ricon">🖼️</span><span class="rname">Merge Images</span><span class="rdesc">Combine into one</span></a><a class="related-card" href="/tools/split"><span class="ricon">📏</span><span class="rname">Split Long Image</span><span class="rdesc">Cut a long image into slices</span></a><a class="related-card" href="/tools/compress"><span class="ricon">🗜️</span><span class="rname">Compress Image</span><span class="rdesc">Reduce file size</span></a><a class="related-card" href="/tools/crop"><span class="ricon">✂️</span><span class="rname">Smart Crop</span><span class="rdesc">Crop</span></a></div>

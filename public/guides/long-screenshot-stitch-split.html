@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html data-lang="en" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Long Screenshots: Stitch and Split Without Breaking the Pixels | PicStudio</title>
+<meta content="Stitching does not resize and splitting rounds upward. Worked numbers for merging screenshots, mixing 1x and 2x captures, and cutting a tall image into exact slices." name="description"/>
+<meta content="stitch screenshots, long screenshot split, merge screenshots vertically, 3x3 grid image, split image by height, device pixel ratio screenshot, canvas height limit" name="keywords"/>
+<link href="https://piccalc.com/guides/long-screenshot-stitch-split" rel="canonical"/>
+<meta content="index,follow,max-image-preview:large" name="robots"/>
+<meta content="article" property="og:type"/>
+<meta content="PicStudio" property="og:site_name"/>
+<meta content="en_US" property="og:locale"/>
+<meta content="Long Screenshots: Stitch and Split Without Breaking the Pixels" property="og:title"/>
+<meta content="Stitching does not resize and splitting rounds upward. Worked numbers for merging screenshots, mixing 1x and 2x captures, and cutting a tall image into exact slices." property="og:description"/>
+<meta content="https://piccalc.com/guides/long-screenshot-stitch-split" property="og:url"/>
+<meta content="https://piccalc.com/og-v2.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/><meta content="630" property="og:image:height"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Long Screenshots: Stitch and Split Without Breaking the Pixels" name="twitter:title"/>
+<meta content="Stitching does not resize and splitting rounds upward. Worked numbers for merging screenshots, mixing 1x and 2x captures, and cutting a tall image into exact slices." name="twitter:description"/>
+<meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
+<link href="https://piccalc.com/guides/long-screenshot-stitch-split" hreflang="en" rel="alternate"/>
+<link href="https://piccalc.com/guides/long-screenshot-stitch-split" hreflang="x-default" rel="alternate"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "Long Screenshots: Stitch and Split Without Breaking the Pixels",
+      "description": "How the stitch tool lays out images without scaling, why mixed device pixel ratios break alignment, and how slice counts are rounded when splitting a tall image.",
+      "inLanguage": "en",
+      "datePublished": "2026-11-20",
+      "dateModified": "2026-11-20",
+      "author": {"@type": "Organization", "name": "PicStudio", "url": "https://piccalc.com"},
+      "publisher": {"@type": "Organization", "name": "PicStudio", "url": "https://piccalc.com"},
+      "mainEntityOfPage": {"@type": "WebPage", "@id": "https://piccalc.com/guides/long-screenshot-stitch-split"},
+      "keywords": "stitch screenshots, split long image, device pixel ratio, grid collage, slice height",
+      "articleSection": "Image Guides",
+      "wordCount": 1720
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "PicStudio", "item": "https://piccalc.com/"},
+        {"@type": "ListItem", "position": 2, "name": "Image Guides", "item": "https://piccalc.com/guides/"},
+        {"@type": "ListItem", "position": 3, "name": "Stitch and Split Screenshots", "item": "https://piccalc.com/guides/long-screenshot-stitch-split"}
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why are my screenshots different widths?",
+          "acceptedAnswer": {"@type": "Answer", "text": "Window size, zoom level or device pixel ratio changed between captures. Stitching never rescales an input, so the difference is preserved and shows up as padding or a step at the seam."}
+        },
+        {
+          "@type": "Question",
+          "name": "Can the stitcher remove the repeated strip automatically?",
+          "acceptedAnswer": {"@type": "Answer", "text": "No. Duplicate detection is ambiguous, because repeated strips can also be genuine repeated content. Crop the overlap before stitching."}
+        },
+        {
+          "@type": "Question",
+          "name": "Why did the fixed slice height change after splitting?",
+          "acceptedAnswer": {"@type": "Answer", "text": "Fixed-height mode derives a slice count with ceil(height / sliceHeight), then recalculates the height as ceil(height / count). The strips are never shorter than requested but can be taller."}
+        },
+        {
+          "@type": "Question",
+          "name": "Does splitting reduce image quality?",
+          "acceptedAnswer": {"@type": "Answer", "text": "No. Every slice is a direct pixel copy of a region, exported as PNG, so no resampling or re-encoding of the content occurs."}
+        },
+        {
+          "@type": "Question",
+          "name": "Why did a very tall stitch return a blank image?",
+          "acceptedAnswer": {"@type": "Answer", "text": "The output canvas exceeded the browser's dimension or memory limit. Stitch in smaller groups and keep each result under roughly 12,000 pixels tall."}
+        }
+      ]
+    }
+  ]
+}
+    </script>
+<link href="/favicon.ico" rel="icon" sizes="any"/>
+<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
+<style>
+.article-body{max-width:860px;margin:0 auto}
+.article-body h2{font-size:22px;margin:38px 0 14px;padding-left:12px;border-left:4px solid var(--primary,#6366f1);scroll-margin-top:80px}
+.article-body h3{font-size:17px;margin:26px 0 10px;scroll-margin-top:80px}
+.article-body h4{font-size:15px;margin:20px 0 8px}
+.article-body p{margin:13px 0;line-height:1.95;color:var(--text-secondary,#cbd5e1)}
+.article-body li{line-height:1.9;margin:7px 0;color:var(--text-secondary,#cbd5e1)}
+.article-body ul,.article-body ol{margin:12px 0 16px 24px}
+.article-body strong{color:var(--text,#f1f5f9)}
+.article-body code{background:rgba(99,102,241,.14);padding:1px 5px;border-radius:4px;font-size:.92em}
+.article-body pre{background:#0b1220;border:1px solid #26324a;border-radius:10px;padding:16px;overflow:auto;line-height:1.6}
+.article-body pre code{background:none;padding:0}
+.article-body a{color:#a5b4fc;text-decoration:underline;text-underline-offset:2px}
+.lab-table{overflow-x:auto;margin:22px 0;border:1px solid #26324a;border-radius:10px}
+.lab-table table{border-collapse:collapse;width:100%;font-size:14px;min-width:520px}
+.lab-table th,.lab-table td{padding:10px 13px;border-bottom:1px solid #26324a;text-align:left;line-height:1.7;color:#cbd5e1}
+.lab-table th{background:#1b2740;color:#f1f5f9;font-weight:700;white-space:nowrap}
+.lab-table tr:last-child td{border-bottom:none}
+.lab-note{margin:20px 0;padding:14px 18px;border-left:4px solid #f59e0b;background:rgba(245,158,11,.08);line-height:1.85;color:#e2e8f0;border-radius:0 8px 8px 0}
+.lab-meta{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 26px;font-size:13px;color:#94a3b8}
+.lab-meta span{background:#1b2740;border:1px solid #2c3a58;padding:5px 11px;border-radius:999px}
+.lab-toc{background:#141f36;border:1px solid #2c3a58;border-radius:12px;padding:18px 22px;margin:24px 0 34px}
+.lab-toc strong{display:block;margin-bottom:10px;color:#f1f5f9;font-size:15px}
+.lab-toc ol{margin:0 0 0 20px;columns:2;column-gap:28px}
+.lab-toc li{break-inside:avoid;margin:6px 0;font-size:14px}
+.lab-toc a{color:#a5b4fc;text-decoration:none}
+.lab-cta{background:linear-gradient(100deg,#4f46e5,#db2777);border-radius:12px;padding:20px 24px;margin:30px 0;color:#fff}
+.lab-cta a{color:#fff;font-weight:700}
+@media(max-width:640px){.lab-toc ol{columns:1}.article-body h2{font-size:19px}}
+</style>
+</head>
+<body>
+<header class="header">
+<div class="container">
+<a class="logo" href="/"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Studio</span></span></a>
+<nav class="tool-nav">
+<select id="lang-select" name="lang-select" class="lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/guides/" selected>English</option><option value="/zh/guides/">中文</option></select><noscript><a href="/zh/guides/">中文</a></noscript>
+<a href="/#tools">All Tools</a>
+<a href="/guides/">Image Guides</a>
+<a href="/privacy">Privacy Policy</a>
+<a href="/faq">FAQ</a>
+<a href="/contact">Contact</a>
+</nav>
+<select id="lang-select-m" name="lang-select-m" class="lang-select-m lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/guides/" selected>English</option><option value="/zh/guides/">中文</option></select><noscript><a href="/zh/guides/">中文</a></noscript>
+</div>
+</header>
+<section class="tool-page">
+<div class="container">
+<div class="article-body">
+<div class="guide-top"><a class="guide-back" href="/guides/">← All guides</a><span class="guide-crumb"><a href="/" style="color:var(--text-muted);">Home</a><span>› Image Guides › Screenshot Workflow</span></span></div>
+<h1>Long Screenshots: Stitch and Split Without Breaking the Pixels</h1>
+<div class="lab-meta"><span>Published 2026-11-20</span><span>Updated 2026-11-20</span><span>2,314 words</span><span>Based on the PicStudio tools' implementation</span></div>
+<nav class="lab-toc"><strong>On this page</strong><ol><li><a href="#the-one-rule-that-explains-everything">The one rule that explains everything</a></li><li><a href="#what-each-direction-actually-computes">What each direction actually computes</a></li><li><a href="#device-pixel-ratio-the-silent-cause-of-misalignment">Device pixel ratio: the silent cause of misalignment</a></li><li><a href="#overlap-borders-and-the-gap-setting">Overlap, borders and the gap setting</a></li><li><a href="#splitting-and-the-rounding-trap">Splitting, and the rounding trap</a></li><li><a href="#the-height-limit-nobody-warns-you-about">The height limit nobody warns you about</a></li><li><a href="#a-workflow-that-survives-real-pages">A workflow that survives real pages</a></li><li><a href="#where-the-seam-shows">Where the seam shows</a></li><li><a href="#planning-the-height-budget">Planning the height budget</a></li><li><a href="#checking-the-slices-before-sending">Checking the slices before sending</a></li><li><a href="#frequently-asked-questions">Frequently asked questions</a></li></ol></nav>
+<p>A long screenshot is rarely one clean image. It is three or four captures with a strip of repeated content where they overlap, taken at whatever width the window happened to have. Merging them looks like a paste job and is actually a layout computation: the tool has to decide a canvas size, a position for every input, and what to put in the space nobody covers.</p>
+<p>This guide works through the rules our <a href="/tools/stitch">Stitch Images</a> and <a href="/tools/split">Split Image</a> tools use. Both are deliberately literal — they do exactly what the arithmetic says, including the parts that surprise people. Knowing those parts in advance is the difference between a clean result and a collage that looks almost right.</p>
+
+<h2 id="the-one-rule-that-explains-everything">The one rule that explains everything</h2>
+<p><strong>Stitching never resizes an input.</strong> Each image is drawn at its native pixel dimensions. There is no "make all images the same width" step, no automatic crop and no smart matching. The canvas is sized to hold the largest dimensions, and every image is placed at full size inside it.</p>
+<p>That single rule produces every visible artefact. Two screenshots at 1920 and 1280 pixels wide merge into a canvas 1920 pixels wide; the narrow one occupies 1280 and leaves 640 pixels of background beside it. Two screenshots whose content widths differ by 12 pixels — because a scrollbar appeared in one of them — produce a visible 12-pixel step at the seam, even though the images look identical at a glance.</p>
+<p>The practical consequence is that preparation matters more than settings. Crop both captures to the same content width before stitching, and the seam disappears. Try to fix it afterwards with alignment and you will only choose which side of the step looks wrong.</p>
+
+<h2 id="what-each-direction-actually-computes">What each direction actually computes</h2>
+<p>The tool offers three layouts, and each has its own canvas formula. Let <code>g</code> be the gap in pixels and <code>n</code> the number of images.</p>
+<h3>Vertical</h3>
+<ul>
+<li>Canvas width = the <strong>widest</strong> image; canvas height = the sum of all heights plus <code>g × (n − 1)</code>.</li>
+<li>Each image keeps its own height, so a tall capture followed by a short one simply stacks.</li>
+<li>Horizontal position follows the alignment control: left, centre or right within the widest column.</li>
+</ul>
+<h3>Horizontal</h3>
+<ul>
+<li>Canvas width = sum of all widths plus gaps; canvas height = the <strong>tallest</strong> image.</li>
+<li>Vertical alignment decides whether each image sits at the top, the centre or the bottom of that height.</li>
+<li>Useful for before/after pairs, not for page captures.</li>
+</ul>
+<h3>Grid</h3>
+<ul>
+<li>Cell size = the widest image × the tallest image. Every cell is that size, so unequal images are padded rather than scaled.</li>
+<li>Columns are adjustable from 2 to 6; rows follow from <code>ceil(n / columns)</code>.</li>
+<li>With nine screenshots and three columns you get a 3 × 3 sheet. With seven, the last row has one cell filled and two blank.</li>
+</ul>
+<p>In every mode the background colour fills the gaps and any unused area. White is the default and is the right choice for documents and light interfaces; a mid-grey background makes padded cells obvious, which is useful while you are checking a layout before exporting.</p>
+
+<h2 id="device-pixel-ratio-the-silent-cause-of-misalignment">Device pixel ratio: the silent cause of misalignment</h2>
+<p>Modern screens report a device pixel ratio (DPR). A 1440-pixel-wide browser window on a 2× display produces a screenshot 2880 pixels wide. The same window on a 1× monitor produces 1440. If you capture half a page on a laptop and half on an external monitor, the two files differ by a factor of two, and because stitching does not resize, no alignment setting can reconcile them.</p>
+<div class="lab-table"><table><thead><tr><th>Capture A</th><th>Capture B</th><th>Stitched canvas</th><th>Visible result</th></tr></thead><tbody>
+<tr><td>1440 × 900 (1×)</td><td>1440 × 900 (1×)</td><td>1440 × 1808 (gap 8)</td><td>Clean seam</td></tr>
+<tr><td>2880 × 1800 (2×)</td><td>2880 × 1800 (2×)</td><td>2880 × 3608</td><td>Clean seam, larger file</td></tr>
+<tr><td>2880 × 1800 (2×)</td><td>1440 × 900 (1×)</td><td>2880 × 2708</td><td>Second half occupies half the width, text at a different size</td></tr>
+</tbody></table></div>
+<p>The third row is the one people send to support desks. The fix is not in the stitching tool; it is to recapture both halves under the same conditions: same window width, same zoom level, same monitor. If recapturing is impossible, resize the odd image so both have the same width before stitching, and accept one resampling step. Our <a href="/tools/resize">Resize Image</a> tool does that without touching the other file.</p>
+
+<h2 id="overlap-borders-and-the-gap-setting">Overlap, borders and the gap setting</h2>
+<p>The overlap between two scroll captures is not detected. If capture A ends with a navigation bar and capture B starts with the same navigation bar, the stitched image contains it twice. There is no "remove duplicate rows" option, and adding one would be guesswork: two identical strips can also be legitimate repeated content.</p>
+<p>Three settings interact at the seam:</p>
+<ul>
+<li><strong>Gap</strong> (0–60 px, default 8) inserts background between images. Set it to 0 when you want a seamless join; the default 8 is better for a grid where separation is desirable.</li>
+<li><strong>Background colour</strong> shows through the gap and through padded cells. It has no effect on the images themselves.</li>
+<li><strong>Alignment</strong> decides where a narrower image sits inside the widest column. Centre hides asymmetry best; left is correct when the content is anchored to the left edge, which is usually true for web pages.</li>
+</ul>
+<div class="lab-note">Overlap is cheaper to remove before stitching: capture the second screenshot starting a little below the last visible line of the first, or crop the duplicated strip with the <a href="/tools/crop">Crop</a> tool. Ten seconds of cropping saves a seam that cannot be repaired later without editing pixels.</div>
+
+<h2 id="splitting-and-the-rounding-trap">Splitting, and the rounding trap</h2>
+<p>Splitting cuts a tall image into horizontal strips, all the full original width. There are two modes, and they do not behave the way the labels suggest.</p>
+<p><strong>Split evenly</strong> takes a count from 2 to 20 and divides the height by it. The slice height is <code>ceil(height / count)</code>. For a 3000-pixel image and a count of 3, each slice is exactly 1000 pixels. For 3001 pixels and a count of 3, each slice is 1001 and the last slice is 998 — the tool does not pad the final strip.</p>
+<p><strong>By fixed height</strong> is the mode that catches people out. The count is derived first: <code>n = ceil(height / sliceHeight)</code>. Then the slice height is recalculated as <code>ceil(height / n)</code>. The strips you get are therefore <em>at least</em> as tall as you asked, often taller.</p>
+<div class="lab-table"><table><thead><tr><th>Image height</th><th>Requested slice height</th><th>Count derived</th><th>Actual slice height</th></tr></thead><tbody>
+<tr><td>3000 px</td><td>1000 px</td><td>3</td><td>1000 px</td></tr>
+<tr><td>3000 px</td><td>800 px</td><td>4</td><td>750 px</td></tr>
+<tr><td>1000 px</td><td>300 px</td><td>4</td><td>250 px</td></tr>
+<tr><td>2500 px</td><td>1000 px</td><td>3</td><td>834 px</td></tr>
+</tbody></table></div>
+<p>If a platform enforces a maximum strip height — many chat apps and CMS uploaders do — the safe approach is to choose a count rather than a height, and verify the resulting slice height before uploading. The tool reports the output count and shows every slice in the results grid, so the check is one glance rather than arithmetic under time pressure.</p>
+<p>Splitting only cuts horizontally. There is no vertical split, and no split into a fixed number of columns. For a long screenshot of a wide table, split vertically into strips and then split each strip again only if the platform needs it; the second pass is just another horizontal cut of a narrower file.</p>
+
+<h2 id="the-height-limit-nobody-warns-you-about">The height limit nobody warns you about</h2>
+<p>Browsers cap the dimensions of an in-memory canvas. The exact limit varies by engine and by available memory, but canvases beyond roughly 16,000 pixels on one side routinely fail or return blank output, and the failure is not always graceful. Stitching ten full-page captures into a 25,000-pixel column can therefore produce an empty result with no useful error message.</p>
+<p>The workaround is to stay below the limit by splitting first. Stitch in two halves, keep each under about 12,000 pixels, and deliver them as two files — or downscale the final column to a height the canvas can hold. Downscaling after stitching also reduces file size dramatically, which matters when the destination is a chat app with a 10 MB attachment limit.</p>
+
+<h2 id="a-workflow-that-survives-real-pages">A workflow that survives real pages</h2>
+<ol>
+<li><strong>Capture consistently.</strong> Same window width, same zoom, same monitor. Note the DPR if you will mix devices.</li>
+<li><strong>Crop each capture to the content width.</strong> Remove the scrollbar and any browser chrome. This kills the most common seam problem before it exists.</li>
+<li><strong>Remove overlap.</strong> Crop the repeated strip from the start of the second capture.</li>
+<li><strong>Stitch with gap 0</strong> for a seamless page, or 8 for a grid that should read as separate panels.</li>
+<li><strong>Split before sharing</strong> if the result is taller than about 12,000 pixels, or if the destination enforces a height limit.</li>
+<li><strong>Compress to the target size</strong> last, using the <a href="/guides/compress-to-size">KB-target method</a> rather than a quality slider guess.</li>
+</ol>
+<p>Steps 2 and 3 are the ones people skip, and they are the only steps that prevent seams rather than disguise them. Everything after that is arithmetic the tools already do for you.</p>
+
+
+<h2 id="where-the-seam-shows">Where the seam shows, and how to hide it</h2>
+<p>A vertical stitch of two captures taken a few seconds apart rarely joins invisibly, even when the widths match exactly. Three things give it away. The background colour can shift by a level or two when the page repaints, which shows as a faint horizontal band. A JPEG source carries 8×8 block artefacts that do not line up across the join. And if the captures overlap, the duplicated band appears twice, which reads as a stutter in the text.</p>
+<p>The fixes are procedural rather than technical. Capture with the same window width and the same zoom, so nothing is resampled. Use a lossless source where possible — a PNG capture stitched and saved as PNG has no second generation of artefacts. And if the two captures overlap, crop the overlap off one before merging; the stitch tool has no overlap detection and will paste both copies. When a visible gap is unavoidable, set the gap deliberately, to 8 or 12 px, on a background that matches the page. A deliberate band reads as a divider; a one-pixel misalignment reads as a mistake.</p>
+
+<h2 id="planning-the-height-budget">Planning the height budget before you split</h2>
+<p>Slice counts are easy to get wrong because the arithmetic is done on the total height, not on the visible content. A 1080 × 5000 capture split into four equal parts gives four slices of 1250 px, because 5000 divides exactly. Split the same file by a fixed height of 1500 and you get 1500, 1500, 1500 and 500 — three full slices and a short tail, which is usually what a chat window wants, since it displays images at a fixed maximum height and a short final image looks intentional.</p>
+<p>Work backwards from the destination. If the receiving window shows 1200 px before scrolling, split at 1100 so each slice is fully visible. If the destination imposes a byte limit instead, split at a height that keeps each PNG under it, then compress the slices rather than splitting again. And remember that the browser throttles consecutive downloads: a twenty-slice split is twenty prompts in some browsers, and the 350 ms spacing exists to reduce the chance of the batch being dropped partway through.</p>
+
+<h2 id="checking-the-slices-before-sending">Checking the slices before sending</h2>
+<p>The failure that matters is a cut through a line of text, and it is invisible in a thumbnail. Open the boundary between the first two slices at full size and look for a half-height line of glyphs. If a cut lands badly, change the count by one rather than nudging the height: the boundaries move by a large step and usually clear the text entirely. For a set that will be read on a phone, check the first and last slices specifically — the first carries the header and the last carries whatever was left over, and both are the most likely to be unrepresentative.</p>
+<h2 id="frequently-asked-questions">Frequently asked questions</h2>
+<div class="lab-table"><table><tbody>
+<tr><th>Why are my screenshots different widths?</th><td>Window size, zoom level or device pixel ratio changed between captures. Stitching does not scale, so the difference is preserved. Recapture under identical conditions or resize before stitching.</td></tr>
+<tr><th>Can it remove the repeated strip automatically?</th><td>No. Duplicate detection is ambiguous by nature; crop the overlap manually before stitching.</td></tr>
+<tr><th>Why did my requested slice height change?</th><td>Fixed-height mode derives a slice count first, then recalculates the height so the strips are equal. The result is never shorter than requested, but it can be taller.</td></tr>
+<tr><th>Does splitting reduce quality?</th><td>No. Each slice is a direct pixel copy of a region, exported as PNG. Nothing is resampled.</td></tr>
+<tr><th>Why did a very tall stitch fail?</th><td>The canvas exceeded the browser's dimension or memory limit. Split into smaller groups and stitch each one separately.</td></tr>
+</tbody></table></div>
+
+<div class="lab-cta"><p style="margin:0 0 8px;"><strong>Try the two tools together</strong></p><p style="margin:0;">Use <a href="/tools/stitch">Stitch Images</a> to build the long capture, then <a href="/tools/split">Split Image</a> to cut it into upload-sized strips. Both run entirely in the browser.</p></div>
+
+<h2 id="related-reading">Related reading</h2>
+<ul>
+<li><a href="/guides/compress-to-size">Compressing to a target KB</a> — the last step before uploading a long strip.</li>
+<li><a href="/guides/image-to-pdf-page-geometry">Photo to PDF page geometry</a> — what happens when these strips become document pages.</li>
+<li><a href="/guides/image-formats">Choosing an image format</a> — why PNG is the right container for screenshots.</li>
+<li><a href="/guides/redact-photo-privacy">Redacting photos for privacy</a> — remove personal data before sharing a capture.</li>
+</ul>
+</div>
+</div>
+</section>
+<footer class="footer">
+<div class="container">
+<div class="footer-content">
+<div class="footer-brand"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Studio</span></span></div>
+<p class="footer-desc">Free online image tools — everything runs locally in your browser</p>
+</div>
+<div class="footer-links">
+<a href="/#tools">All Tools</a><a href="/guides/">Image Guides</a><a href="/guides/#lab-notes">Lab Notes</a>
+<a href="/guides/changelog">Lab Changelog</a><a href="/about">About</a><a href="/contact">Contact</a>
+<a href="/faq">FAQ</a><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a>
+</div>
+<div class="footer-bottom">
+<p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
+<p>© 2026 PicStudio. All rights reserved. Lab Notes are original measured reports, not rewritten articles.</p>
+</div>
+</div>
+</footer>
+<script src="/assets/js/main.js?v=20261111g"></script>
+<script src="/assets/js/i18n-dict.js?v=20261108ml"></script>
+<script src="/assets/js/i18n.js?v=20261108ml"></script>
+<script src="/assets/js/ux.js?v=20261108ml"></script>
+</body>
+</html>

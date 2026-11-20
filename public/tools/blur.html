@@ -141,6 +141,10 @@
 <h1><span>🖼️ Add Border &amp; Padding</span></h1>
 <p><span>Frame a screenshot, give a photo a gallery mat, or add breathing room for a slide — with exact pixel control.</span></p>
 </div>
+<noscript><div id="nojsNotice" style="margin:18px 0;padding:14px 18px;border-left:3px solid #f59e0b;background:rgba(245,158,11,.09);border-radius:6px;">
+<p style="margin:0;font-size:14px;line-height:1.8;color:var(--text-secondary,#475569);"><strong>This tool needs JavaScript to process images.</strong> The editor runs entirely inside your browser, so it cannot start with scripting turned off. Everything written below is plain HTML: the method, the numbers, the failure cases and the FAQ all read without it.</p>
+</div></noscript>
+
 <div class="upload-area" id="uploadArea">
 <div class="upload-icon">📁</div>
 <div class="upload-text">Click or drag an image here</div>
@@ -226,6 +230,37 @@
 <div class="faq-item"><div class="faq-question"><span>Can I keep transparent corners?</span></div><div class="faq-answer"><span>Yes — set the border colour to a transparent-friendly PNG workflow, or pick the Rounded Corners tool for a pure transparent mask.</span></div></div>
 <div class="faq-item"><div class="faq-question"><span>Is the image uploaded?</span></div><div class="faq-answer"><span>No. All drawing happens in your browser on an off-screen canvas.</span></div></div>
 </div>
+
+<div class="content-block">
+<h2>What "adding a border" changes in the file</h2>
+<p>The picture itself is not scaled or cropped. The tool creates a larger canvas and draws the original image inside it, leaving room for a frame and, if you ask for it, a matte between the picture and the frame. Output dimensions are therefore the original dimensions plus the frame on each side. That matters for two reasons: the image is not resampled, so no detail is lost, and the final pixel size is larger than the source, which is usually what you want for print and usually the opposite of what you want for a web upload.</p>
+
+<h2>Border, matte and the difference between them</h2>
+<p>Two separate controls add space, and they are easy to confuse:</p>
+<ul>
+<li><strong>Border</strong> is the visible frame — the coloured band at the outer edge.</li>
+<li><strong>Matte (padding)</strong> is the area between the photograph and the frame. In print terms this is the mount board; its purpose is to separate the image from the frame so the composition can breathe.</li>
+</ul>
+<p>A thin border with a generous matte reads as a gallery print. Equal border and matte reads as a decorative frame. A wide border with no matte reads as a sticker or a social post. Setting both to zero produces an unchanged image, which is a useful way to confirm the tool is not altering pixels.</p>
+
+<h2>Corner radius behaves differently on the outside and the inside</h2>
+<p>The radius rounds the outer corners of the frame. It does not round the photograph's own corners unless the picture is the outermost element, which happens only when border and matte are both zero. A radius larger than half the shorter side is meaningless; expect it to clamp rather than to error. On dark frames a small radius is nearly invisible, so check the preview at 100% rather than trusting the slider position.</p>
+
+<h2>Colour choices that survive export</h2>
+<p>PNG keeps a transparent matte, which is what you want when the framed image will sit on an unknown background — a product shot on a coloured page, a badge in a light or dark interface. JPEG has no alpha channel and will flatten transparency to a solid colour, so a "transparent" frame exported as JPEG arrives with a visible rectangle around it. For print, a white or off-white matte is the safer choice regardless of format.</p>
+
+<h2>Where this belongs in a workflow</h2>
+<ul>
+<li><strong>Print:</strong> add a matte, keep the border thin, export PNG at full resolution, and check the final pixel dimensions against the paper size before sending it out.</li>
+<li><strong>Social posts:</strong> use a consistent border width across a series so the images look like a set in a grid.</li>
+<li><strong>E-commerce:</strong> a white matte normalises photos shot on different backgrounds; a coloured border gives a series a shared identity.</li>
+<li><strong>Presentations:</strong> a thin border separates a screenshot from a white slide without the harshness of a drop shadow.</li>
+</ul>
+
+<h2>Limits worth knowing</h2>
+<p>There is no per-side control: the frame is uniform on all four sides. There is no text in the matte, no watermark and no caption area. The result is a single flattened image, not a template, so a series of twenty framed photos is twenty manual passes unless you keep the same settings and repeat them.</p>
+</div>
+
 <div class="content-block">
 <h2>Try other tools</h2>
 <div class="related-tools">

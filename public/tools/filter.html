@@ -141,6 +141,10 @@
 <h1>🌈 Photo Filters</h1>
 <p>Black &amp; white, vintage, cool and warm filters applied in one tap, with adjustable strength</p>
 </div>
+<noscript><div id="nojsNotice" style="margin:18px 0;padding:14px 18px;border-left:3px solid #f59e0b;background:rgba(245,158,11,.09);border-radius:6px;">
+<p style="margin:0;font-size:14px;line-height:1.8;color:var(--text-secondary,#475569);"><strong>This tool needs JavaScript to process images.</strong> The editor runs entirely inside your browser, so it cannot start with scripting turned off. Everything written below is plain HTML: the method, the numbers, the failure cases and the FAQ all read without it.</p>
+</div></noscript>
+
 <div class="upload-area" id="uploadArea">
 <div class="upload-icon">📁</div>
 <div class="upload-text">Click or drag an image here</div>
@@ -252,6 +256,63 @@
 </div>
 </div>
 </div>
+
+<div class="content-block" data-static-copy="filter">
+<h2>The exact maths behind each preset</h2>
+<p>"Vintage" is not a look-up table borrowed from somewhere else; it is three multiplications and two additions. Knowing the numbers explains why one preset ruins skin tones and another leaves highlights flat, and it lets you predict the result before you drag the strength slider.</p>
+<div class="table-wrap">
+<table class="spec">
+<tbody>
+<tr><th>Black &amp; white</th><td>L = 0.299R + 0.587G + 0.114B, then R = G = B = L</td></tr>
+<tr><th>Vintage brown</th><td>R × 0.393 + G × 0.769 + B × 0.189 (green and blue rows use their own coefficients)</td></tr>
+<tr><th>Cool</th><td>R × 0.80, G × 0.95, B × 1.20</td></tr>
+<tr><th>Warm</th><td>R × 1.20, G × 1.05, B × 0.80</td></tr>
+<tr><th>Old photo</th><td>R × 0.90 + 20, G × 0.80 + 10, B × 0.60</td></tr>
+<tr><th>Invert</th><td>255 − channel, per channel</td></tr>
+<tr><th>Brighten</th><td>every channel × 1.30</td></tr>
+<tr><th>High contrast</th><td>(channel − 128) × 1.50 + 128</td></tr>
+<tr><th>High saturation</th><td>channel × 1.60 + luma × (1 − 1.60)</td></tr>
+</tbody>
+</table>
+</div>
+<p>Two of these clip, and the clipping is predictable. Brighten multiplies by 1.3, so any channel value above 196 reaches 255 and stays there: a pale wall, a white shirt or a bright sky loses all internal detail in one step. High contrast pushes values below roughly 43 and above roughly 213 past the ends, which flattens both shadows and highlights. The strength slider is the only protection — it multiplies the whole change, so at 60% the clipping threshold moves out to about 231 instead of 196.</p>
+
+<h2>What strength actually blends</h2>
+<p>The slider is a straight linear interpolation between the original value and the computed value for every one of the three colour channels. It does not fade an overlay, does not change opacity and does not touch the alpha channel. A transparent PNG stays exactly as transparent as it was; a semi-transparent edge keeps its old alpha and only its colour shifts. That is why the filter output can be dropped onto a coloured page without a white halo appearing.</p>
+<p>Because it is linear, the midpoint is not always a mild version of the preset. Invert at 50% gives every pixel a value near 128 plus or minus half its original contrast, which reads as flat grey. Old photo at 50% keeps half of the red lift and half of the blue cut, which is close to a natural warm grade — a good reason to try 40–60 on that preset specifically rather than leaving it at 100.</p>
+
+<h2>Colour fidelity is not the same as tone</h2>
+<p>Every preset here works channel by channel. None of them uses a curve, a hue rotation or a luminance mask, so a filter cannot rescue an image whose problem is tonal rather than chromatic. If midtones are muddy, the fix is gamma; if highlights are blown, no amount of cool or warm brings them back. The <a href="/tools/adjust">Colour Adjust</a> page exposes brightness, contrast, saturation, temperature, gamma, sharpen and vignette separately, and it applies them in a defined order, which is the right tool when you need to correct rather than stylise.</p>
+<p>The other honest comparison is a CSS filter applied in a browser. A CSS filter changes what the screen draws but leaves the file untouched; screenshot it and you get whatever the compositor produced. This page writes the changed pixels into a real PNG, so the result survives email, print and upload.</p>
+
+<h2>Resolution, output and the 3000-pixel ceiling</h2>
+<p>The editor loads the image onto a canvas whose longest side is capped at 3000 px. A 6000 px photograph is scaled down before a single filter pixel is computed, and the file you download is 3000 px wide. This is deliberate: the loop is plain JavaScript, one pixel at a time, and a 24-megapixel buffer would take long enough that browsers start offering to kill the tab. If the full resolution matters, resize the source elsewhere first, or accept that the filtered copy is a working size rather than an archival one.</p>
+<p>Output is always PNG at the canvas dimensions, named <code>picstudio-filtered.png</code>. There is no JPEG option and no quality slider, so a noisy photograph can easily come out three times larger than the original JPEG. Run the result through <a href="/tools/compress">Compress Image</a> if the file has to travel.</p>
+
+<h2>Failures that are easy to misdiagnose</h2>
+<ul>
+<li><strong>Grey muddy bands in a black-and-white conversion.</strong> Two colours with the same weighted luma become the same grey. Red and green of equal brightness are indistinguishable afterwards; that is the definition of the conversion, not a bug.</li>
+<li><strong>A washed-out result after applying two filters.</strong> There is no stacking control. Applying a second preset means downloading, re-uploading and processing the already-processed PNG, which compounds both the clipping and the PNG size.</li>
+<li><strong>The preview looks softer than the original.</strong> At strength 100 with Brighten or High contrast, values are clamped, so gradients collapse into flat fields. Pull strength back to 70–80 and compare the two previews side by side before downloading.</li>
+<li><strong>Nothing changes at 0.</strong> That is the intended identity: the blend term is zero, so output equals input pixel for pixel.</li>
+</ul>
+
+<h2>Scope</h2>
+<p>One image per session, no batch queue, no presets shared between files, and no undo after download — the original file on your disk is the only copy of the original. Filters are a finishing step for social posts, thumbnails and mood shots; they are not a colour-managed proofing step and they do not embed a colour profile.</p>
+
+<h2>Two more questions this page gets</h2>
+<div class="faq-list">
+<div class="faq-item">
+<div class="faq-question">Can I apply the same filter to ten photos at once?</div>
+<div class="faq-answer">No. The page holds one image and one result. The practical workaround is to settle the preset and strength on one photo, note both numbers, then repeat them on the rest — the same numbers give the same transformation on every file.</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">Does the filter add grain or a paper texture?</div>
+<div class="faq-answer">No. Every preset is a per-pixel colour formula with no noise generator and no texture overlay. "Vintage brown" is a sepia matrix, and "Old photo" is three multipliers plus offsets, which is why both look clean rather than filmic.</div>
+</div>
+</div>
+</div>
+
 <div class="content-block">
 <h2>Try other tools</h2>
 <div class="related-tools">

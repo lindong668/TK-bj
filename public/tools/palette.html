@@ -192,6 +192,10 @@
 .meta-table td{color:var(--text-secondary);word-break:break-all}
 .warn-box{background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.35);border-radius:10px;padding:12px 14px;color:#fcd34d;font-size:.88rem;line-height:1.7;margin-top:12px}
 .ok-box{background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.38);border-radius:10px;padding:12px 14px;color:#6ee7b7;font-size:.88rem;line-height:1.7;margin-top:12px}</style>
+<noscript><div id="nojsNotice" style="margin:18px 0;padding:14px 18px;border-left:3px solid #f59e0b;background:rgba(245,158,11,.09);border-radius:6px;">
+<p style="margin:0;font-size:14px;line-height:1.8;color:var(--text-secondary,#475569);"><strong>This tool needs JavaScript to process images.</strong> The editor runs entirely inside your browser, so it cannot start with scripting turned off. Everything written below is plain HTML: the method, the numbers, the failure cases and the FAQ all read without it.</p>
+</div></noscript>
+
 <div class="upload-area" id="uploadArea">
 <div class="upload-icon">📁</div>
 <div class="upload-text">Click or drag an image here</div>
@@ -252,6 +256,45 @@
 <h2>FAQ about colour extraction</h2>
 <div class="faq-item"><h3>The colours look off — what can I do?</h3><p>K-means starts from random centres, so repeated runs on the same image can differ slightly. Try a different count, or run it a few times and keep the colours that appear consistently.</p></div><div class="faq-item"><h3>Why are very bright or dark colours missing?</h3><p>Clustering is driven by pixel counts, so colours with a tiny share (a small highlight, say) may not form their own cluster. Increase the number of colours in that case.</p></div><div class="faq-item"><h3>Do transparent areas affect the result?</h3><p>No. Pixels below 50% opacity are skipped, so only visible parts are sampled.</p></div><div class="faq-item"><h3>Can I save the swatch card as an image?</h3><p>This version only copies values. For an image, take a screenshot or merge the swatches with the Merge tool.</p></div>
 </div>
+
+<div class="content-block" data-static-copy="palette">
+<h2>How the colours are chosen</h2>
+<p>This is k-means clustering over sampled pixels. The image is sampled on a grid whose step is <code>max(1, floor(sqrt(width × height / 4000)))</code>, which targets roughly 4,000 samples regardless of image size; images smaller than that are sampled completely. Each sample is a point in RGB space with no weighting by position or by area beyond the sampling itself. Transparent pixels — alpha below 128 — are skipped entirely, so a PNG with a large transparent margin does not waste palette slots on nothing.</p>
+<p>The algorithm then places the requested number of centres at random sample positions and runs twelve reassignment passes. That random start is the reason two runs on the same file can differ by a shade or two: k-means converges to a local solution, and a different start can land in a different one. Running the extraction twice and keeping the colours that appear in both is a cheap way to separate the stable palette from the noise.</p>
+
+<h2>Why duplicate swatches appear</h2>
+<p>If a cluster loses all its members during a pass, the implementation keeps the previous centre instead of reseeding it. On a flat image — a logo on a single background — several centres can end up parked on the same colour, producing identical hex values in the list. That is not a colour-picking bug; it is the honest answer that the requested count exceeds the number of distinct colours the image contains. Reduce the count to 3–5 for flat graphics and the duplicates disappear.</p>
+
+<h2>What "dominant" means here, and what it does not</h2>
+<p>Clusters are sized by how many samples fall into them, so a large area of sky dominates a small area of red signage. That is statistically correct and often wrong for design work: the colour you want is frequently the smallest accent in the frame. Two adjustments help. Crop to the region that matters before extracting, using <a href="/tools/crop">Crop Image</a>, so the sampling grid is spent on the subject. Or increase the count to 12–16 and ignore the top of the brightness-sorted list.</p>
+<p>The list is ordered by brightness, dark to light, not by population. A near-black and a near-white often occupy the two ends regardless of how much of the image they cover.</p>
+
+<h2>From swatch to usable design colour</h2>
+<p>The output is a set of hex and RGB values; no image is re-rendered and no palette file is produced. Two practical gaps follow. First, a cluster centre is an average, so a vivid object photographed with soft light yields a desaturated hex that looks duller than the object. Second, the average of an area containing both shadow and highlight is often a mid-tone that exists nowhere in the picture. For interface work, treat the extracted value as a starting point, then check contrast against the actual background — a mid-tone sampled from a photo rarely passes 4.5:1 against white.</p>
+<p>Copying is one click per swatch, and the "copy all" button writes the hex values as newline-separated text, which pastes cleanly into a design token file or a CSS variable block.</p>
+
+<h2>Limits and mismatches</h2>
+<ul>
+<li><strong>3 to 16 colours.</strong> Fewer than three cannot describe a photograph; more than sixteen stops being a palette and becomes a histogram.</li>
+<li><strong>RGB only, no colour management.</strong> Samples are taken from the decoded canvas in sRGB. A wide-gamut source is converted before clustering, so the hex describes the screen version, not the print version.</li>
+<li><strong>No export as ASE, GPL or JSON.</strong> Text and clipboard are the only outputs.</li>
+<li><strong>No area percentages.</strong> The list does not say how much of the image each colour covers, so "dominant" has to be judged by eye.</li>
+<li><strong>No eyedropper on the original.</strong> The cluster output is a summary, not a pixel probe; for a single exact pixel the browser's own developer tools are more direct.</li>
+</ul>
+
+<h2>Two more questions this page gets</h2>
+<div class="faq-list">
+<div class="faq-item">
+<div class="faq-question">Why do I get different hex values each time I run it?</div>
+<div class="faq-answer">The centres start at random sample positions and the algorithm runs a fixed twelve passes. Different starting points converge to slightly different local solutions. Raise the colour count, extract twice, and keep the values that recur.</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">Does the tool change my image?</div>
+<div class="faq-answer">No. It reads the pixels, computes cluster centres and prints hex values. The file on your disk and the preview are untouched, and there is no download of a recoloured image.</div>
+</div>
+</div>
+</div>
+
 <div class="content-block">
 <h2>Try other tools</h2>
 <div class="related-grid"><a class="related-card" href="/tools/adjust"><span class="ricon">🎨</span><span class="rname">Colour Adjust</span><span class="rdesc">Adjust image colours</span></a><a class="related-card" href="/tools/crop"><span class="ricon">✂️</span><span class="rname">Smart Crop</span><span class="rdesc">Crop</span></a><a class="related-card" href="/tools/icon-maker"><span class="ricon">🖼️</span><span class="rname">Icon Maker</span><span class="rdesc">Generate app icons</span></a><a class="related-card" href="/tools/restore"><span class="ricon">🕰️</span><span class="rname">Photo Restore</span><span class="rdesc">Restore yellowed old photos</span></a></div>

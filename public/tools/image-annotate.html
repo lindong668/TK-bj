@@ -141,6 +141,10 @@
 <h1><span>✏️ Image Annotator</span></h1>
 <p><span>Mark up a screenshot or photo with arrows, boxes, numbered steps and text bubbles.</span></p>
 </div>
+<noscript><div id="nojsNotice" style="margin:18px 0;padding:14px 18px;border-left:3px solid #f59e0b;background:rgba(245,158,11,.09);border-radius:6px;">
+<p style="margin:0;font-size:14px;line-height:1.8;color:var(--text-secondary,#475569);"><strong>This tool needs JavaScript to process images.</strong> The editor runs entirely inside your browser, so it cannot start with scripting turned off. Everything written below is plain HTML: the method, the numbers, the failure cases and the FAQ all read without it.</p>
+</div></noscript>
+
 <div class="upload-area" id="uploadArea">
 <div class="upload-icon">📁</div>
 <div class="upload-text">Click or drag an image here</div>
@@ -231,6 +235,47 @@
 <div class="faq-item"><div class="faq-question"><span>Why does my bubble text overflow?</span></div><div class="faq-answer"><span>Very long strings are drawn on one line. Keep bubble text short, or split it into several bubbles.</span></div></div>
 <div class="faq-item"><div class="faq-question"><span>Are images uploaded?</span></div><div class="faq-answer"><span>No. Drawing and export are entirely local Canvas operations.</span></div></div>
 </div>
+
+<div class="content-block">
+<h2>What the export actually contains</h2>
+<p>Every arrow, box, number and bubble is drawn onto a canvas built from the source image, then the whole canvas is flattened into one PNG. There is no layer file, no editable markup and no way to move an annotation after the file is saved. If a label is in the wrong place, the correct fix is to annotate again from the original image rather than to edit the exported PNG.</p>
+<p>That also means annotations are pixels, not text. A bubble that says "Step 3" is not searchable, not selectable and not readable by a screen reader. If the note matters as text, put it in the surrounding document as well; the annotation is for the eye, not for the index.</p>
+
+<h2>Stroke width follows the preview, not the pixel grid</h2>
+<p>The stroke width control is measured in screen pixels. Before drawing, each value is multiplied by the ratio between the image's natural size and the preview's displayed size, so a 4 px setting looks 4 px while you work and stays proportionally the same in the exported file. This is why a stroke that looks right on a 4000-pixel photo can look heavy on a 600-pixel screenshot: the number is relative to the view, and the view is relative to the image.</p>
+<p>A practical rule for screenshots and documents is to keep strokes between 0.25% and 0.5% of the image width. At 1200 px that is 3 to 6 px; at 4000 px it is 10 to 20 px. Below 0.2% the line all but disappears when the image is printed or viewed on a phone.</p>
+
+<h2>Inputs that are converted before you draw</h2>
+<p>The uploader accepts PNG, JPG, WebP, GIF, BMP, SVG, AVIF, ICO and HEIC/HEIF. Two of those behave differently from what the extension suggests:</p>
+<ul>
+<li><strong>SVG</strong> is rasterised at the size the browser renders it. Annotating a vector file therefore produces a bitmap; the output is not scalable.</li>
+<li><strong>GIF</strong> is decoded as a still image, so an animated file loses every frame but the first. There is no frame picker.</li>
+</ul>
+<p>Everything else is decoded at its natural pixel dimensions, which is what the export preserves.</p>
+
+<h2>Colour, contrast and legibility</h2>
+<p>The colour control applies to strokes, box outlines and bubble fills. There is no automatic contrast adjustment, so a red arrow on a red subject disappears. Two habits prevent that: pick a colour that is absent from the area you are marking, and keep a light stroke dark or a dark stroke light. For screenshots of interfaces, a saturated accent such as #DB2777 or #2563EB reads clearly against both white and grey panels.</p>
+
+<h2>Undo, clear and starting over</h2>
+<p>Undo removes the most recent annotation; clear removes all of them. Loading a different file resets the canvas entirely. The counter under the preview reports the current image dimensions and how many annotations are on it, which is the quickest way to confirm that a stray click did not add an invisible box somewhere outside the visible area.</p>
+
+<h2>What this tool does not do</h2>
+<ul>
+<li><strong>No redaction guarantee.</strong> A filled box hides content visually, but the underlying pixels are still in the exported file if the box is semi-transparent. Use the <a href="/tools/mosaic">Mosaic</a> tool for anything that must be unrecoverable.</li>
+<li><strong>No callout leaders or freehand drawing.</strong> The tools are arrows, rectangles, numbered markers and text bubbles.</li>
+<li><strong>No layer editing after export.</strong> See above: the PNG is final.</li>
+<li><strong>No batch mode.</strong> One image per session.</li>
+</ul>
+
+<h2>Annotations on a screenshot: a short checklist</h2>
+<ol>
+<li>Load the image at 100% zoom before placing the first mark, so stroke widths are judged against real pixels.</li>
+<li>Place the mark, then check the counter: the annotation count should match what you intended.</li>
+<li>Keep numbers sequential and consistent in meaning across the whole document.</li>
+<li>Export as PNG. JPEG would add compression artefacts around thin strokes and text.</li>
+</ol>
+</div>
+
 <div class="content-block">
 <h2>Try other tools</h2>
 <div class="related-tools">

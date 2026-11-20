@@ -81,8 +81,38 @@
 <p>These notes appear in the explanation area of every tool page, not hidden away. If a tool behaves differently from its description, please tell us via the Contact page.</p>
 </div>
 <div class="content-block">
+<h2>How the tools are built</h2>
+<p>Every page is ordinary HTML with a stylesheet and a small amount of JavaScript. When you open an image, the browser decodes it into a Canvas bitmap inside your tab; every operation after that — resizing, filtering, cropping, thresholding, colour clustering, PDF assembly — is arithmetic on those pixels. Nothing is sent anywhere, because there is nowhere to send it: the pages are served as static files by Cloudflare's edge network, and there is no image-processing server behind them.</p>
+<p>Two consequences follow, and both are visible in the product. First, the browser's own decoders set the format list: HEIC works where the operating system or browser can decode it, and AVIF works in current Chrome, Edge, Firefox and Safari but not in old ones. Second, the amount of memory available to a tab sets the working ceiling. Most editors fit the source onto a canvas whose longest side is 3000 px, which is generous for web work and clearly below what a desktop editor would accept.</p>
+</div>
+<div class="content-block">
+<h2>Where the numbers in our guides come from</h2>
+<p>The long-form guides and Lab Notes are written from the same source that runs the tools, not from general knowledge. When a page says that A4 is 595.28 × 841.89 points, that the trim tolerance is a per-channel cube rather than a distance, or that vertical stitching adds heights without resampling, those statements can be checked against the code that produces the result. Where a measurement is involved — a rendering test at fourteen placements, a metadata trail across seven saves — the report names the specimen and the method so that a reader can repeat it.</p>
+<p>Reports carry the date they were measured. Corrections are listed in the <a href="/guides/changelog">Lab Changelog</a> rather than silently edited into old pages. If a guide and a tool disagree, the tool is wrong or the guide is out of date, and either way we want to hear about it.</p>
+</div>
+<div class="content-block">
+<h2>What we deliberately do not do</h2>
+<ul>
+<li><strong>No accounts and no stored files.</strong> There is no login, no gallery, no history and no server-side copy of anything you open.</li>
+<li><strong>No claims of AI restoration.</strong> Upscaling interpolates; it does not reconstruct detail that was never captured. The pages say so next to the control, not in a footnote.</li>
+<li><strong>No hidden batch automation.</strong> Each tool handles one image per pass, and the guides describe the manual repetition that a batch workflow would otherwise hide.</li>
+<li><strong>No EXIF editing.</strong> Re-encoding a canvas produces a clean file without the original metadata; that is a side effect of the pipeline, not a metadata editor, and we do not pretend otherwise.</li>
+<li><strong>No sponsored recommendations.</strong> The guides do not contain paid placements, affiliate links or ranked "best tool" lists.</li>
+</ul>
+</div>
+<div class="content-block">
+<h2>Browser support and known limits</h2>
+<p>The site targets current versions of Chrome, Edge, Firefox and Safari on desktop and mobile. Very old browsers without Canvas support will not run the editors at all. On phones, memory limits arrive sooner: a 12-megapixel photo may process, a 48-megapixel one may fail before the preview appears.</p>
+<p>Known limits, stated plainly: images are capped at 3000 px on the long side for editing; canvas heights beyond roughly 32,000 px fail when stitching; transparency is flattened onto white when a JPEG or PDF is produced; and no tool embeds a colour profile in its output. These are engineering boundaries, not temporary bugs, and each tool page repeats the ones that apply to it.</p>
+</div>
+<div class="content-block">
+<h2>How the site is funded</h2>
+<p>PicStudio is free and carries no subscription. It is funded by Google AdSense, which appears on the homepage and on article pages; tool pages are kept clear of ad units so that the working area is not interrupted. Advertising has no influence on which tools exist, what they do, or what the guides conclude. Cookie and advertising details are set out in the <a href="/privacy">Privacy Policy</a>.</p>
+<p style="color:var(--text-muted);font-size:14px;">This page was last reviewed on 20 November 2026.</p>
+</div>
+<div class="content-block">
 <h2>Contact Us</h2>
-<p>Questions, bug reports, feature requests or privacy enquiries — reach us any time at <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a>. We usually reply within 3 to 7 working days.</p>
+<p>Questions, bug reports, feature requests or privacy enquiries — reach us any time at <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a>. We usually reply within 3 to 7 working days. The <a href="/contact">Contact page</a> lists what to include so that a report can be reproduced.</p>
 </div>
 </div>
 </section>

@@ -189,6 +189,10 @@
 .result-box h3{font-size:1rem;color:var(--text-primary);margin-bottom:10px}
 .result-box img{max-width:100%;max-height:480px;border-radius:10px;border:1px solid var(--border);background:var(--bg-dark)}
 @media(max-width:640px){.thumb-item{width:calc(50% - 6px)}}</style>
+<noscript><div id="nojsNotice" style="margin:18px 0;padding:14px 18px;border-left:3px solid #f59e0b;background:rgba(245,158,11,.09);border-radius:6px;">
+<p style="margin:0;font-size:14px;line-height:1.8;color:var(--text-secondary,#475569);"><strong>This tool needs JavaScript to process images.</strong> The editor runs entirely inside your browser, so it cannot start with scripting turned off. Everything written below is plain HTML: the method, the numbers, the failure cases and the FAQ all read without it.</p>
+</div></noscript>
+
 <div class="upload-area" id="uploadArea">
 <div class="upload-icon">📁</div>
 <div class="upload-text">Click or drag an image here</div>
@@ -265,6 +269,48 @@
 <h2>FAQ about merging</h2>
 <div class="faq-item"><h3>How many images can I merge?</h3><p>There is no hard limit, but total pixels must stay under the browser canvas ceiling (roughly 16000×16000). A few dozen ordinary photos are usually fine.</p></div><div class="faq-item"><h3>What if the images differ in size?</h3><p>Gaps are filled with the background colour. To unify them, crop every image to the same ratio with the Crop tool first.</p></div><div class="faq-item"><h3>Can I compress the merged result?</h3><p>Yes. Compress the result afterwards, or shrink each source image before merging.</p></div><div class="faq-item"><h3>Can it sort them automatically?</h3><p>Images follow the order you selected them; use the ↑ ↓ buttons to adjust. Filename sorting is planned for a later version.</p></div>
 </div>
+
+<div class="content-block" data-static-copy="stitch">
+<h2>Nothing is resized — that is the whole design</h2>
+<p>Merging here is a paste operation, not a layout operation. Each source image is drawn at its own pixel size into a larger canvas; no scaling, no resampling, no per-image zoom. The output dimensions are therefore determined entirely by the inputs:</p>
+<ul>
+<li><strong>Vertical:</strong> width becomes the widest image, height becomes the sum of all heights plus the gaps.</li>
+<li><strong>Horizontal:</strong> height becomes the tallest image, width becomes the sum of widths plus the gaps.</li>
+<li><strong>Grid:</strong> every cell is the size of the largest image in the set, rows equal <code>ceil(count / columns)</code>, and columns are limited to 2–6.</li>
+</ul>
+<p>This is why a vertical stitch of screenshots taken at the same width joins seamlessly, and why a stitch of two phone photos and one desktop screenshot produces visible background bars beside the narrower images. The bars are not a bug; they are the empty space left by the widest image. Alignment controls where each image sits inside that space.</p>
+
+<h2>Plan for the gap before you merge</h2>
+<p>The gap slider runs from 0 to 60 px and defaults to 8. Gaps are filled with the background colour, so a set of dark screenshots should be stitched on black and a set of document scans on white; the default white will outline dark images in a way that looks like a rendering fault. Set gap to 0 for a continuous long screenshot, and to 8–16 when you want the individual panels to remain visibly separate.</p>
+<p>For comparison shots the horizontal direction with a gap of about 12 reads well: the eye treats the gap as a divider rather than a mistake. For a poster-style grid, equalise the inputs first. Mixed aspect ratios in a grid leave coloured bands inside each cell, and no alignment setting removes them.</p>
+
+<h2>The canvas ceiling is the real limit</h2>
+<p>The browser gives a canvas a maximum height, typically 32,767 px in Chromium-based browsers, and a maximum total area. A vertical stitch of six 3000 × 3000 screenshots asks for 3000 × 18,000 — about 54 million pixels — which is where memory pressure starts to show. Symptoms are a blank preview, a black result, or a download that opens as a corrupted image. The page's own 3000 px working limit applies to each source, not to the result, so the result can exceed it.</p>
+<p>The reliable workaround is to stitch in stages: join images 1–3, download, then join that result to images 4–6. Each intermediate file is smaller than the final one, and the browser never allocates the full height at once.</p>
+
+<h2>Where this tool stops</h2>
+<ul>
+<li><strong>No rotation or flip.</strong> A sideways photo must be corrected before it is added.</li>
+<li><strong>No per-image scaling.</strong> If one screenshot is 1200 px wide and another 2400, Resize the narrower one first, or accept the bars.</li>
+<li><strong>No automatic overlap detection.</strong> Overlapping long screenshots are pasted end to end, so the duplicated band appears twice. Crop the overlap out of one file first with <a href="/tools/crop">Crop Image</a>.</li>
+<li><strong>No layering or opacity.</strong> Images are placed side by side, never on top of each other.</li>
+<li><strong>No metadata.</strong> The output is a fresh PNG; EXIF from the sources is not carried over.</li>
+</ul>
+<p>Output is always PNG, which keeps text edges crisp and preserves transparency in the gap areas if the background colour is left transparent. For a photographic collage that will be uploaded, run the PNG through <a href="/tools/compress">Compress Image</a> afterwards.</p>
+
+<h2>Two more questions this page gets</h2>
+<div class="faq-list">
+<div class="faq-item">
+<div class="faq-question">Why is my vertical stitch wider than the individual screenshots?</div>
+<div class="faq-answer">Because one image in the set is wider than the others, and the canvas takes the maximum width. Either resize the widest file down, or crop the others to the same width, and the bars disappear.</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">Can I reorder images after merging?</div>
+<div class="faq-answer">The order is fixed once the PNG is downloaded. Reorder the thumbnails before merging; the arrows change the sequence used by every layout mode.</div>
+</div>
+</div>
+</div>
+
 <div class="content-block">
 <h2>Try other tools</h2>
 <div class="related-grid"><a class="related-card" href="/tools/crop"><span class="ricon">✂️</span><span class="rname">Smart Crop</span><span class="rdesc">Unify ratios, then merge</span></a><a class="related-card" href="/tools/split"><span class="ricon">📏</span><span class="rname">Split Long Image</span><span class="rdesc">Cut a long image into slices</span></a><a class="related-card" href="/tools/compress"><span class="ricon">🗜️</span><span class="rname">Compress Image</span><span class="rdesc">Reduce file size</span></a><a class="related-card" href="/tools/watermark"><span class="ricon">💧</span><span class="rname">Add Watermark</span><span class="rdesc">Watermark for protection</span></a></div>

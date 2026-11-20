@@ -141,6 +141,10 @@
 <h1><span>🔍 Image Compare</span></h1>
 <p><span>Put two images side by side with a slider, or highlight exactly which pixels changed.</span></p>
 </div>
+<noscript><div id="nojsNotice" style="margin:18px 0;padding:14px 18px;border-left:3px solid #f59e0b;background:rgba(245,158,11,.09);border-radius:6px;">
+<p style="margin:0;font-size:14px;line-height:1.8;color:var(--text-secondary,#475569);"><strong>This tool needs JavaScript to process images.</strong> The editor runs entirely inside your browser, so it cannot start with scripting turned off. Everything written below is plain HTML: the method, the numbers, the failure cases and the FAQ all read without it.</p>
+</div></noscript>
+
 <div class="upload-area" id="uploadArea">
 <div class="upload-icon">📁</div>
 <div class="upload-text">Click or drag an image here</div>
@@ -228,6 +232,39 @@
 <div class="faq-item"><div class="faq-question"><span>Can I compare a HEIC photo?</span></div><div class="faq-answer"><span>Yes. HEIC/HEIF is decoded locally in a Web Worker when the browser cannot read it natively.</span></div></div>
 <div class="faq-item"><div class="faq-question"><span>Are images uploaded?</span></div><div class="faq-answer"><span>No. Both images stay in your browser and are drawn to local canvases.</span></div></div>
 </div>
+
+<div class="content-block">
+<h2>The comparison canvas is sized to the first image</h2>
+<p>Everything in this tool is drawn into a canvas whose width and height come from image A. Image B is then drawn into that same box, stretched to fill it. When the two files have identical dimensions — the normal case for a before/after pair — this is exact. When they do not, B is distorted, and the comparison shows a shape difference that has nothing to do with the content. The fit option avoids the distortion by drawing B at its native size inside the same box instead of stretching it.</p>
+<p>This single detail explains most "the slider makes my image jump" reports. It is not a rendering bug; it is two different aspect ratios sharing one canvas.</p>
+
+<h2>What the slider position means</h2>
+<p>The slider is a percentage, not a pixel value. At 50 the canvas is cut at half its width and image A is drawn on the left of the cut while B shows on the right. Because the cut is calculated from the canvas width, the same percentage lands in a different place on a 1200 px image and a 4000 px image — which is correct, since the comparison is about content position rather than absolute pixels.</p>
+
+<h2>Difference mode shows compression, not just edits</h2>
+<p>Difference highlighting compares pixel values and marks where they disagree. There is no threshold control, so the output is honest to the point of being noisy: re-encoding the same photo as JPEG at a different quality changes almost every pixel slightly, and difference mode will light up the entire frame. A few dozen isolated specks usually mean "the same image, saved twice"; a solid shape means "something was actually changed here".</p>
+<p>Read the pattern before the quantity. Large uniform regions of difference point at a colour shift or a re-crop; thin outlines around text point at sharpening or compression; a single rectangular patch points at a pasted element.</p>
+
+<h2>Why two identical files can look different</h2>
+<ul>
+<li><strong>Colour profiles.</strong> One file may carry an embedded profile and the other may not, so the browser maps the same numbers through different transforms.</li>
+<li><strong>Alpha.</strong> A transparent PNG is composited over the page background; a JPEG of the same artwork already has a background baked in.</li>
+<li><strong>Scaling.</strong> If one image is displayed at a different size, the browser resamples it and softens detail before you ever compare pixels.</li>
+</ul>
+<p>To compare fairly, load two files with the same dimensions, the same format and the same alpha handling. Comparing a PNG against a JPEG answers "what did the JPEG conversion change", which is useful, but it is not a like-for-like comparison.</p>
+
+<h2>Where this is genuinely useful</h2>
+<ul>
+<li>Checking that a compression pass kept the details you care about, by sliding across faces, text and edges.</li>
+<li>Confirming that a watermark was applied where you expected and at the opacity you chose.</li>
+<li>Verifying that two exports of the same logo differ only in the areas you edited.</li>
+<li>Reviewing a retouch against the original without opening a desktop editor.</li>
+</ul>
+
+<h2>Boundaries</h2>
+<p>The tool reports no similarity score, no PSNR and no perceptual metric. It is a visual comparator: it helps you see, and leaves the judgement to you. It also does not align images, so a one-pixel offset between two captures will read as a large difference along every edge.</p>
+</div>
+
 <div class="content-block">
 <h2>Try other tools</h2>
 <div class="related-tools">

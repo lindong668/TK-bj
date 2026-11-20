@@ -71,12 +71,32 @@
 <p>Attaching the original image helps a lot if you can. Note that email passes through your provider, so if the image is sensitive, just describe the problem — we will never insist on the file.</p>
 </div>
 <div class="content-block">
+<h2>Before you write: three checks</h2>
+<p>Most messages we receive describe one of three problems, and each has a quick check that saves a round trip.</p>
+<ol>
+<li><strong>The page looks empty or a button does nothing.</strong> Open the browser console and look for an error, then try the page with extensions disabled. All editors need JavaScript; with scripting off, the page shows a notice and the controls stay inert by design.</li>
+<li><strong>The result is blank, black or cut off.</strong> Check the pixel size of the source. Editors cap the working canvas at 3000 px on the long side, and stitching can exceed the browser's maximum canvas height. A very large file can fail before any control is touched.</li>
+<li><strong>A download is missing or only the first of several arrived.</strong> Browsers throttle rapid consecutive downloads. If a prompt asks whether to allow multiple downloads, allow it; otherwise the remaining slices are blocked.</li>
+</ol>
+</div>
+<div class="content-block">
+<h2>What we can and cannot help with</h2>
+<p>We can explain how a result was produced, confirm whether a behaviour is intended, investigate a reproducible bug and correct a page that describes a tool inaccurately. Because processing happens in your browser, we cannot see your file, cannot reproduce a problem from a description alone without a specimen, and cannot recover work that was already downloaded and overwritten.</p>
+<p>We also cannot process an image on your behalf. There is no upload channel and no back office that can run a job for you; the <a href="/guides/">guides</a> exist precisely so that the workflow can be repeated without support.</p>
+</div>
+<div class="content-block">
+<h2>Advertising, cookies and data requests</h2>
+<p>Questions about Google AdSense, the consent message or cookies are answered in the <a href="/privacy">Privacy Policy</a>, including how to withdraw consent and how to control personalised advertising through Google's own settings. If something there is unclear, write to the address above and say which section is ambiguous.</p>
+<p>A data request should name the page you visited and the approximate date. In most cases there is no stored record to return, because the site keeps no account, no upload and no history — but we will confirm that in writing rather than assume it.</p>
+</div>
+<div class="content-block">
 <h2>Response time</h2>
-<p>We check email on business days and usually reply within 3 to 7 working days. For bug reports, we will let you know once it is fixed.</p>
+<p>We check email on business days and usually reply within 3 to 7 working days. Bug reports that include a browser version and a reproduction step are handled first; messages that only say "it does not work" take longer because the first reply has to ask for the missing detail.</p>
 </div>
 <div class="content-block">
 <h2>Privacy requests</h2>
 <p>If you would like to access, correct or delete data related to you, mention it in your email. Note that because all processing is local we do not store your images and do not ask for personal information, so there is usually no user data to look up.</p>
+<p style="color:var(--text-muted);font-size:14px;">This page was last reviewed on 20 November 2026.</p>
 </div>
 </div>
 </section>

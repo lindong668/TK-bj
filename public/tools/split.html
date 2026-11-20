@@ -189,6 +189,10 @@
 .result-box h3{font-size:1rem;color:var(--text-primary);margin-bottom:10px}
 .result-box img{max-width:100%;max-height:480px;border-radius:10px;border:1px solid var(--border);background:var(--bg-dark)}
 @media(max-width:640px){.thumb-item{width:calc(50% - 6px)}}</style>
+<noscript><div id="nojsNotice" style="margin:18px 0;padding:14px 18px;border-left:3px solid #f59e0b;background:rgba(245,158,11,.09);border-radius:6px;">
+<p style="margin:0;font-size:14px;line-height:1.8;color:var(--text-secondary,#475569);"><strong>This tool needs JavaScript to process images.</strong> The editor runs entirely inside your browser, so it cannot start with scripting turned off. Everything written below is plain HTML: the method, the numbers, the failure cases and the FAQ all read without it.</p>
+</div></noscript>
+
 <div class="upload-area" id="uploadArea">
 <div class="upload-icon">📁</div>
 <div class="upload-text">Click or drag a long image here</div>
@@ -256,6 +260,41 @@
 <h2>FAQ about splitting</h2>
 <div class="faq-item"><h3>Does splitting reduce quality?</h3><p>No. Splitting is pure pixel copying with no scaling or recompression, so each slice matches the corresponding region exactly.</p></div><div class="faq-item"><h3>Can I split horizontally?</h3><p>This version supports vertical (height-based) splitting only, which covers most long-image needs. For horizontal, use the Crop tool first.</p></div><div class="faq-item"><h3>Will downloading all at once miss files?</h3><p>Browsers throttle consecutive downloads, so the tool waits 350 ms between slices. If your browser asks whether to allow multiple downloads, choose Allow.</p></div><div class="faq-item"><h3>How many slices can I make?</h3><p>Up to 20 by count. Splitting by height depends on the total height, so there is no real upper limit.</p></div>
 </div>
+
+<div class="content-block" data-static-copy="split">
+<h2>Two ways to cut, and how the remainder is handled</h2>
+<p>By count, the height is divided by the number of parts with <code>ceil</code>, then that quotient is used for every slice, so the last one is usually shorter. A 5000 px capture split into three gives slices of 1667, 1667 and 1666 — not three exact thirds, because pixels are whole. By fixed height, the requested height is honoured where possible and the final slice takes whatever is left, even if it is only a few pixels tall. No content is ever dropped and no slice is ever padded.</p>
+<p>The practical difference matters for chat exports. Splitting by count is what you want when the receiving platform limits attachments — five slices means five files, evenly sized. Splitting by height is what you want when each slice must fit under a height limit, such as a story format or a preview pane. Choose the height method, set the limit, and check the last file before sending the set.</p>
+
+<h2>Splitting is a copy, not a re-encode</h2>
+<p>Every slice is cut from vertical ranges of the original canvas. There is no scaling and no smoothing, so text remains as sharp in slice four as in slice one, and thin rules are not resampled into grey. The trade-off is that the total pixel count is preserved: five 1080 × 1000 slices weigh about as much as the original 1080 × 5000 file, and PNG keeps them larger than the source JPEG. If the set must travel by email, compress the slices or convert them afterwards.</p>
+<p>Because the cut is axis-aligned, a horizontal line of text that straddles a boundary is cut in half. There is no overlap and no "smart" boundary detection. When a cut lands badly, change the slice count by one and the boundaries move.</p>
+
+<h2>Why downloads arrive one at a time</h2>
+<p>Browsers throttle rapid consecutive downloads, so the page waits about 350 ms between files. If a browser asks whether the site may download multiple files, allowing it is what makes the batch complete; blocking it usually leaves only the first slice saved. Nothing is uploaded during this process — the waiting happens locally, and closing the tab cancels the remaining saves.</p>
+
+<h2>Limits worth knowing before you start</h2>
+<ul>
+<li><strong>Vertical cuts only.</strong> A wide banner is not split into columns; use <a href="/tools/crop">Crop Image</a> for that.</li>
+<li><strong>2–20 slices by count, 100–8000 px by height.</strong> Outside those ranges the control will not accept the value, which is deliberate: a one-pixel slice is not a useful file.</li>
+<li><strong>The browser canvas ceiling applies.</strong> An extremely long capture may fail to load at all — typically beyond roughly 32,000 px. Split it in a desktop editor, or capture it in two passes.</li>
+<li><strong>No preview of individual slices before splitting.</strong> The slice list appears after the operation, and each can be downloaded separately, so a bad boundary costs one more run rather than a lost original.</li>
+<li><strong>Output is PNG for every slice</strong>, with the original alpha preserved. There is no JPEG option and no per-slice quality control.</li>
+</ul>
+
+<h2>Two more questions this page gets</h2>
+<div class="faq-list">
+<div class="faq-item">
+<div class="faq-question">Why are my slices not exactly the same height?</div>
+<div class="faq-answer">Because the total height rarely divides evenly by the slice count. The quotient is rounded up and the last slice absorbs the difference, so a two-pixel variation is normal and not a processing error.</div>
+</div>
+<div class="faq-item">
+<div class="faq-question">Can I split a tall image into a fixed number of files that each fit a byte limit?</div>
+<div class="faq-answer">Not directly — the controls work in pixels, not kilobytes. Split by height first, then compress or convert each slice to meet the byte target; the pixel cut decides where content breaks, and the compressor decides the weight.</div>
+</div>
+</div>
+</div>
+
 <div class="content-block">
 <h2>Try other tools</h2>
 <div class="related-grid"><a class="related-card" href="/tools/stitch"><span class="ricon">🖼️</span><span class="rname">Merge Images</span><span class="rdesc">Combine into one</span></a><a class="related-card" href="/tools/crop"><span class="ricon">✂️</span><span class="rname">Smart Crop</span><span class="rdesc">Crop</span></a><a class="related-card" href="/tools/compress"><span class="ricon">🗜️</span><span class="rname">Compress Image</span><span class="rdesc">Reduce file size</span></a><a class="related-card" href="/tools/to-pdf"><span class="ricon">📄</span><span class="rname">Image to PDF</span><span class="rdesc">Convert to a PDF document</span></a></div>

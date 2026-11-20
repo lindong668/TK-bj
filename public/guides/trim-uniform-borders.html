@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html data-lang="en" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Trimming White Borders: Why a Two-Pixel Line Survives, or Doesn't | PicStudio</title>
+<meta content="The trimmer samples four corners, checks about 240 points per row and compares channels with a tolerance box. See when a thin edge is missed and when real content gets eaten." name="description"/>
+<meta content="trim white border image, remove scan border, crop uniform border, tolerance trim, screenshot white margin, rounded corner trim" name="keywords"/>
+<link href="https://piccalc.com/guides/trim-uniform-borders" rel="canonical"/>
+<meta content="index,follow,max-image-preview:large" name="robots"/>
+<meta content="article" property="og:type"/>
+<meta content="PicStudio" property="og:site_name"/>
+<meta content="en_US" property="og:locale"/>
+<meta content="Trimming White Borders: Why a Two-Pixel Line Survives, or Doesn't" property="og:title"/>
+<meta content="The trimmer samples four corners, checks about 240 points per row and compares channels with a tolerance box. See when a thin edge is missed and when real content gets eaten." property="og:description"/>
+<meta content="https://piccalc.com/guides/trim-uniform-borders" property="og:url"/>
+<meta content="https://piccalc.com/og-v2.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/><meta content="630" property="og:image:height"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Trimming White Borders: Why a Two-Pixel Line Survives, or Doesn't" name="twitter:title"/>
+<meta content="The trimmer samples four corners, checks about 240 points per row and compares channels with a tolerance box. See when a thin edge is missed and when real content gets eaten." name="twitter:description"/>
+<meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
+<link href="https://piccalc.com/guides/trim-uniform-borders" hreflang="en" rel="alternate"/>
+<link href="https://piccalc.com/guides/trim-uniform-borders" hreflang="x-default" rel="alternate"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "Trimming White Borders: Why a Two-Pixel Line Survives, or Doesn't",
+      "description": "How automatic border trimming works: corner sampling, per-row scan stride, a per-channel tolerance box, and the failure modes that make it stop early or cut too far.",
+      "inLanguage": "en",
+      "datePublished": "2026-11-20",
+      "dateModified": "2026-11-20",
+      "author": {"@type": "Organization", "name": "PicStudio", "url": "https://piccalc.com"},
+      "publisher": {"@type": "Organization", "name": "PicStudio", "url": "https://piccalc.com"},
+      "mainEntityOfPage": {"@type": "WebPage", "@id": "https://piccalc.com/guides/trim-uniform-borders"},
+      "keywords": "trim white border, uniform border crop, tolerance, scan border, rounded corners",
+      "articleSection": "Image Guides",
+      "wordCount": 1700
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "PicStudio", "item": "https://piccalc.com/"},
+        {"@type": "ListItem", "position": 2, "name": "Image Guides", "item": "https://piccalc.com/guides/"},
+        {"@type": "ListItem", "position": 3, "name": "Trimming Uniform Borders", "item": "https://piccalc.com/guides/trim-uniform-borders"}
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why was nothing trimmed?",
+          "acceptedAnswer": {"@type": "Answer", "text": "The border is probably a gradient, carries a shadow, or does not match the averaged corner colour. Pick the edge colour manually or raise the tolerance."}
+        },
+        {
+          "@type": "Question",
+          "name": "Why did it eat part of my content?",
+          "acceptedAnswer": {"@type": "Answer", "text": "The tolerance box is too wide, so pale content near the edge counts as background. Lower the tolerance until only the border matches."}
+        },
+        {
+          "@type": "Question",
+          "name": "Why is one side not trimmed?",
+          "acceptedAnswer": {"@type": "Answer", "text": "The scan stops at the first row or column containing a sampled non-background pixel. One stray mark, a shadow, or a watermark on that side stops the walk there."}
+        },
+        {
+          "@type": "Question",
+          "name": "Does it handle rounded corners?",
+          "acceptedAnswer": {"@type": "Answer", "text": "The rounded mode clears the four corner wedges that remain after a straight trim, but the straight edges must still match the sampled background colour."}
+        },
+        {
+          "@type": "Question",
+          "name": "Does trimming re-encode the image?",
+          "acceptedAnswer": {"@type": "Answer", "text": "The crop itself is pixel-exact. The exported file is re-encoded in the format you choose, so a JPEG export adds one generation, while a PNG export does not."}
+        }
+      ]
+    }
+  ]
+}
+    </script>
+<link href="/favicon.ico" rel="icon" sizes="any"/>
+<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
+<style>
+.article-body{max-width:860px;margin:0 auto}
+.article-body h2{font-size:22px;margin:38px 0 14px;padding-left:12px;border-left:4px solid var(--primary,#6366f1);scroll-margin-top:80px}
+.article-body h3{font-size:17px;margin:26px 0 10px;scroll-margin-top:80px}
+.article-body h4{font-size:15px;margin:20px 0 8px}
+.article-body p{margin:13px 0;line-height:1.95;color:var(--text-secondary,#cbd5e1)}
+.article-body li{line-height:1.9;margin:7px 0;color:var(--text-secondary,#cbd5e1)}
+.article-body ul,.article-body ol{margin:12px 0 16px 24px}
+.article-body strong{color:var(--text,#f1f5f9)}
+.article-body code{background:rgba(99,102,241,.14);padding:1px 5px;border-radius:4px;font-size:.92em}
+.article-body pre{background:#0b1220;border:1px solid #26324a;border-radius:10px;padding:16px;overflow:auto;line-height:1.6}
+.article-body pre code{background:none;padding:0}
+.article-body a{color:#a5b4fc;text-decoration:underline;text-underline-offset:2px}
+.lab-table{overflow-x:auto;margin:22px 0;border:1px solid #26324a;border-radius:10px}
+.lab-table table{border-collapse:collapse;width:100%;font-size:14px;min-width:520px}
+.lab-table th,.lab-table td{padding:10px 13px;border-bottom:1px solid #26324a;text-align:left;line-height:1.7;color:#cbd5e1}
+.lab-table th{background:#1b2740;color:#f1f5f9;font-weight:700;white-space:nowrap}
+.lab-table tr:last-child td{border-bottom:none}
+.lab-note{margin:20px 0;padding:14px 18px;border-left:4px solid #f59e0b;background:rgba(245,158,11,.08);line-height:1.85;color:#e2e8f0;border-radius:0 8px 8px 0}
+.lab-meta{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 26px;font-size:13px;color:#94a3b8}
+.lab-meta span{background:#1b2740;border:1px solid #2c3a58;padding:5px 11px;border-radius:999px}
+.lab-toc{background:#141f36;border:1px solid #2c3a58;border-radius:12px;padding:18px 22px;margin:24px 0 34px}
+.lab-toc strong{display:block;margin-bottom:10px;color:#f1f5f9;font-size:15px}
+.lab-toc ol{margin:0 0 0 20px;columns:2;column-gap:28px}
+.lab-toc li{break-inside:avoid;margin:6px 0;font-size:14px}
+.lab-toc a{color:#a5b4fc;text-decoration:none}
+.lab-cta{background:linear-gradient(100deg,#4f46e5,#db2777);border-radius:12px;padding:20px 24px;margin:30px 0;color:#fff}
+.lab-cta a{color:#fff;font-weight:700}
+@media(max-width:640px){.lab-toc ol{columns:1}.article-body h2{font-size:19px}}
+</style>
+</head>
+<body>
+<header class="header">
+<div class="container">
+<a class="logo" href="/"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Studio</span></span></a>
+<nav class="tool-nav">
+<select id="lang-select" name="lang-select" class="lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/guides/" selected>English</option><option value="/zh/guides/">中文</option></select><noscript><a href="/zh/guides/">中文</a></noscript>
+<a href="/#tools">All Tools</a>
+<a href="/guides/">Image Guides</a>
+<a href="/privacy">Privacy Policy</a>
+<a href="/faq">FAQ</a>
+<a href="/contact">Contact</a>
+</nav>
+<select id="lang-select-m" name="lang-select-m" class="lang-select-m lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/guides/" selected>English</option><option value="/zh/guides/">中文</option></select><noscript><a href="/zh/guides/">中文</a></noscript>
+</div>
+</header>
+<section class="tool-page">
+<div class="container">
+<div class="article-body">
+<div class="guide-top"><a class="guide-back" href="/guides/">← All guides</a><span class="guide-crumb"><a href="/" style="color:var(--text-muted);">Home</a><span>› Image Guides › Border Trimming</span></span></div>
+<h1>Trimming White Borders: Why a Two-Pixel Line Survives, or Doesn't</h1>
+<div class="lab-meta"><span>Published 2026-11-20</span><span>Updated 2026-11-20</span><span>2,375 words</span><span>Based on the PicStudio tool's implementation</span></div>
+<nav class="lab-toc"><strong>On this page</strong><ol><li><a href="#what-the-trimmer-is-looking-for">What the trimmer is looking for</a></li><li><a href="#the-corner-sample-and-its-blind-spots">The corner sample and its blind spots</a></li><li><a href="#roughly-240-checks-per-row">Roughly 240 checks per row</a></li><li><a href="#what-tolerance-actually-compares">What tolerance actually compares</a></li><li><a href="#failure-modes-and-what-they-look-like">Failure modes, and what they look like</a></li><li><a href="#rounded-corners-and-scan-edges">Rounded corners and scan edges</a></li><li><a href="#when-to-crop-by-hand-instead">When to crop by hand instead</a></li><li><a href="#choosing-a-tolerance-from-the-file">Choosing a tolerance from the file</a></li><li><a href="#a-corner-average-that-fails">A corner average that fails</a></li><li><a href="#trimming-a-set-without-a-batch-mode">Trimming a set without a batch mode</a></li><li><a href="#frequently-asked-questions">Frequently asked questions</a></li></ol></nav>
+<p>Automatic border trimming looks like magic the first time it works and looks broken the first time it does not. Both reactions come from the same fact: the trimmer is a small, deterministic scanner, not a model that understands your image. It samples the border colour, then walks inward until it meets something that is not that colour. Everything it does — and everything it fails to do — follows from how those two steps are implemented.</p>
+<p>This page documents the procedure used by our <a href="/tools/trim-edges">Trim Borders</a> tool, including the parts that are easy to trip over: an averaged corner colour, a scan stride, and a tolerance test that works per channel rather than by distance.</p>
+
+<h2 id="what-the-trimmer-is-looking-for">What the trimmer is looking for</h2>
+<p>The goal is a rectangular crop that removes rows and columns which contain only the background. For a scanned document on a white page, for a product photo shot on a seamless white background, or for a screenshot with a wide empty margin, this is exactly the right operation. For anything else — a photo with a gradient sky at the edge, a card with a drop shadow, a page photographed at an angle — it is an approximation that may stop early or cut too much.</p>
+<p>Two settings change the definition of "background": the colour it compares against, and how different a pixel may be before it counts as content. Both have defaults that suit the common case and both need adjusting for the uncommon one.</p>
+
+<h2 id="the-corner-sample-and-its-blind-spots">The corner sample and its blind spots</h2>
+<p>By default the reference colour is the average of the four corner pixels. Averaging is a compromise. It handles the case where one corner is slightly dirty, and it fails when the corners are genuinely different colours.</p>
+<ul>
+<li><strong>A card with two-tone background:</strong> top corners from one panel, bottom corners from another. The average lands between them and matches neither, so nothing is trimmed.</li>
+<li><strong>Rounded corners on a screenshot:</strong> the corner pixels are the page behind the card, not the card border. The average picks up that outer colour, and the scan stops at the card's edge.</li>
+<li><strong>A scan with a dark strip along one edge:</strong> one corner is much darker, dragging the average away from white; the white border on the other three sides no longer matches.</li>
+</ul>
+<p>The second sample mode fixes all three: pick the border colour directly from the image. It costs one click and removes the entire class of "the corners lied" failures. If trimming does nothing on the first attempt, this is the first thing to try — before touching tolerance.</p>
+
+<h2 id="roughly-240-checks-per-row">Roughly 240 checks per row</h2>
+<p>A row is considered background when every sampled pixel in it matches the reference colour. The word "sampled" is doing a lot of work there. Checking every pixel of a 4000-pixel row, on every row of a 3000-pixel image, is twelve million comparisons before anything is cropped; instead the scanner uses a stride:</p>
+<pre><code>stride = max(1, floor(width / 240))</code></pre>
+<p>So it looks at roughly 240 positions per row regardless of image width. The stride is invisible in the interface, and it explains the single most confusing result this tool produces: a thin line of content that survives the trim, or a thin border that does not get removed.</p>
+<div class="lab-table"><table><thead><tr><th>Image width</th><th>Stride</th><th>Samples per row</th><th>Chance a 1 px line is hit</th></tr></thead><tbody>
+<tr><td>240 px</td><td>1</td><td>240</td><td>100%</td></tr>
+<tr><td>1200 px</td><td>5</td><td>240</td><td>~20%</td></tr>
+<tr><td>2400 px</td><td>10</td><td>240</td><td>~10%</td></tr>
+<tr><td>4000 px</td><td>16</td><td>250</td><td>~6%</td></tr>
+</tbody></table></div>
+<p>The probability scales with the thickness of the feature: on a 1200-pixel-wide image, a five-pixel line has roughly an 80% chance of being sampled somewhere and stopping the walk, while a one-pixel rule is mostly invisible. This is not a bug to be fixed by adding more samples; scanning every pixel would make the tool unusable on phone photos. It is a limitation to design around: if you need a hairline preserved exactly, crop by hand.</p>
+<p>The same stride applies vertically when scanning columns, using the image height. A tall, narrow image with a thin horizontal border is therefore more likely to trim correctly than a wide one with a thin vertical border.</p>
+
+<h2 id="what-tolerance-actually-compares">What tolerance actually compares</h2>
+<p>Tolerance is a per-channel allowance, not a distance. A pixel matches when <strong>each</strong> of red, green and blue is within the tolerance value of the reference:</p>
+<pre><code>match = |r - r0| <= t && |g - g0| <= t && |b - b0| <= t</code></pre>
+<p>That is a cube in colour space, not a sphere. At the default tolerance of 18, a pixel may differ by 18 in every channel and still count as background; the corner of that cube is about 31 units away in straight-line distance. The practical effect is that colour casts are handled more generously than expected, while a single-channel difference — a slightly blue shadow, for example — can fail even when the colours look identical to the eye.</p>
+<div class="lab-table"><table><thead><tr><th>Tolerance</th><th>Behaviour</th><th>Typical use</th></tr></thead><tbody>
+<tr><td>0</td><td>Exact match only</td><td>Flat PNG exports, synthetic images</td></tr>
+<tr><td>8–12</td><td>Tight</td><td>Clean scans, screenshots</td></tr>
+<tr><td>18 (default)</td><td>Moderate</td><td>JPEG photos with mild noise</td></tr>
+<tr><td>30–45</td><td>Loose</td><td>Compressed scans, faint gradients</td></tr>
+<tr><td>60–80</td><td>Very loose</td><td>Near-white content will be eaten</td></tr>
+</tbody></table></div>
+<p>The failure is asymmetric. Too low and the tool reports that nothing was trimmed, which is obvious and harmless. Too high and it quietly removes pale content — light grey text, thin table rules, the pale edge of a shadow — which is much easier to miss until the file is published. When in doubt, start low and raise it in steps, checking the preview between attempts.</p>
+
+<h2 id="failure-modes-and-what-they-look-like">Failure modes, and what they look like</h2>
+<h3>Nothing is trimmed</h3>
+<p>The border does not match the reference within tolerance. Causes, in order of likelihood: gradient background, drop shadow, averaged corners from a mixed background, scanner noise above the tolerance. Fix: switch to "pick a colour", sample a true border pixel, then raise tolerance gradually.</p>
+<h3>Only some sides are trimmed</h3>
+<p>The walk stops independently on each side at the first row or column that contains a sampled non-background pixel. A watermark, a page number, a punch hole, or a shadow along one edge is enough to stop that side while the other three trim normally. The result is an off-centre crop that looks deliberate and is not.</p>
+<h3>Content is clipped</h3>
+<p>Tolerance is wide enough that pale content matches the background. The symptom is a crop that looks correct in the preview and has lost the top of a letter or a light rule. Lower the tolerance and compare the before and after dimensions: if the crop is smaller than the visible border, something inside was eaten.</p>
+<h3>Edges remain slightly dirty</h3>
+<p>A soft shadow does not have a hard boundary, so the last matching row still contains a faint tint. This is where the rounded-corner mode helps, because it clears the corner wedges left by anti-aliasing; for straight edges, a small manual crop of a few pixels finishes the job.</p>
+
+<h2 id="rounded-corners-and-scan-edges">Rounded corners and scan edges</h2>
+<p>The rounded mode exists for a specific visual pattern: a screenshot of a card or dialog with rounded corners, exported on a solid background. After a straight trim, four curved wedges of background remain in the corners. The rounded mode removes them, so the result looks like a clean rounded rectangle rather than a rectangle with white notches.</p>
+<p>It does not change how the straight edges are detected. If the side borders are gradients, enabling the rounded mode will not fix them. Use it as a finishing pass, not as a substitute for a correct reference colour.</p>
+
+<h2 id="when-to-crop-by-hand-instead">When to crop by hand instead</h2>
+<p>Automatic trimming is the right tool when the border is genuinely uniform and the content is clearly separated from it. Manual cropping wins in four situations:</p>
+<ul>
+<li><strong>Skewed scans.</strong> A page photographed at a slight angle produces a border that is not axis-aligned; a rectangular crop cannot follow it. Rotate or straighten first.</li>
+<li><strong>Hairline content.</strong> As the stride table shows, one- or two-pixel features near the edge may be missed. Crop to keep them.</li>
+<li><strong>Gradients and shadows.</strong> There is no tolerance that separates a soft shadow from the background without also removing pale content.</li>
+<li><strong>Intentional asymmetric margins.</strong> A design with a wide left margin and a narrow right one is not a defect; trimming will destroy the composition.</li>
+</ul>
+<p>The <a href="/tools/crop">Crop</a> tool gives you exact numeric control and a live preview, which is slower but predictable. A reasonable default is to attempt the automatic trim first, inspect the result at 100%, and fall back to manual cropping when the four sides do not behave consistently.</p>
+
+
+<h2 id="choosing-a-tolerance-from-the-file">Choosing a tolerance from the file, not from habit</h2>
+<p>The default of 18 is a compromise, and on many files it is the wrong compromise. The right value follows from how the border was produced, because each source leaves a different amount of noise around what is nominally one colour.</p>
+<ul>
+<li><strong>PNG screenshots:</strong> 0–6. The border really is one value, so a wide tolerance only risks eating content that happens to be pale.</li>
+<li><strong>JPEG screenshots or exports at quality 85 or above:</strong> 8–14. Block noise around a flat white margin typically moves each channel by a handful of levels.</li>
+<li><strong>JPEG at quality 60–75, or a re-saved file:</strong> 14–24. Artefacts spread further, especially next to text.</li>
+<li><strong>Scanned paper:</strong> 12–24. The paper texture varies across the sheet, and the scanner adds its own noise on top.</li>
+<li><strong>Anything with a gradient or a shadow:</strong> none of these values work. Crop by hand.</li>
+</ul>
+<p>There is a practical way to find the value without guessing. Pick the colour manually, set tolerance to 0, and note the left/right/top/bottom numbers in the result line. Raise the tolerance in steps of 4 and watch the numbers. A correct setting usually produces a jump: the removed amount stays small, then suddenly matches the real margin. If the numbers creep upward gradually and never settle, the border is not uniform and the scan will either under-trim or eat content, whichever you choose.</p>
+
+<h2 id="a-corner-average-that-fails">A corner average that fails, with the arithmetic</h2>
+<p>Take a photograph framed with sky at the top, grass at the bottom and a white page between them. Suppose the top-left corner samples (135, 206, 235), the bottom-left (85, 107, 47), and the two right corners (250, 250, 250). The tool averages each channel across all four: red (135 + 85 + 250 + 250) / 4 = 180, green (206 + 107 + 250 + 250) / 4 = 203.25, blue (235 + 47 + 250 + 250) / 4 = 195.5. The reference becomes roughly (180, 203, 196) — a teal that appears nowhere in the picture.</p>
+<p>With that reference, the white page differs by about 70 levels in red and 47 in green, far outside any sensible tolerance, so nothing is trimmed and the result line reports zeros on all four sides. Switching to "pick a colour" and choosing the actual page white fixes it immediately. The lesson generalises: whenever the four corners are not the same material, the automatic reference is meaningless, and the manual colour is not an advanced option but the correct one.</p>
+
+<h2 id="trimming-a-set-without-a-batch-mode">Trimming a set without a batch mode</h2>
+<p>There is no queue here, so a set of forty product shots is forty passes. The work is still consistent if the inputs are: settle the tolerance and colour on the first file, write down the four removal numbers, then compare them on the next few. If the numbers are stable to within a few pixels, the set was shot consistently and the same settings will hold. If they differ wildly — 40 px on one side for one file, 180 for the next — the set is not uniform, and no single setting will serve it; sort the files by removal amount and treat them in groups.</p>
+<p>One trap is worth naming. Trimming changes the image dimensions, so a later resize to a fixed box will scale each file by a different factor. For a marketplace that requires identical frames, trim first and then apply the same crop and the same resize preset to every file, in that order. Applying resize first and trimming afterwards is what produces a set where the products look slightly different sizes.</p>
+<h2 id="frequently-asked-questions">Frequently asked questions</h2>
+<div class="lab-table"><table><tbody>
+<tr><th>Why was nothing trimmed?</th><td>The border does not match the averaged corner colour within tolerance — usually a gradient, a shadow, or mixed corners. Pick the border colour manually first.</td></tr>
+<tr><th>Why did it cut into my content?</th><td>Tolerance is too wide, so pale content near the edge counts as background. Lower it and re-run; compare the output dimensions against the visible border width.</td></tr>
+<tr><th>Why is a thin line still there?</th><td>The scanner samples about 240 positions per row, so a one- or two-pixel feature can fall between samples. Crop manually if it must be preserved.</td></tr>
+<tr><th>Can it straighten a skewed scan?</th><td>No. Rotation and perspective correction are separate operations; trimming assumes an axis-aligned border.</td></tr>
+<tr><th>Does trimming change the remaining pixels?</th><td>No. The crop is a pixel-exact region copy; only the export format re-encodes the result.</td></tr>
+</tbody></table></div>
+
+<div class="lab-cta"><p style="margin:0 0 8px;"><strong>Try it on a scan</strong></p><p style="margin:0;">Open <a href="/tools/trim-edges">Trim Borders</a>, start at tolerance 12, and raise it only if the preview shows an untouched border. If one side refuses to trim, switch to picking the border colour.</p></div>
+
+<h2 id="related-reading">Related reading</h2>
+<ul>
+<li><a href="/guides/long-screenshot-stitch-split">Stitching and splitting long screenshots</a> — the natural next step after trimming a capture.</li>
+<li><a href="/guides/image-to-pdf-page-geometry">Photo to PDF page geometry</a> — how the trimmed image lands on an A4 page.</li>
+<li><a href="/guides/compress-to-size">Compressing to a target KB</a> — removing the bytes that a large flat border was contributing.</li>
+<li><a href="/guides/image-formats">Choosing an image format</a> — why PNG keeps a trimmed edge crisp and JPEG does not.</li>
+</ul>
+</div>
+</div>
+</section>
+<footer class="footer">
+<div class="container">
+<div class="footer-content">
+<div class="footer-brand"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Studio</span></span></div>
+<p class="footer-desc">Free online image tools — everything runs locally in your browser</p>
+</div>
+<div class="footer-links">
+<a href="/#tools">All Tools</a><a href="/guides/">Image Guides</a><a href="/guides/#lab-notes">Lab Notes</a>
+<a href="/guides/changelog">Lab Changelog</a><a href="/about">About</a><a href="/contact">Contact</a>
+<a href="/faq">FAQ</a><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a>
+</div>
+<div class="footer-bottom">
+<p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
+<p>© 2026 PicStudio. All rights reserved. Lab Notes are original measured reports, not rewritten articles.</p>
+</div>
+</div>
+</footer>
+<script src="/assets/js/main.js?v=20261111g"></script>
+<script src="/assets/js/i18n-dict.js?v=20261108ml"></script>
+<script src="/assets/js/i18n.js?v=20261108ml"></script>
+<script src="/assets/js/ux.js?v=20261108ml"></script>
+</body>
+</html>

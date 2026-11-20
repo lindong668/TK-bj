@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html data-lang="en" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pulling a Colour Palette Out of a Photo: What K-Means Really Returns | PicStudio</title>
+<meta content="The extractor samples about 4,000 pixels and runs 12 k-means passes from random starts. See why two runs differ, why accent colours vanish, and how to use the hex values." name="description"/>
+<meta content="extract colour palette from image, k means colour extraction, hex colours from photo, dominant colour, colour palette non deterministic, css colour tokens" name="keywords"/>
+<link href="https://piccalc.com/guides/colour-palette-from-photo" rel="canonical"/>
+<meta content="index,follow,max-image-preview:large" name="robots"/>
+<meta content="article" property="og:type"/>
+<meta content="PicStudio" property="og:site_name"/>
+<meta content="en_US" property="og:locale"/>
+<meta content="Pulling a Colour Palette Out of a Photo: What K-Means Really Returns" property="og:title"/>
+<meta content="The extractor samples about 4,000 pixels and runs 12 k-means passes from random starts. See why two runs differ, why accent colours vanish, and how to use the hex values." property="og:description"/>
+<meta content="https://piccalc.com/guides/colour-palette-from-photo" property="og:url"/>
+<meta content="https://piccalc.com/og-v2.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/><meta content="630" property="og:image:height"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Pulling a Colour Palette Out of a Photo: What K-Means Really Returns" name="twitter:title"/>
+<meta content="The extractor samples about 4,000 pixels and runs 12 k-means passes from random starts. See why two runs differ, why accent colours vanish, and how to use the hex values." name="twitter:description"/>
+<meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
+<link href="https://piccalc.com/guides/colour-palette-from-photo" hreflang="en" rel="alternate"/>
+<link href="https://piccalc.com/guides/colour-palette-from-photo" hreflang="x-default" rel="alternate"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "Pulling a Colour Palette Out of a Photo: What K-Means Really Returns",
+      "description": "How the colour extractor samples pixels, why random initial centres make results non-deterministic, and how to read the hex values it returns.",
+      "inLanguage": "en",
+      "datePublished": "2026-11-20",
+      "dateModified": "2026-11-20",
+      "author": {"@type": "Organization", "name": "PicStudio", "url": "https://piccalc.com"},
+      "publisher": {"@type": "Organization", "name": "PicStudio", "url": "https://piccalc.com"},
+      "mainEntityOfPage": {"@type": "WebPage", "@id": "https://piccalc.com/guides/colour-palette-from-photo"},
+      "keywords": "colour palette from image, k-means, hex colours, dominant colour, sampling",
+      "articleSection": "Image Guides",
+      "wordCount": 1680
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "PicStudio", "item": "https://piccalc.com/"},
+        {"@type": "ListItem", "position": 2, "name": "Image Guides", "item": "https://piccalc.com/guides/"},
+        {"@type": "ListItem", "position": 3, "name": "Colour Palette From a Photo", "item": "https://piccalc.com/guides/colour-palette-from-photo"}
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why do I get different colours each time I run it?",
+          "acceptedAnswer": {"@type": "Answer", "text": "The starting centres are chosen at random from the sampled pixels. K-means converges to whichever nearby grouping it starts closest to, so two runs can settle on different but equally valid palettes."}
+        },
+        {
+          "@type": "Question",
+          "name": "Why are there fewer colours than I asked for?",
+          "acceptedAnswer": {"@type": "Answer", "text": "If a cluster loses all of its pixels during the iterations, its centre stays where it was and can end up describing the same colour as another cluster. Identical swatches are the visible symptom."}
+        },
+        {
+          "@type": "Question",
+          "name": "Does it change my image?",
+          "acceptedAnswer": {"@type": "Answer", "text": "No. It only reads pixels and returns a list of hex values. The image itself is never re-rendered or posterised."}
+        },
+        {
+          "@type": "Question",
+          "name": "Why is the small red button missing from the palette?",
+          "acceptedAnswer": {"@type": "Answer", "text": "K-means group centres follow pixel counts. A colour covering a tiny fraction of the image may not win its own cluster. Crop to the area of interest, or raise the colour count, to surface it."}
+        },
+        {
+          "@type": "Question",
+          "name": "Should I use the extracted colours for text?",
+          "acceptedAnswer": {"@type": "Answer", "text": "Only after checking contrast. A colour that looks good as a large block can fail reaching 4.5:1 against white at body-text size. Compute the ratio before shipping it as a text colour."}
+        }
+      ]
+    }
+  ]
+}
+    </script>
+<link href="/favicon.ico" rel="icon" sizes="any"/>
+<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
+<style>
+.article-body{max-width:860px;margin:0 auto}
+.article-body h2{font-size:22px;margin:38px 0 14px;padding-left:12px;border-left:4px solid var(--primary,#6366f1);scroll-margin-top:80px}
+.article-body h3{font-size:17px;margin:26px 0 10px;scroll-margin-top:80px}
+.article-body h4{font-size:15px;margin:20px 0 8px}
+.article-body p{margin:13px 0;line-height:1.95;color:var(--text-secondary,#cbd5e1)}
+.article-body li{line-height:1.9;margin:7px 0;color:var(--text-secondary,#cbd5e1)}
+.article-body ul,.article-body ol{margin:12px 0 16px 24px}
+.article-body strong{color:var(--text,#f1f5f9)}
+.article-body code{background:rgba(99,102,241,.14);padding:1px 5px;border-radius:4px;font-size:.92em}
+.article-body pre{background:#0b1220;border:1px solid #26324a;border-radius:10px;padding:16px;overflow:auto;line-height:1.6}
+.article-body pre code{background:none;padding:0}
+.article-body a{color:#a5b4fc;text-decoration:underline;text-underline-offset:2px}
+.lab-table{overflow-x:auto;margin:22px 0;border:1px solid #26324a;border-radius:10px}
+.lab-table table{border-collapse:collapse;width:100%;font-size:14px;min-width:520px}
+.lab-table th,.lab-table td{padding:10px 13px;border-bottom:1px solid #26324a;text-align:left;line-height:1.7;color:#cbd5e1}
+.lab-table th{background:#1b2740;color:#f1f5f9;font-weight:700;white-space:nowrap}
+.lab-table tr:last-child td{border-bottom:none}
+.lab-note{margin:20px 0;padding:14px 18px;border-left:4px solid #f59e0b;background:rgba(245,158,11,.08);line-height:1.85;color:#e2e8f0;border-radius:0 8px 8px 0}
+.lab-meta{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 26px;font-size:13px;color:#94a3b8}
+.lab-meta span{background:#1b2740;border:1px solid #2c3a58;padding:5px 11px;border-radius:999px}
+.lab-toc{background:#141f36;border:1px solid #2c3a58;border-radius:12px;padding:18px 22px;margin:24px 0 34px}
+.lab-toc strong{display:block;margin-bottom:10px;color:#f1f5f9;font-size:15px}
+.lab-toc ol{margin:0 0 0 20px;columns:2;column-gap:28px}
+.lab-toc li{break-inside:avoid;margin:6px 0;font-size:14px}
+.lab-toc a{color:#a5b4fc;text-decoration:none}
+.lab-cta{background:linear-gradient(100deg,#4f46e5,#db2777);border-radius:12px;padding:20px 24px;margin:30px 0;color:#fff}
+.lab-cta a{color:#fff;font-weight:700}
+@media(max-width:640px){.lab-toc ol{columns:1}.article-body h2{font-size:19px}}
+</style>
+</head>
+<body>
+<header class="header">
+<div class="container">
+<a class="logo" href="/"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Studio</span></span></a>
+<nav class="tool-nav">
+<select id="lang-select" name="lang-select" class="lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/guides/" selected>English</option><option value="/zh/guides/">中文</option></select><noscript><a href="/zh/guides/">中文</a></noscript>
+<a href="/#tools">All Tools</a>
+<a href="/guides/">Image Guides</a>
+<a href="/privacy">Privacy Policy</a>
+<a href="/faq">FAQ</a>
+<a href="/contact">Contact</a>
+</nav>
+<select id="lang-select-m" name="lang-select-m" class="lang-select-m lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/guides/" selected>English</option><option value="/zh/guides/">中文</option></select><noscript><a href="/zh/guides/">中文</a></noscript>
+</div>
+</header>
+<section class="tool-page">
+<div class="container">
+<div class="article-body">
+<div class="guide-top"><a class="guide-back" href="/guides/">← All guides</a><span class="guide-crumb"><a href="/" style="color:var(--text-muted);">Home</a><span>› Image Guides › Colour Extraction</span></span></div>
+<h1>Pulling a Colour Palette Out of a Photo: What K-Means Really Returns</h1>
+<div class="lab-meta"><span>Published 2026-11-20</span><span>Updated 2026-11-20</span><span>2,240 words</span><span>Based on the PicStudio tool's implementation</span></div>
+<nav class="lab-toc"><strong>On this page</strong><ol><li><a href="#what-the-tool-actually-computes">What the tool actually computes</a></li><li><a href="#the-sampling-grid-and-why-it-matters">The sampling grid, and why it matters</a></li><li><a href="#why-two-runs-disagree">Why two runs disagree</a></li><li><a href="#why-you-may-get-fewer-colours-than-you-asked-for">Why you may get fewer colours than you asked for</a></li><li><a href="#area-wins-not-importance">Area wins, not importance</a></li><li><a href="#transparency-is-skipped">Transparency is skipped</a></li><li><a href="#from-hex-to-usable-design-tokens">From hex to usable design tokens</a></li><li><a href="#what-this-tool-is-not">What this tool is not</a></li><li><a href="#kmeans-in-one-paragraph">K-means in one paragraph</a></li><li><a href="#a-contrast-check-you-can-do-by-hand">A contrast check you can do by hand</a></li><li><a href="#median-cut-and-why-it-is-not-used-here">Median cut, and why it is not used here</a></li><li><a href="#frequently-asked-questions">Frequently asked questions</a></li></ol></nav>
+<p>Colour extraction is one of the few image operations that returns data rather than a picture. You put a photograph in, and you get a list of hex codes out. That makes it feel objective, like a measurement. It is not: it is a clustering estimate with a random starting point, and understanding the estimate is what makes the output usable.</p>
+<p>This page explains the exact procedure used by our <a href="/tools/palette">Colour Palette</a> tool — how many pixels it looks at, how the clusters are formed, and why the same photo can produce two different palettes five seconds apart. Every number below comes from the implementation, not from a general description of k-means.</p>
+
+<h2 id="what-the-tool-actually-computes">What the tool actually computes</h2>
+<p>The input is decoded to a canvas and read as a flat RGBA array. Pixels whose alpha is below 128 are ignored entirely, so a transparent background contributes nothing. The remaining pixels are sampled on a grid, and the sample set is clustered with k-means:</p>
+<ol>
+<li>Choose <code>n</code> starting centres, each copied from a randomly selected sample pixel.</li>
+<li>Assign every sample to the nearest centre by straight RGB distance — no perceptual weighting, no gamma correction.</li>
+<li>Move each centre to the average of the samples assigned to it.</li>
+<li>Repeat steps 2 and 3 twelve times, then output the centres as hex values.</li>
+</ol>
+<p>Two details in that list drive most of the behaviour people ask about. The starting centres are <strong>random samples</strong>, not a deterministic spread; and the loop stops after a fixed twelve iterations rather than running until nothing changes. Both are deliberate: they keep the computation instant on a large photo. Both also mean the result is an estimate, not a fact about the image.</p>
+
+<h2 id="the-sampling-grid-and-why-it-matters">The sampling grid, and why it matters</h2>
+<p>Reading every pixel of a 12-megapixel photo would mean 12 million distance comparisons per iteration. Instead the tool computes a stride:</p>
+<pre><code>step = max(1, floor(sqrt(width * height / 4000)))</code></pre>
+<p>and then walks the image in steps of <code>step</code> on both axes. The target is roughly 4,000 samples regardless of input size, which is why extraction feels equally fast on a phone snap and a DSLR frame.</p>
+<div class="lab-table"><table><thead><tr><th>Image size</th><th>Stride</th><th>Approximate samples</th></tr></thead><tbody>
+<tr><td>100 × 100 (10k px)</td><td>1</td><td>10,000 — every pixel</td></tr>
+<tr><td>400 × 400 (160k px)</td><td>6</td><td>~4,500</td></tr>
+<tr><td>1000 × 1000 (1 MP)</td><td>15</td><td>~4,500</td></tr>
+<tr><td>4000 × 3000 (12 MP)</td><td>54</td><td>~4,200</td></tr>
+</tbody></table></div>
+<p>The consequence is subtle but real: <strong>small images are sampled more densely than large ones</strong>. A 100-pixel thumbnail is analysed pixel by pixel; a 12-megapixel photo is read as a sparse grid with 54-pixel gaps. A two-pixel-wide accent line in a large photo can fall entirely between samples and never enter the palette, while the same line in a small crop is sampled dozens of times.</p>
+<p>This is the main argument for cropping before extracting. Crop to the region whose colours you actually want, and the sampler spends its 4,000 points there instead of averaging them across the whole frame.</p>
+
+<h2 id="why-two-runs-disagree">Why two runs disagree</h2>
+<p>K-means is a local optimiser. It cannot find the globally best grouping; it finds the best grouping reachable from where it started. With random starts, two runs on the same image can land in different basins.</p>
+<p>In practice the disagreement is small and predictable: the dominant clusters — sky, skin, wall, background — come back almost identical, because they are large and well separated. The differences appear in the middle of the palette, where two similar greens or two greys could reasonably be split or merged. If you run the tool three times and compare, you will typically see the first two or three swatches match exactly and the tail shift by a few units per channel.</p>
+<p>That has a practical implication for design work: do not treat a single extraction as the definitive palette of a photograph. Run it two or three times, keep the colours that appear every time, and treat the rest as suggestions. If you need a reproducible result — a documented brand palette, for example — pick the values by hand once and stop re-extracting.</p>
+
+<h2 id="why-you-may-get-fewer-colours-than-you-asked-for">Why you may get fewer colours than you asked for</h2>
+<p>When a cluster receives no samples during an iteration, its centre is left where it was rather than being reseeded somewhere empty. If that happens, the final list can contain two nearly identical hex values, or the same value twice. The requested count is a maximum, not a guarantee.</p>
+<p>It shows up most often when you ask for 16 colours from a low-contrast subject: a foggy landscape, a white product on a white background, a page of text. There are not 16 distinct regions to find, so several centres end up describing the same one. Asking for fewer colours usually produces a cleaner, more honest palette than asking for more.</p>
+<div class="lab-note">If a 16-colour run returns visible duplicates, drop to 8 or 10 and compare. A palette of eight colours that are clearly different is more useful than sixteen that repeat.</div>
+
+<h2 id="area-wins-not-importance">Area wins, not importance</h2>
+<p>Each centre moves to the average of the pixels assigned to it, so the number of pixels behind a colour determines whether it survives. A colour covering 40% of the frame will always get a cluster. A colour covering 0.1% — a call-to-action button, a logo accent, a single flower — has roughly four samples out of 4,000 and will usually be absorbed into a neighbouring cluster.</p>
+<p>The estimates are easy to reason about. At 4,000 samples:</p>
+<div class="lab-table"><table><thead><tr><th>Share of image</th><th>Expected samples</th><th>Likely outcome</th></tr></thead><tbody>
+<tr><td>40%</td><td>~1,600</td><td>Always its own cluster</td></tr>
+<tr><td>5%</td><td>~200</td><td>Almost always its own cluster</td></tr>
+<tr><td>1%</td><td>~40</td><td>Usually its own cluster when distinct</td></tr>
+<tr><td>0.1%</td><td>~4</td><td>Often merged into a neighbour</td></tr>
+</tbody></table></div>
+<p>So "extract the palette of this screenshot" is ambiguous. If you want the interface colours, crop to the interface. If you want the photo's mood, extract from the whole frame. The tool cannot know the difference, and neither can any other extractor that weights by area.</p>
+
+<h2 id="transparency-is-skipped">Transparency is skipped</h2>
+<p>Pixels with alpha below 128 are excluded before sampling. For a logo on a transparent background this is exactly right: you get the ink colours, not the empty space. For a semi-transparent overlay — a 60%-opacity gradient, say — the result is less obvious, because alpha 153 is included at its composited RGB value while alpha 76 is dropped. Two visually similar areas can therefore contribute very differently depending on which side of the threshold they fall.</p>
+<p>If the source has soft transparency, flatten it onto the background it will actually sit on before extracting. The colours you get will then match what a viewer sees, instead of the uncomposited pixel values.</p>
+
+<h2 id="from-hex-to-usable-design-tokens">From hex to usable design tokens</h2>
+<p>The output is a list of hex values with a copy-all button. Turning that into a design system needs two checks that the extractor cannot perform.</p>
+<h3>Contrast</h3>
+<p>A colour that looks strong as a large block can fail as text. Relative luminance and the WCAG contrast ratio are the test: for <code>#4F46E5</code> on white the ratio is about <strong>6.3:1</strong>, which passes the 4.5:1 threshold for body text. A lighter tint of the same hue often lands near 3:1, which is acceptable for large headings only. Compute the ratio before assigning a text role — the extractor returns the colour, not the permission to use it.</p>
+<h3>Roles, not just values</h3>
+<p>Sort the returned colours by area and assign roles: the largest usually becomes a background or surface, the second a primary, mid-sized clusters become borders and secondary text, and the smallest become accents. Naming them by role rather than by hex means a later re-extraction can change the value without breaking the design.</p>
+<pre><code>:root {
+  --surface:  #F5F3EF;
+  --primary:  #4F46E5;
+  --muted:    #6B7280;
+  --accent:   #DB2777;
+}</code></pre>
+
+<h2 id="what-this-tool-is-not">What this tool is not</h2>
+<ul>
+<li><strong>Not a quantiser.</strong> It does not reduce the image to <code>n</code> colours. The picture is unchanged; only the swatch list is produced. If you need a posterised image, that is a different operation.</li>
+<li><strong>Not perceptual.</strong> Distance is plain RGB, so it treats a small step in dark tones the same as the same numeric step in highlights, which is not how the eye works.</li>
+<li><strong>Not reproducible.</strong> Random starts mean the same input can yield different tails. Repeat runs and keep the stable colours.</li>
+<li><strong>Not a colour-picker replacement.</strong> If you need the exact value of one pixel, sample it directly; clustering answers a different question.</li>
+</ul>
+
+
+<h2 id="kmeans-in-one-paragraph">K-means, in one paragraph that matches the code</h2>
+<p>Each sampled pixel is a point with three coordinates. The algorithm picks <em>k</em> starting points from the sample at random, assigns every sample to its nearest start by plain RGB distance, moves each start to the average of the samples assigned to it, and repeats. Twelve passes are run, then the final centres are converted to hex. Nothing is weighted by position, nothing is filtered by saturation, and no perceptual colour space is involved — the distance is the square root of the summed squared differences in red, green and blue, which is why two colours that look equally different to the eye can be treated differently by the maths. Blue differences count as much as green ones here, even though the eye is far more sensitive to green.</p>
+
+<h2 id="a-contrast-check-you-can-do-by-hand">A contrast check you can do by hand</h2>
+<p>An extracted colour is a measurement, not a decision. Before it goes into an interface, check it against the surface it will sit on. The WCAG ratio is (L1 + 0.05) / (L2 + 0.05), where L is relative luminance computed from linearised channel values. Three results worth memorising:</p>
+<ul>
+<li><strong>#4F46E5 on white</strong> is about 6.3:1 — passes normal text comfortably.</li>
+<li><strong>#F59E0B on white</strong> is about 2.1:1 — fails for text, and the same amber with black text reaches roughly 9.8:1, which is why amber buttons usually carry dark labels.</li>
+<li><strong>A mid-grey around #808080 on white</strong> is about 3.9:1 — below the 4.5:1 threshold for body text, though acceptable for large headings.</li>
+</ul>
+<p>This is the point where a palette extracted from a photograph most often misleads. Photographs are full of mid-tones, and mid-tones are exactly the values that fail against white. If the palette is for text, darken the chosen hue until the ratio clears 4.5; if it is for a background, lighten it and put dark text on top. The extracted value is a starting hue and a rough saturation, not a finished token.</p>
+
+<h2 id="median-cut-and-why-it-is-not-used-here">Median cut, and why the result is not "more correct" elsewhere</h2>
+<p>Most desktop palette tools use median cut: repeatedly split the colour box along its widest channel at the median, then average each resulting box. It is deterministic, fast, and never produces duplicate swatches, because boxes always contain at least one sample. K-means, used here, minimises the total squared distance instead, which tends to place centres where the mass of colour actually is — better for photographs, worse for flat graphics where it can park several centres on one colour.</p>
+<p>Neither method is objectively right. If you need the same numbers twice, median cut wins. If you need the average colour of a graded sky to look like the sky, k-means usually wins. The practical consequence for this page is that repeated runs can differ slightly, and that a flat logo may return fewer distinct values than requested.</p>
+<h2 id="frequently-asked-questions">Frequently asked questions</h2>
+<div class="lab-table"><table><tbody>
+<tr><th>Why do the results change between runs?</th><td>Starting centres are random sample pixels, and the loop stops after twelve iterations. Different starts reach different local groupings, mostly in the middle of the palette.</td></tr>
+<tr><th>Why are two swatches identical?</th><td>An empty cluster keeps its previous centre. Asking for more colours than the image can support produces duplicates.</td></tr>
+<tr><th>Can I get the colour of one specific object?</th><td>Crop to that object first, then extract. Sampling is area-weighted, so isolation is the only reliable way to make a small region dominant.</td></tr>
+<tr><th>Does it work on transparent PNGs?</th><td>Yes, but pixels with alpha below 128 are ignored. Flatten semi-transparent artwork onto its final background first if you want the on-screen result.</td></tr>
+<tr><th>Does it upload my image?</th><td>No. Decoding, sampling and clustering all run in the browser tab.</td></tr>
+</tbody></table></div>
+
+<div class="lab-cta"><p style="margin:0 0 8px;"><strong>Extract a palette now</strong></p><p style="margin:0;">Open <a href="/tools/palette">Colour Palette</a>, choose 6–10 colours, and run it twice. The swatches that appear both times are the ones worth keeping.</p></div>
+
+<h2 id="related-reading">Related reading</h2>
+<ul>
+<li><a href="/guides/adjust-curve-lab">Three sliders, three curves</a> — what brightness, contrast and gamma do to those exact colour values.</li>
+<li><a href="/guides/image-formats">Choosing an image format</a> — why a JPEG source shifts colours before extraction even starts.</li>
+<li><a href="/guides/compress-to-size">Compressing to a target KB</a> — chroma subsampling and the colour drift it causes.</li>
+<li><a href="/guides/metadata-trail">What survives in your image metadata</a> — including embedded colour profiles.</li>
+</ul>
+</div>
+</div>
+</section>
+<footer class="footer">
+<div class="container">
+<div class="footer-content">
+<div class="footer-brand"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Studio</span></span></div>
+<p class="footer-desc">Free online image tools — everything runs locally in your browser</p>
+</div>
+<div class="footer-links">
+<a href="/#tools">All Tools</a><a href="/guides/">Image Guides</a><a href="/guides/#lab-notes">Lab Notes</a>
+<a href="/guides/changelog">Lab Changelog</a><a href="/about">About</a><a href="/contact">Contact</a>
+<a href="/faq">FAQ</a><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a>
+</div>
+<div class="footer-bottom">
+<p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
+<p>© 2026 PicStudio. All rights reserved. Lab Notes are original measured reports, not rewritten articles.</p>
+</div>
+</div>
+</footer>
+<script src="/assets/js/main.js?v=20261111g"></script>
+<script src="/assets/js/i18n-dict.js?v=20261108ml"></script>
+<script src="/assets/js/i18n.js?v=20261108ml"></script>
+<script src="/assets/js/ux.js?v=20261108ml"></script>
+</body>
+</html>

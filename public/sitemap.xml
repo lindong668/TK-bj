@@ -255,7 +255,7 @@
   </url>
   <url>
     <loc>https://piccalc.com/</loc>
-    <lastmod>2026-11-10</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/"/>
@@ -309,7 +309,7 @@
   </url>
   <url>
     <loc>https://piccalc.com/tools/adjust</loc>
-    <lastmod>2026-11-10</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/adjust"/>
@@ -318,7 +318,7 @@
   </url>
   <url>
     <loc>https://piccalc.com/zh/tools/adjust</loc>
-    <lastmod>2026-11-10</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/adjust"/>
@@ -363,7 +363,7 @@
   </url>
   <url>
     <loc>https://piccalc.com/tools/compress</loc>
-    <lastmod>2026-11-10</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/compress"/>
@@ -372,7 +372,7 @@
   </url>
   <url>
     <loc>https://piccalc.com/zh/tools/compress</loc>
-    <lastmod>2026-11-10</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/compress"/>
@@ -381,7 +381,7 @@
   </url>
   <url>
     <loc>https://piccalc.com/tools/convert</loc>
-    <lastmod>2026-11-10</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/convert"/>
@@ -390,7 +390,7 @@
   </url>
   <url>
     <loc>https://piccalc.com/zh/tools/convert</loc>
-    <lastmod>2026-11-10</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/convert"/>
@@ -435,7 +435,7 @@
   </url>
   <url>
     <loc>https://piccalc.com/tools/exif</loc>
-    <lastmod>2026-11-10</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/exif"/>
@@ -444,7 +444,7 @@
   </url>
   <url>
     <loc>https://piccalc.com/zh/tools/exif</loc>
-    <lastmod>2026-11-10</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/exif"/>
@@ -471,7 +471,7 @@
   </url>
   <url>
     <loc>https://piccalc.com/tools/icon-maker</loc>
-    <lastmod>2026-11-10</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/icon-maker"/>
@@ -480,7 +480,7 @@
   </url>
   <url>
     <loc>https://piccalc.com/zh/tools/icon-maker</loc>
-    <lastmod>2026-11-10</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/icon-maker"/>
@@ -651,7 +651,7 @@
   </url>
   <url>
     <loc>https://piccalc.com/tools/rounded</loc>
-    <lastmod>2026-11-10</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/rounded"/>
@@ -660,7 +660,7 @@
   </url>
   <url>
     <loc>https://piccalc.com/zh/tools/rounded</loc>
-    <lastmod>2026-11-10</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/tools/rounded"/>
@@ -831,11 +831,36 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/changelog"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/changelog"/>
   </url>
-  <url><loc>https://piccalc.com/zh/guides/transparency-accident-report</loc><lastmod>2026-11-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://piccalc.com/zh/guides/favicon-rendering-field-test</loc><lastmod>2026-11-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://piccalc.com/zh/guides/icon-picker-priority</loc><lastmod>2026-11-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://piccalc.com/zh/guides/adjust-curve-lab</loc><lastmod>2026-11-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://piccalc.com/zh/guides/metadata-trail</loc><lastmod>2026-11-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://piccalc.com/zh/guides/icon-qa-checklist</loc><lastmod>2026-11-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://piccalc.com/zh/guides/changelog</loc><lastmod>2026-11-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url>
+    <loc>https://piccalc.com/guides/image-to-pdf-page-geometry</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/image-to-pdf-page-geometry"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/image-to-pdf-page-geometry"/>
+  </url>
+  <url>
+    <loc>https://piccalc.com/guides/long-screenshot-stitch-split</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/long-screenshot-stitch-split"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/long-screenshot-stitch-split"/>
+  </url>
+  <url>
+    <loc>https://piccalc.com/guides/colour-palette-from-photo</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/colour-palette-from-photo"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/colour-palette-from-photo"/>
+  </url>
+  <url>
+    <loc>https://piccalc.com/guides/trim-uniform-borders</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/trim-uniform-borders"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/trim-uniform-borders"/>
+  </url>
 </urlset>

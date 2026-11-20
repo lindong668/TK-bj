@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html data-lang="en" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>What Actually Happens When a Photo Becomes a PDF Page | PicStudio</title>
+<meta content="A4 is 595.28 by 841.89 points. See how an image is fitted and centred, why 2000 pixels caps A4 at about 242 dpi, and when Match image size beats A4." name="description"/>
+<meta content="image to pdf page size, a4 595 842 points, photo to pdf margins, image pdf 2000px, pdf effective dpi, match image size pdf, pdf image jpeg dctdecode" name="keywords"/>
+<link href="https://piccalc.com/guides/image-to-pdf-page-geometry" rel="canonical"/>
+<meta content="index,follow,max-image-preview:large" name="robots"/>
+<meta content="article" property="og:type"/>
+<meta content="PicStudio" property="og:site_name"/>
+<meta content="en_US" property="og:locale"/>
+<meta content="What Actually Happens When a Photo Becomes a PDF Page" property="og:title"/>
+<meta content="A4 is 595.28 by 841.89 points. See how an image is fitted and centred, why 2000 pixels caps A4 at about 242 dpi, and when Match image size beats A4." property="og:description"/>
+<meta content="https://piccalc.com/guides/image-to-pdf-page-geometry" property="og:url"/>
+<meta content="https://piccalc.com/og-v2.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/><meta content="630" property="og:image:height"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="What Actually Happens When a Photo Becomes a PDF Page" name="twitter:title"/>
+<meta content="A4 is 595.28 by 841.89 points. See how an image is fitted and centred, why 2000 pixels caps A4 at about 242 dpi, and when Match image size beats A4." name="twitter:description"/>
+<meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
+<link href="https://piccalc.com/guides/image-to-pdf-page-geometry" hreflang="en" rel="alternate"/>
+<link href="https://piccalc.com/guides/image-to-pdf-page-geometry" hreflang="x-default" rel="alternate"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "What Actually Happens When a Photo Becomes a PDF Page",
+      "description": "How an image is placed on a PDF page: page geometry in points, fit-and-centre scaling, the 2000-pixel ceiling, JPEG embedding and what it means for print resolution.",
+      "inLanguage": "en",
+      "datePublished": "2026-11-20",
+      "dateModified": "2026-11-20",
+      "author": {"@type": "Organization", "name": "PicStudio", "url": "https://piccalc.com"},
+      "publisher": {"@type": "Organization", "name": "PicStudio", "url": "https://piccalc.com"},
+      "mainEntityOfPage": {"@type": "WebPage", "@id": "https://piccalc.com/guides/image-to-pdf-page-geometry"},
+      "keywords": "image to pdf, A4 page size points, PDF margins, effective dpi, match image size",
+      "articleSection": "Image Guides",
+      "wordCount": 1760
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "PicStudio", "item": "https://piccalc.com/"},
+        {"@type": "ListItem", "position": 2, "name": "Image Guides", "item": "https://piccalc.com/guides/"},
+        {"@type": "ListItem", "position": 3, "name": "Photo to PDF Page Geometry", "item": "https://piccalc.com/guides/image-to-pdf-page-geometry"}
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why does my image not fill the A4 page?",
+          "acceptedAnswer": {"@type": "Answer", "text": "A4 has a fixed aspect ratio of 1:1.414. A photo rarely matches it, so the image is scaled until its longest side fits and the remaining space becomes margins. Nothing is cropped."}
+        },
+        {
+          "@type": "Question",
+          "name": "What resolution can an A4 page in this tool actually hold?",
+          "acceptedAnswer": {"@type": "Answer", "text": "Each page is capped at 2000 pixels on the long side. Across the 210 mm width of A4 that is about 242 dpi; across the 297 mm height it is about 171 dpi. A full 300 dpi A4 page would need 2480 by 3508 pixels."}
+        },
+        {
+          "@type": "Question",
+          "name": "Is the image inside the PDF lossless?",
+          "acceptedAnswer": {"@type": "Answer", "text": "No. Each page is embedded as a JPEG stream, with a default quality of 85. That keeps files small but adds one lossy generation on top of whatever the source already had."}
+        },
+        {
+          "@type": "Question",
+          "name": "Why can I not select the text in the PDF?",
+          "acceptedAnswer": {"@type": "Answer", "text": "The PDF contains pictures, not text. No OCR is performed, so letters are just pixels. Search, copy and screen readers will not find words."}
+        },
+        {
+          "@type": "Question",
+          "name": "What does Match image size actually do?",
+          "acceptedAnswer": {"@type": "Answer", "text": "It sets the page box from the first image: pixels multiplied by 0.75 become points, which is the same as 1 CSS pixel at 96 dpi. A 1200 pixel wide image produces a 900 point wide page, about 317 mm."}
+        }
+      ]
+    }
+  ]
+}
+    </script>
+<link href="/favicon.ico" rel="icon" sizes="any"/>
+<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
+<style>
+.article-body{max-width:860px;margin:0 auto}
+.article-body h2{font-size:22px;margin:38px 0 14px;padding-left:12px;border-left:4px solid var(--primary,#6366f1);scroll-margin-top:80px}
+.article-body h3{font-size:17px;margin:26px 0 10px;scroll-margin-top:80px}
+.article-body h4{font-size:15px;margin:20px 0 8px}
+.article-body p{margin:13px 0;line-height:1.95;color:var(--text-secondary,#cbd5e1)}
+.article-body li{line-height:1.9;margin:7px 0;color:var(--text-secondary,#cbd5e1)}
+.article-body ul,.article-body ol{margin:12px 0 16px 24px}
+.article-body strong{color:var(--text,#f1f5f9)}
+.article-body code{background:rgba(99,102,241,.14);padding:1px 5px;border-radius:4px;font-size:.92em}
+.article-body pre{background:#0b1220;border:1px solid #26324a;border-radius:10px;padding:16px;overflow:auto;line-height:1.6}
+.article-body pre code{background:none;padding:0}
+.article-body a{color:#a5b4fc;text-decoration:underline;text-underline-offset:2px}
+.lab-figure{margin:26px 0;border:1px solid #26324a;border-radius:12px;overflow:hidden;background:#111a2c}
+.lab-figure img{display:block;width:100%;height:auto}
+.lab-figure figcaption{padding:11px 16px;font-size:13px;line-height:1.7;color:#94a3b8;border-top:1px solid #26324a}
+.lab-table{overflow-x:auto;margin:22px 0;border:1px solid #26324a;border-radius:10px}
+.lab-table table{border-collapse:collapse;width:100%;font-size:14px;min-width:560px}
+.lab-table th,.lab-table td{padding:10px 13px;border-bottom:1px solid #26324a;text-align:left;line-height:1.7;color:#cbd5e1}
+.lab-table th{background:#1b2740;color:#f1f5f9;font-weight:700;white-space:nowrap}
+.lab-table tr:last-child td{border-bottom:none}
+.lab-note{margin:20px 0;padding:14px 18px;border-left:4px solid #f59e0b;background:rgba(245,158,11,.08);line-height:1.85;color:#e2e8f0;border-radius:0 8px 8px 0}
+.lab-meta{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 26px;font-size:13px;color:#94a3b8}
+.lab-meta span{background:#1b2740;border:1px solid #2c3a58;padding:5px 11px;border-radius:999px}
+.lab-toc{background:#141f36;border:1px solid #2c3a58;border-radius:12px;padding:18px 22px;margin:24px 0 34px}
+.lab-toc strong{display:block;margin-bottom:10px;color:#f1f5f9;font-size:15px}
+.lab-toc ol{margin:0 0 0 20px;columns:2;column-gap:28px}
+.lab-toc li{break-inside:avoid;margin:6px 0;font-size:14px}
+.lab-toc a{color:#a5b4fc;text-decoration:none}
+.lab-cta{background:linear-gradient(100deg,#4f46e5,#db2777);border-radius:12px;padding:20px 24px;margin:30px 0;color:#fff}
+.lab-cta a{color:#fff;font-weight:700}
+@media(max-width:640px){.lab-toc ol{columns:1}.article-body h2{font-size:19px}.article-body pre{font-size:12px}}
+</style>
+</head>
+<body>
+<header class="header">
+<div class="container">
+<a class="logo" href="/"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Studio</span></span></a>
+<nav class="tool-nav">
+<select id="lang-select" name="lang-select" class="lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/guides/" selected>English</option><option value="/zh/guides/">中文</option></select><noscript><a href="/zh/guides/">中文</a></noscript>
+<a href="/#tools">All Tools</a>
+<a href="/guides/">Image Guides</a>
+<a href="/privacy">Privacy Policy</a>
+<a href="/faq">FAQ</a>
+<a href="/contact">Contact</a>
+</nav>
+<select id="lang-select-m" name="lang-select-m" class="lang-select-m lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/guides/" selected>English</option><option value="/zh/guides/">中文</option></select><noscript><a href="/zh/guides/">中文</a></noscript>
+</div>
+</header>
+<section class="tool-page">
+<div class="container">
+<div class="article-body">
+<div class="guide-top"><a class="guide-back" href="/guides/">← All guides</a><span class="guide-crumb"><a href="/" style="color:var(--text-muted);">Home</a><span>› Image Guides › Photo to PDF</span></span></div>
+<h1>What Actually Happens When a Photo Becomes a PDF Page</h1>
+<div class="lab-meta"><span>Published 2026-11-20</span><span>Updated 2026-11-20</span><span>2,071 words</span><span>Based on the PicStudio tool's implementation</span></div>
+<nav class="lab-toc"><strong>On this page</strong><ol><li><a href="#two-page-sizes-two-intentions">Two page sizes, two intentions</a></li><li><a href="#the-fit-rule-and-the-margins-it-creates">The fit rule, and the margins it creates</a></li><li><a href="#the-2000-pixel-ceiling">The 2000-pixel ceiling</a></li><li><a href="#what-the-page-really-contains">What the page really contains</a></li><li><a href="#page-order-is-the-only-editorial-control">Page order is the only editorial control</a></li><li><a href="#what-this-tool-does-not-do">What this tool does not do</a></li><li><a href="#choosing-between-the-two-modes">Choosing between the two modes</a></li><li><a href="#frequently-asked-questions">Frequently asked questions</a></li></ol></nav>
+<p>Sending a photo as a PDF is one of those actions that feels like a single step and is actually four. The image is decoded, possibly downscaled, scaled into a page box, and re-encoded into a stream that a PDF reader can draw. Each of those steps has a number attached, and the numbers explain almost every complaint people have about the result: the white bands, the soft print, the file that cannot be searched.</p>
+<p>This page walks through the implementation of our own <a href="/tools/to-pdf">Image to PDF</a> tool. It is not a list of tips; it is the geometry, with worked examples you can check on a calculator. The same reasoning applies to any image-to-PDF converter, because PDF pages are measured in the same units everywhere.</p>
+
+<h2 id="two-page-sizes-two-intentions">Two page sizes, two intentions</h2>
+<p>PDF does not measure pages in pixels or millimetres. It measures them in <strong>points</strong>, where one point is 1/72 inch. A4 is 210 × 297 mm, which converts to <code>210 / 25.4 × 72 = 595.28</code> points wide and <code>297 / 25.4 × 72 = 841.89</code> points tall. The control on our page says "A4 (595 × 842)" because the labels are rounded; the numbers written into the file are 595.28 and 841.89.</p>
+<p>The second option, <strong>Match image size</strong>, does something different. It takes the first image in the list, multiplies its pixel dimensions by 0.75, and uses the result as the page box. That factor is not arbitrary: a CSS pixel is defined as 1/96 inch, and 72/96 = 0.75. In other words, this mode reproduces the image at the size a browser would show it at 100% zoom, then declares the page to be exactly that size.</p>
+<div class="lab-table"><table><thead><tr><th>Source image</th><th>A4 page</th><th>Match image size page</th></tr></thead><tbody>
+<tr><td>1200 × 800 px</td><td>595.28 × 841.89 pt (portrait, fixed)</td><td>900 × 600 pt = 317.5 × 211.7 mm</td></tr>
+<tr><td>2000 × 3000 px</td><td>595.28 × 841.89 pt</td><td>1500 × 2250 pt = 529 × 794 mm</td></tr>
+<tr><td>800 × 800 px</td><td>595.28 × 841.89 pt</td><td>600 × 600 pt = 211.7 × 211.7 mm</td></tr>
+</tbody></table></div>
+<p>Notice what the middle column does not do: it never changes orientation. A landscape photo on A4 gets a landscape-shaped picture inside a portrait page, with generous top and bottom margins. If you want the page itself to be landscape, "Match image size" is the mode that gets you there — a 2000 × 3000 pixel page becomes 529 × 794 mm, which most printers will then shrink to fit their paper. That is fine for archiving and wrong for a print job that must land at a specific size.</p>
+
+<h2 id="the-fit-rule-and-the-margins-it-creates">The fit rule, and the margins it creates</h2>
+<p>The placement is one line of arithmetic. The tool computes a single scale factor for both axes:</p>
+<pre><code>s  = min(pageWidth / imageWidth, pageHeight / imageHeight)
+dw = imageWidth  * s
+dh = imageHeight * s
+dx = (pageWidth  - dw) / 2
+dy = (pageHeight - dh) / 2</code></pre>
+<p>Because the same <code>s</code> is used on both axes, the aspect ratio never changes. Because it is the minimum of the two ratios, the image always fits entirely inside the page — nothing is cropped. The leftover space is split evenly around the image, which is why the result looks centred.</p>
+<p>Those two properties explain the white bands. Take a 2000 × 1500 landscape photo on A4:</p>
+<ul>
+<li><code>s = min(595.28 / 2000, 841.89 / 1500) = min(0.2976, 0.5613) = 0.2976</code></li>
+<li>drawn size: 595.28 × 446.46 pt — the width is fully used</li>
+<li>vertical margin: <code>(841.89 − 446.46) / 2 = 197.7 pt</code>, about 69.8 mm at the top and the same at the bottom</li>
+</ul>
+<p>A portrait photo of 1500 × 2000 behaves differently because the limiting dimension changes: <code>s = min(0.3969, 0.4209) = 0.3969</code>, the image becomes 595.28 × 793.7 pt, and the margins shrink to 24.1 pt (8.5 mm). A square 2000 × 2000 image leaves 123.3 pt (43.5 mm) top and bottom. The margins are not a setting; they are the consequence of fitting a 3:2 or 1:1 rectangle into a 1:1.414 page.</p>
+<div class="lab-note">If the margins are a problem, the fix is not in the PDF step. Crop the photo to 1:1.414 first — for example 2000 × 2828 pixels — and A4 fills edge to edge with no bands at all.</div>
+
+<h2 id="the-2000-pixel-ceiling">The 2000-pixel ceiling</h2>
+<p>Before any of that geometry happens, each image is downscaled so its longest side is at most 2000 pixels. A 4032 × 3024 phone photo becomes 2000 × 1500. The reason is practical: the PDF stores a JPEG per page, and a 12-megapixel JPEG at quality 85 can exceed 3 MB on its own, which makes a ten-page document unpleasant to email.</p>
+<p>The consequence is a hard ceiling on print resolution, and it is easy to calculate. Pixels per inch is simply pixels divided by inches of paper:</p>
+<div class="lab-table"><table><thead><tr><th>Placement on A4</th><th>Pixels used</th><th>Paper dimension</th><th>Effective resolution</th></tr></thead><tbody>
+<tr><td>Landscape photo, full width</td><td>2000 px</td><td>210 mm = 8.268 in</td><td><strong>241.9 dpi</strong></td></tr>
+<tr><td>Portrait photo, full height</td><td>2000 px</td><td>297 mm = 11.693 in</td><td><strong>171.0 dpi</strong></td></tr>
+<tr><td>Square photo, fitted</td><td>2000 px</td><td>210 mm = 8.268 in</td><td><strong>241.9 dpi</strong></td></tr>
+<tr><td>300 dpi full A4 (reference)</td><td>2480 × 3508 px</td><td>210 × 297 mm</td><td>300 dpi</td></tr>
+</tbody></table></div>
+<p>Read the second row carefully, because it is the one that surprises people. A portrait photo is limited by the page height, and 2000 pixels spread across 297 mm is 171 dpi — noticeably below the 300 dpi usually quoted for print. The same 2000 pixels across the shorter 210 mm dimension give 242 dpi, which is acceptable for most home and office printing. So the honest summary is: <strong>this tool is comfortable at roughly 170–242 dpi on A4, not at 300 dpi.</strong></p>
+<p>If a print shop asks for 300 dpi at A4, no setting in the converter will produce it, because the pixels are discarded before the page is built. The workaround is to split the job: keep the original file for print, and use the PDF for proofing, email and archives. Our <a href="/guides/resolution-dpi">resolution and DPI guide</a> covers the arithmetic for other paper sizes.</p>
+
+<h2 id="what-the-page-really-contains">What the page really contains</h2>
+<p>Each page object holds one image XObject. The image data is a baseline JPEG, written with the <code>/DCTDecode</code> filter, and drawn onto the page by a single transformation matrix. The sharpness control on the page is the JPEG quality, defaulting to 85. That has three consequences worth knowing before you send the file to anyone.</p>
+<h3>One lossy generation is added</h3>
+<p>JPEG is lossy. If the source was already a JPEG, the PDF contains a re-encode of a re-encode. At quality 85 the second generation is usually hard to see at normal viewing size, but it is measurable on sharp text and thin lines. If the source is a PNG screenshot with small type, converting it to JPEG inside the PDF will soften the glyph edges; a PNG source with large photographic content suffers much less.</p>
+<h3>Transparency becomes white</h3>
+<p>JPEG has no alpha channel. Before encoding, the tool scans the image for pixels with alpha below 250; if it finds any, it composites the image onto a white canvas. A transparent logo therefore arrives as a logo on a white rectangle. That is the right default for a document, and the wrong result if you expected the page background to show through.</p>
+<h3>The text is not text</h3>
+<p>Nothing in the pipeline recognises characters. The PDF has no font objects for your content, no text layer and no OCR. Search, copy-paste, text reflow and screen readers will all find an empty page. If the document needs to be searchable, it has to be produced from text, or run through OCR afterwards — that is a different job from converting pictures.</p>
+
+<h2 id="page-order-is-the-only-editorial-control">Page order is the only editorial control</h2>
+<p>Multi-select is allowed, and the list can be reordered with the up and down arrows before generating; the cross removes an item. The order of that list is the order of pages in the file. There is no automatic sorting by filename, date or size, so a batch of scans selected in the wrong order stays wrong.</p>
+<p>Two practical notes. First, a mixed batch is allowed — one page can be a 4000-pixel photo and the next a 900-pixel screenshot; each is scaled independently, so the small one will look softer but nothing breaks. Second, all pages share one page size, taken from the mode you chose, and in "Match image size" mode the box is derived from the <em>first</em> image only. If that first image is a small one, every later page inherits a small box and large photos will be scaled down to fit inside it.</p>
+
+<h2 id="what-this-tool-does-not-do">What this tool does not do</h2>
+<p>Being explicit about the boundaries saves a wasted round trip:</p>
+<ul>
+<li><strong>No crops or rotation.</strong> The page is built from the pixels as they arrive. Rotate first if a scan is sideways.</li>
+<li><strong>No page numbers, headers or watermarks.</strong> Those need a layout engine, not an image embedder.</li>
+<li><strong>No per-page quality.</strong> One sharpness value applies to every page in the document.</li>
+<li><strong>No encryption or permissions.</strong> The output is a plain PDF 1.4 file with no password support.</li>
+<li><strong>No size estimate until generation finishes.</strong> The file is assembled in memory and the total is reported afterwards.</li>
+</ul>
+
+<h2 id="choosing-between-the-two-modes">Choosing between the two modes</h2>
+<p>The decision is about what happens after the file leaves your browser.</p>
+<div class="lab-table"><table><thead><tr><th>Goal</th><th>Mode</th><th>Why</th></tr></thead><tbody>
+<tr><td>Print on A4, forms, letters</td><td>A4</td><td>The page equals the paper; the printer does not rescale.</td></tr>
+<tr><td>Email a set of photos</td><td>A4</td><td>Predictable page count, consistent margins, smaller total size.</td></tr>
+<tr><td>Archive an image at its own proportions</td><td>Match image size</td><td>The page box follows the picture, so nothing is padded.</td></tr>
+<tr><td>Hand to a designer</td><td>Match image size</td><td>Page dimensions encode the intended physical size.</td></tr>
+<tr><td>Full-bleed A4 poster</td><td>A4, after cropping to 1:1.414</td><td>Fitting cannot remove margins; cropping does.</td></tr>
+</tbody></table></div>
+<p>One last check before you send anything to a printer: open the PDF, zoom to 100%, and look at the thinnest line in the image. If it has become a soft grey smear, the JPEG generation is the cause, and re-generating from a PNG source at the same quality is the cheapest fix.</p>
+
+<h2 id="frequently-asked-questions">Frequently asked questions</h2>
+<div class="lab-table"><table><tbody>
+<tr><th>Why is there a white border?</th><td>The image is fitted, not stretched. Its aspect ratio rarely equals A4's, so the difference becomes margin. Crop to 1:1.414 to remove it.</td></tr>
+<tr><th>Why is my 12 MP photo only 2000 px in the PDF?</th><td>Every page is capped at 2000 px on the long side to keep the file emailable. The cap is applied before the page box is calculated.</td></tr>
+<tr><th>Can I get 300 dpi?</th><td>Not on A4 at this cap. 300 dpi A4 requires 2480 × 3508 px; the tool stops at 2000 px, which works out to about 171–242 dpi depending on the fit.</td></tr>
+<tr><th>Is the result searchable?</th><td>No. The page is a picture. Use a text-based workflow or OCR if you need selectable text.</td></tr>
+<tr><th>Does it upload my files?</th><td>No. Decoding, scaling, JPEG encoding and PDF assembly all run in the browser tab; the file never leaves the device.</td></tr>
+</tbody></table></div>
+
+<div class="lab-cta"><p style="margin:0 0 8px;"><strong>Try it on your own file</strong></p><p style="margin:0;">Open <a href="/tools/to-pdf">Image to PDF</a>, load a photo, and compare A4 with Match image size side by side. The page count and the total size are shown before you download.</p></div>
+
+<h2 id="related-reading">Related reading</h2>
+<ul>
+<li><a href="/guides/compress-to-size">Compressing to a target KB</a> — why width caps beat quality sliders when a form demands 200 KB.</li>
+<li><a href="/guides/resolution-dpi">Resolution and DPI</a> — the pixel-per-inch arithmetic for other paper sizes.</li>
+<li><a href="/guides/image-formats">Choosing an image format</a> — when PNG is worth the extra bytes inside a document.</li>
+<li><a href="/guides/metadata-trail">What survives in your image metadata</a> — the fields a re-encode keeps and drops.</li>
+</ul>
+</div>
+</div>
+</section>
+<footer class="footer">
+<div class="container">
+<div class="footer-content">
+<div class="footer-brand"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Studio</span></span></div>
+<p class="footer-desc">Free online image tools — everything runs locally in your browser</p>
+</div>
+<div class="footer-links">
+<a href="/#tools">All Tools</a><a href="/guides/">Image Guides</a><a href="/guides/#lab-notes">Lab Notes</a>
+<a href="/guides/changelog">Lab Changelog</a><a href="/about">About</a><a href="/contact">Contact</a>
+<a href="/faq">FAQ</a><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a>
+</div>
+<div class="footer-bottom">
+<p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
+<p>© 2026 PicStudio. All rights reserved. Lab Notes are original measured reports, not rewritten articles.</p>
+</div>
+</div>
+</footer>
+<script src="/assets/js/main.js?v=20261111g"></script>
+<script src="/assets/js/i18n-dict.js?v=20261108ml"></script>
+<script src="/assets/js/i18n.js?v=20261108ml"></script>
+<script src="/assets/js/ux.js?v=20261108ml"></script>
+</body>
+</html>
