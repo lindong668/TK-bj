@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Seven Saves Later — What Survives in Your Image Metadata | PicStudio</title>
+<title>Seven Saves Later — What Survives in Your Image Metadata | PicCalc</title>
 <meta content="A JPEG tagged with eight fields, pushed through seven operations, then scored field by field. Includes the EXIF-thumbnail trap and a repeatable method." name="description"/>
 <meta content="does converting png to jpg remove exif, does compress strip metadata, base64 preserve exif, exif thumbnail still shows original face, whatsapp strips exif, xmp survives photo edit, orientation tag after save" name="keywords"/>
 <link href="https://piccalc.com/guides/metadata-trail" rel="canonical"/>
 <meta content="index,follow,max-image-preview:large" name="robots"/>
 <meta content="article" property="og:type"/>
-<meta content="PicStudio" property="og:site_name"/>
+<meta content="PicCalc" property="og:site_name"/>
 <meta content="en_US" property="og:locale"/>
 <meta content="Seven Saves Later — What Survives in Your Image Metadata" property="og:title"/>
 <meta content="We tagged a JPEG with eight metadata fields and pushed it through browser save, format conversion, compression, watermarking, Base64 and a chat app, then built a field-by-step survival matrix. Includes the EXIF-thumbnail trap and a reproducible method." property="og:description"/>
@@ -36,12 +36,12 @@
       "dateModified": "2026-11-20",
       "author": {
         "@type": "Organization",
-        "name": "PicStudio",
+        "name": "PicCalc",
         "url": "https://piccalc.com"
       },
       "publisher": {
         "@type": "Organization",
-        "name": "PicStudio",
+        "name": "PicCalc",
         "url": "https://piccalc.com"
       },
       "mainEntityOfPage": {
@@ -53,7 +53,7 @@
       "wordCount": 2046,
       "isPartOf": {
         "@type": "Blog",
-        "name": "PicStudio Lab Notes",
+        "name": "PicCalc Lab Notes",
         "url": "https://piccalc.com/guides/"
       }
     },
@@ -63,7 +63,7 @@
         {
           "@type": "ListItem",
           "position": 1,
-          "name": "PicStudio",
+          "name": "PicCalc",
           "item": "https://piccalc.com/"
         },
         {
@@ -173,12 +173,13 @@
 <body>
 <header class="header">
 <div class="container">
-<a class="logo" href="/"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
-<span class="logo-text">Pic<span class="accent">Studio</span></span></a>
+<a class="logo" href="/"><img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Calc</span></span></a>
 <nav class="tool-nav">
 <select id="lang-select" name="lang-select" class="lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/guides/" selected>English</option><option value="/zh/guides/">中文</option></select><noscript><a href="/zh/guides/">中文</a></noscript>
 <a href="/#tools">All Tools</a>
 <a href="/guides/">Image Guides</a>
+<a href="/reference">Reference</a>
 <a href="/privacy">Privacy Policy</a>
 <a href="/faq">FAQ</a>
 <a href="/contact">Contact</a>
@@ -191,13 +192,13 @@
 <div class="article-body">
 <div class="guide-top"><a class="guide-back" href="/guides/">← All guides</a><span class="guide-crumb"><a href="/" style="color:var(--text-muted);">Home</a><span>› Image Guides › Failure Forensics</span></span></div>
 <h1>Seven Saves Later — What Survives in Your Image Metadata</h1>
-<div class="lab-meta"><span>Series: Failure Forensics</span><span>Part 2</span><span>Published 2026-11-20</span><span>Updated 2026-11-20</span><span>2,046 words</span><span>Measured on PicStudio tools</span></div>
+<div class="lab-meta"><span>Series: Failure Forensics</span><span>Part 2</span><span>Published 2026-11-20</span><span>Updated 2026-11-20</span><span>2,046 words</span><span>Measured on PicCalc tools</span></div>
 <nav class="lab-toc"><strong>On this page</strong><ol><li><a href="#the-specimen">The specimen</a></li><li><a href="#the-matrix-column-by-column">The matrix, column by column</a></li><li><a href="#conclusion-1-saving-and-reencoding-are-different-operations">Conclusion 1 — "saving" and "re-encoding" are different operations</a></li><li><a href="#conclusion-2-base64-is-innocent-canvas-is-not">Conclusion 2 — Base64 is innocent, canvas is not</a></li><li><a href="#conclusion-3-the-exif-thumbnail-is-the-trap">Conclusion 3 — the EXIF thumbnail is the trap</a></li><li><a href="#why-orientation-is-the-survivor">Why <code>Orientation</code> is the survivor</a></li><li><a href="#icc-profiles-the-quiet-loss">ICC profiles: the quiet loss</a></li><li><a href="#reproduce-the-matrix-yourself">Reproduce the matrix yourself</a></li><li><a href="#what-to-do-with-the-result">What to do with the result</a></li><li><a href="#how-this-differs-from-our-other-guides">How this differs from our other guides</a></li><li><a href="#files">Files</a></li><li><a href="#appendix-q-where-the-fields-live-in-the-file">Appendix Q — Where the fields live in the file</a></li><li><a href="#appendix-r-output-sizes-per-round">Appendix R — Output sizes per round</a></li><li><a href="#appendix-s-a-publishing-sop-you-can-paste-into-a-checklist">Appendix S — A publishing SOP you can paste into a checklist</a></li><li><a href="#appendix-t-what-we-did-not-claim">Appendix T — What we did not claim</a></li><li><a href="#frequently-asked-questions">Frequently asked questions</a></li></ol></nav>
-<p>PicStudio already has a guide on <a href="/guides/exif-privacy">EXIF and privacy risks</a> and another on <a href="/guides/redact-photo-privacy">redacting photos</a>. Those explain *what* can leak and *how* to obscure it. This one answers a different question: if an image is saved, converted, compressed, watermarked and sent, <strong>at which exact step does each field disappear?</strong> That is a chain-of-custody problem, and the answer is not "all metadata is stripped" — it is a matrix, and one cell of that matrix is a genuine privacy trap.</p>
+<p>PicCalc already has a guide on <a href="/guides/exif-privacy">EXIF and privacy risks</a> and another on <a href="/guides/redact-photo-privacy">redacting photos</a>. Those explain *what* can leak and *how* to obscure it. This one answers a different question: if an image is saved, converted, compressed, watermarked and sent, <strong>at which exact step does each field disappear?</strong> That is a chain-of-custody problem, and the answer is not "all metadata is stripped" — it is a matrix, and one cell of that matrix is a genuine privacy trap.</p>
 <p>We built a synthetic JPEG with eight tagged fields, ran it through seven operations available on this site or in everyday software, and read the surviving fields back with our own <a href="/tools/exif">EXIF Viewer &amp; Cleaner</a>. The result is the survival matrix below.</p>
 <h2 id="the-specimen">The specimen</h2>
-<p>The <a href="/assets/samples/picstudio-with-exif.jpg">tagged specimen</a> is a synthetic tone chart — no real photo, no personal data — carrying:</p>
-<ul><li><code>Make</code> = PicStudio Lab</li><li><code>Model</code> = ToneChart-01</li><li><code>DateTime</code> = 2026:11:20 02:00:00</li><li><code>Orientation</code> = 1</li><li><code>Software</code> = make_assets.py</li><li><code>ImageDescription</code> = "Synthetic specimen, no personal data"</li><li>an embedded ICC profile from the encoder</li><li>a JPEG comment</li></ul>
+<p>The <a href="/assets/samples/picstudio-with-exif.jpg">tagged specimen</a> is a synthetic tone chart — no real photo, no personal data — carrying these eight tracked fields:</p>
+<ul><li><code>GPS</code> = 31.233 N, 121.466 E</li><li><code>DateTimeOriginal</code> = 2026:11:20 02:00:00</li><li><code>Make</code> / <code>Model</code> = PicCalc Lab / ToneChart-01</li><li><code>Orientation</code> = 1</li><li>an sRGB ICC profile</li><li>an embedded EXIF thumbnail</li><li>an XMP packet with a title</li><li>a JPEG comment</li></ul>
 <p>The <a href="/assets/samples/picstudio-tone-chart.png">untagged PNG</a> is the control. Every round started from a fresh copy of the tagged JPEG, not from the previous round's output, so each column in the matrix measures one operation in isolation. That distinction matters: a chain measurement tells you the final state, but an isolated measurement tells you *which* step is responsible.</p>
 <figure class="lab-figure"><img src="/assets/img/lab/metadata-matrix.png" alt="Field-by-step survival matrix" loading="lazy" decoding="async" width=1495 height=832><figcaption>Green = kept, amber = partial, red = gone. Each column is one isolated operation, not a cumulative chain.</figcaption></figure>
 <h2 id="the-matrix-column-by-column">The matrix, column by column</h2>
@@ -239,7 +240,7 @@
 <p>That structure explains the matrix. An encoder that copies APP markers keeps everything (browser save). An encoder that rebuilds the file from decoded pixels keeps nothing except what it deliberately re-writes (canvas watermark). An encoder that retains only the <code>Orientation</code> tag does so because dropping it without rotating the pixels would display the image sideways. And a Base64 round-trip keeps every marker because it never parses the container at all.</p>
 <p>The embedded thumbnail deserves its own warning again: it is a *separate JPEG inside the file*, so a tool that reads only the main scan can report a clean, redacted image while the preview still shows the original. Cleaning means removing the whole EXIF IFD, not editing one GPS tag.</p>
 <h2 id="appendix-r-output-sizes-per-round">Appendix R — Output sizes per round</h2>
-<p>The <a href="/assets/samples/picstudio-with-exif.jpg">tagged specimen</a> is 47,954 bytes; the <a href="/assets/samples/picstudio-tone-chart.png">untagged PNG control</a> is 13,287 bytes; the <a href="/assets/samples/picstudio-soft-alpha.png">soft-alpha specimen</a> is 26,214 bytes. A rough size change is a useful first signal that a re-encode happened, but it is not proof: a byte copy has exactly the same size, and a Base64 round-trip also has exactly the same size. Only reading the field list tells you which of those two occurred.</p>
+<p>The <a href="/assets/samples/picstudio-with-exif.jpg">tagged specimen</a> is 79,982 bytes; the <a href="/assets/samples/picstudio-tone-chart.png">untagged PNG control</a> is 13,287 bytes; the <a href="/assets/samples/picstudio-soft-alpha.png">soft-alpha specimen</a> is 26,214 bytes. A rough size change is a useful first signal that a re-encode happened, but it is not proof: a byte copy has exactly the same size, and a Base64 round-trip also has exactly the same size. Only reading the field list tells you which of those two occurred.</p>
 <div class="lab-table"><table><thead><tr><th>Operation</th><th>Expected size change</th><th>What the size alone tells you</th></tr></thead><tbody><tr><td>Browser save / byte copy</td><td>none</td><td>Nothing — check the fields</td></tr><tr><td>Base64 round-trip</td><td>none (in the decoded file)</td><td>Nothing — check the fields</td></tr><tr><td>Re-encode to JPEG</td><td>usually smaller</td><td>A pixel pass happened</td></tr><tr><td>Aggressive compression</td><td>smaller</td><td>A pixel pass happened, metadata likely gone</td></tr><tr><td>Watermark via canvas</td><td>often different</td><td>Container rebuilt, metadata almost certainly gone</td></tr></tbody></table></div>
 <p>Size is a hint, not a verdict. The EXIF viewer is the instrument.</p>
 <h2 id="appendix-s-a-publishing-sop-you-can-paste-into-a-checklist">Appendix S — A publishing SOP you can paste into a checklist</h2>
@@ -264,8 +265,8 @@
 <footer class="footer">
 <div class="container">
 <div class="footer-content">
-<div class="footer-brand"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
-<span class="logo-text">Pic<span class="accent">Studio</span></span></div>
+<div class="footer-brand"><img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Calc</span></span></div>
 <p class="footer-desc">Free online image tools — everything runs locally in your browser</p>
 </div>
 <div class="footer-links">
@@ -275,7 +276,7 @@
 </div>
 <div class="footer-bottom">
 <p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
-<p>© 2026 PicStudio. All rights reserved. Lab Notes are original measured reports, not rewritten articles.</p>
+<p>© 2026 PicCalc. All rights reserved. Lab Notes are original measured reports, not rewritten articles.</p>
 </div>
 </div>
 </footer>
@@ -283,5 +284,7 @@
 <script src="/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/assets/js/ux.js?v=20261108ml"></script>
+<script src="/assets/data/search-en.js" defer></script>
+<script src="/assets/js/search.js" defer></script>
 </body>
 </html>

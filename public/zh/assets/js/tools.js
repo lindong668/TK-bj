@@ -79,7 +79,7 @@ class ImageTool {
                 this.onHeifDecoded(loaded);
             }
         } catch (err) {
-            console.error('[PicStudio] load failed', err);
+            console.error('[PicCalc] load failed', err);
             alert((window.PSLang && PSLang.get() === 'zh')
                 ? '无法读取这张图片，请确认它是图片文件（视频、RAW、损坏文件不支持）。'
                 : 'Cannot read this image: ' + err.message + '\nVideos, RAW files and broken files are not supported.');
@@ -132,7 +132,7 @@ class ImageTool {
      * 供工具页自定义提示方式（页面可在 new ImageTool({...}) 后覆盖）
      */
     downscaleNotice(msg) {
-        console.info('[PicStudio] ' + msg);
+        console.info('[PicCalc] ' + msg);
     }
 
     showControls() {
@@ -180,7 +180,7 @@ class ImageTool {
         const opts = this.config.downloadOptions || {};
         const format = opts.format || 'png';
         const quality = opts.quality || 0.92;
-        const filename = opts.filename || 'picstudio-result';
+        const filename = opts.filename || 'piccalc-result';
 
         if (!this.processedCanvas) return;
 

@@ -9,14 +9,14 @@
 <link href="https://piccalc.com/tools/image-compare" rel="canonical"/>
 <meta content="index,follow,max-image-preview:large" name="robots"/>
 <meta content="website" property="og:type"/>
-<meta content="PicStudio" property="og:site_name"/>
+<meta content="PicCalc" property="og:site_name"/>
 <meta content="en_US" property="og:locale"/>
 <meta content="zh_CN" property="og:locale:alternate"/>
-<meta content="Image Compare — Before/After Slider &amp; Difference Highlight | PicStudio" property="og:title"/>
+<meta content="Image Compare — Before/After Slider &amp; Difference Highlight | PicCalc" property="og:title"/>
 <meta content="Compare two images with a draggable before/after slider or a pixel difference highlight. Runs locally in your browser, no upload." property="og:description"/>
 <meta content="https://piccalc.com/tools/image-compare" property="og:url"/>
 <meta content="summary_large_image" name="twitter:card"/>
-<meta content="Image Compare — Before/After Slider &amp; Difference Highlight | PicStudio" name="twitter:title"/>
+<meta content="Image Compare — Before/After Slider &amp; Difference Highlight | PicCalc" name="twitter:title"/>
 <meta content="Compare two images with a draggable before/after slider or a pixel difference highlight. Runs locally in your browser, no upload." name="twitter:description"/>
 <script type="application/ld+json">
 {
@@ -83,7 +83,7 @@
     {
       "@type": "ListItem",
       "position": 1,
-      "name": "PicStudio",
+      "name": "PicCalc",
       "item": "https://piccalc.com/"
     },
     {
@@ -102,7 +102,7 @@
 <meta content="https://piccalc.com/og-v2.png" property="og:image"/>
 <meta content="1200" property="og:image:width"/>
 <meta content="630" property="og:image:height"/>
-<meta content="PicStudio brand share image" property="og:image:alt"/>
+<meta content="PicCalc brand share image" property="og:image:alt"/>
 
 <meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
 <link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
@@ -120,13 +120,14 @@
 <header class="header">
 <div class="container">
 <a class="logo" href="/">
-<img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
-<span class="logo-text">Pic<span class="accent">Studio</span></span>
+<img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Calc</span></span>
 </a>
 <nav class="tool-nav">
 <select id="lang-select" name="lang-select" class="lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/tools/image-compare" selected>English</option><option value="/zh/tools/image-compare">中文</option></select><noscript><a href="/zh/tools/image-compare">中文</a></noscript>
 <a href="/#tools">All Tools</a>
 <a href="/guides/">Image Guides</a>
+<a href="/reference">Reference</a>
 <a href="/privacy">Privacy Policy</a>
 <a href="/faq">FAQ</a>
 <a href="/contact">Contact</a>
@@ -145,6 +146,17 @@
 <p style="margin:0;font-size:14px;line-height:1.8;color:var(--text-secondary,#475569);"><strong>This tool needs JavaScript to process images.</strong> The editor runs entirely inside your browser, so it cannot start with scripting turned off. Everything written below is plain HTML: the method, the numbers, the failure cases and the FAQ all read without it.</p>
 </div></noscript>
 
+<section class="tool-quickstart" aria-labelledby="qs-image-compare">
+<div class="qs-head">
+<h2 id="qs-image-compare">How to compare two images in three steps</h2>
+<p class="qs-sub">The screenshot below was taken in this tool with a real file and the stated settings — it is not a mock-up.</p>
+</div>
+<ol class="qs-steps"><li><strong>Upload image A</strong><span>The first file becomes the left half of the comparison.</span></li><li><strong>Add image B</strong><span>The second upload becomes the right half; both are fitted to the same frame.</span></li><li><strong>Drag the divider</strong><span>Move the slider to reveal before and after, press “Compare / refresh”, then download.</span></li></ol>
+<figure class="tool-shot">
+<img src="/assets/img/tools/image-compare-result.png" alt="Compare result: a vertical divider revealing test scene A on the left and scene B on the right." width="1200" height="800" loading="lazy" decoding="async"/>
+<figcaption><strong>Captured:</strong> <strong>Input:</strong> specimen-a-1200x800.png (A) and specimen-b-1200x800.png (B), both 1200 × 800. <strong>Settings:</strong> divider at 50%, fit enabled. <strong>Output:</strong> 1200 × 800 comparison PNG.</figcaption>
+</figure>
+</section>
 <div class="upload-area" id="uploadArea">
 <div class="upload-icon">📁</div>
 <div class="upload-text">Click or drag an image here</div>
@@ -281,8 +293,8 @@
 <div class="container">
 <div class="footer-content">
 <div class="footer-brand">
-<img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
-<span class="logo-text">Pic<span class="accent">Studio</span></span>
+<img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Calc</span></span>
 </div>
 <p class="footer-desc">Free online image tools — everything runs locally in your browser</p>
 </div>
@@ -300,7 +312,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 </style>
 <div class="footer-bottom">
 <p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
-<p>© 2026 PicStudio. All rights reserved.</p>
+<p>© 2026 PicCalc. All rights reserved.</p>
 </div>
 </div>
 </footer>
@@ -320,7 +332,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
     const fitBox = document.getElementById('fitB');
     const off = document.getElementById('compareCanvas');
     const tool = new ImageTool({ process: async (canvas) => canvas,
-        downloadOptions: { filename: 'picstudio-compare', format: 'png' } });
+        downloadOptions: { filename: 'piccalc-compare', format: 'png' } });
     const origLoad = tool.handleFile.bind(tool);
     tool.handleFile = async function (file) {
         await origLoad(file);
@@ -440,5 +452,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 <script src="/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/assets/js/ux.js?v=20261108ml"></script>
+<script src="/assets/data/search-en.js" defer></script>
+<script src="/assets/js/search.js" defer></script>
 </body>
 </html>

@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>三个滑块，三条曲线：亮度、对比度与伽马实测 | PicStudio</title>
+<title>三个滑块，三条曲线：亮度、对比度与伽马实测 | PicCalc</title>
 <meta content="亮度加常数、对比度绕中灰旋转、伽马走幂曲线，三种改法各自从哪里开始丢掉高光和暗部。拿工具公开的公式逐像素算一遍，附一张能自己复算的对照表。" name="description"/>
 <meta content="亮度 伽马 区别, 对比度 128 公式, 饱和度 -100 灰度, 锐化 30-60 扫描件, 对比度 高光 溢出, luma 0.299 0.587 0.114" name="keywords"/>
 <link href="https://piccalc.com/zh/guides/adjust-curve-lab" rel="canonical"/>
 <meta content="index,follow,max-image-preview:large" name="robots"/>
 <meta content="article" property="og:type"/>
-<meta content="PicStudio" property="og:site_name"/>
+<meta content="PicCalc" property="og:site_name"/>
 <meta content="zh_CN" property="og:locale"/>
 <meta content="en_US" property="og:locale:alternate"/>
 <meta content="三个滑块，三条曲线：亮度、对比度与伽马实测" property="og:title"/>
@@ -26,8 +26,8 @@
   "inLanguage": "zh-CN",
   "datePublished": "2026-11-20",
   "dateModified": "2026-11-20",
-  "author": {"@type": "Organization", "name": "PicStudio", "url": "https://piccalc.com"},
-  "publisher": {"@type": "Organization", "name": "PicStudio", "url": "https://piccalc.com"},
+  "author": {"@type": "Organization", "name": "PicCalc", "url": "https://piccalc.com"},
+  "publisher": {"@type": "Organization", "name": "PicCalc", "url": "https://piccalc.com"},
   "mainEntityOfPage": {"@type": "WebPage", "@id": "https://piccalc.com/zh/guides/adjust-curve-lab"},
   "keywords": "亮度 伽马 区别, 对比度 128 公式, 饱和度 -100 灰度, 锐化 30-60 扫描件, 对比度 高光 溢出, luma 0.299 0.587 0.114",
   "articleSection": "Image Editing",
@@ -37,7 +37,7 @@
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   "itemListElement": [
-    {"@type": "ListItem", "position": 1, "name": "PicStudio", "item": "https://piccalc.com/zh/"},
+    {"@type": "ListItem", "position": 1, "name": "PicCalc", "item": "https://piccalc.com/zh/"},
     {"@type": "ListItem", "position": 2, "name": "图片处理指南", "item": "https://piccalc.com/zh/guides/"},
     {"@type": "ListItem", "position": 3, "name": "三个滑块，三条曲线", "item": "https://piccalc.com/zh/guides/adjust-curve-lab"}
   ]
@@ -60,7 +60,7 @@
 <meta content="https://piccalc.com/og-v2.png" property="og:image"/>
 <meta content="1200" property="og:image:width"/>
 <meta content="630" property="og:image:height"/>
-<meta content="PicStudio 品牌分享图" property="og:image:alt"/>
+<meta content="PicCalc 品牌分享图" property="og:image:alt"/>
 <meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
 <link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
 <style>
@@ -93,11 +93,12 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 <body>
 <header class="header">
 <div class="container">
-<a class="logo" href="/zh/"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/><span class="logo-text">Pic<span class="accent">Studio</span></span></a>
+<a class="logo" href="/zh/"><img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/><span class="logo-text">Pic<span class="accent">Calc</span></span></a>
 <nav class="tool-nav">
 <select id="lang-select" name="lang-select" class="lang-select" aria-label="语言" onchange="if(this.value)location.href=this.value"><option value="/guides/adjust-curve-lab">English</option><option value="/zh/guides/adjust-curve-lab" selected>中文</option></select><noscript><a href="/guides/adjust-curve-lab">English</a></noscript>
 <a href="/zh/#tools">全部工具</a>
 <a href="/zh/guides/">图片指南</a>
+<a href="/zh/reference">参考</a>
 <a href="/zh/privacy">隐私政策</a>
 <a href="/zh/faq">常见问题</a>
 <a href="/zh/contact">联系我们</a>
@@ -123,14 +124,14 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 
 <div class="content-block">
 <h2>亮度是平移，先断的永远是高光</h2>
-<p>亮度 +40 的意思是，每个像素的每个通道都加 40，结果夹在 0 到 255 之间。画在坐标上，就是一条整体上移 40 的直线，也就是图里那条蓝线。</p>
+<p>亮度滑块的范围是 −100 到 +100，工具会把它乘以 2.55，所以滑块 +16 约等于每个通道加 40 级。按加 40 级计算，每个像素的每个通道都加 40，结果夹在 0 到 255 之间。画在坐标上，就是一条整体上移 40 的直线，也就是图里那条蓝线。</p>
 <p>后果是算术问题，不是审美问题：<strong>215 及以上的输入全部变成 255</strong>。220 的高光和 250 的高光最后都是 255，它们之间的差别永久消失。提亮后的天空变成一整块死白，原因就在这里。暗部反而完好，输入 10 变成 50，所以亮度一开始感觉「安全」，坏只坏在图像顶部。</p>
 <p>截断点可以直接算：<code>255 − 40 = 215</code>。一般地，+b 会吃掉 255 − b 以上的所有值；−b 会把 b 以下全部压成纯黑。</p>
 </div>
 
 <div class="content-block">
 <h2>对比度是绕 128 的旋转，两端一起坏</h2>
-<p>对比度用 <code>new = factor × (old − 128) + 128</code>。轴心是 128，中灰原地不动；128 以上往上推，128 以下往下压。factor 取 1.4 时，这条线比恒等线更陡。</p>
+<p>对比度用 <code>new = factor × (old − 128) + 128</code>，滑块值 <code>c</code> 决定 <code>factor = 259(c + 255) / (255(259 − c))</code>；滑块 +42 约为 factor 1.4，也就是下文采用的取值。轴心是 128，中灰原地不动；128 以上往上推，128 以下往下压。factor 取 1.4 时，这条线比恒等线更陡。</p>
 <p>解两个不等式，两个损坏区就出来了：</p>
 <ul>
 <li><code>1.4(x − 128) + 128 ≤ 0</code>，得 x ≤ 36.6，<strong>0–36 的输入被压成黑</strong>。</li>
@@ -220,7 +221,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 <footer class="footer">
 <div class="container">
 <div class="footer-content">
-<div class="footer-brand"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/><span class="logo-text">Pic<span class="accent">Studio</span></span></div>
+<div class="footer-brand"><img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/><span class="logo-text">Pic<span class="accent">Calc</span></span></div>
 <p class="footer-desc">免费的在线图片处理工具，所有处理在浏览器本地完成</p>
 </div>
 <div class="footer-links">
@@ -234,7 +235,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 </div>
 <div class="footer-bottom">
 <p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
-<p>&amp;copy; 2026 PicStudio. 保留所有权利。</p>
+<p>&amp;copy; 2026 PicCalc. 保留所有权利。</p>
 </div>
 </div>
 </footer>
@@ -242,5 +243,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 <script src="/zh/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/zh/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/zh/assets/js/ux.js?v=20261108ml"></script>
+<script src="/assets/data/search-zh.js" defer></script>
+<script src="/assets/js/search.js" defer></script>
 </body>
 </html>

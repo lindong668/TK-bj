@@ -973,4 +973,274 @@
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/transparency-accident-report"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/transparency-accident-report"/>
   </url>
+  <url>
+    <loc>https://piccalc.com/reference</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/reference"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/reference"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/reference"/>
+  </url>
+  <url>
+    <loc>https://piccalc.com/zh/reference</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/reference"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/reference"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/reference"/>
+  </url>
+  <url>
+    <loc>https://piccalc.com/privacy-evidence</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/privacy-evidence"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/privacy-evidence"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/privacy-evidence"/>
+  </url>
+  <url>
+    <loc>https://piccalc.com/zh/privacy-evidence</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/privacy-evidence"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/privacy-evidence"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/privacy-evidence"/>
+  </url>
+  <url>
+    <loc>https://piccalc.com/examples</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/examples"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/examples"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/examples"/>
+  </url>
+  <url>
+    <loc>https://piccalc.com/zh/examples</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/examples"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/examples"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/examples"/>
+  </url>
+  <url>
+    <loc>https://piccalc.com/index-by-need</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/index-by-need"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/index-by-need"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/index-by-need"/>
+  </url>
+  <url>
+    <loc>https://piccalc.com/zh/index-by-need</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/index-by-need"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/index-by-need"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/index-by-need"/>
+  </url>
+  <url>
+    <loc>https://piccalc.com/glossary</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/glossary"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/glossary"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/glossary"/>
+  </url>
+  <url>
+    <loc>https://piccalc.com/zh/glossary</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/glossary"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/glossary"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/glossary"/>
+  </url>
+  <url>
+    <loc>https://piccalc.com/glossary/dpi-ppi</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/glossary/dpi-ppi"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/glossary/dpi-ppi"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/glossary/dpi-ppi"/>
+  </url>
+  <url>
+    <loc>https://piccalc.com/zh/glossary/dpi-ppi</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/glossary/dpi-ppi"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/glossary/dpi-ppi"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/glossary/dpi-ppi"/>
+  </url>
+  <url>
+    <loc>https://piccalc.com/glossary/exif-gps</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/glossary/exif-gps"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/glossary/exif-gps"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/glossary/exif-gps"/>
+  </url>
+  <url>
+    <loc>https://piccalc.com/zh/glossary/exif-gps</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/glossary/exif-gps"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/glossary/exif-gps"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/glossary/exif-gps"/>
+  </url>
+  <url>
+    <loc>https://piccalc.com/glossary/icc-profile</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/glossary/icc-profile"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/glossary/icc-profile"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/glossary/icc-profile"/>
+  </url>
+  <url>
+    <loc>https://piccalc.com/zh/glossary/icc-profile</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/glossary/icc-profile"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/glossary/icc-profile"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/glossary/icc-profile"/>
+  </url>
+  <url>
+    <loc>https://piccalc.com/glossary/alpha-premultiplied</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/glossary/alpha-premultiplied"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/glossary/alpha-premultiplied"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/glossary/alpha-premultiplied"/>
+  </url>
+  <url>
+    <loc>https://piccalc.com/zh/glossary/alpha-premultiplied</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/glossary/alpha-premultiplied"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/glossary/alpha-premultiplied"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/glossary/alpha-premultiplied"/>
+  </url>
+  <url>
+    <loc>https://piccalc.com/glossary/bit-depth</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/glossary/bit-depth"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/glossary/bit-depth"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/glossary/bit-depth"/>
+  </url>
+  <url>
+    <loc>https://piccalc.com/zh/glossary/bit-depth</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/glossary/bit-depth"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/glossary/bit-depth"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/glossary/bit-depth"/>
+  </url>
+  <url>
+    <loc>https://piccalc.com/glossary/lossy-lossless</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/glossary/lossy-lossless"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/glossary/lossy-lossless"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/glossary/lossy-lossless"/>
+  </url>
+  <url>
+    <loc>https://piccalc.com/zh/glossary/lossy-lossless</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/glossary/lossy-lossless"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/glossary/lossy-lossless"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/glossary/lossy-lossless"/>
+  </url>
+  <url>
+    <loc>https://piccalc.com/glossary/colour-gamut-srgb</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/glossary/colour-gamut-srgb"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/glossary/colour-gamut-srgb"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/glossary/colour-gamut-srgb"/>
+  </url>
+  <url>
+    <loc>https://piccalc.com/zh/glossary/colour-gamut-srgb</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/glossary/colour-gamut-srgb"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/glossary/colour-gamut-srgb"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/glossary/colour-gamut-srgb"/>
+  </url>
+  <url>
+    <loc>https://piccalc.com/glossary/vector-vs-raster</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/glossary/vector-vs-raster"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/glossary/vector-vs-raster"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/glossary/vector-vs-raster"/>
+  </url>
+  <url>
+    <loc>https://piccalc.com/zh/glossary/vector-vs-raster</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/glossary/vector-vs-raster"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/glossary/vector-vs-raster"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/glossary/vector-vs-raster"/>
+  </url>
+  <url>
+    <loc>https://piccalc.com/glossary/canvas-limits</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/glossary/canvas-limits"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/glossary/canvas-limits"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/glossary/canvas-limits"/>
+  </url>
+  <url>
+    <loc>https://piccalc.com/zh/glossary/canvas-limits</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/glossary/canvas-limits"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/glossary/canvas-limits"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/glossary/canvas-limits"/>
+  </url>
+  <url>
+    <loc>https://piccalc.com/glossary/canvas-export-formats</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/glossary/canvas-export-formats"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/glossary/canvas-export-formats"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/glossary/canvas-export-formats"/>
+  </url>
+  <url>
+    <loc>https://piccalc.com/zh/glossary/canvas-export-formats</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/glossary/canvas-export-formats"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/glossary/canvas-export-formats"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/glossary/canvas-export-formats"/>
+  </url>
 </urlset>

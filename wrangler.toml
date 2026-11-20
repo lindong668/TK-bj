@@ -1,5 +1,5 @@
 # ============================================================
-# PicStudio（piccalc.com）—— Cloudflare Workers + Assets
+# PicCalc（piccalc.com）—— Cloudflare Workers + Assets
 # Worker 名称必须与 CF 上的 Worker 一致，否则控制台会出现
 # "需更新 wrangler.toml 以保持一致设置" 的红色提示。
 # ============================================================

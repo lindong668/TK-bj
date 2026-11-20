@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Which Favicon Does the Browser Actually Use? A Delete-One-File-at-a-Time Test | PicStudio</title>
+<title>Which Favicon Does the Browser Actually Use? A Delete-One-File-at-a-Time Test | PicCalc</title>
 <meta content="Six icon files declared, deleted one at a time, recording which bitmap each browser falls back to. Exact tags, a decision tree, and the cache fix." name="description"/>
 <meta content="favicon not updating, favicon.ico vs link rel icon priority, apple-touch-icon ignored, manifest icon size, favicon cache how long, multiple link rel icon, why browser picks wrong favicon" name="keywords"/>
 <link href="https://piccalc.com/guides/icon-picker-priority" rel="canonical"/>
 <meta content="index,follow,max-image-preview:large" name="robots"/>
 <meta content="article" property="og:type"/>
-<meta content="PicStudio" property="og:site_name"/>
+<meta content="PicCalc" property="og:site_name"/>
 <meta content="en_US" property="og:locale"/>
 <meta content="Which Favicon Does the Browser Actually Use? A Delete-One-File-at-a-Time Test" property="og:title"/>
 <meta content="We declared six icon files, removed them one at a time, and recorded which bitmap each browser fell back to. Includes the exact link tags, a decision tree, and why &quot;my favicon won&#x27;t update&quot; is usually a cache issue." property="og:description"/>
@@ -36,12 +36,12 @@
       "dateModified": "2026-11-20",
       "author": {
         "@type": "Organization",
-        "name": "PicStudio",
+        "name": "PicCalc",
         "url": "https://piccalc.com"
       },
       "publisher": {
         "@type": "Organization",
-        "name": "PicStudio",
+        "name": "PicCalc",
         "url": "https://piccalc.com"
       },
       "mainEntityOfPage": {
@@ -53,7 +53,7 @@
       "wordCount": 2256,
       "isPartOf": {
         "@type": "Blog",
-        "name": "PicStudio Lab Notes",
+        "name": "PicCalc Lab Notes",
         "url": "https://piccalc.com/guides/"
       }
     },
@@ -63,7 +63,7 @@
         {
           "@type": "ListItem",
           "position": 1,
-          "name": "PicStudio",
+          "name": "PicCalc",
           "item": "https://piccalc.com/"
         },
         {
@@ -173,12 +173,13 @@
 <body>
 <header class="header">
 <div class="container">
-<a class="logo" href="/"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
-<span class="logo-text">Pic<span class="accent">Studio</span></span></a>
+<a class="logo" href="/"><img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Calc</span></span></a>
 <nav class="tool-nav">
 <select id="lang-select" name="lang-select" class="lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/guides/" selected>English</option><option value="/zh/guides/">中文</option></select><noscript><a href="/zh/guides/">中文</a></noscript>
 <a href="/#tools">All Tools</a>
 <a href="/guides/">Image Guides</a>
+<a href="/reference">Reference</a>
 <a href="/privacy">Privacy Policy</a>
 <a href="/faq">FAQ</a>
 <a href="/contact">Contact</a>
@@ -191,7 +192,7 @@
 <div class="article-body">
 <div class="guide-top"><a class="guide-back" href="/guides/">← All guides</a><span class="guide-crumb"><a href="/" style="color:var(--text-muted);">Home</a><span>› Image Guides › Rendering Field Tests</span></span></div>
 <h1>Which Favicon Does the Browser Actually Use? A Delete-One-File-at-a-Time Test</h1>
-<div class="lab-meta"><span>Series: Rendering Field Tests</span><span>Part 2</span><span>Published 2026-11-20</span><span>Updated 2026-11-20</span><span>2,256 words</span><span>Measured on PicStudio tools</span></div>
+<div class="lab-meta"><span>Series: Rendering Field Tests</span><span>Part 2</span><span>Published 2026-11-20</span><span>Updated 2026-11-20</span><span>2,256 words</span><span>Measured on PicCalc tools</span></div>
 <nav class="lab-toc"><strong>On this page</strong><ol><li><a href="#the-setup">The setup</a></li><li><a href="#round-by-round">Round by round</a></li><li><a href="#what-sizes-really-does">What <code>sizes</code> really does</a></li><li><a href="#the-three-separate-icon-systems">The three separate icon systems</a></li><li><a href="#why-i-replaced-the-file-but-the-old-icon-is-still-there-is-not-a-file-problem">Why "I replaced the file but the old icon is still there" is not a file problem</a></li><li><a href="#reading-the-generated-html-snippet">Reading the generated HTML snippet</a></li><li><a href="#run-the-experiment-yourself">Run the experiment yourself</a></li><li><a href="#diagnosis-table">Diagnosis table</a></li><li><a href="#where-to-go-next">Where to go next</a></li><li><a href="#appendix-e-timed-cache-rounds">Appendix E — Timed cache rounds</a></li><li><a href="#appendix-f-the-manifest-field-by-field">Appendix F — The manifest, field by field</a></li><li><a href="#appendix-g-migrating-an-existing-site-without-breaking-anything">Appendix G — Migrating an existing site without breaking anything</a></li><li><a href="#appendix-h-why-we-publish-the-method-instead-of-only-the-table">Appendix H — Why we publish the method instead of only the table</a></li><li><a href="#frequently-asked-questions">Frequently asked questions</a></li></ol></nav>
 <p>Part 1 of this series looked at what happens to an icon <strong>after</strong> a host has chosen it. This part looks at the choice itself. When a page declares <code>&lt;link rel="icon"&gt;</code>, also has a <code>/favicon.ico</code> sitting at the root, ships an <code>apple-touch-icon</code>, and lists three sizes in a web manifest, which one appears in the tab? And what changes when you delete exactly one of those files?</p>
 <p>That question generates a surprising amount of support mail, because the answer is not "the biggest one" and not "the last one declared". It is a priority order with different rules per host, and it is heavily cached. Below is a reproducible experiment you can run in ten minutes with a local server, plus the decision tree that came out of it.</p>
@@ -255,7 +256,7 @@
 <p>The minimal manifest we used in the experiment is short enough to reason about completely:</p>
 <pre><code>
 {
-  &quot;name&quot;: &quot;PicStudio Lab&quot;,
+  &quot;name&quot;: &quot;PicCalc Lab&quot;,
   &quot;icons&quot;: [
     { &quot;src&quot;: &quot;/icons/m-192.png&quot;, &quot;sizes&quot;: &quot;192x192&quot;, &quot;type&quot;: &quot;image/png&quot; },
     { &quot;src&quot;: &quot;/icons/m-512.png&quot;, &quot;sizes&quot;: &quot;512x512&quot;, &quot;type&quot;: &quot;image/png&quot; },
@@ -288,8 +289,8 @@
 <footer class="footer">
 <div class="container">
 <div class="footer-content">
-<div class="footer-brand"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
-<span class="logo-text">Pic<span class="accent">Studio</span></span></div>
+<div class="footer-brand"><img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Calc</span></span></div>
 <p class="footer-desc">Free online image tools — everything runs locally in your browser</p>
 </div>
 <div class="footer-links">
@@ -299,7 +300,7 @@
 </div>
 <div class="footer-bottom">
 <p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
-<p>© 2026 PicStudio. All rights reserved. Lab Notes are original measured reports, not rewritten articles.</p>
+<p>© 2026 PicCalc. All rights reserved. Lab Notes are original measured reports, not rewritten articles.</p>
 </div>
 </div>
 </footer>
@@ -307,5 +308,7 @@
 <script src="/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/assets/js/ux.js?v=20261108ml"></script>
+<script src="/assets/data/search-en.js" defer></script>
+<script src="/assets/js/search.js" defer></script>
 </body>
 </html>

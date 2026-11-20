@@ -8,7 +8,7 @@
 <meta content="https://piccalc.com/og-v2.png" property="og:image"/>
 <meta content="1200" property="og:image:width"/>
 <meta content="630" property="og:image:height"/>
-<meta content="PicStudio brand share image" property="og:image:alt"/>
+<meta content="PicCalc brand share image" property="og:image:alt"/>
 <meta content="summary_large_image" name="twitter:card"/>
 <meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
 <meta charset="utf-8"/>
@@ -19,14 +19,14 @@
 <link href="https://piccalc.com/tools/stitch" rel="canonical"/>
 <meta content="index,follow,max-image-preview:large" name="robots"/>
 <meta content="website" property="og:type"/>
-<meta content="PicStudio" property="og:site_name"/>
+<meta content="PicCalc" property="og:site_name"/>
 <meta content="en_US" property="og:locale"/>
 <meta content="zh_CN" property="og:locale:alternate"/>
-<meta content="Merge Images Online - Vertical, Horizontal or Grid | PicStudio" property="og:title"/>
+<meta content="Merge Images Online - Vertical, Horizontal or Grid | PicCalc" property="og:title"/>
 <meta content="Combine multiple images vertically, horizontally or into a grid. Adjust spacing, background colour and alignment." property="og:description"/>
 <meta content="https://piccalc.com/tools/stitch" property="og:url"/>
 
-<meta content="Merge Images Online - Vertical, Horizontal or Grid | PicStudio" name="twitter:title"/>
+<meta content="Merge Images Online - Vertical, Horizontal or Grid | PicCalc" name="twitter:title"/>
 <meta content="Combine multiple images vertically, horizontally or into a grid. Adjust spacing, background colour and alignment." name="twitter:description"/>
 <link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
 <style>.content-section{padding:48px 0;background:transparent;border-top:1px solid var(--border)}
@@ -156,13 +156,14 @@
 <header class="header">
 <div class="container">
 <a class="logo" href="/">
-<img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
-<span class="logo-text">Pic<span class="accent">Studio</span></span>
+<img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Calc</span></span>
 </a>
 <nav class="tool-nav">
 <select id="lang-select" name="lang-select" class="lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/tools/stitch" selected>English</option><option value="/zh/tools/stitch">中文</option></select><noscript><a href="/zh/tools/stitch">中文</a></noscript>
 <a href="/#tools">All Tools</a>
 <a href="/guides/">Image Guides</a>
+<a href="/reference">Reference</a>
 <a href="/privacy">Privacy Policy</a>
 <a href="/faq">FAQ</a>
 <a href="/contact">Contact</a>
@@ -193,6 +194,17 @@
 <p style="margin:0;font-size:14px;line-height:1.8;color:var(--text-secondary,#475569);"><strong>This tool needs JavaScript to process images.</strong> The editor runs entirely inside your browser, so it cannot start with scripting turned off. Everything written below is plain HTML: the method, the numbers, the failure cases and the FAQ all read without it.</p>
 </div></noscript>
 
+<section class="tool-quickstart" aria-labelledby="qs-stitch">
+<div class="qs-head">
+<h2 id="qs-stitch">How to merge images in three steps</h2>
+<p class="qs-sub">The screenshot below was taken in this tool with a real file and the stated settings — it is not a mock-up.</p>
+</div>
+<ol class="qs-steps"><li><strong>Upload the images</strong><span>Select several files; the order list appears first.</span></li><li><strong>Set the order and gap</strong><span>Use the arrows to reorder; this run stacks A above B with an 8 px gap.</span></li><li><strong>Merge and download</strong><span>Press “Merge”; the vertical result measures 1200 × 1608.</span></li></ol>
+<figure class="tool-shot">
+<img src="/assets/img/tools/stitch-result.png" alt="Merge result: test scene A stacked above scene B with an 8-pixel gap." width="1200" height="800" loading="lazy" decoding="async"/>
+<figcaption><strong>Captured:</strong> <strong>Input:</strong> specimen-a-1200x800.png and specimen-b-1200x800.png (both 1200 × 800). <strong>Settings:</strong> vertical, gap 8 px. <strong>Output:</strong> PNG, 1200 × 1608.</figcaption>
+</figure>
+</section>
 <div class="upload-area" id="uploadArea">
 <div class="upload-icon">📁</div>
 <div class="upload-text">Click or drag an image here</div>
@@ -321,8 +333,8 @@
 <div class="container">
 <div class="footer-content">
 <div class="footer-brand">
-<img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
-<span class="logo-text">Pic<span class="accent">Studio</span></span>
+<img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Calc</span></span>
 </div>
 <p class="footer-desc">Free online image tools — everything runs locally in your browser</p>
 </div>
@@ -340,7 +352,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 </style>
 <div class="footer-bottom">
 <p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
-<p>© 2026 PicStudio. All rights reserved.</p>
+<p>© 2026 PicCalc. All rights reserved.</p>
 </div>
 </div>
 </footer>
@@ -433,5 +445,7 @@ function process(list){
 <script src="/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/assets/js/ux.js?v=20261108ml"></script>
+<script src="/assets/data/search-en.js" defer></script>
+<script src="/assets/js/search.js" defer></script>
 </body>
 </html>

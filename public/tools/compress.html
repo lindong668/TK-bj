@@ -9,14 +9,14 @@
 <link href="https://piccalc.com/tools/compress" rel="canonical"/>
 <meta content="index,follow,max-image-preview:large" name="robots"/>
 <meta content="website" property="og:type"/>
-<meta content="PicStudio" property="og:site_name"/>
+<meta content="PicCalc" property="og:site_name"/>
 <meta content="en_US" property="og:locale"/>
 <meta content="zh_CN" property="og:locale:alternate"/>
-<meta content="Compress Image Online - Reduce File Size, Keep Quality | PicStudio" property="og:title"/>
+<meta content="Compress Image Online - Reduce File Size, Keep Quality | PicCalc" property="og:title"/>
 <meta content="Shrink image file size with an adjustable quality slider and optional width cap. See before/after size instantly. Runs locally in your browser." property="og:description"/>
 <meta content="https://piccalc.com/tools/compress" property="og:url"/>
 <meta content="summary_large_image" name="twitter:card"/>
-<meta content="Compress Image Online - Reduce File Size, Keep Quality | PicStudio" name="twitter:title"/>
+<meta content="Compress Image Online - Reduce File Size, Keep Quality | PicCalc" name="twitter:title"/>
 <meta content="Shrink image file size with an adjustable quality slider and optional width cap. See before/after size instantly. Runs locally in your browser." name="twitter:description"/>
 <script type="application/ld+json">
 {
@@ -83,7 +83,7 @@
     {
       "@type": "ListItem",
       "position": 1,
-      "name": "PicStudio",
+      "name": "PicCalc",
       "item": "https://piccalc.com/"
     },
     {
@@ -102,7 +102,7 @@
 <meta content="https://piccalc.com/og-v2.png" property="og:image"/>
 <meta content="1200" property="og:image:width"/>
 <meta content="630" property="og:image:height"/>
-<meta content="PicStudio brand share image" property="og:image:alt"/>
+<meta content="PicCalc brand share image" property="og:image:alt"/>
 
 <meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
 <link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
@@ -120,13 +120,14 @@
 <header class="header">
 <div class="container">
 <a class="logo" href="/">
-<img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
-<span class="logo-text">Pic<span class="accent">Studio</span></span>
+<img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Calc</span></span>
 </a>
 <nav class="tool-nav">
 <select id="lang-select" name="lang-select" class="lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/tools/compress" selected>English</option><option value="/zh/tools/compress">中文</option></select><noscript><a href="/zh/tools/compress">中文</a></noscript>
 <a href="/#tools">All Tools</a>
 <a href="/guides/">Image Guides</a>
+<a href="/reference">Reference</a>
 <a href="/privacy">Privacy Policy</a>
 <a href="/faq">FAQ</a>
 <a href="/contact">Contact</a>
@@ -141,6 +142,17 @@
 <h1>🗜️ Compress Image</h1>
 <p>Lower the quality setting or cap the width to shrink file size, with a live before-and-after comparison</p>
 </div>
+<section class="tool-quickstart" aria-labelledby="qs-compress">
+<div class="qs-head">
+<h2 id="qs-compress">How to compress an image in three steps</h2>
+<p class="qs-sub">The screenshot below was taken in this tool with a real file and the stated settings — it is not a mock-up.</p>
+</div>
+<ol class="qs-steps"><li><strong>Upload the photo</strong><span>Pick the file you want to shrink; its pixel size is shown under the upload box.</span></li><li><strong>Set quality and maximum width</strong><span>This run uses quality 60 and a maximum width of 800 px.</span></li><li><strong>Compress and save</strong><span>Press “Compress”, inspect the preview for artefacts, then download the smaller file.</span></li></ol>
+<figure class="tool-shot">
+<img src="/assets/img/tools/compress-result.png" alt="Compressed result: the 1200-pixel test scene reduced to 800 pixels wide." width="1200" height="800" loading="lazy" decoding="async"/>
+<figcaption><strong>Captured:</strong> <strong>Input:</strong> specimen-a-1200x800.png (29 KB PNG). <strong>Settings:</strong> quality 60, max width 800 px. <strong>Output:</strong> 800 × 533.</figcaption>
+</figure>
+</section>
 <div class="upload-area" id="uploadArea">
 <div class="upload-icon">📁</div>
 <div class="upload-text">Click or drag an image here</div>
@@ -264,8 +276,8 @@
 <div class="container">
 <div class="footer-content">
 <div class="footer-brand">
-<img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
-<span class="logo-text">Pic<span class="accent">Studio</span></span>
+<img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Calc</span></span>
 </div>
 <p class="footer-desc">Free online image tools — everything runs locally in your browser</p>
 </div>
@@ -283,7 +295,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 </style>
 <div class="footer-bottom">
 <p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
-<p>© 2026 PicStudio. All rights reserved.</p>
+<p>© 2026 PicCalc. All rights reserved.</p>
 </div>
 </div>
 </footer>
@@ -355,7 +367,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
                 img.src = dataUrl;
             });
         },
-        downloadOptions: { filename: 'picstudio-compressed', format: 'jpeg' }
+        downloadOptions: { filename: 'piccalc-compressed', format: 'jpeg' }
     });
 
     // Track original file size
@@ -373,5 +385,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 <script src="/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/assets/js/ux.js?v=20261108ml"></script>
+<script src="/assets/data/search-en.js" defer></script>
+<script src="/assets/js/search.js" defer></script>
 </body>
 </html>

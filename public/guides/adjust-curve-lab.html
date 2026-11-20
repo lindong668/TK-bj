@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Three Sliders, Three Curves — A Colour Adjust Lab Notebook | PicStudio</title>
+<title>Three Sliders, Three Curves — A Colour Adjust Lab Notebook | PicCalc</title>
 <meta content="Brightness, contrast and gamma, traced pixel by pixel from our published formulas — including the exact clipping points. With a recomputable table." name="description"/>
 <meta content="brightness vs gamma difference, contrast formula 128, saturation -100 vs grayscale, unsharp mask strength scanned document, why contrast blows out highlights, luma 0.299 0.587 0.114" name="keywords"/>
 <link href="https://piccalc.com/guides/adjust-curve-lab" rel="canonical"/>
 <meta content="index,follow,max-image-preview:large" name="robots"/>
 <meta content="article" property="og:type"/>
-<meta content="PicStudio" property="og:site_name"/>
+<meta content="PicCalc" property="og:site_name"/>
 <meta content="en_US" property="og:locale"/>
 <meta content="Three Sliders, Three Curves — A Colour Adjust Lab Notebook" property="og:title"/>
 <meta content="We took the exact formulas published on our own Colour Adjust page and worked out what brightness, contrast and gamma do to every pixel value, including the exact points where highlights clip. Includes a recomputable table and saturation maths." property="og:description"/>
@@ -36,12 +36,12 @@
       "dateModified": "2026-11-20",
       "author": {
         "@type": "Organization",
-        "name": "PicStudio",
+        "name": "PicCalc",
         "url": "https://piccalc.com"
       },
       "publisher": {
         "@type": "Organization",
-        "name": "PicStudio",
+        "name": "PicCalc",
         "url": "https://piccalc.com"
       },
       "mainEntityOfPage": {
@@ -53,7 +53,7 @@
       "wordCount": 2325,
       "isPartOf": {
         "@type": "Blog",
-        "name": "PicStudio Lab Notes",
+        "name": "PicCalc Lab Notes",
         "url": "https://piccalc.com/guides/"
       }
     },
@@ -63,7 +63,7 @@
         {
           "@type": "ListItem",
           "position": 1,
-          "name": "PicStudio",
+          "name": "PicCalc",
           "item": "https://piccalc.com/"
         },
         {
@@ -173,12 +173,13 @@
 <body>
 <header class="header">
 <div class="container">
-<a class="logo" href="/"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
-<span class="logo-text">Pic<span class="accent">Studio</span></span></a>
+<a class="logo" href="/"><img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Calc</span></span></a>
 <nav class="tool-nav">
 <select id="lang-select" name="lang-select" class="lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/guides/" selected>English</option><option value="/zh/guides/">中文</option></select><noscript><a href="/zh/guides/">中文</a></noscript>
 <a href="/#tools">All Tools</a>
 <a href="/guides/">Image Guides</a>
+<a href="/reference">Reference</a>
 <a href="/privacy">Privacy Policy</a>
 <a href="/faq">FAQ</a>
 <a href="/contact">Contact</a>
@@ -191,7 +192,7 @@
 <div class="article-body">
 <div class="guide-top"><a class="guide-back" href="/guides/">← All guides</a><span class="guide-crumb"><a href="/" style="color:var(--text-muted);">Home</a><span>› Image Guides › Failure Forensics</span></span></div>
 <h1>Three Sliders, Three Curves — A Colour Adjust Lab Notebook</h1>
-<div class="lab-meta"><span>Series: Failure Forensics</span><span>Part 3</span><span>Published 2026-11-20</span><span>Updated 2026-11-20</span><span>2,325 words</span><span>Measured on PicStudio tools</span></div>
+<div class="lab-meta"><span>Series: Failure Forensics</span><span>Part 3</span><span>Published 2026-11-20</span><span>Updated 2026-11-20</span><span>2,325 words</span><span>Measured on PicCalc tools</span></div>
 <nav class="lab-toc"><strong>On this page</strong><ol><li><a href="#the-test-chart">The test chart</a></li><li><a href="#brightness-is-a-translation-and-translations-clip-first">Brightness is a translation, and translations clip first</a></li><li><a href="#contrast-is-a-rotation-around-128-and-it-clips-at-both-ends">Contrast is a rotation around 128, and it clips at both ends</a></li><li><a href="#gamma-is-a-power-curve-not-a-shift">Gamma is a power curve, not a shift</a></li><li><a href="#the-recomputable-table">The recomputable table</a></li><li><a href="#order-matters-and-the-page-does-not-hide-it">Order matters, and the page does not hide it</a></li><li><a href="#saturation-100-is-not-the-same-thing-as-the-black-white-button">Saturation −100 is not the same thing as the black &amp; white button</a></li><li><a href="#temperature-sharpening-and-vignette">Temperature, sharpening and vignette</a></li><li><a href="#symptom-which-slider-and-why">Symptom → which slider, and why</a></li><li><a href="#reproduce-the-lab">Reproduce the lab</a></li><li><a href="#where-this-fits">Where this fits</a></li><li><a href="#files">Files</a></li><li><a href="#appendix-m-a-worked-perchannel-example">Appendix M — A worked per-channel example</a></li><li><a href="#appendix-n-unsharp-mask-one-row-of-numbers">Appendix N — Unsharp mask, one row of numbers</a></li><li><a href="#appendix-o-a-misuse-log-from-our-own-tests">Appendix O — A misuse log from our own tests</a></li><li><a href="#appendix-p-how-to-use-the-chart-as-a-measuring-instrument">Appendix P — How to use the chart as a measuring instrument</a></li><li><a href="#frequently-asked-questions">Frequently asked questions</a></li></ol></nav>
 <p>The <a href="/tools/adjust">Colour Adjust</a> page on this site does something most tool pages do not: it prints the actual maths behind each slider. Brightness adds a constant to every RGB value; contrast uses <code>new = factor × (old − 128) + 128</code>; saturation computes luma as <code>0.299R + 0.587G + 0.114B</code> and pushes colour away from or toward that grey point; sharpening uses an unsharp mask, <code>original + (original − blur) × strength</code>.</p>
 <p>Those four lines are enough to predict nearly every "why did my photo go wrong" complaint. This lab notebook works the formulas through, compares them against a synthetic test chart, and gives you a table you can recompute yourself. No stock photos, no vague "adjust to taste" advice — just numbers from the tool's own implementation.</p>
@@ -200,11 +201,11 @@
 <p>The <a href="/assets/samples/picstudio-tone-chart.png">tone chart</a> is drawn for this purpose: a vertical gradient from dark blue to bright orange, six grey patches at 12 / 45 / 90 / 140 / 190 / 235, a red block, a green triangle and a yellow disc. Every element has a known input value, so a change is measurable rather than a matter of opinion. The <a href="/assets/samples/picstudio-tone-chart.jpg">JPEG version</a> is there to compare re-encode effects separately from slider effects.</p>
 <figure class="lab-figure"><img src="/assets/img/lab/control-adjust.png" alt="The Colour Adjust control panel with the chart loaded" loading="lazy" decoding="async" width=1152 height=915><figcaption>Our own Colour Adjust panel: brightness, contrast, saturation, temperature, gamma, sharpen, vignette and the one-tap filters. Every claim below refers to one of these controls.</figcaption></figure>
 <h2 id="brightness-is-a-translation-and-translations-clip-first">Brightness is a translation, and translations clip first</h2>
-<p>Brightness adds the same amount to every channel of every pixel. With a setting of +40, an input value <code>x</code> becomes <code>x + 40</code>, clamped to 0–255. That is a straight line shifted upward by 40 — the blue line in the figure.</p>
+<p>Brightness adds the same amount to every channel of every pixel. The slider runs from −100 to +100 and the tool multiplies it by 2.55, so a slider value of +16 shifts every channel by about +40 levels. With that shift, an input value <code>x</code> becomes <code>x + 40</code>, clamped to 0–255. That is a straight line shifted upward by 40 — the blue line in the figure.</p>
 <p>The consequence is arithmetic, not taste: <strong>every input value from 215 upward becomes 255</strong>. A highlight at 220 and a highlight at 250 both end up at 255, and the difference between them is gone permanently. That is why a brightened sky turns into a flat white band. The shadows survive intact — an input of 10 becomes 50 — which is why brightness feels "safe" at first and then ruins only the top of the image.</p>
 <p>Exact clip point: <code>255 − 40 = 215</code>. For any brightness <code>+b</code>, values above <code>255 − b</code> are lost. For <code>−b</code>, values below <code>b</code> are crushed to black.</p>
 <h2 id="contrast-is-a-rotation-around-128-and-it-clips-at-both-ends">Contrast is a rotation around 128, and it clips at both ends</h2>
-<p>Contrast uses <code>new = factor × (old − 128) + 128</code>. The pivot is 128: mid-grey does not move at all. Values above 128 are pushed further up; values below 128 are pushed further down. With <code>factor = 1.4</code>, the line is steeper than identity — the pink curve in the figure.</p>
+<p>Contrast uses <code>new = factor × (old − 128) + 128</code>, where the slider value <code>c</code> sets <code>factor = 259(c + 255) / (255(259 − c))</code>. A slider of +42 gives factor ≈ 1.4, the value used below. The pivot is 128: mid-grey does not move at all. Values above 128 are pushed further up; values below 128 are pushed further down. With <code>factor = 1.4</code>, the line is steeper than identity — the pink curve in the figure.</p>
 <p>Solve the two inequalities and you get both damage zones:</p>
 <ul><li><code>1.4(x − 128) + 128 ≤ 0</code> → <code>x ≤ 36.6</code>, so inputs <strong>0–36 are crushed to black</strong>.</li><li><code>1.4(x − 128) + 128 ≥ 255</code> → <code>x ≥ 218.7</code>, so inputs <strong>219–255 are clipped to white</strong>.</li></ul>
 <p>So contrast at 1.4 destroys about 14% of the tonal range at the bottom and 14% at the top, while leaving 128 untouched. Brightness +40 destroys only the top 16%. This is the concrete answer to "why does contrast blow out my highlights but brightness does not feel as bad": contrast attacks both ends simultaneously, and it does so while the midtones look unchanged, so the damage is less obvious until it is done.</p>
@@ -274,8 +275,8 @@
 <footer class="footer">
 <div class="container">
 <div class="footer-content">
-<div class="footer-brand"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
-<span class="logo-text">Pic<span class="accent">Studio</span></span></div>
+<div class="footer-brand"><img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Calc</span></span></div>
 <p class="footer-desc">Free online image tools — everything runs locally in your browser</p>
 </div>
 <div class="footer-links">
@@ -285,7 +286,7 @@
 </div>
 <div class="footer-bottom">
 <p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
-<p>© 2026 PicStudio. All rights reserved. Lab Notes are original measured reports, not rewritten articles.</p>
+<p>© 2026 PicCalc. All rights reserved. Lab Notes are original measured reports, not rewritten articles.</p>
 </div>
 </div>
 </footer>
@@ -293,5 +294,7 @@
 <script src="/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/assets/js/ux.js?v=20261108ml"></script>
+<script src="/assets/data/search-en.js" defer></script>
+<script src="/assets/js/search.js" defer></script>
 </body>
 </html>

@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+<html data-lang="zh" lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>隐私实证：自己看 Network 面板 | PicCalc</title>
+<meta content="一套可复现的测试：打开开发者工具，把照片上传到任意 PicCalc 工具，确认没有任何请求携带图片。同时说明“本地处理”的边界。" name="description"/>
+<meta content="图片隐私, 本地处理, 不上传, EXIF GPS, Network 面板" name="keywords"/>
+<link href="https://piccalc.com/zh/privacy-evidence" rel="canonical"/>
+<link rel="alternate" hreflang="en" href="https://piccalc.com/privacy-evidence"/>
+<link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/privacy-evidence"/>
+<link rel="alternate" hreflang="x-default" href="https://piccalc.com/privacy-evidence"/>
+<meta content="index,follow,max-image-preview:large" name="robots"/>
+<meta content="website" property="og:type"/>
+<meta content="PicCalc" property="og:site_name"/>
+<meta content="zh_CN" property="og:locale"/>
+<meta content="en_US" property="og:locale:alternate"/>
+<meta content="隐私实证：自己看 Network 面板 | PicCalc" property="og:title"/>
+<meta content="一套可复现的测试：打开开发者工具，把照片上传到任意 PicCalc 工具，确认没有任何请求携带图片。同时说明“本地处理”的边界。" property="og:description"/>
+<meta content="https://piccalc.com/zh/privacy-evidence" property="og:url"/>
+<meta content="summary_large_image" name="twitter:card"/>
+
+
+<link href="/favicon.ico" rel="icon" sizes="any"/>
+<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<meta content="https://piccalc.com/og-v2.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="PicCalc 品牌分享图" property="og:image:alt"/>
+
+<meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
+<link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
+<style>
+      .guide-lead { max-width:820px; margin:0 auto; font-size:15px; line-height:1.9; color:var(--text-secondary); margin-bottom:26px; }
+    </style>
+<style>
+      html[data-lang="en"] [data-lang-block="zh"] { display: none !important; }
+      html[data-lang="zh"] [data-lang-block="en"] { display: none !important; }
+      .lang-toggle { background: transparent; border: 1px solid var(--border, #e2e8f0);
+        border-radius: 6px; padding: 4px 10px; font-size: 13px; cursor: pointer;
+        color: var(--text-secondary, #64748b); line-height: 1.6; }
+      .lang-toggle:hover { border-color: var(--primary, #6366f1); color: var(--primary, #6366f1); }
+    </style>
+
+<meta content="图片处理指南：格式、压缩、尺寸与标注 | PicCalc" name="twitter:title"/><meta content="原创图片处理教程：格式对比、按体积压缩、尺寸与像素标准、透明度与干净边缘、EXIF 隐私、二维码容错与水印技巧。" name="twitter:description"/><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"PicCalc","item":"https://piccalc.com/zh/"},{"@type":"ListItem","position":2,"name":"参考","item":"https://piccalc.com/zh/reference"},{"@type":"ListItem","position":3,"name":"隐私实证","item":"https://piccalc.com/zh/privacy-evidence"}]}</script>
+</head>
+<body>
+<header class="header">
+<div class="container">
+<a class="logo" href="/zh/">
+<img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Calc</span></span>
+</a>
+<nav class="tool-nav">
+<select id="lang-select" name="lang-select" class="lang-select" aria-label="语言" onchange="if(this.value)location.href=this.value"><option value="/privacy-evidence">English</option><option value="/zh/privacy-evidence" selected>中文</option></select><noscript><a href="/guides/">English</a></noscript>
+<a href="/zh/#tools">全部工具</a>
+<a href="/zh/guides/changelog">更新日志</a>
+<a href="/zh/reference">参考</a>
+<a href="/zh/privacy">隐私政策</a>
+<a href="/zh/faq">常见问题</a>
+<a href="/zh/contact">联系我们</a>
+</nav>
+<select id="lang-select-m" name="lang-select-m" class="lang-select-m lang-select" aria-label="语言" onchange="if(this.value)location.href=this.value"><option value="/guides/">English</option><option value="/zh/guides/" selected>中文</option></select><noscript><a href="/guides/">English</a></noscript>
+</div>
+</header>
+<section class="tool-page">
+<div class="container">
+<div style="max-width:900px;margin:0 auto;">
+<div class="guide-top"><a class="guide-back" href="/zh/">← 返回首页</a><span class="guide-crumb"><a href="/zh/" style="color:var(--text-muted);">首页</a><span>› <a href="/zh/reference" style="color:var(--text-muted);">参考</a> › 隐私实证</span></span></div>
+<h1>隐私实证，而不是一句承诺</h1>
+<div class="guide-lead">PicCalc 在浏览器标签页里处理图片。这一页给你一套一分钟左右就能复现的测试，也把“本地处理”的边界讲清楚，免得把不该放心的事情也放心了。</div>
+
+<h2>这里的“本地”指什么</h2>
+<p>选择文件后，浏览器用 File API 读取，并解码成页面内的 ImageBitmap 或 canvas。缩放、调色、裁剪、格式转换、清除 EXIF，都是对这些像素做运算。保存时调用 <code>canvas.toBlob()</code>，交给你一个临时的 <code>blob:</code> 地址。工具代码里没有上传接口。</p>
+
+<h2>60 秒复现</h2>
+<ol>
+<li>打开任意工具，例如<a href="/zh/tools/compress">图片压缩</a>。</li>
+<li>按 <kbd>F12</kbd> 打开开发者工具，切到 <strong>Network（网络）</strong>，清空列表。</li>
+<li>上传一张较大的照片并调整参数，观察预览更新时列表的变化。</li>
+<li>用 <strong>Fetch/XHR</strong> 过滤。你会看到页面资源请求，但没有任何请求的正文是你的照片。</li>
+<li>更严格的做法：页面加载完后，把 Network 切到 <strong>Offline（离线）</strong> 再处理一次。工具照常工作，因为它不需要网络。</li>
+</ol>
+<p>想直接看代码也可以：工具脚本是公开文件，例如 <code>/assets/js/lab.js</code> 和各工具自己的脚本。搜索 <code>fetch(</code>、<code>XMLHttpRequest</code>、<code>sendBeacon</code>，没有任何一处把图片数据交给它们。</p>
+
+<h2>不保存什么</h2>
+<p>没有账号、没有云端相册、没有服务器副本。解码后的图片只活在当前标签页的内存里，关闭或刷新即消失。下载文件由本地 blob 生成。</p>
+
+<h2>需要知道的边界</h2>
+<ul>
+<li><strong>托管访问日志仍然存在。</strong> 打开页面本身会经过 CDN，日志里有网址、时间和 IP，但没有你的图片。</li>
+<li><strong>浏览器与扩展不在我们控制范围内。</strong> 截图扩展、同步剪贴板都可能复制你屏幕上的内容。</li>
+<li><strong>去元数据是单独一步。</strong> 压缩不一定会删掉 EXIF；在意拍摄地点时请用<a href="/zh/tools/exif">EXIF 查看与清除</a>。</li>
+<li><strong>超大文件会撞上浏览器内存上限。</strong> 编辑类工具的工作边长上限为 3000 px，裁剪与放大上限为 4000 px。</li>
+</ul>
+
+<h2>相关</h2>
+<p><a href="/zh/privacy">隐私政策</a> · <a href="/zh/tools/exif">EXIF 清除工具</a> · <a href="/zh/guides/metadata-trail">照片元数据会暴露什么</a> · <a href="/zh/guides/transparency-accident-report">透明 PNG 事故报告</a></p>
+</div>
+</div>
+</section>
+<footer class="footer">
+<div class="container">
+<div class="footer-content">
+<div class="footer-brand">
+<img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Calc</span></span>
+</div>
+<p class="footer-desc">免费的在线图片处理工具，所有处理在浏览器本地完成</p>
+</div>
+<div class="footer-links">
+<a href="/zh/#tools">全部工具</a>
+<a href="/zh/about">关于我们</a>
+<a href="/zh/contact">联系我们</a>
+<a href="/zh/faq">常见问题</a>
+<a href="/zh/privacy">隐私政策</a>
+<a href="/zh/terms">使用条款</a>
+</div>
+<style>
+html[data-lang="en"] [data-lang-block="zh"]{display:none!important}
+html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
+</style>
+<div class="footer-bottom">
+<p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
+<p>&amp;copy; 2026 PicCalc. 保留所有权利。</p>
+</div>
+</div>
+</footer>
+<script src="/zh/assets/js/main.js?v=20261111g"></script>
+<script src="/zh/assets/js/i18n-dict.js?v=20261108ml"></script>
+<script src="/zh/assets/js/i18n.js?v=20261108ml"></script>
+<script src="/zh/assets/js/ux.js?v=20261108ml"></script>
+<script>
+
+</script>
+<script src="/assets/data/search-zh.js" defer></script>
+<script src="/assets/js/search.js" defer></script>
+</body>
+</html>

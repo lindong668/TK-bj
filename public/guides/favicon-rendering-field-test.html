@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>One Icon, Fourteen Placements — A Favicon Rendering Field Test | PicStudio</title>
+<title>One Icon, Fourteen Placements — A Favicon Rendering Field Test | PicCalc</title>
 <meta content="One logo exported as a six-size .ico, then inspected in 14 real placements: tabs, bookmarks, dark mode, iOS masks, Android icons, PWA cards." name="description"/>
 <meta content="favicon blurry 16x16, dark mode favicon invisible, apple-touch-icon rounded corners, maskable icon safe zone, ico sizes needed, favicon shows in tab but not bookmark, why favicon looks different on phone" name="keywords"/>
 <link href="https://piccalc.com/guides/favicon-rendering-field-test" rel="canonical"/>
 <meta content="index,follow,max-image-preview:large" name="robots"/>
 <meta content="article" property="og:type"/>
-<meta content="PicStudio" property="og:site_name"/>
+<meta content="PicCalc" property="og:site_name"/>
 <meta content="en_US" property="og:locale"/>
 <meta content="One Icon, Fourteen Placements — A Favicon Rendering Field Test" property="og:title"/>
 <meta content="We exported one logo as a six-size .ico, then inspected the same bitmap in 14 real places: tabs, bookmarks, dark mode, iOS masks, Android adaptive icons, PWA cards and Explorer. Includes a symptom-to-size diagnosis table." property="og:description"/>
@@ -36,12 +36,12 @@
       "dateModified": "2026-11-20",
       "author": {
         "@type": "Organization",
-        "name": "PicStudio",
+        "name": "PicCalc",
         "url": "https://piccalc.com"
       },
       "publisher": {
         "@type": "Organization",
-        "name": "PicStudio",
+        "name": "PicCalc",
         "url": "https://piccalc.com"
       },
       "mainEntityOfPage": {
@@ -53,7 +53,7 @@
       "wordCount": 2514,
       "isPartOf": {
         "@type": "Blog",
-        "name": "PicStudio Lab Notes",
+        "name": "PicCalc Lab Notes",
         "url": "https://piccalc.com/guides/"
       }
     },
@@ -63,7 +63,7 @@
         {
           "@type": "ListItem",
           "position": 1,
-          "name": "PicStudio",
+          "name": "PicCalc",
           "item": "https://piccalc.com/"
         },
         {
@@ -173,12 +173,13 @@
 <body>
 <header class="header">
 <div class="container">
-<a class="logo" href="/"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
-<span class="logo-text">Pic<span class="accent">Studio</span></span></a>
+<a class="logo" href="/"><img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Calc</span></span></a>
 <nav class="tool-nav">
 <select id="lang-select" name="lang-select" class="lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/guides/" selected>English</option><option value="/zh/guides/">中文</option></select><noscript><a href="/zh/guides/">中文</a></noscript>
 <a href="/#tools">All Tools</a>
 <a href="/guides/">Image Guides</a>
+<a href="/reference">Reference</a>
 <a href="/privacy">Privacy Policy</a>
 <a href="/faq">FAQ</a>
 <a href="/contact">Contact</a>
@@ -191,7 +192,7 @@
 <div class="article-body">
 <div class="guide-top"><a class="guide-back" href="/guides/">← All guides</a><span class="guide-crumb"><a href="/" style="color:var(--text-muted);">Home</a><span>› Image Guides › Rendering Field Tests</span></span></div>
 <h1>One Icon, Fourteen Placements — A Favicon Rendering Field Test</h1>
-<div class="lab-meta"><span>Series: Rendering Field Tests</span><span>Part 1</span><span>Published 2026-11-20</span><span>Updated 2026-11-20</span><span>2,514 words</span><span>Measured on PicStudio tools</span></div>
+<div class="lab-meta"><span>Series: Rendering Field Tests</span><span>Part 1</span><span>Published 2026-11-20</span><span>Updated 2026-11-20</span><span>2,514 words</span><span>Measured on PicCalc tools</span></div>
 <nav class="lab-toc"><strong>On this page</strong><ol><li><a href="#what-we-tested-and-how">What we tested, and how</a></li><li><a href="#the-16-16-budget-is-smaller-than-it-sounds">The 16 × 16 budget is smaller than it sounds</a></li><li><a href="#the-fourteen-placements-one-by-one">The fourteen placements, one by one</a></li><li><a href="#dark-mode-is-a-contrast-problem-not-a-second-file">Dark mode is a contrast problem, not a second file</a></li><li><a href="#ios-masks-and-android-safe-zones-are-cropping-operations">iOS masks and Android safe zones are cropping operations</a></li><li><a href="#safari-pinned-tabs-do-not-use-the-ico-at-all">Safari pinned tabs do not use the ICO at all</a></li><li><a href="#why-the-256-entry-still-earns-its-place">Why the 256 entry still earns its place</a></li><li><a href="#the-false-alarms-we-ruled-out-during-the-test">The false alarms we ruled out during the test</a></li><li><a href="#reproduce-the-test-in-five-steps">Reproduce the test in five steps</a></li><li><a href="#symptom-cause-fix">Symptom → cause → fix</a></li><li><a href="#what-this-does-not-cover">What this does not cover</a></li><li><a href="#files-used-in-this-test">Files used in this test</a></li><li><a href="#appendix-a-what-the-six-entries-actually-cost">Appendix A — What the six entries actually cost</a></li><li><a href="#appendix-b-crosshost-variance-log">Appendix B — Cross-host variance log</a></li><li><a href="#appendix-c-when-an-ico-is-the-wrong-deliverable">Appendix C — When an ICO is the wrong deliverable</a></li><li><a href="#appendix-d-what-we-could-not-measure">Appendix D — What we could not measure</a></li><li><a href="#frequently-asked-questions">Frequently asked questions</a></li></ol></nav>
 <p>Most favicon articles stop at the moment you press Export. That is the easy half. The hard half starts when the same file is asked to represent your site in a browser tab, a bookmark bar, a Windows taskbar, an iOS home screen, a PWA install prompt and a file manager — fourteen different hosts, each with its own size, background, cropping and colour rules. A mark that looks clean at 512 px can turn into an unreadable smudge at 16 px, vanish entirely against a dark tab, or lose its corners to a system mask.</p>
 <p>This guide is a field test, not a format explanation. We took a single specimen, exported it with our own <a href="/tools/icon-maker">ICO &amp; Favicon Generator</a>, and looked at what each host actually does with it. Every screenshot below comes from that tool running in a browser; every comparison figure was drawn for this article from the same specimen. You can download both the specimen and the generated <code>.ico</code> at the end and repeat the whole test yourself.</p>
@@ -266,8 +267,8 @@
 <footer class="footer">
 <div class="container">
 <div class="footer-content">
-<div class="footer-brand"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
-<span class="logo-text">Pic<span class="accent">Studio</span></span></div>
+<div class="footer-brand"><img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Calc</span></span></div>
 <p class="footer-desc">Free online image tools — everything runs locally in your browser</p>
 </div>
 <div class="footer-links">
@@ -277,7 +278,7 @@
 </div>
 <div class="footer-bottom">
 <p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
-<p>© 2026 PicStudio. All rights reserved. Lab Notes are original measured reports, not rewritten articles.</p>
+<p>© 2026 PicCalc. All rights reserved. Lab Notes are original measured reports, not rewritten articles.</p>
 </div>
 </div>
 </footer>
@@ -285,5 +286,7 @@
 <script src="/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/assets/js/ux.js?v=20261108ml"></script>
+<script src="/assets/data/search-en.js" defer></script>
+<script src="/assets/js/search.js" defer></script>
 </body>
 </html>

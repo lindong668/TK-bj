@@ -8,7 +8,7 @@
 <meta content="https://piccalc.com/og-v2.png" property="og:image"/>
 <meta content="1200" property="og:image:width"/>
 <meta content="630" property="og:image:height"/>
-<meta content="PicStudio brand share image" property="og:image:alt"/>
+<meta content="PicCalc brand share image" property="og:image:alt"/>
 <meta content="summary_large_image" name="twitter:card"/>
 <meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
 <meta charset="utf-8"/>
@@ -19,14 +19,14 @@
 <link href="https://piccalc.com/tools/to-pdf" rel="canonical"/>
 <meta content="index,follow,max-image-preview:large" name="robots"/>
 <meta content="website" property="og:type"/>
-<meta content="PicStudio" property="og:site_name"/>
+<meta content="PicCalc" property="og:site_name"/>
 <meta content="en_US" property="og:locale"/>
 <meta content="zh_CN" property="og:locale:alternate"/>
-<meta content="Convert Images to PDF Online - A4 or Fit to Image | PicStudio" property="og:title"/>
+<meta content="Convert Images to PDF Online - A4 or Fit to Image | PicCalc" property="og:title"/>
 <meta content="Combine multiple images into a single PDF. Choose A4 or match-image page size, reorder pages, and download instantly." property="og:description"/>
 <meta content="https://piccalc.com/tools/to-pdf" property="og:url"/>
 
-<meta content="Convert Images to PDF Online - A4 or Fit to Image | PicStudio" name="twitter:title"/>
+<meta content="Convert Images to PDF Online - A4 or Fit to Image | PicCalc" name="twitter:title"/>
 <meta content="Combine multiple images into a single PDF. Choose A4 or match-image page size, reorder pages, and download instantly." name="twitter:description"/>
 <link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
 <style>.content-section{padding:48px 0;background:transparent;border-top:1px solid var(--border)}
@@ -156,13 +156,14 @@
 <header class="header">
 <div class="container">
 <a class="logo" href="/">
-<img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
-<span class="logo-text">Pic<span class="accent">Studio</span></span>
+<img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Calc</span></span>
 </a>
 <nav class="tool-nav">
 <select id="lang-select" name="lang-select" class="lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/tools/to-pdf" selected>English</option><option value="/zh/tools/to-pdf">中文</option></select><noscript><a href="/zh/tools/to-pdf">中文</a></noscript>
 <a href="/#tools">All Tools</a>
 <a href="/guides/">Image Guides</a>
+<a href="/reference">Reference</a>
 <a href="/privacy">Privacy Policy</a>
 <a href="/faq">FAQ</a>
 <a href="/contact">Contact</a>
@@ -193,6 +194,17 @@
 <p style="margin:0;font-size:14px;line-height:1.8;color:var(--text-secondary,#475569);"><strong>This tool needs JavaScript to process images.</strong> The editor runs entirely inside your browser, so it cannot start with scripting turned off. Everything written below is plain HTML: the method, the numbers, the failure cases and the FAQ all read without it.</p>
 </div></noscript>
 
+<section class="tool-quickstart" aria-labelledby="qs-to-pdf">
+<div class="qs-head">
+<h2 id="qs-to-pdf">How to turn images into a PDF in three steps</h2>
+<p class="qs-sub">The screenshot below was taken in this tool with a real file and the stated settings — it is not a mock-up.</p>
+</div>
+<ol class="qs-steps"><li><strong>Upload the pages</strong><span>Several images can become one document.</span></li><li><strong>Pick the page size</strong><span>This run uses A4 (595 × 842 pt) at sharpness 85.</span></li><li><strong>Create and download</strong><span>Press “Create PDF”; this two-page file reports about 0.10 MB.</span></li></ol>
+<figure class="tool-shot">
+<img src="/assets/img/tools/to-pdf-result.png" alt="PDF result: two imported page thumbnails, A4 selected, and a download button for a two-page PDF." width="1200" height="800" loading="lazy" decoding="async"/>
+<figcaption><strong>Captured:</strong> <strong>Input:</strong> specimen-a-1200x800.png and specimen-b-1200x800.png. <strong>Settings:</strong> A4 page, sharpness 85. <strong>Output:</strong> 2-page PDF, approx. 0.10 MB.</figcaption>
+</figure>
+</section>
 <div class="upload-area" id="uploadArea">
 <div class="upload-icon">📁</div>
 <div class="upload-text">Click or drag an image here</div>
@@ -301,8 +313,8 @@
 <div class="container">
 <div class="footer-content">
 <div class="footer-brand">
-<img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
-<span class="logo-text">Pic<span class="accent">Studio</span></span>
+<img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Calc</span></span>
 </div>
 <p class="footer-desc">Free online image tools — everything runs locally in your browser</p>
 </div>
@@ -320,7 +332,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 </style>
 <div class="footer-bottom">
 <p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
-<p>© 2026 PicStudio. All rights reserved.</p>
+<p>© 2026 PicCalc. All rights reserved.</p>
 </div>
 </div>
 </footer>
@@ -400,5 +412,7 @@ downloadBtn.addEventListener('click',function(){
 <script src="/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/assets/js/ux.js?v=20261108ml"></script>
+<script src="/assets/data/search-en.js" defer></script>
+<script src="/assets/js/search.js" defer></script>
 </body>
 </html>

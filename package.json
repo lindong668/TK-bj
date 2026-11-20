@@ -1,8 +1,8 @@
-{
-  "name": "picstudio",
+﻿{
+  "name": "piccalc",
   "version": "1.0.0",
   "private": true,
-  "description": "PicStudio（piccalc.com）图片工具站 on Cloudflare Workers + Assets",
+  "description": "PicCalc（piccalc.com）图片工具站 on Cloudflare Workers + Assets",
   "main": "src/index.js",
   "scripts": {
     "dev": "wrangler dev",

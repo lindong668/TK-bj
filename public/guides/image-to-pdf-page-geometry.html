@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>What Actually Happens When a Photo Becomes a PDF Page | PicStudio</title>
+<title>What Actually Happens When a Photo Becomes a PDF Page | PicCalc</title>
 <meta content="A4 is 595.28 by 841.89 points. See how an image is fitted and centred, why 2000 pixels caps A4 at about 242 dpi, and when Match image size beats A4." name="description"/>
 <meta content="image to pdf page size, a4 595 842 points, photo to pdf margins, image pdf 2000px, pdf effective dpi, match image size pdf, pdf image jpeg dctdecode" name="keywords"/>
 <link href="https://piccalc.com/guides/image-to-pdf-page-geometry" rel="canonical"/>
 <meta content="index,follow,max-image-preview:large" name="robots"/>
 <meta content="article" property="og:type"/>
-<meta content="PicStudio" property="og:site_name"/>
+<meta content="PicCalc" property="og:site_name"/>
 <meta content="en_US" property="og:locale"/>
 <meta content="What Actually Happens When a Photo Becomes a PDF Page" property="og:title"/>
 <meta content="A4 is 595.28 by 841.89 points. See how an image is fitted and centred, why 2000 pixels caps A4 at about 242 dpi, and when Match image size beats A4." property="og:description"/>
@@ -34,8 +34,8 @@
       "inLanguage": "en",
       "datePublished": "2026-11-20",
       "dateModified": "2026-11-20",
-      "author": {"@type": "Organization", "name": "PicStudio", "url": "https://piccalc.com"},
-      "publisher": {"@type": "Organization", "name": "PicStudio", "url": "https://piccalc.com"},
+      "author": {"@type": "Organization", "name": "PicCalc", "url": "https://piccalc.com"},
+      "publisher": {"@type": "Organization", "name": "PicCalc", "url": "https://piccalc.com"},
       "mainEntityOfPage": {"@type": "WebPage", "@id": "https://piccalc.com/guides/image-to-pdf-page-geometry"},
       "keywords": "image to pdf, A4 page size points, PDF margins, effective dpi, match image size",
       "articleSection": "Image Guides",
@@ -44,7 +44,7 @@
     {
       "@type": "BreadcrumbList",
       "itemListElement": [
-        {"@type": "ListItem", "position": 1, "name": "PicStudio", "item": "https://piccalc.com/"},
+        {"@type": "ListItem", "position": 1, "name": "PicCalc", "item": "https://piccalc.com/"},
         {"@type": "ListItem", "position": 2, "name": "Image Guides", "item": "https://piccalc.com/guides/"},
         {"@type": "ListItem", "position": 3, "name": "Photo to PDF Page Geometry", "item": "https://piccalc.com/guides/image-to-pdf-page-geometry"}
       ]
@@ -124,12 +124,13 @@
 <body>
 <header class="header">
 <div class="container">
-<a class="logo" href="/"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
-<span class="logo-text">Pic<span class="accent">Studio</span></span></a>
+<a class="logo" href="/"><img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Calc</span></span></a>
 <nav class="tool-nav">
 <select id="lang-select" name="lang-select" class="lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/guides/" selected>English</option><option value="/zh/guides/">中文</option></select><noscript><a href="/zh/guides/">中文</a></noscript>
 <a href="/#tools">All Tools</a>
 <a href="/guides/">Image Guides</a>
+<a href="/reference">Reference</a>
 <a href="/privacy">Privacy Policy</a>
 <a href="/faq">FAQ</a>
 <a href="/contact">Contact</a>
@@ -142,7 +143,7 @@
 <div class="article-body">
 <div class="guide-top"><a class="guide-back" href="/guides/">← All guides</a><span class="guide-crumb"><a href="/" style="color:var(--text-muted);">Home</a><span>› Image Guides › Photo to PDF</span></span></div>
 <h1>What Actually Happens When a Photo Becomes a PDF Page</h1>
-<div class="lab-meta"><span>Published 2026-11-20</span><span>Updated 2026-11-20</span><span>2,071 words</span><span>Based on the PicStudio tool's implementation</span></div>
+<div class="lab-meta"><span>Published 2026-11-20</span><span>Updated 2026-11-20</span><span>2,071 words</span><span>Based on the PicCalc tool's implementation</span></div>
 <nav class="lab-toc"><strong>On this page</strong><ol><li><a href="#two-page-sizes-two-intentions">Two page sizes, two intentions</a></li><li><a href="#the-fit-rule-and-the-margins-it-creates">The fit rule, and the margins it creates</a></li><li><a href="#the-2000-pixel-ceiling">The 2000-pixel ceiling</a></li><li><a href="#what-the-page-really-contains">What the page really contains</a></li><li><a href="#page-order-is-the-only-editorial-control">Page order is the only editorial control</a></li><li><a href="#what-this-tool-does-not-do">What this tool does not do</a></li><li><a href="#choosing-between-the-two-modes">Choosing between the two modes</a></li><li><a href="#frequently-asked-questions">Frequently asked questions</a></li></ol></nav>
 <p>Sending a photo as a PDF is one of those actions that feels like a single step and is actually four. The image is decoded, possibly downscaled, scaled into a page box, and re-encoded into a stream that a PDF reader can draw. Each of those steps has a number attached, and the numbers explain almost every complaint people have about the result: the white bands, the soft print, the file that cannot be searched.</p>
 <p>This page walks through the implementation of our own <a href="/tools/to-pdf">Image to PDF</a> tool. It is not a list of tips; it is the geometry, with worked examples you can check on a calculator. The same reasoning applies to any image-to-PDF converter, because PDF pages are measured in the same units everywhere.</p>
@@ -244,8 +245,8 @@ dy = (pageHeight - dh) / 2</code></pre>
 <footer class="footer">
 <div class="container">
 <div class="footer-content">
-<div class="footer-brand"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
-<span class="logo-text">Pic<span class="accent">Studio</span></span></div>
+<div class="footer-brand"><img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Calc</span></span></div>
 <p class="footer-desc">Free online image tools — everything runs locally in your browser</p>
 </div>
 <div class="footer-links">
@@ -255,7 +256,7 @@ dy = (pageHeight - dh) / 2</code></pre>
 </div>
 <div class="footer-bottom">
 <p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
-<p>© 2026 PicStudio. All rights reserved. Lab Notes are original measured reports, not rewritten articles.</p>
+<p>© 2026 PicCalc. All rights reserved. Lab Notes are original measured reports, not rewritten articles.</p>
 </div>
 </div>
 </footer>
@@ -263,5 +264,7 @@ dy = (pageHeight - dh) / 2</code></pre>
 <script src="/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/assets/js/ux.js?v=20261108ml"></script>
+<script src="/assets/data/search-en.js" defer></script>
+<script src="/assets/js/search.js" defer></script>
 </body>
 </html>

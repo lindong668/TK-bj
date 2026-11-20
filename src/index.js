@@ -1,5 +1,5 @@
 /**
- * PicStudio 静态资源服务（V70.9 · 重定向合体归一）
+ * PicCalc 静态资源服务（V70.9 · 重定向合体归一）
  * 负责把 /public 下的文件吐出去，补机器文件响应头、404 noindex 兜底。
  *
  * ★ V70.9-r3（本轮，拆包复验 410 条入口后补的 5 个真 404）：
@@ -235,9 +235,24 @@ export default {
      * 随机路径保持 404，不瞎映射到 /tools/*（归一阶段的目标探测已挡住坏链）。 */
     if (res.status === 404) {
       const isZh = pathname.startsWith('/zh/');
+      /* V75：优先返回带搜索、常用工具与指南入口的静态 404 页（仍是真 404，
+       * 页面内自带 noindex,follow）。取不到时才退回下面的极简兜底。 */
+      try {
+        const page = await env.ASSETS.fetch(new Request(CANON + (isZh ? '/zh/404.html' : '/404.html')));
+        if (page.status === 200) {
+          const pageBody = await page.text();
+          return new Response(pageBody, {
+            status: 404,
+            headers: {
+              'content-type': 'text/html; charset=utf-8',
+              'X-Content-Type-Options': 'nosniff'
+            }
+          });
+        }
+      } catch (e) { /* 保持极简兜底 */ }
       const body = isZh
         ? '<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">' +
-          '<meta name="robots" content="noindex,follow"><title>页面不存在 · PicStudio</title></head>' +
+          '<meta name="robots" content="noindex,follow"><title>页面不存在 · PicCalc</title></head>' +
           '<body style="font-family:system-ui;max-width:560px;margin:15vh auto;text-align:center;line-height:1.8">' +
           '<h1 style="font-size:22px">页面不存在</h1>' +
           '<p style="color:#64748b">你访问的页面已移动或从未存在。</p>' +
@@ -245,11 +260,11 @@ export default {
           '<a href="/zh/#tools" style="color:#6366f1">工具列表</a> · ' +
           '<a href="/zh/guides/" style="color:#6366f1">使用指南</a></p></body></html>'
         : '<!doctype html><html lang="en"><head><meta charset="utf-8">' +
-          '<meta name="robots" content="noindex,follow"><title>Page not found | PicStudio</title></head>' +
+          '<meta name="robots" content="noindex,follow"><title>Page not found | PicCalc</title></head>' +
           '<body style="font-family:system-ui;max-width:560px;margin:15vh auto;text-align:center;line-height:1.8">' +
           '<h1 style="font-size:22px">Page not found</h1>' +
           '<p style="color:#64748b">This page has moved or never existed.</p>' +
-          '<p><a href="/" style="color:#6366f1">Back to PicStudio</a> · ' +
+          '<p><a href="/" style="color:#6366f1">Back to PicCalc</a> · ' +
           '<a href="/#tools" style="color:#6366f1">All tools</a> · ' +
           '<a href="/guides/" style="color:#6366f1">Guides</a></p></body></html>';
       return new Response(body,

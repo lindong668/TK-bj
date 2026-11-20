@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Transparent PNG Turned Black, White or Haloed — An Accident Report | PicStudio</title>
+<title>Transparent PNG Turned Black, White or Haloed — An Accident Report | PicCalc</title>
 <meta content="Six ways transparency breaks: flattened alpha, palette tRNS, premultiplication halos, viewer backgrounds, Office re-encoding and chat-app transcoding." name="description"/>
 <meta content="transparent png black background, png transparency turns white, alpha premultiplied dark halo, black fringe around transparent png, png transparent background black in word, does base64 preserve transparency" name="keywords"/>
 <link href="https://piccalc.com/guides/transparency-accident-report" rel="canonical"/>
 <meta content="index,follow,max-image-preview:large" name="robots"/>
 <meta content="article" property="og:type"/>
-<meta content="PicStudio" property="og:site_name"/>
+<meta content="PicCalc" property="og:site_name"/>
 <meta content="en_US" property="og:locale"/>
 <meta content="Transparent PNG Turned Black, White or Haloed — An Accident Report" property="og:title"/>
 <meta content="A forensic classification of six ways transparency gets destroyed: flattened alpha, palette tRNS, premultiplication halos, viewer backgrounds, Office re-encoding and chat-app transcoding. Includes an edge-first identification flow and fixes with our own tools." property="og:description"/>
@@ -36,12 +36,12 @@
       "dateModified": "2026-11-20",
       "author": {
         "@type": "Organization",
-        "name": "PicStudio",
+        "name": "PicCalc",
         "url": "https://piccalc.com"
       },
       "publisher": {
         "@type": "Organization",
-        "name": "PicStudio",
+        "name": "PicCalc",
         "url": "https://piccalc.com"
       },
       "mainEntityOfPage": {
@@ -53,7 +53,7 @@
       "wordCount": 2418,
       "isPartOf": {
         "@type": "Blog",
-        "name": "PicStudio Lab Notes",
+        "name": "PicCalc Lab Notes",
         "url": "https://piccalc.com/guides/"
       }
     },
@@ -63,7 +63,7 @@
         {
           "@type": "ListItem",
           "position": 1,
-          "name": "PicStudio",
+          "name": "PicCalc",
           "item": "https://piccalc.com/"
         },
         {
@@ -173,12 +173,13 @@
 <body>
 <header class="header">
 <div class="container">
-<a class="logo" href="/"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
-<span class="logo-text">Pic<span class="accent">Studio</span></span></a>
+<a class="logo" href="/"><img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Calc</span></span></a>
 <nav class="tool-nav">
 <select id="lang-select" name="lang-select" class="lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/guides/" selected>English</option><option value="/zh/guides/">中文</option></select><noscript><a href="/zh/guides/">中文</a></noscript>
 <a href="/#tools">All Tools</a>
 <a href="/guides/">Image Guides</a>
+<a href="/reference">Reference</a>
 <a href="/privacy">Privacy Policy</a>
 <a href="/faq">FAQ</a>
 <a href="/contact">Contact</a>
@@ -191,7 +192,7 @@
 <div class="article-body">
 <div class="guide-top"><a class="guide-back" href="/guides/">← All guides</a><span class="guide-crumb"><a href="/" style="color:var(--text-muted);">Home</a><span>› Image Guides › Failure Forensics</span></span></div>
 <h1>Transparent PNG Turned Black, White or Haloed — An Accident Report</h1>
-<div class="lab-meta"><span>Series: Failure Forensics</span><span>Part 1</span><span>Published 2026-11-20</span><span>Updated 2026-11-20</span><span>2,418 words</span><span>Measured on PicStudio tools</span></div>
+<div class="lab-meta"><span>Series: Failure Forensics</span><span>Part 1</span><span>Published 2026-11-20</span><span>Updated 2026-11-20</span><span>2,418 words</span><span>Measured on PicCalc tools</span></div>
 <nav class="lab-toc"><strong>On this page</strong><ol><li><a href="#the-specimen-and-why-a-soft-edge-matters">The specimen and why a soft edge matters</a></li><li><a href="#failure-1-the-viewer-not-the-file">Failure 1 — the viewer, not the file</a></li><li><a href="#failure-2-alpha-discarded-by-a-format-that-cannot-hold-it">Failure 2 — alpha discarded by a format that cannot hold it</a></li><li><a href="#failure-3-palette-png-and-the-1bit-trns-chunk">Failure 3 — palette PNG and the 1-bit <code>tRNS</code> chunk</a></li><li><a href="#failure-4-premultiplied-alpha-and-the-dark-halo">Failure 4 — premultiplied alpha and the dark halo</a></li><li><a href="#failure-5-cornerradius-and-border-operations">Failure 5 — corner-radius and border operations</a></li><li><a href="#failure-6-transcoding-on-the-way-to-someone-else">Failure 6 — transcoding on the way to someone else</a></li><li><a href="#the-edgefirst-identification-flow">The edge-first identification flow</a></li><li><a href="#what-each-of-our-tools-actually-changes">What each of our tools actually changes</a></li><li><a href="#a-concrete-repair-walkthrough">A concrete repair walkthrough</a></li><li><a href="#what-we-deliberately-did-not-test">What we deliberately did not test</a></li><li><a href="#files">Files</a></li><li><a href="#appendix-i-bytelevel-evidence-for-each-failure">Appendix I — Byte-level evidence for each failure</a></li><li><a href="#appendix-j-alpha-capability-by-container">Appendix J — Alpha capability by container</a></li><li><a href="#appendix-k-a-tenline-acceptance-script">Appendix K — A ten-line acceptance script</a></li><li><a href="#appendix-l-what-a-repair-cannot-do">Appendix L — What a repair cannot do</a></li><li><a href="#frequently-asked-questions">Frequently asked questions</a></li></ol></nav>
 <p>"My transparent PNG has a black background" is not one bug. It is at least six different bugs that happen to produce the same sentence in a support ticket. The file may be fine and the viewer may be lying; the alpha may have been discarded during a save; the RGB values under the transparent pixels may be wrong even though the alpha is correct; or an entirely different program may have re-encoded the file on the way to your screen.</p>
 <p>This is an accident report, not a definition of alpha channels. We built one specimen with a deliberately soft, feathered edge — the kind of edge that exposes every one of these failures — and pushed it through the paths people actually use: an image viewer, a word processor, a format converter, a chat app, a Base64 round-trip and a corner-radius operation. Then we classified the results by looking at the edge first, because the edge tells you which layer broke.</p>
@@ -281,8 +282,8 @@ const edge   = x.getImageData(r, 0, 1, 1).data;
 <footer class="footer">
 <div class="container">
 <div class="footer-content">
-<div class="footer-brand"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
-<span class="logo-text">Pic<span class="accent">Studio</span></span></div>
+<div class="footer-brand"><img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Calc</span></span></div>
 <p class="footer-desc">Free online image tools — everything runs locally in your browser</p>
 </div>
 <div class="footer-links">
@@ -292,7 +293,7 @@ const edge   = x.getImageData(r, 0, 1, 1).data;
 </div>
 <div class="footer-bottom">
 <p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
-<p>© 2026 PicStudio. All rights reserved. Lab Notes are original measured reports, not rewritten articles.</p>
+<p>© 2026 PicCalc. All rights reserved. Lab Notes are original measured reports, not rewritten articles.</p>
 </div>
 </div>
 </footer>
@@ -300,5 +301,7 @@ const edge   = x.getImageData(r, 0, 1, 1).data;
 <script src="/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/assets/js/ux.js?v=20261108ml"></script>
+<script src="/assets/data/search-en.js" defer></script>
+<script src="/assets/js/search.js" defer></script>
 </body>
 </html>

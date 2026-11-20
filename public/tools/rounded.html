@@ -9,14 +9,14 @@
 <link href="https://piccalc.com/tools/rounded" rel="canonical"/>
 <meta content="index,follow,max-image-preview:large" name="robots"/>
 <meta content="website" property="og:type"/>
-<meta content="PicStudio" property="og:site_name"/>
+<meta content="PicCalc" property="og:site_name"/>
 <meta content="en_US" property="og:locale"/>
 <meta content="zh_CN" property="og:locale:alternate"/>
-<meta content="Round Image Corners or Make Circular Avatars Online | PicStudio" property="og:title"/>
+<meta content="Round Image Corners or Make Circular Avatars Online | PicCalc" property="og:title"/>
 <meta content="Add rounded corners or crop to a circle with transparent PNG output. Ideal for avatars, cards and UI assets." property="og:description"/>
 <meta content="https://piccalc.com/tools/rounded" property="og:url"/>
 <meta content="summary_large_image" name="twitter:card"/>
-<meta content="Round Image Corners or Make Circular Avatars Online | PicStudio" name="twitter:title"/>
+<meta content="Round Image Corners or Make Circular Avatars Online | PicCalc" name="twitter:title"/>
 <meta content="Add rounded corners or crop to a circle with transparent PNG output. Ideal for avatars, cards and UI assets." name="twitter:description"/>
 <script type="application/ld+json">
 {
@@ -83,7 +83,7 @@
     {
       "@type": "ListItem",
       "position": 1,
-      "name": "PicStudio",
+      "name": "PicCalc",
       "item": "https://piccalc.com/"
     },
     {
@@ -102,7 +102,7 @@
 <meta content="https://piccalc.com/og-v2.png" property="og:image"/>
 <meta content="1200" property="og:image:width"/>
 <meta content="630" property="og:image:height"/>
-<meta content="PicStudio brand share image" property="og:image:alt"/>
+<meta content="PicCalc brand share image" property="og:image:alt"/>
 
 <meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
 <link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
@@ -120,13 +120,14 @@
 <header class="header">
 <div class="container">
 <a class="logo" href="/">
-<img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
-<span class="logo-text">Pic<span class="accent">Studio</span></span>
+<img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Calc</span></span>
 </a>
 <nav class="tool-nav">
 <select id="lang-select" name="lang-select" class="lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/tools/rounded" selected>English</option><option value="/zh/tools/rounded">中文</option></select><noscript><a href="/zh/tools/rounded">中文</a></noscript>
 <a href="/#tools">All Tools</a>
 <a href="/guides/">Image Guides</a>
+<a href="/reference">Reference</a>
 <a href="/privacy">Privacy Policy</a>
 <a href="/faq">FAQ</a>
 <a href="/contact">Contact</a>
@@ -141,6 +142,17 @@
 <h1>⬜ Rounded Corners</h1>
 <p>Add rounded or circular masks and export a transparent PNG — ideal for avatars and cards</p>
 </div>
+<section class="tool-quickstart" aria-labelledby="qs-rounded">
+<div class="qs-head">
+<h2 id="qs-rounded">How to round image corners in three steps</h2>
+<p class="qs-sub">The screenshot below was taken in this tool with a real file and the stated settings — it is not a mock-up.</p>
+</div>
+<ol class="qs-steps"><li><strong>Upload the image</strong><span>Transparent corners are produced on export.</span></li><li><strong>Set the radius</strong><span>This run uses a 40 px radius.</span></li><li><strong>Apply and save</strong><span>Press “Apply” to round the corners, then download the PNG.</span></li></ol>
+<figure class="tool-shot">
+<img src="/assets/img/tools/rounded-result.png" alt="Rounded result: the test scene with 40-pixel rounded corners on a transparent background." width="1200" height="800" loading="lazy" decoding="async"/>
+<figcaption><strong>Captured:</strong> <strong>Input:</strong> specimen-a-1200x800.png (1200 × 800 PNG). <strong>Settings:</strong> radius 40 px. <strong>Output:</strong> PNG, 1200 × 800.</figcaption>
+</figure>
+</section>
 <div class="upload-area" id="uploadArea">
 <div class="upload-icon">📁</div>
 <div class="upload-text">Click or drag an image here</div>
@@ -294,8 +306,8 @@
 <div class="container">
 <div class="footer-content">
 <div class="footer-brand">
-<img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
-<span class="logo-text">Pic<span class="accent">Studio</span></span>
+<img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Calc</span></span>
 </div>
 <p class="footer-desc">Free online image tools — everything runs locally in your browser</p>
 </div>
@@ -313,7 +325,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 </style>
 <div class="footer-bottom">
 <p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
-<p>© 2026 PicStudio. All rights reserved.</p>
+<p>© 2026 PicCalc. All rights reserved.</p>
 </div>
 </div>
 </footer>
@@ -417,7 +429,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 
             return result;
         },
-        downloadOptions: { filename: 'picstudio-rounded', format: 'png' }
+        downloadOptions: { filename: 'piccalc-rounded', format: 'png' }
     });
 
     document.getElementById('processBtn').addEventListener('click', () => tool.process());
@@ -426,5 +438,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 <script src="/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/assets/js/ux.js?v=20261108ml"></script>
+<script src="/assets/data/search-en.js" defer></script>
+<script src="/assets/js/search.js" defer></script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-/* PicStudio i18n - fixed-language, independent-URL edition.
+/* PicCalc i18n - fixed-language, independent-URL edition.
  * Each language lives at its own URL. The active language is taken from
  * <html data-lang>. All visible copy is already baked into the static HTML;
  * this file only serves dynamic strings and keeps the language event alive. */

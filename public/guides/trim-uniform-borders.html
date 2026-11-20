@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Trimming White Borders: Why a Two-Pixel Line Survives, or Doesn't | PicStudio</title>
+<title>Trimming White Borders: Why a Two-Pixel Line Survives, or Doesn't | PicCalc</title>
 <meta content="The trimmer samples four corners and compares channels inside a tolerance box. See when a thin edge is missed and when real content gets eaten." name="description"/>
 <meta content="trim white border image, remove scan border, crop uniform border, tolerance trim, screenshot white margin, rounded corner trim" name="keywords"/>
 <link href="https://piccalc.com/guides/trim-uniform-borders" rel="canonical"/>
 <meta content="index,follow,max-image-preview:large" name="robots"/>
 <meta content="article" property="og:type"/>
-<meta content="PicStudio" property="og:site_name"/>
+<meta content="PicCalc" property="og:site_name"/>
 <meta content="en_US" property="og:locale"/>
 <meta content="Trimming White Borders: Why a Two-Pixel Line Survives, or Doesn't" property="og:title"/>
 <meta content="The trimmer samples four corners, checks about 240 points per row and compares channels with a tolerance box. See when a thin edge is missed and when real content gets eaten." property="og:description"/>
@@ -34,8 +34,8 @@
       "inLanguage": "en",
       "datePublished": "2026-11-20",
       "dateModified": "2026-11-20",
-      "author": {"@type": "Organization", "name": "PicStudio", "url": "https://piccalc.com"},
-      "publisher": {"@type": "Organization", "name": "PicStudio", "url": "https://piccalc.com"},
+      "author": {"@type": "Organization", "name": "PicCalc", "url": "https://piccalc.com"},
+      "publisher": {"@type": "Organization", "name": "PicCalc", "url": "https://piccalc.com"},
       "mainEntityOfPage": {"@type": "WebPage", "@id": "https://piccalc.com/guides/trim-uniform-borders"},
       "keywords": "trim white border, uniform border crop, tolerance, scan border, rounded corners",
       "articleSection": "Image Guides",
@@ -44,7 +44,7 @@
     {
       "@type": "BreadcrumbList",
       "itemListElement": [
-        {"@type": "ListItem", "position": 1, "name": "PicStudio", "item": "https://piccalc.com/"},
+        {"@type": "ListItem", "position": 1, "name": "PicCalc", "item": "https://piccalc.com/"},
         {"@type": "ListItem", "position": 2, "name": "Image Guides", "item": "https://piccalc.com/guides/"},
         {"@type": "ListItem", "position": 3, "name": "Trimming Uniform Borders", "item": "https://piccalc.com/guides/trim-uniform-borders"}
       ]
@@ -121,12 +121,13 @@
 <body>
 <header class="header">
 <div class="container">
-<a class="logo" href="/"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
-<span class="logo-text">Pic<span class="accent">Studio</span></span></a>
+<a class="logo" href="/"><img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Calc</span></span></a>
 <nav class="tool-nav">
 <select id="lang-select" name="lang-select" class="lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/guides/" selected>English</option><option value="/zh/guides/">中文</option></select><noscript><a href="/zh/guides/">中文</a></noscript>
 <a href="/#tools">All Tools</a>
 <a href="/guides/">Image Guides</a>
+<a href="/reference">Reference</a>
 <a href="/privacy">Privacy Policy</a>
 <a href="/faq">FAQ</a>
 <a href="/contact">Contact</a>
@@ -139,7 +140,7 @@
 <div class="article-body">
 <div class="guide-top"><a class="guide-back" href="/guides/">← All guides</a><span class="guide-crumb"><a href="/" style="color:var(--text-muted);">Home</a><span>› Image Guides › Border Trimming</span></span></div>
 <h1>Trimming White Borders: Why a Two-Pixel Line Survives, or Doesn't</h1>
-<div class="lab-meta"><span>Published 2026-11-20</span><span>Updated 2026-11-20</span><span>2,375 words</span><span>Based on the PicStudio tool's implementation</span></div>
+<div class="lab-meta"><span>Published 2026-11-20</span><span>Updated 2026-11-20</span><span>2,375 words</span><span>Based on the PicCalc tool's implementation</span></div>
 <nav class="lab-toc"><strong>On this page</strong><ol><li><a href="#what-the-trimmer-is-looking-for">What the trimmer is looking for</a></li><li><a href="#the-corner-sample-and-its-blind-spots">The corner sample and its blind spots</a></li><li><a href="#roughly-240-checks-per-row">Roughly 240 checks per row</a></li><li><a href="#what-tolerance-actually-compares">What tolerance actually compares</a></li><li><a href="#failure-modes-and-what-they-look-like">Failure modes, and what they look like</a></li><li><a href="#rounded-corners-and-scan-edges">Rounded corners and scan edges</a></li><li><a href="#when-to-crop-by-hand-instead">When to crop by hand instead</a></li><li><a href="#choosing-a-tolerance-from-the-file">Choosing a tolerance from the file</a></li><li><a href="#a-corner-average-that-fails">A corner average that fails</a></li><li><a href="#trimming-a-set-without-a-batch-mode">Trimming a set without a batch mode</a></li><li><a href="#frequently-asked-questions">Frequently asked questions</a></li></ol></nav>
 <p>Automatic border trimming looks like magic the first time it works and looks broken the first time it does not. Both reactions come from the same fact: the trimmer is a small, deterministic scanner, not a model that understands your image. It samples the border colour, then walks inward until it meets something that is not that colour. Everything it does — and everything it fails to do — follows from how those two steps are implemented.</p>
 <p>This page documents the procedure used by our <a href="/tools/trim-edges">Trim Borders</a> tool, including the parts that are easy to trip over: an averaged corner colour, a scan stride, and a tolerance test that works per channel rather than by distance.</p>
@@ -250,8 +251,8 @@
 <footer class="footer">
 <div class="container">
 <div class="footer-content">
-<div class="footer-brand"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
-<span class="logo-text">Pic<span class="accent">Studio</span></span></div>
+<div class="footer-brand"><img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Calc</span></span></div>
 <p class="footer-desc">Free online image tools — everything runs locally in your browser</p>
 </div>
 <div class="footer-links">
@@ -261,7 +262,7 @@
 </div>
 <div class="footer-bottom">
 <p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
-<p>© 2026 PicStudio. All rights reserved. Lab Notes are original measured reports, not rewritten articles.</p>
+<p>© 2026 PicCalc. All rights reserved. Lab Notes are original measured reports, not rewritten articles.</p>
 </div>
 </div>
 </footer>
@@ -269,5 +270,7 @@
 <script src="/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/assets/js/ux.js?v=20261108ml"></script>
+<script src="/assets/data/search-en.js" defer></script>
+<script src="/assets/js/search.js" defer></script>
 </body>
 </html>

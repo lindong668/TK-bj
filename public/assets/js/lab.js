@@ -69,7 +69,7 @@
                 b = cf * (b - 128) + 128;
             }
             if (temp) { r += tr; b += tb; }
-            if (gamma !== 1) { r = glut[clamp255(r)]; gg = glut[clamp255(gg)]; b = glut[clamp255(b)]; }
+            if (gamma !== 1) { r = glut[Math.round(clamp255(r))]; gg = glut[Math.round(clamp255(gg))]; b = glut[Math.round(clamp255(b))]; }
 
             if (sat) {
                 var lum = 0.299 * r + 0.587 * gg + 0.114 * b;
@@ -231,7 +231,7 @@
                 ctx.drawImage(o.image, pt.x, pt.y, iw, ih);
             }
         } else {
-            var text = o.text || 'PicStudio';
+            var text = o.text || 'PicCalc';
             var fs = Math.max(12, Math.round(Math.min(w, h) / 18 * scale));
             ctx.font = (o.bold ? 'bold ' : '') + fs + 'px "PingFang SC","Microsoft YaHei",sans-serif';
             ctx.fillStyle = color;

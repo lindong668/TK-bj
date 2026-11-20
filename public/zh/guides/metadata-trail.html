@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>七次保存之后：图片元数据还剩什么 | PicStudio</title>
+<title>七次保存之后：图片元数据还剩什么 | PicCalc</title>
 <meta content="一张标了八个字段的 JPEG，经过七种常见操作后还剩什么。逐列列出保留、部分保留与丢失，附 Base64 与 canvas 的差别和可复现测法。" name="description"/>
 <meta content="PNG 转 JPG 会丢 EXIF 吗, 压缩会不会清掉元数据, Base64 保留 EXIF, EXIF 缩略图泄露, 聊天软件 剥离位置, Orientation 标签, ICC 配置丢失" name="keywords"/>
 <link href="https://piccalc.com/zh/guides/metadata-trail" rel="canonical"/>
 <meta content="index,follow,max-image-preview:large" name="robots"/>
 <meta content="article" property="og:type"/>
-<meta content="PicStudio" property="og:site_name"/>
+<meta content="PicCalc" property="og:site_name"/>
 <meta content="zh_CN" property="og:locale"/>
 <meta content="en_US" property="og:locale:alternate"/>
 <meta content="七次保存之后：图片元数据还剩什么" property="og:title"/>
@@ -26,8 +26,8 @@
   "inLanguage": "zh-CN",
   "datePublished": "2026-11-20",
   "dateModified": "2026-11-20",
-  "author": {"@type": "Organization", "name": "PicStudio", "url": "https://piccalc.com"},
-  "publisher": {"@type": "Organization", "name": "PicStudio", "url": "https://piccalc.com"},
+  "author": {"@type": "Organization", "name": "PicCalc", "url": "https://piccalc.com"},
+  "publisher": {"@type": "Organization", "name": "PicCalc", "url": "https://piccalc.com"},
   "mainEntityOfPage": {"@type": "WebPage", "@id": "https://piccalc.com/zh/guides/metadata-trail"},
   "keywords": "PNG 转 JPG 丢 EXIF, 压缩清元数据, Base64 保留 EXIF, EXIF 缩略图泄露, Orientation, ICC 配置",
   "articleSection": "Failure Forensics",
@@ -37,7 +37,7 @@
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   "itemListElement": [
-    {"@type": "ListItem", "position": 1, "name": "PicStudio", "item": "https://piccalc.com/zh/"},
+    {"@type": "ListItem", "position": 1, "name": "PicCalc", "item": "https://piccalc.com/zh/"},
     {"@type": "ListItem", "position": 2, "name": "图片处理指南", "item": "https://piccalc.com/zh/guides/"},
     {"@type": "ListItem", "position": 3, "name": "七次保存之后：图片元数据还剩什么", "item": "https://piccalc.com/zh/guides/metadata-trail"}
   ]
@@ -60,7 +60,7 @@
 <meta content="https://piccalc.com/og-v2.png" property="og:image"/>
 <meta content="1200" property="og:image:width"/>
 <meta content="630" property="og:image:height"/>
-<meta content="PicStudio 品牌分享图" property="og:image:alt"/>
+<meta content="PicCalc 品牌分享图" property="og:image:alt"/>
 <meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
 <link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
 <style>
@@ -86,11 +86,12 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 <body>
 <header class="header">
 <div class="container">
-<a class="logo" href="/zh/"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/><span class="logo-text">Pic<span class="accent">Studio</span></span></a>
+<a class="logo" href="/zh/"><img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/><span class="logo-text">Pic<span class="accent">Calc</span></span></a>
 <nav class="tool-nav">
 <select id="lang-select" name="lang-select" class="lang-select" aria-label="语言" onchange="if(this.value)location.href=this.value"><option value="/guides/metadata-trail">English</option><option value="/zh/guides/metadata-trail" selected>中文</option></select><noscript><a href="/guides/metadata-trail">English</a></noscript>
 <a href="/zh/#tools">全部工具</a>
 <a href="/zh/guides/">图片指南</a>
+<a href="/zh/reference">参考</a>
 <a href="/zh/privacy">隐私政策</a>
 <a href="/zh/faq">常见问题</a>
 <a href="/zh/contact">联系我们</a>
@@ -114,7 +115,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 
 <div class="content-block">
 <h2>样本：八个字段，一张合成图</h2>
-<p>样本是一张合成色调图，不是真实照片，也不含任何个人信息。它身上带着八样东西：Make = PicStudio Lab；Model = ToneChart-01；DateTime = 2026:11:20 02:00:00；Orientation = 1；Software = make_assets.py；ImageDescription = "Synthetic specimen, no personal data"；编码器写入的一份 ICC 配置；还有一条 JPEG 注释。</p>
+<p>样本是一张合成色调图，不是真实照片，也不含任何个人信息。它身上带着矩阵里追踪的八样东西：GPS = 31.233 N, 121.466 E；DateTimeOriginal = 2026:11:20 02:00:00；Make / Model = PicCalc Lab / ToneChart-01；Orientation = 1；一份 sRGB ICC 配置；一张内嵌的 EXIF 缩略图；一段带标题的 XMP；还有一条 JPEG 注释。</p>
 <p>对照组是一张完全没有元数据的 PNG 色调图。它的作用是给「体积变了是不是因为重编码」提供一个参照基准。</p>
 <p>测法上有一条关键纪律：每一轮都从标记 JPEG 的一份<strong>全新副本</strong>开始，不从上一轮的结果接着往下跑。链式测量只能告诉你最终状态，隔离测量才能告诉你哪一步该负责。这条差别，决定了矩阵能不能拿来定责。</p>
 </div>
@@ -198,7 +199,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 </tbody>
 </table>
 </div>
-<p>体积只能当提示。标记样本是 47,954 字节，未标记的 PNG 对照是 13,287 字节，柔边样本是 26,214 字节。体积明显变化是「发生过重编码」的第一信号，但它不是证据：字节复制的大小完全一样，Base64 往返的大小也完全一样。到底是哪一种，只有读字段列表才知道。</p>
+<p>体积只能当提示。标记样本是 79,982 字节，未标记的 PNG 对照是 13,287 字节，柔边样本是 26,214 字节。体积明显变化是「发生过重编码」的第一信号，但它不是证据：字节复制的大小完全一样，Base64 往返的大小也完全一样。到底是哪一种，只有读字段列表才知道。</p>
 <p>还要说清工具的边界。站内的 EXIF 工具只做两件事：读字段、清字段。它不提供编辑，也不会替你「修」某个值。想改拍摄时间或作者，请在源头改；改完再清一遍，顺序反过来会把新写进去的东西一起抹掉。</p>
 <p>收尾动作很小：拿一张你准备发布的图，打开 EXIF 工具，把元数据全部清掉，再读一次输出。这一步花不了半分钟，却能把「应该干净了」变成「确认干净」。</p>
 </div>
@@ -236,7 +237,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 <footer class="footer">
 <div class="container">
 <div class="footer-content">
-<div class="footer-brand"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/><span class="logo-text">Pic<span class="accent">Studio</span></span></div>
+<div class="footer-brand"><img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/><span class="logo-text">Pic<span class="accent">Calc</span></span></div>
 <p class="footer-desc">免费的在线图片处理工具，所有处理在浏览器本地完成</p>
 </div>
 <div class="footer-links">
@@ -250,7 +251,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 </div>
 <div class="footer-bottom">
 <p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
-<p>&amp;copy; 2026 PicStudio. 保留所有权利。</p>
+<p>&amp;copy; 2026 PicCalc. 保留所有权利。</p>
 </div>
 </div>
 </footer>
@@ -258,5 +259,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 <script src="/zh/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/zh/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/zh/assets/js/ux.js?v=20261108ml"></script>
+<script src="/assets/data/search-zh.js" defer></script>
+<script src="/assets/js/search.js" defer></script>
 </body>
 </html>

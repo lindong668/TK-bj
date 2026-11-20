@@ -3,16 +3,16 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>更新日志 | PicStudio</title>
-<meta content="PicStudio 的版本变更记录：新增了哪些工具页说明、指南文章和站点结构调整，按日期排列。" name="description"/>
-<meta content="PicStudio 更新日志, 版本记录, 站点更新" name="keywords"/>
+<title>更新日志 | PicCalc</title>
+<meta content="PicCalc 的版本变更记录：新增了哪些工具页说明、指南文章和站点结构调整，按日期排列。" name="description"/>
+<meta content="PicCalc 更新日志, 版本记录, 站点更新" name="keywords"/>
 <link href="https://piccalc.com/zh/guides/changelog" rel="canonical"/>
 <meta content="index,follow" name="robots"/>
 <meta content="website" property="og:type"/>
-<meta content="PicStudio" property="og:site_name"/>
+<meta content="PicCalc" property="og:site_name"/>
 <meta content="zh_CN" property="og:locale"/>
-<meta content="更新日志 | PicStudio" property="og:title"/>
-<meta content="PicStudio 的版本变更记录，按日期排列。" property="og:description"/>
+<meta content="更新日志 | PicCalc" property="og:title"/>
+<meta content="PicCalc 的版本变更记录，按日期排列。" property="og:description"/>
 <meta content="https://piccalc.com/zh/guides/changelog" property="og:url"/>
 <meta content="summary_large_image" name="twitter:card"/>
 <link href="/favicon.ico" rel="icon" sizes="any"/>
@@ -22,7 +22,7 @@
 <meta content="https://piccalc.com/og-v2.png" property="og:image"/>
 <meta content="1200" property="og:image:width"/>
 <meta content="630" property="og:image:height"/>
-<meta content="PicStudio 品牌分享图" property="og:image:alt"/>
+<meta content="PicCalc 品牌分享图" property="og:image:alt"/>
 <meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
 <link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
 <style>
@@ -43,11 +43,12 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 <body>
 <header class="header">
 <div class="container">
-<a class="logo" href="/zh/"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/><span class="logo-text">Pic<span class="accent">Studio</span></span></a>
+<a class="logo" href="/zh/"><img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/><span class="logo-text">Pic<span class="accent">Calc</span></span></a>
 <nav class="tool-nav">
 <select id="lang-select" name="lang-select" class="lang-select" aria-label="语言" onchange="if(this.value)location.href=this.value"><option value="/guides/changelog">English</option><option value="/zh/guides/changelog" selected>中文</option></select><noscript><a href="/guides/changelog">English</a></noscript>
 <a href="/zh/#tools">全部工具</a>
 <a href="/zh/guides/">图片指南</a>
+<a href="/zh/reference">参考</a>
 <a href="/zh/privacy">隐私政策</a>
 <a href="/zh/faq">常见问题</a>
 <a href="/zh/contact">联系我们</a>
@@ -60,6 +61,21 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 <div class="guide-top" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px;"><a class="guide-back" href="/zh/guides/">← 返回指南</a><div class="crumb"><a href="/zh/">首页</a> › <a href="/zh/guides/">图片指南</a> › 更新日志</div></div>
 <h1>更新日志</h1>
 <p style="color:var(--text-secondary);line-height:1.9;">只记录用户能感知的变化：新增的说明、指南和结构调整。</p>
+
+<div class="content-block">
+<h2><span class="log-date">2026-11-20</span> · 参考栏目、站内搜索与改名</h2>
+<ul>
+<li>站名统一为 <strong>PicCalc</strong>，页面标题、Logo、页脚、导航、结构化数据与更新日志中的旧名称已全部替换，域名与页面地址保持不变。</li>
+<li>新增<a href="/zh/reference">参考栏目</a>，汇总<a href="/zh/examples">前后对比示例库</a>、<a href="/zh/index-by-need">按需求找工具</a>、<a href="/zh/glossary">图片术语词典</a>和<a href="/zh/privacy-evidence">隐私实证页</a>。</li>
+<li>示例库收录 26 个工具的真实输入输出数据；需求索引按 12 个常见场景给出工具顺序、参数与注意事项。</li>
+<li>术语词典收录 10 个常用词条，中英双语，词条之间互相链接，并指向对应工具与长文。</li>
+<li>隐私实证页说明如何用浏览器 Network 面板自行验证“不上传”，并链回隐私政策与各工具页。</li>
+<li>全站加入站内搜索：导航、首页首屏和指南中心各一处，输入即筛，覆盖工具与文章，支持键盘上下键与回车，无匹配时推荐常用工具，完全离线运行。</li>
+<li>404 页改为推荐常用工具、搜索框与指南入口，不再是一句冷冰冰的错误提示。</li>
+<li>26 个工具页顶部新增“三步操作”与真实截图，截图标注了实际参数与输入文件。</li>
+<li>修复调色工具在“亮度 + 对比度 + gamma”同时调整时输出全黑的问题，gamma 查找表索引改为取整到合法范围。</li>
+</ul>
+</div>
 
 <div class="content-block">
 <h2><span class="log-date">2026-11-20</span> · 六篇实测笔记上线</h2>
@@ -110,7 +126,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 <footer class="footer">
 <div class="container">
 <div class="footer-content">
-<div class="footer-brand"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/><span class="logo-text">Pic<span class="accent">Studio</span></span></div>
+<div class="footer-brand"><img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/><span class="logo-text">Pic<span class="accent">Calc</span></span></div>
 <p class="footer-desc">免费的在线图片处理工具，所有处理在浏览器本地完成</p>
 </div>
 <div class="footer-links">
@@ -124,7 +140,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 </div>
 <div class="footer-bottom">
 <p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
-<p>&amp;copy; 2026 PicStudio. 保留所有权利。</p>
+<p>&amp;copy; 2026 PicCalc. 保留所有权利。</p>
 </div>
 </div>
 </footer>
@@ -132,5 +148,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 <script src="/zh/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/zh/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/zh/assets/js/ux.js?v=20261108ml"></script>
+<script src="/assets/data/search-zh.js" defer></script>
+<script src="/assets/js/search.js" defer></script>
 </body>
 </html>

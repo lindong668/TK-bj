@@ -1,34 +1,34 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html data-lang="zh" lang="zh-CN">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>图片尺寸与像素标准：图标、网页与印刷 | PicStudio</title>
+<title>图片尺寸与像素标准：图标、网页与印刷 | PicCalc</title>
 <meta content="实用的尺寸参考：Favicon 各档、社交平台画布、印刷 DPI、16×16 该放什么，以及为什么同名尺寸在不同场景含义不同。" name="description"/>
 <meta content="图片尺寸标准, favicon 尺寸, 像素与 DPI, 16×16 图标, 印刷分辨率" name="keywords"/>
 <link href="https://piccalc.com/zh/guides/id-photo-sizes" rel="canonical"/>
 <meta content="index,follow,max-image-preview:large" name="robots"/>
 <meta content="article" property="og:type"/>
-<meta content="PicStudio" property="og:site_name"/>
-<meta content="图片尺寸与像素标准：图标、网页与印刷 | PicStudio | PicStudio" property="og:title"/>
+<meta content="PicCalc" property="og:site_name"/>
+<meta content="图片尺寸与像素标准：图标、网页与印刷 | PicCalc" property="og:title"/>
 <meta content="实用的尺寸参考：Favicon 各档、社交平台画布、印刷 DPI、16×16 该放什么，以及为什么同名尺寸在不同场景含义不同。" property="og:description"/>
 <meta content="https://piccalc.com/zh/guides/id-photo-sizes" property="og:url"/>
 <meta content="summary_large_image" name="twitter:card"/>
-<meta content="图片尺寸与像素标准：图标、网页与印刷 | PicStudio | PicStudio" name="twitter:title"/>
+<meta content="图片尺寸与像素标准：图标、网页与印刷 | PicCalc" name="twitter:title"/>
 <meta content="实用的尺寸参考：Favicon 各档、社交平台画布、印刷 DPI、16×16 该放什么，以及为什么同名尺寸在不同场景含义不同。" name="twitter:description"/>
 <script type="application/ld+json">{
   "@context": "https://schema.org",
   "@type": "Article",
-  "headline": "图片尺寸与像素标准：图标、网页与印刷 | PicStudio",
+  "headline": "图片尺寸与像素标准：图标、网页与印刷 | PicCalc",
   "description": "实用的尺寸参考：Favicon 各档、社交平台画布、印刷 DPI、16×16 该放什么，以及为什么同名尺寸在不同场景含义不同。",
   "keywords": "图片尺寸标准, favicon 尺寸, 像素与 DPI, 16×16 图标, 印刷分辨率",
   "author": {
     "@type": "Organization",
-    "name": "PicStudio"
+    "name": "PicCalc"
   },
   "publisher": {
     "@type": "Organization",
-    "name": "PicStudio"
+    "name": "PicCalc"
   },
   "mainEntityOfPage": "https://piccalc.com/zh/guides/id-photo-sizes",
   "about": "Pixel dimensions, canvas standards and DPI conversion"
@@ -40,7 +40,7 @@
     {
       "@type": "ListItem",
       "position": 1,
-      "name": "PicStudio",
+      "name": "PicCalc",
       "item": "https://piccalc.com/zh/"
     },
     {
@@ -64,7 +64,7 @@
 <meta content="https://piccalc.com/og-v2.png" property="og:image"/>
 <meta content="1200" property="og:image:width"/>
 <meta content="630" property="og:image:height"/>
-<meta content="PicStudio 品牌分享图" property="og:image:alt"/>
+<meta content="PicCalc 品牌分享图" property="og:image:alt"/>
 
 <meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
 <link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
@@ -83,13 +83,14 @@
 <header class="header">
 <div class="container">
 <a class="logo" href="/zh/">
-<img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
-<span class="logo-text">Pic<span class="accent">Studio</span></span>
+<img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Calc</span></span>
 </a>
 <nav class="tool-nav">
 <select id="lang-select" name="lang-select" class="lang-select" aria-label="语言" onchange="if(this.value)location.href=this.value"><option value="/guides/id-photo-sizes">English</option><option value="/zh/guides/id-photo-sizes" selected>中文</option></select><noscript><a href="/guides/id-photo-sizes">English</a></noscript>
 <a href="/zh/#tools">全部工具</a>
 <a href="/zh/guides/">图片指南</a>
+<a href="/zh/reference">参考</a>
 <a href="/zh/privacy">隐私政策</a>
 <a href="/zh/faq">常见问题</a>
 <a href="/zh/contact">联系我们</a>
@@ -107,7 +108,7 @@
 <div class="content-block"><h2><span>常见问题</span></h2><div class="faq-item"><div class="faq-question"><span>favicon.ico 应该包含哪些尺寸？</span></div><div class="faq-answer"><span>一个文件里放 16、32、48、64、128、256 px 六档，就能覆盖标签页、书签、Windows 快捷方式和高 DPI 屏幕。本站的 ICO 生成器可从一张图一次生成六档。</span></div></div><div class="faq-item"><div class="faq-question"><span>为什么 16 × 16 的 favicon 糊成一团？</span></div><div class="faq-answer"><span>因为它只有 256 个像素点。二维码、人脸、一行小字塞不进去，这是物理上限，不是工具坏了。16 档留作兼容，要看细节从 32 档起，二维码和人像至少 64 档；16 / 32 档请单独重画成粗轮廓、简单、高对比的图形。</span></div></div><div class="faq-item"><div class="faq-question"><span>网页图还必须 72 DPI 吗？</span></div><div class="faq-answer"><span>不需要。屏幕按像素显示，浏览器忽略 DPI 元数据，真正起作用的只有像素尺寸和文件体积。</span></div></div><div class="faq-item"><div class="faq-question"><span>为什么 300 DPI 打印还是糊？</span></div><div class="faq-answer"><span>因为源图像素本来就不够。DPI 只是缩放指令，不会补出细节。</span></div></div><div class="faq-item"><div class="faq-question"><span>尺寸表是通用的吗？</span></div><div class="faq-answer"><span>不是。图标、社交、印刷规格各平台和各收件机构都不同。表格只能当起点，最终以官方要求为准。</span></div></div></div>
 <div class="content-block"><h2>试试其它工具</h2>
 <div class="related-tools"><a class="related-tool" href="/zh/tools/icon-maker"><span>🎯</span><span>ICO 图标 / Favicon 生成器</span></a><a class="related-tool" href="/zh/tools/resize"><span>📐</span><span>调整尺寸</span></a><a class="related-tool" href="/zh/tools/trim-edges"><span>✂️</span><span>自动去白边</span></a><a class="related-tool" href="/zh/"><span>📚</span><span>全部图片指南</span></a></div></div>
-<div class="note-box" style="margin-bottom:40px;"><p><span>PicStudio 所有工具都在浏览器本地运行，图片不会上传。</span></p></div>
+<div class="note-box" style="margin-bottom:40px;"><p><span>PicCalc 所有工具都在浏览器本地运行，图片不会上传。</span></p></div>
 </div>
 </section>
 
@@ -115,8 +116,8 @@
 <div class="container">
 <div class="footer-content">
 <div class="footer-brand">
-<img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
-<span class="logo-text">Pic<span class="accent">Studio</span></span>
+<img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Calc</span></span>
 </div>
 <p class="footer-desc">免费的在线图片处理工具，所有处理在浏览器本地完成</p>
 </div>
@@ -134,7 +135,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 </style>
 <div class="footer-bottom">
 <p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
-<p>&amp;copy; 2026 PicStudio. 保留所有权利。</p>
+<p>&amp;copy; 2026 PicCalc. 保留所有权利。</p>
 </div>
 </div>
 </footer>
@@ -142,5 +143,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 <script src="/zh/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/zh/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/zh/assets/js/ux.js?v=20261108ml"></script>
+<script src="/assets/data/search-zh.js" defer></script>
+<script src="/assets/js/search.js" defer></script>
 </body>
 </html>

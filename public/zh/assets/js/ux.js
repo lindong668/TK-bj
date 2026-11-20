@@ -1,5 +1,5 @@
 /* ============================================================
- * PicStudio UX — v43 全站通用便利层（改一处，27 个工具页同时生效）
+ * PicCalc UX — v43 全站通用便利层（改一处，27 个工具页同时生效）
  *
  * 1. 选中态高亮：radio / checkbox 的 label 自动加 .is-selected；v49 起全站可点选控件统一 .ps-choice
  * 2. 中英标题：tools / guides 页按当前语言从 h1 取标题，修掉中文界面英文 title
@@ -107,7 +107,7 @@
     if (!txt) txt = h1.textContent;
     txt = txt.replace(/^[\s\u2190-\u2BFF\uFE0F\u2700-\u27BF]+/, '').trim();
     if (!txt || txt.length > 90) return;
-    var full = txt + ' | PicStudio';
+    var full = txt + ' | PicCalc';
     document.title = full;
     var og = document.querySelector('meta[property="og:title"]');
     if (og) og.setAttribute('content', full);

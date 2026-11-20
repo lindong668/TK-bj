@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>透明 PNG 变黑、变白、长黑边：六种事故分类 | PicStudio</title>
+<title>透明 PNG 变黑、变白、长黑边：六种事故分类 | PicCalc</title>
 <meta content="透明图变黑底、变白底、边缘发脏，看起来是同一个毛病，其实是六种不同的损坏。从边缘形态入手逐一分辨，配字节证据、判断顺序，以及能修与修不了的边界。" name="description"/>
 <meta content="透明png变黑, png 透明 变白, 预乘 alpha 黑边, 透明图 黑色描边, word 透明图 黑底, base64 保留透明" name="keywords"/>
 <link href="https://piccalc.com/zh/guides/transparency-accident-report" rel="canonical"/>
 <meta content="index,follow,max-image-preview:large" name="robots"/>
 <meta content="article" property="og:type"/>
-<meta content="PicStudio" property="og:site_name"/>
+<meta content="PicCalc" property="og:site_name"/>
 <meta content="zh_CN" property="og:locale"/>
 <meta content="en_US" property="og:locale:alternate"/>
 <meta content="透明 PNG 变黑、变白、长黑边：六种事故分类" property="og:title"/>
@@ -26,8 +26,8 @@
   "inLanguage": "zh-CN",
   "datePublished": "2026-11-20",
   "dateModified": "2026-11-20",
-  "author": {"@type": "Organization", "name": "PicStudio", "url": "https://piccalc.com"},
-  "publisher": {"@type": "Organization", "name": "PicStudio", "url": "https://piccalc.com"},
+  "author": {"@type": "Organization", "name": "PicCalc", "url": "https://piccalc.com"},
+  "publisher": {"@type": "Organization", "name": "PicCalc", "url": "https://piccalc.com"},
   "mainEntityOfPage": {"@type": "WebPage", "@id": "https://piccalc.com/zh/guides/transparency-accident-report"},
   "keywords": "透明png变黑, png 透明 变白, 预乘 alpha 黑边, 透明图 黑色描边, word 透明图 黑底, base64 保留透明",
   "articleSection": "Image Editing",
@@ -37,7 +37,7 @@
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   "itemListElement": [
-    {"@type": "ListItem", "position": 1, "name": "PicStudio", "item": "https://piccalc.com/zh/"},
+    {"@type": "ListItem", "position": 1, "name": "PicCalc", "item": "https://piccalc.com/zh/"},
     {"@type": "ListItem", "position": 2, "name": "图片处理指南", "item": "https://piccalc.com/zh/guides/"},
     {"@type": "ListItem", "position": 3, "name": "透明 PNG 的六种事故", "item": "https://piccalc.com/zh/guides/transparency-accident-report"}
   ]
@@ -60,7 +60,7 @@
 <meta content="https://piccalc.com/og-v2.png" property="og:image"/>
 <meta content="1200" property="og:image:width"/>
 <meta content="630" property="og:image:height"/>
-<meta content="PicStudio 品牌分享图" property="og:image:alt"/>
+<meta content="PicCalc 品牌分享图" property="og:image:alt"/>
 <meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
 <link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
 <style>
@@ -93,11 +93,12 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 <body>
 <header class="header">
 <div class="container">
-<a class="logo" href="/zh/"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/><span class="logo-text">Pic<span class="accent">Studio</span></span></a>
+<a class="logo" href="/zh/"><img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/><span class="logo-text">Pic<span class="accent">Calc</span></span></a>
 <nav class="tool-nav">
 <select id="lang-select" name="lang-select" class="lang-select" aria-label="语言" onchange="if(this.value)location.href=this.value"><option value="/guides/transparency-accident-report">English</option><option value="/zh/guides/transparency-accident-report" selected>中文</option></select><noscript><a href="/guides/transparency-accident-report">English</a></noscript>
 <a href="/zh/#tools">全部工具</a>
 <a href="/zh/guides/">图片指南</a>
+<a href="/zh/reference">参考</a>
 <a href="/zh/privacy">隐私政策</a>
 <a href="/zh/faq">常见问题</a>
 <a href="/zh/contact">联系我们</a>
@@ -116,7 +117,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 <h2>一个标本，一条故意做软的边</h2>
 <p>文件本身可能正常，是查看器在撒谎；alpha 可能在某次另存里被扔掉；透明像素下面的 RGB 可能是错的；也可能是另一个程序在你看到它之前先转了一次码。这几种情况在工单里都叫「我的 PNG 有背景」，修法却彼此无关。这是一份事故报告，不解释 alpha 通道的定义。我们做了一个蓝色圆盘当标本，alpha 在约 14 px 内逐渐衰减。硬边查不出问题：每个像素非全透明即全不透明，透明区域下面写错的 RGB 永远不会露出来。柔边才是诊断工具——如果半透明环下面的 RGB 是错的，环就会发暗、发脏；如果被压平，渐变会变成贴着实色底的一条硬台阶。</p>
 <figure class="lab-figure"><img src="/assets/img/lab/alpha-forensics.png" alt="四种结果并排：棋盘格上的正确透明、压到黑底、压到白底、预乘出错产生的暗边" loading="lazy" decoding="async" width="1240" height="620"><figcaption>棋盘格上的正确 alpha、压到黑底、压到白底，以及预乘出错留下的暗边。四种结果在工单里都叫「有背景」，但只有中间两种是文件本身被压平了。</figcaption></figure>
-<p>标本可以下载下来自己复现：<a href="/assets/samples/picstudio-soft-alpha.png">picstudio-soft-alpha.png</a>。圆角那一组换成实心 logo，因为那里要测的恰好是硬边。</p>
+<p>标本可以下载下来自己复现：<a href="/assets/samples/picstudio-soft-alpha.png">软边 Alpha 样本</a>。圆角那一组换成实心 logo，因为那里要测的恰好是硬边。</p>
 </div>
 
 <div class="content-block">
@@ -218,7 +219,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 <footer class="footer">
 <div class="container">
 <div class="footer-content">
-<div class="footer-brand"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/><span class="logo-text">Pic<span class="accent">Studio</span></span></div>
+<div class="footer-brand"><img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/><span class="logo-text">Pic<span class="accent">Calc</span></span></div>
 <p class="footer-desc">免费的在线图片处理工具，所有处理在浏览器本地完成</p>
 </div>
 <div class="footer-links">
@@ -232,7 +233,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 </div>
 <div class="footer-bottom">
 <p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
-<p>&amp;copy; 2026 PicStudio. 保留所有权利。</p>
+<p>&amp;copy; 2026 PicCalc. 保留所有权利。</p>
 </div>
 </div>
 </footer>
@@ -240,5 +241,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 <script src="/zh/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/zh/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/zh/assets/js/ux.js?v=20261108ml"></script>
+<script src="/assets/data/search-zh.js" defer></script>
+<script src="/assets/js/search.js" defer></script>
 </body>
 </html>

@@ -1,6 +1,10 @@
-# PicStudio — V71 FULL PACKAGE (AdSense low-value content remediation)
+# PicCalc — V75 FULL PACKAGE (reference hub, site search, rename)
 
-BUILD_ID: V71-49578DC41880   |   2026-11-20   |   baseline V70.10
+BUILD_ID: V75-20261120-ZH   |   2026-11-20   |   baseline V74
+
+Adds the reference hub (examples, need index, glossary, privacy evidence),
+site-wide search, dedicated 404 pages, a three-step quickstart with a real
+screenshot on all 26 tool pages, and the PicCalc rename. Sitemap: 138 URLs.
 
 ## Deploy (one command, from THIS directory)
     npx wrangler login        # skip if already logged in

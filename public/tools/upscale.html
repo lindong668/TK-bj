@@ -8,7 +8,7 @@
 <meta content="https://piccalc.com/og-v2.png" property="og:image"/>
 <meta content="1200" property="og:image:width"/>
 <meta content="630" property="og:image:height"/>
-<meta content="PicStudio brand share image" property="og:image:alt"/>
+<meta content="PicCalc brand share image" property="og:image:alt"/>
 <meta content="summary_large_image" name="twitter:card"/>
 <meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
 <meta charset="utf-8"/>
@@ -19,14 +19,14 @@
 <link href="https://piccalc.com/tools/upscale" rel="canonical"/>
 <meta content="index,follow,max-image-preview:large" name="robots"/>
 <meta content="website" property="og:type"/>
-<meta content="PicStudio" property="og:site_name"/>
+<meta content="PicCalc" property="og:site_name"/>
 <meta content="en_US" property="og:locale"/>
 <meta content="zh_CN" property="og:locale:alternate"/>
-<meta content="Upscale Image Online - Lanczos3 High-Quality Enlargement | PicStudio" property="og:title"/>
+<meta content="Upscale Image Online - Lanczos3 High-Quality Enlargement | PicCalc" property="og:title"/>
 <meta content="Enlarge images 2x to 4x with Lanczos3 interpolation for sharper edges than ordinary stretching. No upload required." property="og:description"/>
 <meta content="https://piccalc.com/tools/upscale" property="og:url"/>
 
-<meta content="Upscale Image Online - Lanczos3 High-Quality Enlargement | PicStudio" name="twitter:title"/>
+<meta content="Upscale Image Online - Lanczos3 High-Quality Enlargement | PicCalc" name="twitter:title"/>
 <meta content="Enlarge images 2x to 4x with Lanczos3 interpolation for sharper edges than ordinary stretching. No upload required." name="twitter:description"/>
 <link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
 <style>.content-section{padding:48px 0;background:transparent;border-top:1px solid var(--border)}
@@ -156,13 +156,14 @@
 <header class="header">
 <div class="container">
 <a class="logo" href="/">
-<img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
-<span class="logo-text">Pic<span class="accent">Studio</span></span>
+<img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Calc</span></span>
 </a>
 <nav class="tool-nav">
 <select id="lang-select" name="lang-select" class="lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/tools/upscale" selected>English</option><option value="/zh/tools/upscale">中文</option></select><noscript><a href="/zh/tools/upscale">中文</a></noscript>
 <a href="/#tools">All Tools</a>
 <a href="/guides/">Image Guides</a>
+<a href="/reference">Reference</a>
 <a href="/privacy">Privacy Policy</a>
 <a href="/faq">FAQ</a>
 <a href="/contact">Contact</a>
@@ -177,6 +178,17 @@
 <h1>🔍 Upscale Image</h1>
 <p>Enlarge 2–4× with Lanczos3 interpolation — sharper edges than plain stretching</p>
 </div>
+<section class="tool-quickstart" aria-labelledby="qs-upscale">
+<div class="qs-head">
+<h2 id="qs-upscale">How to upscale an image in three steps</h2>
+<p class="qs-sub">The screenshot below was taken in this tool with a real file and the stated settings — it is not a mock-up.</p>
+</div>
+<ol class="qs-steps"><li><strong>Upload a small image</strong><span>This run starts from 600 × 400 px.</span></li><li><strong>Check the size cap</strong><span>One side may not exceed 4000 px; larger requests are scaled down automatically.</span></li><li><strong>Upscale and save</strong><span>Press “Upscale”; the result here is 1200 × 800.</span></li></ol>
+<figure class="tool-shot">
+<img src="/assets/img/tools/upscale-result.png" alt="Upscale result: the 600 by 400 test image enlarged to 1200 by 800 pixels." width="1200" height="800" loading="lazy" decoding="async"/>
+<figcaption><strong>Captured:</strong> <strong>Input:</strong> specimen-small-600x400.png (600 × 400 PNG). <strong>Settings:</strong> 2× upscale. <strong>Output:</strong> PNG, 1200 × 800.</figcaption>
+</figure>
+</section>
 <div class="upload-area" id="uploadArea">
 <div class="upload-icon">📁</div>
 <div class="upload-text">Click or drag an image here</div>
@@ -249,8 +261,8 @@
 <div class="container">
 <div class="footer-content">
 <div class="footer-brand">
-<img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
-<span class="logo-text">Pic<span class="accent">Studio</span></span>
+<img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Calc</span></span>
 </div>
 <p class="footer-desc">Free online image tools — everything runs locally in your browser</p>
 </div>
@@ -268,7 +280,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 </style>
 <div class="footer-bottom">
 <p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
-<p>© 2026 PicStudio. All rights reserved.</p>
+<p>© 2026 PicCalc. All rights reserved.</p>
 </div>
 </div>
 </footer>
@@ -381,5 +393,7 @@ function process(src){
 <script src="/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/assets/js/ux.js?v=20261108ml"></script>
+<script src="/assets/data/search-en.js" defer></script>
+<script src="/assets/js/search.js" defer></script>
 </body>
 </html>

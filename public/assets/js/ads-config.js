@@ -1,4 +1,4 @@
-/* PicStudio V70.10 — AdSense 初始化（本地 V70.8 × TRAE V71 合并版）
+/* PicCalc V70.10 — AdSense 初始化（本地 V70.8 × TRAE V71 合并版）
  * 全站仅 2 个广告位：英文首页 / 与中文首页 /zh/，各 1 个，位于工具网格与图片指南之间。
  *
  * 单元号唯一真相源 = HTML 里 <ins data-ad-slot="...">（Google 标准位置）。

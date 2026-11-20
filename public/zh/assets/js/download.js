@@ -279,7 +279,7 @@
     }
 
     window.__download = function (src, filename, mime, quality) {
-        filename = filename || 'picstudio.png';
+        filename = filename || 'piccalc.png';
         normalize(src, mime, quality).then(function (r) {
             var blob = r.blob;
             var ftype = r.mime || 'image/png';
@@ -339,7 +339,7 @@
     function savePreviewName() {
         var slug = (location.pathname.split('/').pop() || 'preview').replace(/\.html?$/i, '');
         slug = slug.replace(/[^a-zA-Z0-9_-]/g, '-') || 'preview';
-        return 'picstudio-' + slug + '-preview.png';
+        return 'piccalc-' + slug + '-preview.png';
     }
 
     function savePreview(img) {

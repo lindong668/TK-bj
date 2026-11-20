@@ -91,7 +91,7 @@
     if (!txt) txt = h1.textContent;
     txt = txt.replace(/^[\s\u2190-\u2BFF\uFE0F\u2700-\u27BF]+/, '').trim();
     if (!txt || txt.length > 90) return;
-    var full = txt + ' | PicStudio';
+    var full = txt + ' | PicCalc';
     document.title = full;
     var og = document.querySelector('meta[property="og:title"]');
     if (og) og.setAttribute('content', full);

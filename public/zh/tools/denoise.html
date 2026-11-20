@@ -8,7 +8,7 @@
 <meta content="https://piccalc.com/og-v2.png" property="og:image"/>
 <meta content="1200" property="og:image:width"/>
 <meta content="630" property="og:image:height"/>
-<meta content="PicStudio 品牌分享图" property="og:image:alt"/>
+<meta content="PicCalc 品牌分享图" property="og:image:alt"/>
 <meta content="summary_large_image" name="twitter:card"/>
 <meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
 <meta charset="utf-8"/>
@@ -19,14 +19,14 @@
 <link href="https://piccalc.com/zh/tools/denoise" rel="canonical"/>
 <meta content="index,follow,max-image-preview:large" name="robots"/>
 <meta content="website" property="og:type"/>
-<meta content="PicStudio" property="og:site_name"/>
+<meta content="PicCalc" property="og:site_name"/>
 <meta content="zh_CN" property="og:locale"/>
 <meta content="en_US" property="og:locale:alternate"/>
-<meta content="图片降噪 — 保留边缘的降噪滤镜 | PicStudio" property="og:title"/>
+<meta content="图片降噪 — 保留边缘的降噪滤镜 | PicCalc" property="og:title"/>
 <meta content="去除弱光照片的颗粒与色彩噪点，同时保持边缘清晰；降噪强度可调，全部在本地处理。" property="og:description"/>
 <meta content="https://piccalc.com/zh/tools/denoise" property="og:url"/>
 
-<meta content="图片降噪 — 保留边缘的降噪滤镜 | PicStudio" name="twitter:title"/>
+<meta content="图片降噪 — 保留边缘的降噪滤镜 | PicCalc" name="twitter:title"/>
 <meta content="去除弱光照片的颗粒与色彩噪点，同时保持边缘清晰；降噪强度可调，全部在本地处理。" name="twitter:description"/>
 <link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
 <style>.content-section{padding:48px 0;background:transparent;border-top:1px solid var(--border)}
@@ -113,13 +113,14 @@
 <header class="header">
 <div class="container">
 <a class="logo" href="/zh/">
-<img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
-<span class="logo-text">Pic<span class="accent">Studio</span></span>
+<img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Calc</span></span>
 </a>
 <nav class="tool-nav">
 <select id="lang-select" name="lang-select" class="lang-select" aria-label="语言" onchange="if(this.value)location.href=this.value"><option value="/tools/denoise">English</option><option value="/zh/tools/denoise" selected>中文</option></select><noscript><a href="/tools/denoise">English</a></noscript>
 <a href="/zh/#tools">全部工具</a>
 <a href="/zh/guides/">图片指南</a>
+<a href="/zh/reference">参考</a>
 <a href="/zh/privacy">隐私政策</a>
 <a href="/zh/faq">常见问题</a>
 <a href="/zh/contact">联系我们</a>
@@ -134,6 +135,17 @@
 <h1>✨ 图片去噪</h1>
 <p>抹平夜景噪点和颗粒感，同时保住人脸轮廓不糊</p>
 </div>
+<section class="tool-quickstart" aria-labelledby="qs-denoise">
+<div class="qs-head">
+<h2 id="qs-denoise">图片去噪的三步操作</h2>
+<p class="qs-sub">下面这张图是在本工具里用真实文件、真实参数截的，不是示意图。</p>
+</div>
+<ol class="qs-steps"><li><strong>上传噪点照片</strong><span>手机夜景、扫描件和高 ISO 图片效果最明显。</span></li><li><strong>设置强度</strong><span>本图使用强度 6。</span></li><li><strong>去噪并对照</strong><span>点“Denoise”，把平滑后的结果与原图对照，确认细节还在再保存。</span></li></ol>
+<figure class="tool-shot">
+<img src="/assets/img/tools/denoise-result.png" alt="去噪结果：测试图平滑后的副本与原图并排。" width="1200" height="800" loading="lazy" decoding="async"/>
+<figcaption><strong>实拍:</strong> <strong>输入：</strong>specimen-a-1200x800.png（1200 × 800 PNG）。<strong>参数：</strong>强度 6。<strong>输出：</strong>PNG，1200 × 800。</figcaption>
+</figure>
+</section>
 <div class="upload-area" id="uploadArea">
 <div class="upload-icon">📁</div>
 <div class="upload-text">点击或拖拽图片到这里</div>
@@ -200,8 +212,8 @@
 <div class="container">
 <div class="footer-content">
 <div class="footer-brand">
-<img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
-<span class="logo-text">Pic<span class="accent">Studio</span></span>
+<img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Calc</span></span>
 </div>
 <p class="footer-desc">免费的在线图片处理工具，所有处理在浏览器本地完成</p>
 </div>
@@ -219,7 +231,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 </style>
 <div class="footer-bottom">
 <p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
-<p>&amp;copy; 2026 PicStudio. 保留所有权利。</p>
+<p>&amp;copy; 2026 PicCalc. 保留所有权利。</p>
 </div>
 </div>
 </footer>
@@ -295,5 +307,7 @@ function process(src){
 <script src="/zh/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/zh/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/zh/assets/js/ux.js?v=20261108ml"></script>
+<script src="/assets/data/search-zh.js" defer></script>
+<script src="/assets/js/search.js" defer></script>
 </body>
 </html>

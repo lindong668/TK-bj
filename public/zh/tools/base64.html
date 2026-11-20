@@ -8,7 +8,7 @@
 <meta content="https://piccalc.com/og-v2.png" property="og:image"/>
 <meta content="1200" property="og:image:width"/>
 <meta content="630" property="og:image:height"/>
-<meta content="PicStudio 品牌分享图" property="og:image:alt"/>
+<meta content="PicCalc 品牌分享图" property="og:image:alt"/>
 <meta content="summary_large_image" name="twitter:card"/>
 <meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
 <meta charset="utf-8"/>
@@ -19,14 +19,14 @@
 <link href="https://piccalc.com/zh/tools/base64" rel="canonical"/>
 <meta content="index,follow,max-image-preview:large" name="robots"/>
 <meta content="website" property="og:type"/>
-<meta content="PicStudio" property="og:site_name"/>
+<meta content="PicCalc" property="og:site_name"/>
 <meta content="zh_CN" property="og:locale"/>
 <meta content="en_US" property="og:locale:alternate"/>
-<meta content="图片转 Base64 编码与解码工具 | PicStudio" property="og:title"/>
+<meta content="图片转 Base64 编码与解码工具 | PicCalc" property="og:title"/>
 <meta content="图片与 Base64 Data URL 互相转换，支持带不带 data: 前缀。本地转换，图片不上传。" property="og:description"/>
 <meta content="https://piccalc.com/zh/tools/base64" property="og:url"/>
 
-<meta content="图片转 Base64 编码与解码工具 | PicStudio" name="twitter:title"/>
+<meta content="图片转 Base64 编码与解码工具 | PicCalc" name="twitter:title"/>
 <meta content="图片与 Base64 Data URL 互相转换，支持带不带 data: 前缀。本地转换，图片不上传。" name="twitter:description"/>
 <link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
 <style>.content-section{padding:48px 0;background:transparent;border-top:1px solid var(--border)}
@@ -113,13 +113,14 @@
 <header class="header">
 <div class="container">
 <a class="logo" href="/zh/">
-<img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
-<span class="logo-text">Pic<span class="accent">Studio</span></span>
+<img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Calc</span></span>
 </a>
 <nav class="tool-nav">
 <select id="lang-select" name="lang-select" class="lang-select" aria-label="语言" onchange="if(this.value)location.href=this.value"><option value="/tools/base64">English</option><option value="/zh/tools/base64" selected>中文</option></select><noscript><a href="/tools/base64">English</a></noscript>
 <a href="/zh/#tools">全部工具</a>
 <a href="/zh/guides/">图片指南</a>
+<a href="/zh/reference">参考</a>
 <a href="/zh/privacy">隐私政策</a>
 <a href="/zh/faq">常见问题</a>
 <a href="/zh/contact">联系我们</a>
@@ -149,6 +150,17 @@
 .meta-table td{color:var(--text-secondary);word-break:break-all}
 .warn-box{background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.35);border-radius:10px;padding:12px 14px;color:#fcd34d;font-size:.88rem;line-height:1.7;margin-top:12px}
 .ok-box{background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.38);border-radius:10px;padding:12px 14px;color:#6ee7b7;font-size:.88rem;line-height:1.7;margin-top:12px}.preview-box{max-width:420px;margin:16px auto}</style>
+<section class="tool-quickstart" aria-labelledby="qs-base64">
+<div class="qs-head">
+<h2 id="qs-base64">Base64 转换的三步操作</h2>
+<p class="qs-sub">下面这张图是在本工具里用真实文件、真实参数截的，不是示意图。</p>
+</div>
+<ol class="qs-steps"><li><strong>上传图片</strong><span>选择 PNG 或 JPG，编码结果会自动填进文本框。</span></li><li><strong>复制 data URL</strong><span>字符串以 data:image/png;base64, 开头，可以直接写进 CSS 或 HTML。</span></li><li><strong>需要时反向转换</strong><span>把 Base64 字符串粘回同一个框，点“Base64 → Image”即可预览还原后的图片。</span></li></ol>
+<figure class="tool-shot">
+<img src="/assets/img/tools/base64-result.png" alt="Base64 转换结果：生成的 data URL 与还原后的图片预览。" width="1200" height="800" loading="lazy" decoding="async"/>
+<figcaption><strong>实拍:</strong> <strong>输入：</strong>specimen-a-1200x800.png（29 KB PNG）。<strong>输出：</strong>39,758 字符的 data URL，以及 1200 × 800 的预览。</figcaption>
+</figure>
+</section>
 <div class="upload-area" id="uploadArea">
 <div class="upload-icon">📁</div>
 <div class="upload-text">点击或拖拽图片到这里（图片 → Base64）</div>
@@ -212,8 +224,8 @@
 <div class="container">
 <div class="footer-content">
 <div class="footer-brand">
-<img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
-<span class="logo-text">Pic<span class="accent">Studio</span></span>
+<img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Calc</span></span>
 </div>
 <p class="footer-desc">免费的在线图片处理工具，所有处理在浏览器本地完成</p>
 </div>
@@ -231,7 +243,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 </style>
 <div class="footer-bottom">
 <p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
-<p>&amp;copy; 2026 PicStudio. 保留所有权利。</p>
+<p>&amp;copy; 2026 PicCalc. 保留所有权利。</p>
 </div>
 </div>
 </footer>
@@ -294,5 +306,7 @@ $('clearBtn').addEventListener('click',function(){ta.value='';$('sizeInfo').text
 <script src="/zh/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/zh/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/zh/assets/js/ux.js?v=20261108ml"></script>
+<script src="/assets/data/search-zh.js" defer></script>
+<script src="/assets/js/search.js" defer></script>
 </body>
 </html>

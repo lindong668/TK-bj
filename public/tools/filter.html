@@ -9,14 +9,14 @@
 <link href="https://piccalc.com/tools/filter" rel="canonical"/>
 <meta content="index,follow,max-image-preview:large" name="robots"/>
 <meta content="website" property="og:type"/>
-<meta content="PicStudio" property="og:site_name"/>
+<meta content="PicCalc" property="og:site_name"/>
 <meta content="en_US" property="og:locale"/>
 <meta content="zh_CN" property="og:locale:alternate"/>
-<meta content="Apply Photo Filters Online - B&amp;W, Vintage, Cool, Warm | PicStudio" property="og:title"/>
+<meta content="Apply Photo Filters Online - B&amp;W, Vintage, Cool, Warm | PicCalc" property="og:title"/>
 <meta content="Apply black and white, vintage, cool or warm filters with an adjustable strength slider. Preview and download as PNG." property="og:description"/>
 <meta content="https://piccalc.com/tools/filter" property="og:url"/>
 <meta content="summary_large_image" name="twitter:card"/>
-<meta content="Apply Photo Filters Online - B&amp;W, Vintage, Cool, Warm | PicStudio" name="twitter:title"/>
+<meta content="Apply Photo Filters Online - B&amp;W, Vintage, Cool, Warm | PicCalc" name="twitter:title"/>
 <meta content="Apply black and white, vintage, cool or warm filters with an adjustable strength slider. Preview and download as PNG." name="twitter:description"/>
 <script type="application/ld+json">
 {
@@ -83,7 +83,7 @@
     {
       "@type": "ListItem",
       "position": 1,
-      "name": "PicStudio",
+      "name": "PicCalc",
       "item": "https://piccalc.com/"
     },
     {
@@ -102,7 +102,7 @@
 <meta content="https://piccalc.com/og-v2.png" property="og:image"/>
 <meta content="1200" property="og:image:width"/>
 <meta content="630" property="og:image:height"/>
-<meta content="PicStudio brand share image" property="og:image:alt"/>
+<meta content="PicCalc brand share image" property="og:image:alt"/>
 
 <meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
 <link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
@@ -120,13 +120,14 @@
 <header class="header">
 <div class="container">
 <a class="logo" href="/">
-<img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
-<span class="logo-text">Pic<span class="accent">Studio</span></span>
+<img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Calc</span></span>
 </a>
 <nav class="tool-nav">
 <select id="lang-select" name="lang-select" class="lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/tools/filter" selected>English</option><option value="/zh/tools/filter">中文</option></select><noscript><a href="/zh/tools/filter">中文</a></noscript>
 <a href="/#tools">All Tools</a>
 <a href="/guides/">Image Guides</a>
+<a href="/reference">Reference</a>
 <a href="/privacy">Privacy Policy</a>
 <a href="/faq">FAQ</a>
 <a href="/contact">Contact</a>
@@ -145,6 +146,17 @@
 <p style="margin:0;font-size:14px;line-height:1.8;color:var(--text-secondary,#475569);"><strong>This tool needs JavaScript to process images.</strong> The editor runs entirely inside your browser, so it cannot start with scripting turned off. Everything written below is plain HTML: the method, the numbers, the failure cases and the FAQ all read without it.</p>
 </div></noscript>
 
+<section class="tool-quickstart" aria-labelledby="qs-filter">
+<div class="qs-head">
+<h2 id="qs-filter">How to apply a photo filter in three steps</h2>
+<p class="qs-sub">The screenshot below was taken in this tool with a real file and the stated settings — it is not a mock-up.</p>
+</div>
+<ol class="qs-steps"><li><strong>Upload the photo</strong><span>The unfiltered original stays on the left.</span></li><li><strong>Choose a look</strong><span>This run applies “Warm” at full strength (100).</span></li><li><strong>Apply and save</strong><span>Press “Apply filter”, judge the right-hand preview, then download the PNG.</span></li></ol>
+<figure class="tool-shot">
+<img src="/assets/img/tools/filter-result.png" alt="Filter result: the test scene with a warm yellow-green cast applied." width="1200" height="800" loading="lazy" decoding="async"/>
+<figcaption><strong>Captured:</strong> <strong>Input:</strong> specimen-a-1200x800.png (1200 × 800 PNG). <strong>Settings:</strong> filter Warm, strength 100. <strong>Output:</strong> PNG, 1200 × 800.</figcaption>
+</figure>
+</section>
 <div class="upload-area" id="uploadArea">
 <div class="upload-icon">📁</div>
 <div class="upload-text">Click or drag an image here</div>
@@ -287,7 +299,7 @@
 
 <h2>Resolution, output and the 3000-pixel ceiling</h2>
 <p>The editor loads the image onto a canvas whose longest side is capped at 3000 px. A 6000 px photograph is scaled down before a single filter pixel is computed, and the file you download is 3000 px wide. This is deliberate: the loop is plain JavaScript, one pixel at a time, and a 24-megapixel buffer would take long enough that browsers start offering to kill the tab. If the full resolution matters, resize the source elsewhere first, or accept that the filtered copy is a working size rather than an archival one.</p>
-<p>Output is always PNG at the canvas dimensions, named <code>picstudio-filtered.png</code>. There is no JPEG option and no quality slider, so a noisy photograph can easily come out three times larger than the original JPEG. Run the result through <a href="/tools/compress">Compress Image</a> if the file has to travel.</p>
+<p>Output is always PNG at the canvas dimensions, named <code>piccalc-filtered.png</code>. There is no JPEG option and no quality slider, so a noisy photograph can easily come out three times larger than the original JPEG. Run the result through <a href="/tools/compress">Compress Image</a> if the file has to travel.</p>
 
 <h2>Failures that are easy to misdiagnose</h2>
 <ul>
@@ -329,8 +341,8 @@
 <div class="container">
 <div class="footer-content">
 <div class="footer-brand">
-<img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
-<span class="logo-text">Pic<span class="accent">Studio</span></span>
+<img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Calc</span></span>
 </div>
 <p class="footer-desc">Free online image tools — everything runs locally in your browser</p>
 </div>
@@ -348,7 +360,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 </style>
 <div class="footer-bottom">
 <p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
-<p>© 2026 PicStudio. All rights reserved.</p>
+<p>© 2026 PicCalc. All rights reserved.</p>
 </div>
 </div>
 </footer>
@@ -456,7 +468,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
             ctx.putImageData(imageData, 0, 0);
             return result;
         },
-        downloadOptions: { filename: 'picstudio-filtered', format: 'png' }
+        downloadOptions: { filename: 'piccalc-filtered', format: 'png' }
     });
 
     document.getElementById('processBtn').addEventListener('click', () => tool.process());
@@ -465,5 +477,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 <script src="/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/assets/js/ux.js?v=20261108ml"></script>
+<script src="/assets/data/search-en.js" defer></script>
+<script src="/assets/js/search.js" defer></script>
 </body>
 </html>

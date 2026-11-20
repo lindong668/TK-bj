@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Pulling a Colour Palette Out of a Photo: What K-Means Really Returns | PicStudio</title>
+<title>Pulling a Colour Palette Out of a Photo: What K-Means Really Returns | PicCalc</title>
 <meta content="The extractor samples about 4,000 pixels and runs 12 k-means passes from random starts. Why two runs differ and how to use the hex values." name="description"/>
 <meta content="extract colour palette from image, k means colour extraction, hex colours from photo, dominant colour, colour palette non deterministic, css colour tokens" name="keywords"/>
 <link href="https://piccalc.com/guides/colour-palette-from-photo" rel="canonical"/>
 <meta content="index,follow,max-image-preview:large" name="robots"/>
 <meta content="article" property="og:type"/>
-<meta content="PicStudio" property="og:site_name"/>
+<meta content="PicCalc" property="og:site_name"/>
 <meta content="en_US" property="og:locale"/>
 <meta content="Pulling a Colour Palette Out of a Photo: What K-Means Really Returns" property="og:title"/>
 <meta content="The extractor samples about 4,000 pixels and runs 12 k-means passes from random starts. See why two runs differ, why accent colours vanish, and how to use the hex values." property="og:description"/>
@@ -34,8 +34,8 @@
       "inLanguage": "en",
       "datePublished": "2026-11-20",
       "dateModified": "2026-11-20",
-      "author": {"@type": "Organization", "name": "PicStudio", "url": "https://piccalc.com"},
-      "publisher": {"@type": "Organization", "name": "PicStudio", "url": "https://piccalc.com"},
+      "author": {"@type": "Organization", "name": "PicCalc", "url": "https://piccalc.com"},
+      "publisher": {"@type": "Organization", "name": "PicCalc", "url": "https://piccalc.com"},
       "mainEntityOfPage": {"@type": "WebPage", "@id": "https://piccalc.com/guides/colour-palette-from-photo"},
       "keywords": "colour palette from image, k-means, hex colours, dominant colour, sampling",
       "articleSection": "Image Guides",
@@ -44,7 +44,7 @@
     {
       "@type": "BreadcrumbList",
       "itemListElement": [
-        {"@type": "ListItem", "position": 1, "name": "PicStudio", "item": "https://piccalc.com/"},
+        {"@type": "ListItem", "position": 1, "name": "PicCalc", "item": "https://piccalc.com/"},
         {"@type": "ListItem", "position": 2, "name": "Image Guides", "item": "https://piccalc.com/guides/"},
         {"@type": "ListItem", "position": 3, "name": "Colour Palette From a Photo", "item": "https://piccalc.com/guides/colour-palette-from-photo"}
       ]
@@ -121,12 +121,13 @@
 <body>
 <header class="header">
 <div class="container">
-<a class="logo" href="/"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
-<span class="logo-text">Pic<span class="accent">Studio</span></span></a>
+<a class="logo" href="/"><img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Calc</span></span></a>
 <nav class="tool-nav">
 <select id="lang-select" name="lang-select" class="lang-select" aria-label="Language" onchange="if(this.value)location.href=this.value"><option value="/guides/" selected>English</option><option value="/zh/guides/">中文</option></select><noscript><a href="/zh/guides/">中文</a></noscript>
 <a href="/#tools">All Tools</a>
 <a href="/guides/">Image Guides</a>
+<a href="/reference">Reference</a>
 <a href="/privacy">Privacy Policy</a>
 <a href="/faq">FAQ</a>
 <a href="/contact">Contact</a>
@@ -139,7 +140,7 @@
 <div class="article-body">
 <div class="guide-top"><a class="guide-back" href="/guides/">← All guides</a><span class="guide-crumb"><a href="/" style="color:var(--text-muted);">Home</a><span>› Image Guides › Colour Extraction</span></span></div>
 <h1>Pulling a Colour Palette Out of a Photo: What K-Means Really Returns</h1>
-<div class="lab-meta"><span>Published 2026-11-20</span><span>Updated 2026-11-20</span><span>2,240 words</span><span>Based on the PicStudio tool's implementation</span></div>
+<div class="lab-meta"><span>Published 2026-11-20</span><span>Updated 2026-11-20</span><span>2,240 words</span><span>Based on the PicCalc tool's implementation</span></div>
 <nav class="lab-toc"><strong>On this page</strong><ol><li><a href="#what-the-tool-actually-computes">What the tool actually computes</a></li><li><a href="#the-sampling-grid-and-why-it-matters">The sampling grid, and why it matters</a></li><li><a href="#why-two-runs-disagree">Why two runs disagree</a></li><li><a href="#why-you-may-get-fewer-colours-than-you-asked-for">Why you may get fewer colours than you asked for</a></li><li><a href="#area-wins-not-importance">Area wins, not importance</a></li><li><a href="#transparency-is-skipped">Transparency is skipped</a></li><li><a href="#from-hex-to-usable-design-tokens">From hex to usable design tokens</a></li><li><a href="#what-this-tool-is-not">What this tool is not</a></li><li><a href="#kmeans-in-one-paragraph">K-means in one paragraph</a></li><li><a href="#a-contrast-check-you-can-do-by-hand">A contrast check you can do by hand</a></li><li><a href="#median-cut-and-why-it-is-not-used-here">Median cut, and why it is not used here</a></li><li><a href="#frequently-asked-questions">Frequently asked questions</a></li></ol></nav>
 <p>Colour extraction is one of the few image operations that returns data rather than a picture. You put a photograph in, and you get a list of hex codes out. That makes it feel objective, like a measurement. It is not: it is a clustering estimate with a random starting point, and understanding the estimate is what makes the output usable.</p>
 <p>This page explains the exact procedure used by our <a href="/tools/palette">Colour Palette</a> tool — how many pixels it looks at, how the clusters are formed, and why the same photo can produce two different palettes five seconds apart. Every number below comes from the implementation, not from a general description of k-means.</p>
@@ -253,8 +254,8 @@
 <footer class="footer">
 <div class="container">
 <div class="footer-content">
-<div class="footer-brand"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
-<span class="logo-text">Pic<span class="accent">Studio</span></span></div>
+<div class="footer-brand"><img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Calc</span></span></div>
 <p class="footer-desc">Free online image tools — everything runs locally in your browser</p>
 </div>
 <div class="footer-links">
@@ -264,7 +265,7 @@
 </div>
 <div class="footer-bottom">
 <p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
-<p>© 2026 PicStudio. All rights reserved. Lab Notes are original measured reports, not rewritten articles.</p>
+<p>© 2026 PicCalc. All rights reserved. Lab Notes are original measured reports, not rewritten articles.</p>
 </div>
 </div>
 </footer>
@@ -272,5 +273,7 @@
 <script src="/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/assets/js/ux.js?v=20261108ml"></script>
+<script src="/assets/data/search-en.js" defer></script>
+<script src="/assets/js/search.js" defer></script>
 </body>
 </html>

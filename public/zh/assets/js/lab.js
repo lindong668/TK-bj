@@ -1,5 +1,5 @@
 /* ============================================================
- * lab.js — PicStudio 图像处理算法库
+ * lab.js — PicCalc 图像处理算法库
  * 供各工具页调用，纯浏览器端，无依赖
  * ============================================================ */
 
@@ -244,7 +244,7 @@
                 ctx.drawImage(o.image, pt.x, pt.y, iw, ih);
             }
         } else {
-            var text = o.text || 'PicStudio';
+            var text = o.text || 'PicCalc';
             var fs = Math.max(12, Math.round(Math.min(w, h) / 18 * scale));
             ctx.font = (o.bold ? 'bold ' : '') + fs + 'px "PingFang SC","Microsoft YaHei",sans-serif';
             ctx.fillStyle = color;

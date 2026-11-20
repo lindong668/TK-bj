@@ -79,7 +79,7 @@ class ImageTool {
                 this.onHeifDecoded(loaded);
             }
         } catch (err) {
-            console.error('[PicStudio] load failed', err);
+            console.error('[PicCalc] load failed', err);
             var isZh = (document.documentElement.lang || '').toLowerCase().indexOf('zh') === 0
                 || (window.PSLang && PSLang.get() === 'zh');
             alert(isZh
@@ -132,7 +132,7 @@ class ImageTool {
 
     /* */
     downscaleNotice(msg) {
-        console.info('[PicStudio] ' + msg);
+        console.info('[PicCalc] ' + msg);
     }
 
     showControls() {
@@ -180,7 +180,7 @@ class ImageTool {
         const opts = this.config.downloadOptions || {};
         const format = opts.format || 'png';
         const quality = opts.quality || 0.92;
-        const filename = opts.filename || 'picstudio-result';
+        const filename = opts.filename || 'piccalc-result';
 
         if (!this.processedCanvas) return;
 

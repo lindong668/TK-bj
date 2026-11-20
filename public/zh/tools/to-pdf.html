@@ -8,7 +8,7 @@
 <meta content="https://piccalc.com/og-v2.png" property="og:image"/>
 <meta content="1200" property="og:image:width"/>
 <meta content="630" property="og:image:height"/>
-<meta content="PicStudio 品牌分享图" property="og:image:alt"/>
+<meta content="PicCalc 品牌分享图" property="og:image:alt"/>
 <meta content="summary_large_image" name="twitter:card"/>
 <meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
 <meta charset="utf-8"/>
@@ -19,14 +19,14 @@
 <link href="https://piccalc.com/zh/tools/to-pdf" rel="canonical"/>
 <meta content="index,follow,max-image-preview:large" name="robots"/>
 <meta content="website" property="og:type"/>
-<meta content="PicStudio" property="og:site_name"/>
+<meta content="PicCalc" property="og:site_name"/>
 <meta content="zh_CN" property="og:locale"/>
 <meta content="en_US" property="og:locale:alternate"/>
-<meta content="图片转 PDF — A4 或按图片尺寸 | PicStudio" property="og:title"/>
+<meta content="图片转 PDF — A4 或按图片尺寸 | PicCalc" property="og:title"/>
 <meta content="把多张图片合成一个 PDF，可选 A4 或匹配图片尺寸，支持调整页序并即时下载。" property="og:description"/>
 <meta content="https://piccalc.com/zh/tools/to-pdf" property="og:url"/>
 
-<meta content="图片转 PDF — A4 或按图片尺寸 | PicStudio" name="twitter:title"/>
+<meta content="图片转 PDF — A4 或按图片尺寸 | PicCalc" name="twitter:title"/>
 <meta content="把多张图片合成一个 PDF，可选 A4 或匹配图片尺寸，支持调整页序并即时下载。" name="twitter:description"/>
 <link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
 <style>.content-section{padding:48px 0;background:transparent;border-top:1px solid var(--border)}
@@ -113,13 +113,14 @@
 <header class="header">
 <div class="container">
 <a class="logo" href="/zh/">
-<img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
-<span class="logo-text">Pic<span class="accent">Studio</span></span>
+<img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Calc</span></span>
 </a>
 <nav class="tool-nav">
 <select id="lang-select" name="lang-select" class="lang-select" aria-label="语言" onchange="if(this.value)location.href=this.value"><option value="/tools/to-pdf">English</option><option value="/zh/tools/to-pdf" selected>中文</option></select><noscript><a href="/tools/to-pdf">English</a></noscript>
 <a href="/zh/#tools">全部工具</a>
 <a href="/zh/guides/">图片指南</a>
+<a href="/zh/reference">参考</a>
 <a href="/zh/privacy">隐私政策</a>
 <a href="/zh/faq">常见问题</a>
 <a href="/zh/contact">联系我们</a>
@@ -149,6 +150,17 @@
 <noscript><div id="nojsNotice" style="margin:18px 0;padding:14px 18px;border-left:3px solid #f59e0b;background:rgba(245,158,11,.09);border-radius:6px;">
 <p style="margin:0;font-size:14px;line-height:1.8;color:var(--text-secondary,#475569);"><strong>图片处理需要 JavaScript。</strong>PDF 在浏览器里组装，脚本被禁用时无法启动。下面的页面尺寸、像素上限和格式限制都是静态 HTML，可以直接阅读。</p>
 </div></noscript>
+<section class="tool-quickstart" aria-labelledby="qs-to-pdf">
+<div class="qs-head">
+<h2 id="qs-to-pdf">图片转 PDF 的三步操作</h2>
+<p class="qs-sub">下面这张图是在本工具里用真实文件、真实参数截的，不是示意图。</p>
+</div>
+<ol class="qs-steps"><li><strong>上传页面图片</strong><span>多张图片可以合成一个文档。</span></li><li><strong>选择纸张尺寸</strong><span>本图使用 A4（595 × 842 pt），清晰度 85。</span></li><li><strong>生成并下载</strong><span>点“Create PDF”，这次两页的文件约 0.10 MB。</span></li></ol>
+<figure class="tool-shot">
+<img src="/assets/img/tools/to-pdf-result.png" alt="PDF 结果：两张已导入的页面缩略图，选中 A4，并提供两页 PDF 的下载按钮。" width="1200" height="800" loading="lazy" decoding="async"/>
+<figcaption><strong>实拍:</strong> <strong>输入：</strong>specimen-a-1200x800.png 与 specimen-b-1200x800.png。<strong>参数：</strong>A4 纸张，清晰度 85。<strong>输出：</strong>2 页 PDF，约 0.10 MB。</figcaption>
+</figure>
+</section>
 <div class="upload-area" id="uploadArea">
 <div class="upload-icon">📁</div>
 <div class="upload-text">点击或拖拽图片到这里</div>
@@ -240,8 +252,8 @@
 <div class="container">
 <div class="footer-content">
 <div class="footer-brand">
-<img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
-<span class="logo-text">Pic<span class="accent">Studio</span></span>
+<img alt="PicCalc" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Calc</span></span>
 </div>
 <p class="footer-desc">免费的在线图片处理工具，所有处理在浏览器本地完成</p>
 </div>
@@ -259,7 +271,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 </style>
 <div class="footer-bottom">
 <p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
-<p>&amp;copy; 2026 PicStudio. 保留所有权利。</p>
+<p>&amp;copy; 2026 PicCalc. 保留所有权利。</p>
 </div>
 </div>
 </footer>
@@ -339,5 +351,7 @@ downloadBtn.addEventListener('click',function(){
 <script src="/zh/assets/js/i18n-dict.js?v=20261108ml"></script>
 <script src="/zh/assets/js/i18n.js?v=20261108ml"></script>
 <script src="/zh/assets/js/ux.js?v=20261108ml"></script>
+<script src="/assets/data/search-zh.js" defer></script>
+<script src="/assets/js/search.js" defer></script>
 </body>
 </html>
