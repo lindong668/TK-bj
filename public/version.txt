@@ -1,5 +1,5 @@
 PicCalc full-package build fingerprint
-BUILD_ID=V75-20261120-ZH
+BUILD_ID=V76-TRAE-AUDIT-FIX-1
 DATE=2026-11-20
 BASE=V74
 SITEMAP_URLS=138
@@ -13,3 +13,5 @@ ZH_SYNC=2026-11-20
 ZH_GUIDES=10
 DEPLOY=unzip -> npx wrangler deploy
 If this file is missing on your live site, you did NOT deploy this package.
+
+FIX_DATE=2026-11-21
