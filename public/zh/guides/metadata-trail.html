@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html data-lang="zh" lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>七次另存之后，元数据还剩下什么 | PicStudio</title>
+<meta content="把一张带 EXIF 的照片依次经过格式转换、压缩、尺寸调整、水印、圆角、Base64 往返、聊天软件重编码，逐次记录 GPS、时间、相机型号、软件标记等字段的留存矩阵。" name="description"/>
+<meta content="另存会保留exif吗, 压缩后GPS还在吗, 截图有定位信息吗, base64保留exif, 发微信会去掉元数据, 隐私清理" name="keywords"/>
+<link href="https://piccalc.com/zh/guides/metadata-trail" rel="canonical"/>
+<meta content="index,follow,max-image-preview:large" name="robots"/>
+<meta content="article" property="og:type"/>
+<meta content="PicStudio" property="og:site_name"/>
+<meta content="zh_CN" property="og:locale"/>
+<meta content="七次另存之后，元数据还剩下什么" property="og:title"/>
+<meta content="把一张带 EXIF 的照片依次经过格式转换、压缩、尺寸调整、水印、圆角、Base64 往返、聊天软件重编码，逐次记录 GPS、时间、相机型号、软件标记等字段的留存矩阵。" property="og:description"/>
+<meta content="https://piccalc.com/zh/guides/metadata-trail" property="og:url"/>
+<meta content="https://piccalc.com/og-v2.png" property="og:image"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="七次另存之后，元数据还剩下什么" name="twitter:title"/>
+<link href="https://piccalc.com/guides/metadata-trail" hreflang="en" rel="alternate"/>
+<link href="https://piccalc.com/zh/guides/metadata-trail" hreflang="zh-CN" rel="alternate"/>
+<link href="https://piccalc.com/guides/metadata-trail" hreflang="x-default" rel="alternate"/>
+<script type="application/ld+json">{
+  "@context":"https://schema.org",
+  "@graph":[
+    {"@type":"Article","headline":"七次另存之后，元数据还剩下什么","description":"把一张带 EXIF 的照片依次经过格式转换、压缩、尺寸调整、水印、圆角、Base64 往返、聊天软件重编码，逐次记录 GPS、时间、相机型号、软件标记等字段的留存矩阵。","inLanguage":"zh-CN",
+     "datePublished":"2026-11-20","dateModified":"2026-11-20",
+     "author":{"@type":"Organization","name":"PicStudio","url":"https://piccalc.com"},
+     "publisher":{"@type":"Organization","name":"PicStudio","url":"https://piccalc.com"},
+     "mainEntityOfPage":{"@type":"WebPage","@id":"https://piccalc.com/zh/guides/metadata-trail"},
+     "articleSection":"留存矩阵","isPartOf":{"@type":"Blog","name":"PicStudio 实测系列","url":"https://piccalc.com/zh/guides/"}},
+    {"@type":"BreadcrumbList","itemListElement":[
+      {"@type":"ListItem","position":1,"name":"首页","item":"https://piccalc.com/zh/"},
+      {"@type":"ListItem","position":2,"name":"图片处理指南","item":"https://piccalc.com/zh/guides/"},
+      {"@type":"ListItem","position":3,"name":"七次另存之后，元数据还剩下什么","item":"https://piccalc.com/zh/guides/metadata-trail"}]}
+  ]}</script>
+<link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
+<link href="/favicon.ico" rel="icon" sizes="any"/>
+</head>
+<body>
+<header class="header">
+<div class="container">
+<a class="logo" href="/zh/"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Studio</span></span></a>
+<nav class="tool-nav">
+<select id="lang-select" name="lang-select" class="lang-select" aria-label="语言" onchange="if(this.value)location.href=this.value"><option value="/guides/metadata-trail">English</option><option value="/zh/guides/metadata-trail" selected>中文</option></select><noscript><a href="/guides/metadata-trail">English</a></noscript>
+<a href="/zh/#tools">全部工具</a>
+<a href="/zh/guides/">图片处理指南</a>
+<a href="/zh/privacy">隐私政策</a>
+<a href="/zh/faq">常见问题</a>
+<a href="/zh/contact">联系我们</a>
+</nav>
+<select id="lang-select-m" name="lang-select-m" class="lang-select-m lang-select" aria-label="语言" onchange="if(this.value)location.href=this.value"><option value="/guides/metadata-trail">English</option><option value="/zh/guides/metadata-trail" selected>中文</option></select><noscript><a href="/guides/metadata-trail">English</a></noscript>
+</div>
+</header>
+<section class="tool-page">
+<div class="container">
+<div class="article-body">
+<div class="guide-top"><a class="guide-back" href="/zh/guides/">← 返回指南</a><span class="guide-crumb"><a href="/zh/" style="color:var(--text-muted);">首页</a><span>› 图片处理指南 › 留存矩阵</span></span></div>
+<h1>七次另存之后，元数据还剩下什么</h1>
+<div class="lab-meta"><span>系列：留存矩阵</span><span>第 5 篇</span><span>发布于 2026-11-20</span><span>更新于 2026-11-20</span><span>约 2,300 字</span><span>在 PicStudio 工具上实测</span></div>
+<nav class="lab-toc"><strong>本页目录</strong><ol><li><a href="#s1">为什么要做留存矩阵</a></li><li><a href="#s2">起点：一张带完整 EXIF 的图</a></li><li><a href="#s3">七步路径</a></li><li><a href="#s4">逐字段结果</a></li><li><a href="#s5">三个反直觉的发现</a></li><li><a href="#s6">隐私清理的正确顺序</a></li><li><a href="#s7">本站工具对应</a></li><li><a href="#s8">自己复现</a></li><li><a href="#s9">常见问题</a></li></ol></nav>
+
+
+<p>「发图会泄露位置吗」这类问题的答案不该是「看情况」。我们做了一张留存矩阵：拿一张带完整 EXIF 的照片，走七步真实会遇到的处理，每一步之后把字段读出来打一次勾，最后看哪些还在、哪些在哪一步消失。</p>
+<div class="lab-box"><h3>留存矩阵</h3><p><img src="/assets/img/lab/metadata-matrix.png" alt="七次另存后的 EXIF 字段留存矩阵" loading="lazy" style="width:100%;border-radius:10px;"/></p><p>纵列是七次处理，横行是字段。空格不是没测，是那一步之后确实读不到了。</p></div>
+<h2 id="s1">为什么要做留存矩阵</h2>
+<p>网上常见两种极端说法：一种说「一转格式全没了」，一种说「怎么弄都还在」。实测下来都不对——<strong>字段是逐个消失的，不是整块一起没</strong>。有的容器根本装不下 EXIF，有的工具只改像素不动元数据，有的会自己写一条新的软件标记进去。分开记才有用。</p>
+<h2 id="s2">起点：一张带完整 EXIF 的图</h2>
+<p><a href="/assets/samples/picstudio-with-exif.jpg">picstudio-with-exif.jpg</a> 里放了 GPS 坐标、拍摄时间、相机型号、镜头参数、方向、以及一条自定义软件标记。数值是构造的，不含真实位置，方便公开复现。</p>
+<h2 id="s3">七步路径</h2>
+<ol><li><strong>格式转换</strong> JPG → PNG：容器换了，EXIF 通常不跟着走。</li><li><strong>按体积压缩</strong>：多数实现会重写文件头，字段大批消失。</li><li><strong>尺寸调整</strong>：像素重采样，元数据可能被原样拷回，也可能被丢。</li><li><strong>加水印</strong>：改像素，部分工具保留原头、部分另写一条。</li><li><strong>圆角</strong>：改 alpha，重新编码，方向字段最容易在这一步失效。</li><li><strong>Base64 往返</strong>：逐字节文本编码，<strong>只要解码正确，一个字段都不该变</strong>。</li><li><strong>聊天软件重编码</strong>：为了体积整体重压，通常只剩极少数或全空。</li></ol>
+<h2 id="s4">逐字段结果</h2>
+<p>GPS 在最激进的重编码里最早消失；拍摄时间比想象中顽固，好几步之后还留着；相机型号往往随容器一起没；方向字段在圆角那步最容易和像素对不上，于是图看起来「转了」；软件标记比较特别——它可能被新工具<strong>覆盖成另一条</strong>，让人误以为元数据一直没动过。</p>
+<p>矩阵里最该记住的一格是 Base64：那一列全勾。它是编码不是处理，任何字段在这一步变了，都说明中间多做了一次解码导出，而不是 Base64 的锅。</p>
+<h2 id="s5">三个反直觉的发现</h2>
+<p>第一，<strong>截图不一定干净</strong>：如果截图工具把原文件头带了出去，位置信息可能仍在。第二，<strong>「压缩过」不等于「脱敏过」</strong>：有的压缩只改像素、原样拷回元数据。第三，<strong>多走一步反而更危险</strong>：某些处理会写进新的软件标记与时间，等于给文件加了一条新记录。</p>
+<h2 id="s6">隐私清理的正确顺序</h2>
+<p>先清、后改、最后再核对一次。顺序反了，比如先加水印再清，清完又用带元数据的工具导出一次，就可能白做。清理之后应当把文件读回来，逐字段确认，而不是看缩略图觉得「应该没了」。本站 <a href="/zh/tools/exif">元数据</a> 页提供读取与清除，清除前后都列字段，方便做这一步核对。</p>
+<h2 id="s7">本站工具对应</h2>
+<p><a href="/zh/tools/exif">元数据</a> 读/清；<a href="/zh/tools/compress">压缩</a>、<a href="/zh/tools/resize">尺寸调整</a>、<a href="/zh/tools/watermark">水印</a>、<a href="/zh/tools/rounded">圆角</a> 各自在矩阵里占一列；<a href="/zh/tools/base64">Base64</a> 用来验证「编码不改字段」；<a href="/zh/tools/convert">格式转换</a> 观察容器更换的影响。全在浏览器本地，不上传，所以清完之后文件不会在别处留一份。</p>
+<h2 id="s8">自己复现</h2>
+<p>下载样本，按七步顺序各存一份，用元数据页逐份读，把结果填进自己的表。若某一步和矩阵不一致，先确认该工具是「原样拷回头」还是「重写文件头」——这一个实现差别就能解释绝大多数分歧。</p>
+<h2 id="s9">常见问题</h2>
+<h3>转成 PNG 就安全了吗？</h3><p>大多数实现下 EXIF 不会跟着走，但仍要读回来确认，不能靠猜。</p>
+<h3>Base64 会丢 EXIF 吗？</h3><p>不会，它是逐字节编码。变了说明中间多做了一次导出。</p>
+<h3>发到聊天软件还会带定位吗？</h3><p>多数会整体重压后消失，但发送前的原稿和截图另算，别混为一谈。</p>
+<h3>清完元数据为什么又出现了？</h3><p>清完之后又用会写标记的工具导出了一次。顺序改成先清后改，最后复核。</p>
+
+<div class="lab-box"><h3>继续这个系列</h3><ul><li><a href="/zh/guides/transparency-accident-report">透明 PNG 事故鉴定</a></li><li><a href="/zh/guides/adjust-curve-lab">调整曲线实验室</a></li><li><a href="/zh/guides/icon-qa-checklist">图标上线验收表</a></li></ul></div>
+<div class="lab-cta"><strong>拿自己的文件试一遍 →</strong> 到 <a href="/zh/#tools">全部工具</a> 复现上面任一步。全部在浏览器本地完成，不上传文件。</div>
+</div>
+</div>
+</section>
+<footer class="footer">
+<div class="container">
+<div class="footer-content">
+<div class="footer-brand"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Studio</span></span></div>
+<p class="footer-desc">免费的在线图片处理工具，所有处理都在浏览器本地完成</p>
+</div>
+<div class="footer-links">
+<a href="/zh/#tools">全部工具</a><a href="/zh/guides/">图片处理指南</a><a href="/zh/guides/#lab-notes">实测系列</a>
+<a href="/zh/guides/changelog">更新日志</a><a href="/zh/about">关于我们</a><a href="/zh/contact">联系我们</a>
+<a href="/zh/faq">常见问题</a><a href="/zh/privacy">隐私政策</a><a href="/zh/terms">使用条款</a>
+</div>
+<div class="footer-bottom">
+<p style="margin-bottom:6px;">联系：<a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
+<p>© 2026 PicStudio。实测系列为原创测量记录，不是改写文章。</p>
+</div>
+</div>
+</footer>
+<script src="/assets/js/main.js?v=20261111g"></script>
+<script src="/assets/js/i18n-dict.js?v=20261108ml"></script>
+<script src="/assets/js/i18n.js?v=20261108ml"></script>
+<script src="/assets/js/ux.js?v=20261108ml"></script>
+</body>
+</html>

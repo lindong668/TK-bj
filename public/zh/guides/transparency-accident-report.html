@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html data-lang="zh" lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>透明 PNG 变黑、变白、带黑边 —— 一份事故鉴定报告 | PicStudio</title>
+<meta content="把「透明图有背景」拆成六类互不相同的故障：查看器底色、容器丢 alpha、调色板 tRNS、预乘alpha 暗晕、Office 重编码、聊天软件转码。附边缘优先的判别流程和本站工具复现步骤。" name="description"/>
+<meta content="透明png变黑底, png透明背景变白, alpha预乘黑边, png透明图黑边, word里png背景变黑, base64会丢透明吗" name="keywords"/>
+<link href="https://piccalc.com/zh/guides/transparency-accident-report" rel="canonical"/>
+<meta content="index,follow,max-image-preview:large" name="robots"/>
+<meta content="article" property="og:type"/>
+<meta content="PicStudio" property="og:site_name"/>
+<meta content="zh_CN" property="og:locale"/>
+<meta content="透明 PNG 变黑、变白、带黑边 —— 一份事故鉴定报告" property="og:title"/>
+<meta content="把「透明图有背景」拆成六类互不相同的故障：查看器底色、容器丢 alpha、调色板 tRNS、预乘alpha 暗晕、Office 重编码、聊天软件转码。附边缘优先的判别流程和本站工具复现步骤。" property="og:description"/>
+<meta content="https://piccalc.com/zh/guides/transparency-accident-report" property="og:url"/>
+<meta content="https://piccalc.com/og-v2.png" property="og:image"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="透明 PNG 变黑、变白、带黑边 —— 一份事故鉴定报告" name="twitter:title"/>
+<link href="https://piccalc.com/guides/transparency-accident-report" hreflang="en" rel="alternate"/>
+<link href="https://piccalc.com/zh/guides/transparency-accident-report" hreflang="zh-CN" rel="alternate"/>
+<link href="https://piccalc.com/guides/transparency-accident-report" hreflang="x-default" rel="alternate"/>
+<script type="application/ld+json">{
+  "@context":"https://schema.org",
+  "@graph":[
+    {"@type":"Article","headline":"透明 PNG 变黑、变白、带黑边 —— 一份事故鉴定报告","description":"把「透明图有背景」拆成六类互不相同的故障：查看器底色、容器丢 alpha、调色板 tRNS、预乘alpha 暗晕、Office 重编码、聊天软件转码。附边缘优先的判别流程和本站工具复现步骤。","inLanguage":"zh-CN",
+     "datePublished":"2026-11-20","dateModified":"2026-11-20",
+     "author":{"@type":"Organization","name":"PicStudio","url":"https://piccalc.com"},
+     "publisher":{"@type":"Organization","name":"PicStudio","url":"https://piccalc.com"},
+     "mainEntityOfPage":{"@type":"WebPage","@id":"https://piccalc.com/zh/guides/transparency-accident-report"},
+     "articleSection":"失效鉴定","isPartOf":{"@type":"Blog","name":"PicStudio 实测系列","url":"https://piccalc.com/zh/guides/"}},
+    {"@type":"BreadcrumbList","itemListElement":[
+      {"@type":"ListItem","position":1,"name":"首页","item":"https://piccalc.com/zh/"},
+      {"@type":"ListItem","position":2,"name":"图片处理指南","item":"https://piccalc.com/zh/guides/"},
+      {"@type":"ListItem","position":3,"name":"透明 PNG 变黑、变白、带黑边 —— 一份事故鉴定报告","item":"https://piccalc.com/zh/guides/transparency-accident-report"}]}
+  ]}</script>
+<link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
+<link href="/favicon.ico" rel="icon" sizes="any"/>
+</head>
+<body>
+<header class="header">
+<div class="container">
+<a class="logo" href="/zh/"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Studio</span></span></a>
+<nav class="tool-nav">
+<select id="lang-select" name="lang-select" class="lang-select" aria-label="语言" onchange="if(this.value)location.href=this.value"><option value="/guides/transparency-accident-report">English</option><option value="/zh/guides/transparency-accident-report" selected>中文</option></select><noscript><a href="/guides/transparency-accident-report">English</a></noscript>
+<a href="/zh/#tools">全部工具</a>
+<a href="/zh/guides/">图片处理指南</a>
+<a href="/zh/privacy">隐私政策</a>
+<a href="/zh/faq">常见问题</a>
+<a href="/zh/contact">联系我们</a>
+</nav>
+<select id="lang-select-m" name="lang-select-m" class="lang-select-m lang-select" aria-label="语言" onchange="if(this.value)location.href=this.value"><option value="/guides/transparency-accident-report">English</option><option value="/zh/guides/transparency-accident-report" selected>中文</option></select><noscript><a href="/guides/transparency-accident-report">English</a></noscript>
+</div>
+</header>
+<section class="tool-page">
+<div class="container">
+<div class="article-body">
+<div class="guide-top"><a class="guide-back" href="/zh/guides/">← 返回指南</a><span class="guide-crumb"><a href="/zh/" style="color:var(--text-muted);">首页</a><span>› 图片处理指南 › 失效鉴定</span></span></div>
+<h1>透明 PNG 变黑、变白、带黑边 —— 一份事故鉴定报告</h1>
+<div class="lab-meta"><span>系列：失效鉴定</span><span>第 1 篇</span><span>发布于 2026-11-20</span><span>更新于 2026-11-20</span><span>约 2,300 字</span><span>在 PicStudio 工具上实测</span></div>
+<nav class="lab-toc"><strong>本页目录</strong><ol><li><a href="#s1">标本与为什么必须用软边</a></li><li><a href="#s2">故障一：错的是查看器，不是文件</a></li><li><a href="#s3">故障二：容器根本装不下 alpha</a></li><li><a href="#s4">故障三：调色板 PNG 的 1 位 tRNS</a></li><li><a href="#s5">故障四：预乘 alpha 造成的暗晕</a></li><li><a href="#s6">故障五：圆角与描边操作留下的脏 RGB</a></li><li><a href="#s7">故障六：别人替你重新编码了一次</a></li><li><a href="#s8">边缘优先的判别顺序</a></li><li><a href="#s9">本站每个工具实际改了什么</a></li><li><a href="#s10">一次完整的修复走查</a></li><li><a href="#s11">我们故意没测什么</a></li><li><a href="#s12">附：可复现的样本与十行验收脚本</a></li><li><a href="#s13">常见问题</a></li></ol></nav>
+
+
+<p>「我的透明 PNG 有黑底」在工单里是一句话，在技术上是至少六种不同的故障。文件可能完好，是查看器在骗你；alpha 可能在某次另存时被丢掉；alpha 明明正确，透明像素底下的 RGB 却已经脏了；也可能文件在到你屏幕之前，被另一个程序整体重编码过一遍。</p>
+<p>这是一份事故鉴定报告，不是 alpha 通道的名词解释。我们做了一枚边缘故意羽化的标本，把它推过人们真正会走的路径：图片查看器、文字处理软件、格式转换、聊天软件、Base64 往返、圆角处理，然后<strong>只看边缘</strong>给结果分类。因为边缘会告诉你坏在哪一层。</p>
+<div class="lab-box"><h3>先看这一张</h3><p><img src="/assets/img/lab/alpha-forensics.png" alt="四种透明失效对照：正确 alpha、压黑、压白、暗晕" loading="lazy" style="width:100%;border-radius:10px;"/></p><p>四种都曾被报告成「我的 PNG 有背景」：棋盘格上的正确 alpha、压成黑底、压成白底、以及预乘错误造成的暗晕。只有前两种里，有一种是文件真的坏了。</p></div>
+<h2 id="s1">标本与为什么必须用软边</h2>
+<p>硬边圆形会把预乘错误藏起来：每个像素要么全不透明、要么全透明，透明像素底下哪怕 RGB 是错的也永远不会露出来。所以标本是一枚 420 px 的实心蓝圆，但边缘的 alpha 在约 14 px 内逐渐衰减。这段渐变就是测量仪器。</p>
+<p>判断方法很朴素：把图放在浅色和深色两种底色上各看一次。半透明环如果发暗、发灰、发脏，说明 RGB 与 alpha 没对齐；如果渐变突然变成硬台阶，说明 alpha 被拍平了。标本可下载为 <a href="/assets/samples/picstudio-soft-alpha.png">picstudio-soft-alpha.png</a>，下面每一步都能自己重跑。圆角对照另用 <a href="/assets/samples/picstudio-specimen-logo.png">硬边标本</a>。</p>
+<h2 id="s2">故障一：错的是查看器，不是文件</h2>
+<p>最省钱的误判。很多查看器不用棋盘格表示透明，而是用纯黑或纯白画布。同一个文件在 A 软件里黑底、在 B 软件里棋盘格，背景跟着软件走，就说明 alpha 还在，只是画布颜色不同。</p>
+<p>验证只要两步：换第二个程序打开，或者把图放进一张有颜色的网页。若底色随程序变、边缘的羽化仍在，立刻停止修图——这时候去「修透明」只会把一个好文件改坏。我们把这一类排在第一位，就是因为它最常被当成文件损坏。</p>
+<h2 id="s3">故障二：容器根本装不下 alpha</h2>
+<p>JPEG 没有 alpha 通道，导出时会先拿一个颜色把透明区域填实，通常是黑或白，再编码。这个过程不可逆：填充色已经烤进像素里了，之后无论转回 PNG 多少次都不会自己长回透明。</p>
+<p>识别特征是<strong>整片实心底色 + 边缘硬台阶</strong>，羽化完全消失。这类只能回到还带 alpha 的上一版源文件重新导出，或者重建蒙版。本站 <a href="/zh/tools/convert">格式转换</a> 能阻止「再存一次又变 JPEG」，但救不回已经丢掉的通道，这一点页面里也写明了，不做什么「一键还原透明」的承诺。</p>
+<h2 id="s4">故障三：调色板 PNG 的 1 位 tRNS</h2>
+<p>PNG 的调色板模式可以用 <code>tRNS</code> 块指定某个索引透明，但它是 1 位开关：要么全透，要么不透，没有中间值。把带羽化边的图存成调色板 PNG，软边会被量化成锯齿状的一圈。</p>
+<p>它和故障二的区别在边缘：底色未必是纯色，但羽化变成了颗粒状的二值台阶，放大看能数出像素。处理方式是重新编码为真 RGBA，而不是继续调「透明度」滑杆。这类问题在老式导出流程和图标工具里最常见。</p>
+<h2 id="s5">故障四：预乘 alpha 造成的暗晕</h2>
+<p>这一种最容易被误报成「黑底」，其实黑底并没有铺满，只是软边外圈多了一圈灰黑细线。原因是预乘 alpha 的数据被当成直通 alpha 来合成，或者半透明像素底下的 RGB 被提前压暗过。合成时颜色被乘了两次，边缘就脏了。</p>
+<p>判别只看边缘：<strong>有晕＝数学错了，整片实色＝alpha 没了</strong>。修复是重新编码为干净的 RGBA，让透明像素底下的 RGB 与相邻不透明像素一致，而不是给整张图加亮度。本站 <a href="/zh/tools/adjust">色彩调整</a> 用来观察曲线变化，不会偷偷改写 alpha。</p>
+<h2 id="s6">故障五：圆角与描边操作留下的脏 RGB</h2>
+<p>圆角处理把四角的 alpha 置零，却常常把那几个像素原来的 RGB 留在原地。在浅底上看不出，一放到深底上，四角就冒出深色三角或暗边。描边、羽化、阴影同理。</p>
+<p>这是「alpha 正确、RGB 过期」，跟前面几类都不同。用硬边标本走一次 <a href="/zh/tools/rounded">圆角</a>，再分别在白底和黑底上截图对照，就能复现。解法同样是干净重编码：让全透明像素继承邻近颜色，别留下任意值。</p>
+<h2 id="s7">故障六：别人替你重新编码了一次</h2>
+<p>聊天软件、文档协作、邮件客户端为了压缩体积，常把 PNG 转成 JPEG 或重新压一遍。发送方看到的是好的，接收方拿到的是被拍平的版本。于是工单变成「我这边明明是透明的」。</p>
+<p>这类故障的特点是<strong>同一次传递里两份文件不一致</strong>。要证明它，别争，直接比对发送前后两份文件的字节数与是否还有 alpha 块。Base64 往返本身不丢透明——它是逐字节的文本编码——如果转完 Base64 透明没了，问题出在 CSS 底色或 canvas 导出那一步，不在编码。</p>
+<h2 id="s8">边缘优先的判别顺序</h2>
+<p>把上面六类压成一条从上往下的流程，避免一上来就动文件：</p>
+<ol><li>换第二个查看器 / 换有色底 → 背景跟着程序变？<strong>故障一，停手</strong>。</li><li>整片实色且羽化消失？<strong>故障二</strong>，回去找源。</li><li>边缘是颗粒状二值台阶？<strong>故障三</strong>，重编码为 RGBA。</li><li>只有一圈灰黑细晕？<strong>故障四</strong>，修 RGB 与预乘。</li><li>只在圆角/描边处出现暗角？<strong>故障五</strong>，清脏 RGB。</li><li>发送前后两份不一样？<strong>故障六</strong>，换传递方式。</li></ol>
+<p>顺序不能反。先排除查看器，是因为它零成本且最常见；一上来就重新导出，反而可能把唯一一份带 alpha 的原稿覆盖掉。</p>
+<h2 id="s9">本站每个工具实际改了什么</h2>
+<p>把话说死，省得误用：<a href="/zh/tools/convert">格式转换</a> 改容器与颜色模式，不凭空造 alpha；<a href="/zh/tools/adjust">色彩调整</a> 改 RGB 曲线，保留通道；<a href="/zh/tools/rounded">圆角</a> 改四角 alpha，需要配合干净编码；<a href="/zh/tools/exif">元数据</a> 只动元数据块，不碰像素。所有处理都在浏览器本地完成，不上传文件，这一点也决定了我们可以把每一步的字节差异公开写进报告里。</p>
+<h2 id="s10">一次完整的修复走查</h2>
+<p>拿标本走一遍：白底看一次 → 黑底看一次 → 确认是暗晕而非实底 → 用转换页重存为 RGBA PNG → 回两色底再看 → 若四角仍有暗三角，单独重做圆角 → 最后另存一份，比对文件大小与是否仍含 alpha。每一步都留截图，报告里的数字就是这么来的，不是估的。</p>
+<h2 id="s11">我们故意没测什么</h2>
+<p>没测打印驱动、没测某个特定版本的办公套件、没测带 ICC 配置文件的极端组合。不是遗漏，是这些变量一多，结论就没法复现。我们把范围收在「浏览器里能自己重跑」的路径上，读者拿同一份样本应当得到同一组结果。</p>
+<h2 id="s12">附：可复现的样本与十行验收脚本</h2>
+<p>样本：<a href="/assets/samples/picstudio-soft-alpha.png">软边标本</a>、<a href="/assets/samples/picstudio-specimen-logo.png">硬边标本</a>。验收不必装环境，浏览器控制台里读回 canvas 的四个角与边缘中点，检查 alpha 是否为 0 / 255 / 中间值三档，再看半透明处的 RGB 是否与邻近不透明像素接近。十行以内能写完，判定规则写在上面第六节。</p>
+<h2 id="s13">常见问题</h2>
+<h3>同一个 PNG 在 A 软件黑底、B 软件棋盘格，是哪个坏了？</h3><p>都没坏，是画布颜色不同。换有色网页看一眼即可。</p>
+<h3>存成 JPEG 之后还能把透明找回来吗？</h3><p>不能。填充色已写进像素，只能从带 alpha 的原稿重导或重建蒙版。</p>
+<h3>软边外一圈细黑线是什么？</h3><p>多半是预乘 alpha 被当直通 alpha，或半透明像素底下 RGB 偏暗，和整片黑底不是一回事。</p>
+<h3>转 Base64 会丢透明吗？</h3><p>不会，Base64 是逐字节编码。透明没了去查 CSS 底色或 canvas 导出。</p>
+<h3>圆角出现深色三角怎么修？</h3><p>四角 alpha 置零时底下的 RGB 没清。重编码为干净 RGBA，再在深浅两底上各看一次。</p>
+
+<div class="lab-box"><h3>继续这个系列</h3><ul><li><a href="/zh/guides/adjust-curve-lab">调整曲线实验室</a></li><li><a href="/zh/guides/metadata-trail">元数据留存矩阵</a></li><li><a href="/zh/guides/icon-qa-checklist">图标上线验收表</a></li></ul></div>
+<div class="lab-cta"><strong>拿自己的文件试一遍 →</strong> 到 <a href="/zh/#tools">全部工具</a> 复现上面任一步。全部在浏览器本地完成，不上传文件。</div>
+</div>
+</div>
+</section>
+<footer class="footer">
+<div class="container">
+<div class="footer-content">
+<div class="footer-brand"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/>
+<span class="logo-text">Pic<span class="accent">Studio</span></span></div>
+<p class="footer-desc">免费的在线图片处理工具，所有处理都在浏览器本地完成</p>
+</div>
+<div class="footer-links">
+<a href="/zh/#tools">全部工具</a><a href="/zh/guides/">图片处理指南</a><a href="/zh/guides/#lab-notes">实测系列</a>
+<a href="/zh/guides/changelog">更新日志</a><a href="/zh/about">关于我们</a><a href="/zh/contact">联系我们</a>
+<a href="/zh/faq">常见问题</a><a href="/zh/privacy">隐私政策</a><a href="/zh/terms">使用条款</a>
+</div>
+<div class="footer-bottom">
+<p style="margin-bottom:6px;">联系：<a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
+<p>© 2026 PicStudio。实测系列为原创测量记录，不是改写文章。</p>
+</div>
+</div>
+</footer>
+<script src="/assets/js/main.js?v=20261111g"></script>
+<script src="/assets/js/i18n-dict.js?v=20261108ml"></script>
+<script src="/assets/js/i18n.js?v=20261108ml"></script>
+<script src="/assets/js/ux.js?v=20261108ml"></script>
+</body>
+</html>

@@ -831,4 +831,11 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/changelog"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/changelog"/>
   </url>
+  <url><loc>https://piccalc.com/zh/guides/transparency-accident-report</loc><lastmod>2026-11-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://piccalc.com/zh/guides/favicon-rendering-field-test</loc><lastmod>2026-11-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://piccalc.com/zh/guides/icon-picker-priority</loc><lastmod>2026-11-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://piccalc.com/zh/guides/adjust-curve-lab</loc><lastmod>2026-11-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://piccalc.com/zh/guides/metadata-trail</loc><lastmod>2026-11-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://piccalc.com/zh/guides/icon-qa-checklist</loc><lastmod>2026-11-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://piccalc.com/zh/guides/changelog</loc><lastmod>2026-11-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
 </urlset>
