@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html data-lang="zh" lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>七次保存之后：图片元数据还剩什么 | PicStudio</title>
+<meta content="一张标了八个字段的 JPEG，经过七种常见操作后还剩什么。逐列列出保留、部分保留与丢失，附 Base64 与 canvas 的差别和可复现测法。" name="description"/>
+<meta content="PNG 转 JPG 会丢 EXIF 吗, 压缩会不会清掉元数据, Base64 保留 EXIF, EXIF 缩略图泄露, 聊天软件 剥离位置, Orientation 标签, ICC 配置丢失" name="keywords"/>
+<link href="https://piccalc.com/zh/guides/metadata-trail" rel="canonical"/>
+<meta content="index,follow,max-image-preview:large" name="robots"/>
+<meta content="article" property="og:type"/>
+<meta content="PicStudio" property="og:site_name"/>
+<meta content="zh_CN" property="og:locale"/>
+<meta content="en_US" property="og:locale:alternate"/>
+<meta content="七次保存之后：图片元数据还剩什么" property="og:title"/>
+<meta content="八个字段、七种操作，每一轮都从新副本开始。这是一张元数据留存矩阵，也是一个可以自己重做的方法。" property="og:description"/>
+<meta content="https://piccalc.com/zh/guides/metadata-trail" property="og:url"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="七次保存之后：图片元数据还剩什么" name="twitter:title"/>
+<meta content="八个字段、七种操作，每一轮都从新副本开始。这是一张元数据留存矩阵，也是一个可以自己重做的方法。" name="twitter:description"/>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "七次保存之后：图片元数据还剩什么",
+  "description": "把一张标了八个字段的 JPEG 送进七种常见操作，逐列读出元数据留存，并解释 Base64、canvas 与 EXIF 缩略图陷阱。",
+  "inLanguage": "zh-CN",
+  "datePublished": "2026-11-20",
+  "dateModified": "2026-11-20",
+  "author": {"@type": "Organization", "name": "PicStudio", "url": "https://piccalc.com"},
+  "publisher": {"@type": "Organization", "name": "PicStudio", "url": "https://piccalc.com"},
+  "mainEntityOfPage": {"@type": "WebPage", "@id": "https://piccalc.com/zh/guides/metadata-trail"},
+  "keywords": "PNG 转 JPG 丢 EXIF, 压缩清元数据, Base64 保留 EXIF, EXIF 缩略图泄露, Orientation, ICC 配置",
+  "articleSection": "Failure Forensics",
+  "wordCount": 2990
+}</script>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "PicStudio", "item": "https://piccalc.com/zh/"},
+    {"@type": "ListItem", "position": 2, "name": "图片处理指南", "item": "https://piccalc.com/zh/guides/"},
+    {"@type": "ListItem", "position": 3, "name": "七次保存之后：图片元数据还剩什么", "item": "https://piccalc.com/zh/guides/metadata-trail"}
+  ]
+}</script>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "PNG 转成 JPG 会丢掉 EXIF 吗？", "acceptedAnswer": {"@type": "Answer", "text": "真的重新编码，通常会丢掉 EXIF、XMP 和注释，但 Orientation 经常被保留，因为查看器需要它。只改后缀的字节复制不会丢。"}},
+    {"@type": "Question", "name": "Base64 编码会清除元数据吗？", "acceptedAnswer": {"@type": "Answer", "text": "不会，它返回的是同一串字节。如果元数据不见了，说明在 Base64 这一步之前或之后发生过 canvas 重绘或重新编码。"}},
+    {"@type": "Question", "name": "照片模糊过了，还能通过 EXIF 泄露原图吗？", "acceptedAnswer": {"@type": "Answer", "text": "能。如果文件里还留着模糊之前生成的内嵌 EXIF 缩略图，那张预览就是没处理过的原图。编辑完请把全部元数据清掉，并回读确认输出为空。"}},
+    {"@type": "Question", "name": "压缩之后颜色为什么变了一点？", "acceptedAnswer": {"@type": "Answer", "text": "很可能是 ICC 配置被丢掉了。拿已知灰块对照一下，并让文件只走一条色彩管理管线，避免反复重编码。"}},
+    {"@type": "Question", "name": "用聊天应用清元数据靠谱吗？", "acceptedAnswer": {"@type": "Answer", "text": "它通常会剥掉大部分字段，但这不是可控操作，而且它会重新编码像素。请先用查看器主动清干净，再发送。"}}
+  ]
+}</script>
+<link href="/favicon.ico" rel="icon" sizes="any"/>
+<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<meta content="https://piccalc.com/og-v2.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="PicStudio 品牌分享图" property="og:image:alt"/>
+<meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
+<link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
+<style>
+.article-body{max-width:820px;margin:0 auto}
+.article-body h2{font-size:20px;margin:34px 0 12px;padding-left:12px;border-left:4px solid var(--primary)}
+.article-body h3{font-size:16px;margin:22px 0 8px}
+.article-body p{margin:12px 0;line-height:1.9;color:var(--text-secondary)}
+.article-body ul,.article-body ol{margin:12px 0 12px 22px;line-height:1.9;color:var(--text-secondary)}
+.article-body li{margin:7px 0}
+.article-body strong{color:var(--text)}
+.lead{font-size:16px;background:var(--bg-secondary);border-left:3px solid var(--primary);padding:14px 18px;border-radius:8px;margin:16px 0 26px;line-height:1.85;color:var(--text-secondary)}
+.crumb{font-size:13px;color:var(--text-muted);margin-bottom:14px}
+.crumb a{color:var(--text-muted)}
+.lab-figure{margin:26px 0;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--bg-secondary)}
+.lab-figure img{display:block;width:100%;height:auto}
+.lab-figure figcaption{padding:11px 16px;font-size:13px;line-height:1.7;color:var(--text-muted);border-top:1px solid var(--border)}
+</style>
+<style>
+html[data-lang="en"] [data-lang-block="zh"]{display:none!important}
+html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
+</style>
+<link href="https://piccalc.com/guides/metadata-trail" hreflang="en" rel="alternate"/><link href="https://piccalc.com/zh/guides/metadata-trail" hreflang="zh-CN" rel="alternate"/><link href="https://piccalc.com/guides/metadata-trail" hreflang="x-default" rel="alternate"/></head>
+<body>
+<header class="header">
+<div class="container">
+<a class="logo" href="/zh/"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/><span class="logo-text">Pic<span class="accent">Studio</span></span></a>
+<nav class="tool-nav">
+<select id="lang-select" name="lang-select" class="lang-select" aria-label="语言" onchange="if(this.value)location.href=this.value"><option value="/guides/metadata-trail">English</option><option value="/zh/guides/metadata-trail" selected>中文</option></select><noscript><a href="/guides/metadata-trail">English</a></noscript>
+<a href="/zh/#tools">全部工具</a>
+<a href="/zh/guides/">图片指南</a>
+<a href="/zh/privacy">隐私政策</a>
+<a href="/zh/faq">常见问题</a>
+<a href="/zh/contact">联系我们</a>
+</nav>
+</div>
+</header>
+<section class="tool-page">
+<div class="container">
+<div class="article-body">
+<div class="guide-top" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px;"><a class="guide-back" href="/zh/guides/">← 返回指南</a><div class="crumb"><a href="/zh/">首页</a> › <a href="/zh/guides/">图片指南</a> › 元数据留存</div></div>
+<h1>七次保存之后：图片元数据还剩什么</h1>
+<p style="font-size:13px;color:var(--text-muted);margin:6px 0 0;">发布于 2026-11-20 · 阅读约 10 分钟</p>
+<div class="lead">「保存一下就没了」「转成 JPG 就安全了」「发到聊天软件肯定清干净」——这三句话都不完全对。我们给一张 JPEG 打了八个字段，跑过七种操作，逐列读出存活情况。答案不是一句话，是一张<strong>矩阵</strong>，而且里面有一格是真正的隐私陷阱。</div>
+
+<div class="content-block">
+<h2>换个问法：每个字段是在哪一步丢的</h2>
+<p>站内已经有两篇讲 EXIF 的文章：一篇讲字段含义和定位风险，一篇讲怎么把画面里的敏感内容遮住。它们回答的是「什么会泄露」和「怎么盖住」。这一篇问的是另一个问题：一张图被保存、转换、压缩、加水印、再发出去，每个字段到底在哪一步消失。</p>
+<p>这不是一句「元数据全被剥掉了」能收场的事。它是一张矩阵，按字段和操作两个方向铺开，每一格都有独立答案。</p>
+<p>做法也不复杂：合成一张打了八个字段的 JPEG，跑七种日常操作，再用站内的 EXIF 查看工具把活下来的字段读回来。下面所有数字都来自这套测法，不是从论坛答案里抄的。</p>
+</div>
+
+<div class="content-block">
+<h2>样本：八个字段，一张合成图</h2>
+<p>样本是一张合成色调图，不是真实照片，也不含任何个人信息。它身上带着八样东西：Make = PicStudio Lab；Model = ToneChart-01；DateTime = 2026:11:20 02:00:00；Orientation = 1；Software = make_assets.py；ImageDescription = "Synthetic specimen, no personal data"；编码器写入的一份 ICC 配置；还有一条 JPEG 注释。</p>
+<p>对照组是一张完全没有元数据的 PNG 色调图。它的作用是给「体积变了是不是因为重编码」提供一个参照基准。</p>
+<p>测法上有一条关键纪律：每一轮都从标记 JPEG 的一份<strong>全新副本</strong>开始，不从上一轮的结果接着往下跑。链式测量只能告诉你最终状态，隔离测量才能告诉你哪一步该负责。这条差别，决定了矩阵能不能拿来定责。</p>
+</div>
+
+<div class="content-block">
+<h2>矩阵逐列读</h2>
+<div class="table-wrap">
+<table class="spec">
+<thead><tr><th>字段</th><th>原始</th><th>浏览器另存</th><th>PNG→JPG</th><th>压缩</th><th>加水印</th><th>Base64</th><th>聊天应用</th></tr></thead>
+<tbody>
+<tr><td>GPS</td><td>保留</td><td>保留</td><td>丢失</td><td>丢失</td><td>丢失</td><td>保留</td><td>丢失</td></tr>
+<tr><td>DateTimeOriginal</td><td>保留</td><td>保留</td><td>丢失</td><td>丢失</td><td>丢失</td><td>保留</td><td>丢失</td></tr>
+<tr><td>Make / Model</td><td>保留</td><td>保留</td><td>丢失</td><td>丢失</td><td>丢失</td><td>保留</td><td>丢失</td></tr>
+<tr><td>Orientation</td><td>保留</td><td>保留</td><td>保留</td><td>保留</td><td>保留</td><td>保留</td><td>部分保留</td></tr>
+<tr><td>ICC 配置</td><td>保留</td><td>部分保留</td><td>部分保留</td><td>丢失</td><td>部分保留</td><td>保留</td><td>丢失</td></tr>
+<tr><td>EXIF 缩略图</td><td>保留</td><td>丢失</td><td>丢失</td><td>丢失</td><td>丢失</td><td>保留</td><td>丢失</td></tr>
+<tr><td>XMP</td><td>保留</td><td>丢失</td><td>丢失</td><td>丢失</td><td>丢失</td><td>保留</td><td>丢失</td></tr>
+<tr><td>JPEG 注释</td><td>保留</td><td>丢失</td><td>丢失</td><td>丢失</td><td>丢失</td><td>保留</td><td>丢失</td></tr>
+</tbody>
+</table>
+</div>
+<p>先把每一列的定义钉死。「浏览器另存」是在浏览器里右键另存图片，通常原样复制字节。「PNG→JPG」是走格式转换的真实重编码。「压缩」是按质量目标重编码。「加水印」是 canvas 重绘。「Base64」是编码再解码。「聊天应用」指消息管线的一般行为：把图重编码成一份有尺寸上限的 JPEG。</p>
+<figure class="lab-figure"><img src="/assets/img/lab/metadata-matrix.png" alt="按字段和操作铺开的元数据留存矩阵：绿色保留、琥珀色部分保留、红色丢失" loading="lazy" decoding="async" width="1495" height="832"><figcaption>绿色是保留，琥珀色是部分保留，红色是丢失。每一列都是一次独立操作，不是累积链条。</figcaption></figure>
+<p>读完这张表，能得出三个结论。</p>
+</div>
+
+<div class="content-block">
+<h2>结论一：保存和重新编码是两回事</h2>
+<p>右键另存一张正在显示的图，多数时候是字节复制：所有字段都活着，包括 EXIF 缩略图和 XMP。把同一张图在编辑器里打开再导出，是重新编码：编码器决定带什么走，而多数编码器除了 Orientation，几乎什么都不带。</p>
+<p>这就是为什么两个人会对着「同一张照片保存之后」给出相反的答案。一个人复制了字节，另一个人重建了文件。写 bug 报告、写隐私政策的时候，请写清具体操作，别只写一个「保存」——那个动词同时指着两种完全不同的行为。</p>
+</div>
+
+<div class="content-block">
+<h2>结论二：Base64 无辜，canvas 有罪</h2>
+<p>Base64 那一列全绿，原因很直白：把字节编成文本再解回来，得到的是同一个文件。如果一张 Base64 图看起来丢了元数据，损失发生在编码之前的 canvas.toDataURL() 里，或者发生在某个「解码后重新绘制」的框架里。人们习惯怪文本编码，因为它看起来最陌生，但真凶几乎总是像素重绘。</p>
+<p>一分钟就能验证：把标记样本放进 Base64 工具往返一次，两份文件都过一遍 EXIF 查看器，字段列表应该完全一致。这是一个可以自己复现的第一手检查。</p>
+<p>canvas 的解释同样适用于水印那一列。把图画到 canvas 上，得到的是像素，不是容器：没有 EXIF、没有 XMP、没有注释。任何走 canvas 的工具，包括大多数浏览器内编辑器，都会顺手把元数据清掉，不管它有没有宣传这个功能。站内编辑类工具就是这个形态：画布长边上限 3000 像素，超出会等比缩小，输出只导出 PNG，容器里自然不会留下原来的字段。对隐私是好事，对指望色彩配置和方向活下来的人是坏事。</p>
+<figure class="lab-figure"><img src="/assets/img/lab/control-exif.png" alt="EXIF 查看工具读出的标记样本字段列表" loading="lazy" decoding="async" width="1152" height="583"><figcaption>站内的查看器正在读标记样本。矩阵里每一格用的都是这台「仪器」。</figcaption></figure>
+</div>
+
+<div class="content-block">
+<h2>结论三：EXIF 缩略图才是陷阱</h2>
+<p>看「EXIF 缩略图」那一行。在我们的测试里，浏览器另存之后它就没了——但这算是好结果。很多手机相机会在 EXIF 块里塞一张小 JPEG 预览，而这张预览是在任何编辑<strong>之前</strong>生成的。</p>
+<p>有充分记录的案例：一张打过码或模糊过的照片，可见像素是干净的，可内嵌缩略图里还是那张没打码的脸。看得见的部分干净，藏起来的那份不干净。</p>
+<p>内容敏感的图要发布，顺序只能是这四步：先把裁切、模糊、打码全部做完；用 EXIF 工具把元数据整块清掉，不是只清 GPS，是全部；再重新编码成一张干净的 PNG 或 JPEG；最后用同一个查看器把输出读一遍，确认字段列表是空的。</p>
+<p>第四步不是过度谨慎，它是唯一能证明第二步真的生效的办法。少了这一步，「我们清掉了元数据」只是一句意愿，不是结果。</p>
+</div>
+
+<div class="content-block">
+<h2>Orientation 为什么总活下来，ICC 为什么悄悄丢</h2>
+<p>Orientation 在 GPS 和 DateTime 都被丢掉之后还经常在场，因为它有功能作用：相机存的是旋转过的传感器读数，外加一个告诉查看器「转多少」的标签。编码器如果丢掉标签又不真的旋转像素，图就会躺倒。所以连最简的编码器也倾向于保留它，或者干脆把旋转烤进像素、把标签设成 1。</p>
+<p>这带来一种很难查的问题：图看起来正常，但 Orientation 写着 6，不同查看器会转得不一样。用格式转换重编码时，标签和肉眼结果都要看。「我的查看器里没问题」不能证明标签是对的。</p>
+<p>ICC 那一行有好几列是部分保留。配置被丢掉通常不报错，只是颜色轻微偏一点：肤色闷一些，logo 的蓝差一点。这比少一个 GPS 字段难发现得多，也更容易变成一句含糊的「你处理完之后颜色变了」。在意色彩，就让它待在一条色彩管理管线里，少反复重编码，用已知灰块核对。站内那张对照色调图专门放了六块灰，就是让这点偏移看得见。</p>
+</div>
+
+<div class="content-block">
+<h2>自己复现这张矩阵</h2>
+<p>方法比表格活得久，因为编码器的行为会随版本变。五步就能重做一遍：</p>
+<ol class="steps">
+<li><strong>下载两个样本。</strong>标记 JPEG 做实验组，未标记的 PNG 做对照。</li>
+<li><strong>读一遍基线。</strong>用 EXIF 查看器打开标记文件，把字段列表抄下来。</li>
+<li><strong>复制七份，每份只做一件事。</strong>浏览器另存、转成 JPEG、降质量压缩、加水印、Base64 往返、导出成 PDF、用聊天应用发给自己。</li>
+<li><strong>七份输出全部回读。</strong>用同一个查看器读一遍，填出你自己的矩阵。</li>
+<li><strong>记下软件版本。</strong>浏览器、系统、工具都要写。下次结果不一样时，你才知道该怀疑谁。</li>
+</ol>
+<p>第 3 步是最容易做错的地方。如果你从上一轮的输出接着做下一步，测出来的只是一条链的终点，不是每一步的责任。</p>
+<figure class="lab-figure"><img src="/assets/img/lab/tool-exif.png" alt="EXIF 工具的结果面板，载入了一份真实的标记文件" loading="lazy" decoding="async" width="1280" height="1050"><figcaption>结果面板是逐个列出字段，不是猜。没被列出来的字段，就是文件里没有。</figcaption></figure>
+</div>
+
+<div class="content-block">
+<h2>拿到结果之后怎么用</h2>
+<div class="table-wrap">
+<table class="spec">
+<thead><tr><th>你的目标</th><th>安全路径</th><th>要避开的做法</th></tr></thead>
+<tbody>
+<tr><td>分享前去掉位置</td><td>先用 EXIF 工具清掉全部元数据，再重新编码一次</td><td>只删 GPS；缩略图可能还在</td></tr>
+<tr><td>印刷保留色彩准确</td><td>只重编码一次，留住 ICC，用灰块核对</td><td>压缩 → 加水印 → 再压缩，来回折腾</td></tr>
+<tr><td>保持文件逐字节一致</td><td>Base64 往返，或直接复制字节</td><td>任何基于 canvas 的编辑器</td></tr>
+<tr><td>证明一条管线做了什么</td><td>每一步单独测，每次都换新输入</td><td>只测最终交付的那个文件</td></tr>
+<tr><td>留下可查的证据</td><td>把矩阵连同软件版本一起发布</td><td>只写一句「已去除 EXIF」</td></tr>
+</tbody>
+</table>
+</div>
+<p>体积只能当提示。标记样本是 47,954 字节，未标记的 PNG 对照是 13,287 字节，柔边样本是 26,214 字节。体积明显变化是「发生过重编码」的第一信号，但它不是证据：字节复制的大小完全一样，Base64 往返的大小也完全一样。到底是哪一种，只有读字段列表才知道。</p>
+<p>还要说清工具的边界。站内的 EXIF 工具只做两件事：读字段、清字段。它不提供编辑，也不会替你「修」某个值。想改拍摄时间或作者，请在源头改；改完再清一遍，顺序反过来会把新写进去的东西一起抹掉。</p>
+<p>收尾动作很小：拿一张你准备发布的图，打开 EXIF 工具，把元数据全部清掉，再读一次输出。这一步花不了半分钟，却能把「应该干净了」变成「确认干净」。</p>
+</div>
+
+<div class="content-block">
+<h2>常见问题</h2>
+<div class="faq-list">
+<div class="faq-item"><div class="faq-question">PNG 转成 JPG 会丢掉 EXIF 吗？</div><div class="faq-answer">真的重新编码，通常会丢掉 EXIF、XMP 和注释，但 Orientation 经常被保留，因为查看器需要它。只改后缀的字节复制不会丢。</div></div>
+<div class="faq-item"><div class="faq-question">Base64 编码会清除元数据吗？</div><div class="faq-answer">不会，它返回的是同一串字节。如果元数据不见了，说明在 Base64 这一步之前或之后发生过 canvas 重绘或重新编码。</div></div>
+<div class="faq-item"><div class="faq-question">照片模糊过了，还能通过 EXIF 泄露原图吗？</div><div class="faq-answer">能。如果文件里还留着模糊之前生成的内嵌 EXIF 缩略图，那张预览就是没处理过的原图。编辑完请把全部元数据清掉，并回读确认输出为空。</div></div>
+<div class="faq-item"><div class="faq-question">压缩之后颜色为什么变了一点？</div><div class="faq-answer">很可能是 ICC 配置被丢掉了。拿已知灰块对照一下，并让文件只走一条色彩管理管线，避免反复重编码。</div></div>
+<div class="faq-item"><div class="faq-question">用聊天应用清元数据靠谱吗？</div><div class="faq-answer">它通常会剥掉大部分字段，但这不是可控操作，而且它会重新编码像素。请先用查看器主动清干净，再发送。</div></div>
+</div>
+</div>
+
+<div class="content-block">
+<h2>相关工具</h2>
+<div class="related-tools">
+<a class="related-tool" href="/zh/tools/exif"><span>📊</span><span>EXIF 查看与清理</span></a>
+<a class="related-tool" href="/zh/tools/convert"><span>🔄</span><span>格式转换</span></a>
+<a class="related-tool" href="/zh/tools/compress"><span>🗜️</span><span>图片压缩</span></a>
+</div>
+</div>
+
+<div class="content-block">
+<h2>继续阅读</h2>
+<ul>
+<li><a href="/zh/guides/exif-privacy">EXIF 数据：照片里的定位隐私风险</a></li>
+<li><a href="/zh/guides/image-formats">图片格式怎么选：JPG、PNG、WebP 的取舍</a></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<footer class="footer">
+<div class="container">
+<div class="footer-content">
+<div class="footer-brand"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/><span class="logo-text">Pic<span class="accent">Studio</span></span></div>
+<p class="footer-desc">免费的在线图片处理工具，所有处理在浏览器本地完成</p>
+</div>
+<div class="footer-links">
+<a href="/zh/#tools">全部工具</a>
+<a href="/zh/guides/">图片指南</a>
+<a href="/zh/about">关于我们</a>
+<a href="/zh/contact">联系我们</a>
+<a href="/zh/faq">常见问题</a>
+<a href="/zh/privacy">隐私政策</a>
+<a href="/zh/terms">使用条款</a>
+</div>
+<div class="footer-bottom">
+<p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
+<p>&amp;copy; 2026 PicStudio. 保留所有权利。</p>
+</div>
+</div>
+</footer>
+<script src="/zh/assets/js/main.js?v=20261111g"></script>
+<script src="/zh/assets/js/i18n-dict.js?v=20261108ml"></script>
+<script src="/zh/assets/js/i18n.js?v=20261108ml"></script>
+<script src="/zh/assets/js/ux.js?v=20261108ml"></script>
+</body>
+</html>

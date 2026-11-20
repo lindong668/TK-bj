@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html data-lang="zh" lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>三个滑块，三条曲线：亮度、对比度与伽马实测 | PicStudio</title>
+<meta content="亮度加常数、对比度绕中灰旋转、伽马走幂曲线，三种改法各自从哪里开始丢掉高光和暗部。拿工具公开的公式逐像素算一遍，附一张能自己复算的对照表。" name="description"/>
+<meta content="亮度 伽马 区别, 对比度 128 公式, 饱和度 -100 灰度, 锐化 30-60 扫描件, 对比度 高光 溢出, luma 0.299 0.587 0.114" name="keywords"/>
+<link href="https://piccalc.com/zh/guides/adjust-curve-lab" rel="canonical"/>
+<meta content="index,follow,max-image-preview:large" name="robots"/>
+<meta content="article" property="og:type"/>
+<meta content="PicStudio" property="og:site_name"/>
+<meta content="zh_CN" property="og:locale"/>
+<meta content="en_US" property="og:locale:alternate"/>
+<meta content="三个滑块，三条曲线：亮度、对比度与伽马实测" property="og:title"/>
+<meta content="亮度加常数、对比度绕中灰旋转、伽马走幂曲线，三种改法各自从哪里开始丢掉高光和暗部。拿工具公开的公式逐像素算一遍。" property="og:description"/>
+<meta content="https://piccalc.com/zh/guides/adjust-curve-lab" property="og:url"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="三个滑块，三条曲线：亮度、对比度与伽马实测" name="twitter:title"/>
+<meta content="亮度加常数、对比度绕中灰旋转、伽马走幂曲线，三种改法各自从哪里开始丢掉高光和暗部。拿工具公开的公式逐像素算一遍。" name="twitter:description"/>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "三个滑块，三条曲线：亮度、对比度与伽马实测",
+  "description": "按调色页公开的公式逐像素计算：亮度在 215 截断高光，对比度 1.4 两端各毁约 14%，伽马只改中间调。附可复算的对照表与锐化实测。",
+  "inLanguage": "zh-CN",
+  "datePublished": "2026-11-20",
+  "dateModified": "2026-11-20",
+  "author": {"@type": "Organization", "name": "PicStudio", "url": "https://piccalc.com"},
+  "publisher": {"@type": "Organization", "name": "PicStudio", "url": "https://piccalc.com"},
+  "mainEntityOfPage": {"@type": "WebPage", "@id": "https://piccalc.com/zh/guides/adjust-curve-lab"},
+  "keywords": "亮度 伽马 区别, 对比度 128 公式, 饱和度 -100 灰度, 锐化 30-60 扫描件, 对比度 高光 溢出, luma 0.299 0.587 0.114",
+  "articleSection": "Image Editing",
+  "wordCount": 2870
+}</script>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "PicStudio", "item": "https://piccalc.com/zh/"},
+    {"@type": "ListItem", "position": 2, "name": "图片处理指南", "item": "https://piccalc.com/zh/guides/"},
+    {"@type": "ListItem", "position": 3, "name": "三个滑块，三条曲线", "item": "https://piccalc.com/zh/guides/adjust-curve-lab"}
+  ]
+}</script>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "亮度和伽马有什么区别？", "acceptedAnswer": {"@type": "Answer", "text": "亮度给每个通道加一个常数，255 − b 以上的高光会被截断。伽马走幂曲线，0 和 255 两个端点固定不动，只抬起中间调，所以不会毁掉干净的黑白极值。"}},
+    {"@type": "Question", "name": "为什么一加对比度高光就爆？", "acceptedAnswer": {"@type": "Answer", "text": "对比度以 128 为轴心，算式是 factor × (x − 128) + 128。factor 取 1.4 时，219 以上的输入被截成白，37 以下的输入被压成黑。"}},
+    {"@type": "Question", "name": "饱和度 −100 和黑白滤镜是一回事吗？", "acceptedAnswer": {"@type": "Answer", "text": "不完全一样。饱和度按 0.299/0.587/0.114 的权重把像素塌到 luma 上；黑白滤镜是代码里另一条独立的灰度分支。多数图结果相近，饱和色上灰值会有差别。"}},
+    {"@type": "Question", "name": "扫描件锐化为什么建议 30–60？", "acceptedAnswer": {"@type": "Answer", "text": "反锐化掩模放大的是 original − blur。扫描文字的边缘强、噪声低，中等强度就能提升可读性；再高会把噪声一起放大，并在边缘留下亮边或暗边。"}},
+    {"@type": "Question", "name": "锐化该放在缩放之前还是之后？", "acceptedAnswer": {"@type": "Answer", "text": "之后，在最终的像素网格上做。先锐化再缩放，等于让缩放滤镜把你刚造出来的光晕重新插值一遍。"}}
+  ]
+}</script>
+<link href="/favicon.ico" rel="icon" sizes="any"/>
+<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<meta content="https://piccalc.com/og-v2.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="PicStudio 品牌分享图" property="og:image:alt"/>
+<meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
+<link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
+<style>
+.article-body{max-width:820px;margin:0 auto}
+.article-body h2{font-size:20px;margin:34px 0 12px;padding-left:12px;border-left:4px solid var(--primary)}
+.article-body h3{font-size:16px;margin:22px 0 8px}
+.article-body p{margin:12px 0;line-height:1.9;color:var(--text-secondary)}
+.article-body ul,.article-body ol{margin:12px 0 12px 22px;line-height:1.9;color:var(--text-secondary)}
+.article-body li{margin:7px 0}
+.article-body strong{color:var(--text)}
+.lead{font-size:16px;background:var(--bg-secondary);border-left:3px solid var(--primary);padding:14px 18px;border-radius:8px;margin:16px 0 26px;line-height:1.85;color:var(--text-secondary)}
+.crumb{font-size:13px;color:var(--text-muted);margin-bottom:14px}
+.crumb a{color:var(--text-muted)}
+.article-body code{background:rgba(99,102,241,.14);padding:1px 5px;border-radius:4px;font-size:.92em}
+.lab-figure{margin:24px 0;border:1px solid #26324a;border-radius:12px;overflow:hidden;background:#111a2c}
+.lab-figure img{display:block;width:100%;height:auto}
+.lab-figure figcaption{padding:11px 16px;font-size:13px;line-height:1.7;color:#94a3b8;border-top:1px solid #26324a}
+.lab-table{overflow-x:auto;margin:20px 0;border:1px solid #26324a;border-radius:10px}
+.lab-table table{border-collapse:collapse;width:100%;font-size:14px;min-width:520px}
+.lab-table th,.lab-table td{padding:9px 12px;border-bottom:1px solid #26324a;text-align:left;line-height:1.7;color:#cbd5e1}
+.lab-table th{background:#1b2740;color:#f1f5f9;font-weight:700;white-space:nowrap}
+.lab-table tr:last-child td{border-bottom:none}
+.lab-note{margin:20px 0;padding:14px 18px;border-left:4px solid #f59e0b;background:rgba(245,158,11,.08);line-height:1.85;color:#e2e8f0;border-radius:0 8px 8px 0}
+</style>
+<style>
+html[data-lang="en"] [data-lang-block="zh"]{display:none!important}
+html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
+</style>
+<link href="https://piccalc.com/guides/adjust-curve-lab" hreflang="en" rel="alternate"/><link href="https://piccalc.com/zh/guides/adjust-curve-lab" hreflang="zh-CN" rel="alternate"/><link href="https://piccalc.com/guides/adjust-curve-lab" hreflang="x-default" rel="alternate"/></head>
+<body>
+<header class="header">
+<div class="container">
+<a class="logo" href="/zh/"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/><span class="logo-text">Pic<span class="accent">Studio</span></span></a>
+<nav class="tool-nav">
+<select id="lang-select" name="lang-select" class="lang-select" aria-label="语言" onchange="if(this.value)location.href=this.value"><option value="/guides/adjust-curve-lab">English</option><option value="/zh/guides/adjust-curve-lab" selected>中文</option></select><noscript><a href="/guides/adjust-curve-lab">English</a></noscript>
+<a href="/zh/#tools">全部工具</a>
+<a href="/zh/guides/">图片指南</a>
+<a href="/zh/privacy">隐私政策</a>
+<a href="/zh/faq">常见问题</a>
+<a href="/zh/contact">联系我们</a>
+</nav>
+</div>
+</header>
+<section class="tool-page">
+<div class="container">
+<div class="article-body">
+<div class="guide-top" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px;"><a class="guide-back" href="/zh/guides/">← 返回指南</a><div class="crumb"><a href="/zh/">首页</a> › <a href="/zh/guides/">图片指南</a> › 调色公式实测</div></div>
+<h1>三个滑块，三条曲线：亮度、对比度与伽马实测</h1>
+<p style="font-size:13px;color:var(--text-muted);margin:6px 0 0;">发布于 2026-11-20 · 阅读约 11 分钟</p>
+<div class="lead">「调一下亮度」和「加一点对比度」听起来是无害的动作，实际每一个都在偷偷丢掉一部分像素值。<strong>先从哪一头开始坏、坏在哪个具体数值上</strong>，用工具自己公开的算式就能算清楚，不用靠眼睛猜。</div>
+
+<div class="content-block">
+<h2>先把算式抄下来，再看图</h2>
+<p><a href="/zh/tools/adjust">调色页</a>有个少见的地方：它把每个滑块背后的算式直接印在页面上。亮度是给每个 RGB 通道加一个常数；对比度是 <code>new = factor × (old − 128) + 128</code>；饱和度先按 <code>0.299R + 0.587G + 0.114B</code> 算出 luma，再把颜色推离或拉向这个灰点；锐化用反锐化掩模，<code>original + (original − blur) × strength</code>。</p>
+<p>四行算式就能解释大部分「照片怎么变成这样」的抱怨。下面拿一张色阶图逐格比对，每个数字都能复算。</p>
+<figure class="lab-figure"><img src="/assets/img/lab/adjust-curves.png" alt="亮度、对比度与伽马三条映射曲线画在同一组坐标上" loading="lazy" decoding="async" width="1430" height="806"><figcaption>亮度 +40、对比度 1.4、伽马 1/1.4 三条曲线叠在同一张图里，全部按调色页公开的算式绘制。</figcaption></figure>
+<p>色阶图是专门画来当量具的：一条从深蓝到亮橙的竖向渐变，六块灰阶 12 / 45 / 90 / 140 / 190 / 235，再加一个红块、一个绿三角、一个黄圆。每个元素都有已知的输入值，改动前后能量出来，而不是靠嘴说。另存了一份 JPEG 版本，用来把「重新编码的损失」和「滑块的影响」分开。</p>
+<figure class="lab-figure"><img src="/assets/img/lab/control-adjust.png" alt="载入色阶图后的调色控制面板，八个控件与三个滤镜都在列" loading="lazy" decoding="async" width="1152" height="915"><figcaption>调色面板全貌：亮度、对比度、饱和度、色温、伽马、锐化、暗角，以及三个一键滤镜。下面的每条结论都对应其中一个控件。</figcaption></figure>
+</div>
+
+<div class="content-block">
+<h2>亮度是平移，先断的永远是高光</h2>
+<p>亮度 +40 的意思是，每个像素的每个通道都加 40，结果夹在 0 到 255 之间。画在坐标上，就是一条整体上移 40 的直线，也就是图里那条蓝线。</p>
+<p>后果是算术问题，不是审美问题：<strong>215 及以上的输入全部变成 255</strong>。220 的高光和 250 的高光最后都是 255，它们之间的差别永久消失。提亮后的天空变成一整块死白，原因就在这里。暗部反而完好，输入 10 变成 50，所以亮度一开始感觉「安全」，坏只坏在图像顶部。</p>
+<p>截断点可以直接算：<code>255 − 40 = 215</code>。一般地，+b 会吃掉 255 − b 以上的所有值；−b 会把 b 以下全部压成纯黑。</p>
+</div>
+
+<div class="content-block">
+<h2>对比度是绕 128 的旋转，两端一起坏</h2>
+<p>对比度用 <code>new = factor × (old − 128) + 128</code>。轴心是 128，中灰原地不动；128 以上往上推，128 以下往下压。factor 取 1.4 时，这条线比恒等线更陡。</p>
+<p>解两个不等式，两个损坏区就出来了：</p>
+<ul>
+<li><code>1.4(x − 128) + 128 ≤ 0</code>，得 x ≤ 36.6，<strong>0–36 的输入被压成黑</strong>。</li>
+<li><code>1.4(x − 128) + 128 ≥ 255</code>，得 x ≥ 218.7，<strong>219–255 被截成白</strong>。</li>
+</ul>
+<p>算一下代价。对比度 1.4 在底部毁掉约 14% 的影调范围，顶部再毁 14%，而 128 一点没动。亮度 +40 只毁顶部 16%。这就是「为什么对比度一调高，高光就爆，亮度却没这么难受」的具体答案：对比度同时攻击两端，而且中间调看起来没有变化，等你发现时已经晚了。</p>
+<p>实操规则很简单：小步加对比度，盯住最暗的 12 和最亮的 235。在色阶图上，1.4 会让这两块分别贴到 0 和 255，和相邻的灰块再也分不出来。这是看得见、可复查的失败，不是主观判断。</p>
+</div>
+
+<div class="content-block">
+<h2>伽马是幂曲线，端点钉死</h2>
+<p>伽马在面板上叫「中间调」，实际算的是 <code>255 × (x/255)^(1/γ)</code>。γ = 1.4 时，指数约 0.714。它和亮度最大的区别是端点：0 还是 0，255 还是 255，只有中间被抬起来。</p>
+<p>从表里看，输入 128 变成约 156，输入 224 变成约 233，不是 255。极值处没有信息被扔掉。</p>
+<p>代价是中间调之间的关系被非线性改写。它不是「把图调亮一点」，而是重新分配中间调的疏密，这也是它看起来比亮度自然的原因。</p>
+</div>
+
+<div class="content-block">
+<h2>一张可以自己复算的表</h2>
+<p>下面每个数字都来自上面三个公式。任何一格都能手算验证，这也是发表格而不是下结论的意义。</p>
+<div class="lab-table"><table><thead><tr><th>输入 x</th><th>亮度 +40</th><th>对比度 1.4</th><th>伽马 1/1.4</th></tr></thead><tbody><tr><td>0</td><td>40</td><td>0.0</td><td>0.0</td></tr><tr><td>32</td><td>72</td><td>0.0</td><td>57.9</td></tr><tr><td>64</td><td>104</td><td>38.4</td><td>95.0</td></tr><tr><td>96</td><td>136</td><td>83.2</td><td>126.9</td></tr><tr><td>128</td><td>168</td><td>128.0</td><td>155.9</td></tr><tr><td>160</td><td>200</td><td>172.8</td><td>182.8</td></tr><tr><td>192</td><td>232</td><td>217.6</td><td>208.2</td></tr><tr><td>224</td><td>255</td><td>255.0</td><td>232.5</td></tr><tr><td>255</td><td>255</td><td>255.0</td><td>255.0</td></tr></tbody></table></div>
+<p>重点读 32 和 224 两行。亮度都保住了（72 和 255，但 224 已经贴顶）；对比度两端全毁（0 和 255）；伽马都留着（57.9 和 232.5）。如果只记一件事，记这一组。</p>
+</div>
+
+<div class="content-block">
+<h2>顺序真的会改变结果</h2>
+<p>滑块在工具里是一次性算完的，但你导出、重新打开、再调一轮时，顺序就有意义了。拿一个值为 200 的像素举例。</p>
+<ul>
+<li>先对比度 1.4 再亮度 +40：<code>1.4(200−128)+128 = 228.8</code>，再加 40 得 268.8，夹到 255。</li>
+<li>先亮度 +40 再对比度 1.4：先得 240，再算 <code>1.4(240−128)+128 = 284.8</code>，夹到 255。</li>
+</ul>
+<p>两个都会截断，但中间值不同。靠近轴心的值，最终结果也会不同：在 160 上，先对比后亮度是 172.8 + 40 = 212.8，先亮度后对比是 1.4(200−128)+128 = 228.8。同样两个操作，输出不一样。任何只写「先调对比度再调亮度」却不给公式的教程，都是在猜。</p>
+<p>安全做法是：在原图上一次调完，只导出一次，不要把导出的文件再打开调第二轮。每打开一次，就多一次量化、多一次截断的机会。这和元数据是同一个道理：反复保存丢字段，反复过像素丢影调。</p>
+<p>还有个现实限制要记住：编辑类工具的工作画布长边上限是 3000 像素，超出会等比缩小，并且只导出 PNG。想保留中间结果就存 PNG，中途不要转成有损格式。</p>
+</div>
+
+<div class="content-block">
+<h2>饱和度 −100 不等于黑白按钮</h2>
+<p>饱和度先算 luma：<code>0.299R + 0.587G + 0.114B</code>。三个权重加起来是 1，绿色占比最大，因为眼睛对绿最敏感。在色阶图上取四块颜色：</p>
+<div class="lab-table"><table><thead><tr><th>颜色</th><th>R, G, B</th><th>luma</th></tr></thead><tbody><tr><td>黄圆</td><td>250, 204, 21</td><td>196.9</td></tr><tr><td>红块</td><td>239, 68, 68</td><td>119.1</td></tr><tr><td>绿三角</td><td>34, 197, 94</td><td>136.5</td></tr><tr><td>中性灰</td><td>128, 128, 128</td><td>128.0</td></tr></tbody></table></div>
+<p>饱和度拉到 −100，就是把每个像素塌到它的 luma 上，得到一张按这套权重加权的灰度图。一键「黑白」是代码里的另一条分支（<code>grayscale: true</code>），可能直接用浏览器自带的转换。多数图上两者几乎一样，但它们不是同一个操作，在饱和色上灰值会有小差别。所以「两个黑白选项结果不同」不是 bug，是两套实现。面板提示「−100 时图像变成黑白」描述的是结果，不是声明它等于那个滤镜按钮。</p>
+<p>逐通道的例子更直观。黄圆是 R=250、G=204、B=21，luma 196.9。亮度 +40 后三个通道变成 290、244、61，夹成 255、244、61——红通道丢 35 级，绿蓝没动。所以提亮后的黄会偏淡、偏绿，因为截断是按通道发生的，不是按像素。对比度 1.4 更狠：R 算得 298.8 贴到 255，G 是 234.4，B 算得 −21.8 压到 0。蓝通道归零、红通道贴顶，一次亮度操作顺手把饱和度拉爆了，这就是「加对比度想更有冲击力，颜色却变得不是自己想要」的机制。同一组通道走伽马 1/1.4，大约得到 252、233、58，两端都不截断。</p>
+</div>
+
+<div class="content-block">
+<h2>色温、锐化与暗角</h2>
+<p>色温是通道偏置：正值往黄推，负值往蓝推。它不是白平衡测量，背后没有开尔文数值。已知光源造成的偏色要用真正的白平衡工具；只是给扁平图形加点暖意，这个滑块够用。</p>
+<p>锐化用反锐化掩模：复制一份做模糊，取 <code>original − blur</code> 当作高频细节，乘上强度再加回去。面板给扫描件建议 30–60，因为扫描文字边缘强、噪声低，放大差值能提升可读性；再往上会把噪声一起放大，每条边都出现亮边或暗边。用一维边缘算一行：1×3 核 <code>[1,2,1]/4</code>，强度 0.45。</p>
+<div class="lab-table"><table><thead><tr><th>位置</th><th>原始</th><th>模糊后</th><th>差值</th><th>USM 之后</th></tr></thead><tbody><tr><td>0</td><td>100</td><td>100.0</td><td>+0.0</td><td>100.0</td></tr><tr><td>1</td><td>100</td><td>100.0</td><td>+0.0</td><td>100.0</td></tr><tr><td>2</td><td>100</td><td>115.0</td><td>−15.0</td><td>93.2</td></tr><tr><td>3</td><td>160</td><td>130.0</td><td>+30.0</td><td>173.5</td></tr><tr><td>4</td><td>100</td><td>115.0</td><td>−15.0</td><td>93.2</td></tr><tr><td>5</td><td>100</td><td>100.0</td><td>+0.0</td><td>100.0</td></tr><tr><td>6</td><td>100</td><td>100.0</td><td>+0.0</td><td>100.0</td></tr></tbody></table></div>
+<p>位置 3 的边缘像素从 160 升到 173.5，紧挨着的两个邻居掉到 93.2，这两处下陷就是光晕。强度加倍，光晕线性变大；模糊半径加倍，光晕变宽。扫描件值得付这个代价，因为文字边缘是真实的高频信号；弱光噪点照片不值得，因为噪声同样是高频，会被一模一样地放大。面板的 30–60 是针对前一种情况的折中，不是通用推荐。</p>
+<p>暗角按到中心的距离压暗，是唯一带空间性的控件。把它套在色阶图上，边缘的灰块会变，正好说明同一个数值在不同位置不等于同一份输出。</p>
+</div>
+
+<div class="content-block">
+<h2>症状对照：该动哪个滑块</h2>
+<div class="lab-table"><table><thead><tr><th>看到的现象</th><th>别动</th><th>该动</th><th>原因</th></tr></thead><tbody><tr><td>天空变成一块死白</td><td>亮度</td><td>降低亮度，或改用伽马</td><td>255 − b 以上的输入救不回来</td></tr><tr><td>暗部糊成一团黑</td><td>对比度</td><td>调低 factor</td><td>1.4 会把 37 以下的输入压成 0</td></tr><tr><td>中间调发闷，白场干净</td><td>亮度</td><td>伽马</td><td>伽马钉住 0 和 255</td></tr><tr><td>颜色发灰、没精神</td><td>对比度</td><td>饱和度</td><td>对比度动的是明度，不是彩度</td></tr><tr><td>文字周围出现光晕</td><td>继续加锐化</td><td>30–60，只做一次</td><td>USM 放大的是边缘差值</td></tr><tr><td>两个黑白选项结果不同</td><td>—</td><td>都不算错</td><td>luma 加权与独立灰度分支</td></tr></tbody></table></div>
+<p>复现这套实验不需要特殊条件：下载色阶图 PNG，打开调色页，只设亮度 +40，导出，采样最亮的灰块和表对照；重新载入原图，把对比度调到 1.4，检查 12 和 235 是不是双双贴边；再载入原图，只用伽马，确认端点还在 0 和 255；最后把第二步的结果导出后再调一次，和单次处理的中灰比较，差值就是顺序与量化的影响。想单独看重新编码的影响，换 JPEG 版本重跑一遍。</p>
+<p>最后一招：把六块灰阶当量具用。调之前采样 12 / 45 / 90 / 140 / 190 / 235 并记下来，调完再采一次。12 和 235 同时塌到 0 和 255，说明两端都被截断，再怎么推滑块也救不回来；只有 140 动了而两端没动，是伽马形状的改动；六块同幅平移，是亮度。三次读数就能认出是哪个操作，不用看代码——拿到一份没有历史的导出文件时尤其有用。</p>
+</div>
+
+<div class="content-block">
+<h2>常见问题</h2>
+<div class="faq-list">
+<div class="faq-item"><div class="faq-question">亮度和伽马有什么区别？</div><div class="faq-answer">亮度给每个通道加一个常数，255 − b 以上的高光会被截断。伽马走幂曲线，0 和 255 两个端点固定不动，只抬起中间调，所以不会毁掉干净的黑白极值。</div></div>
+<div class="faq-item"><div class="faq-question">为什么一加对比度高光就爆？</div><div class="faq-answer">对比度以 128 为轴心，算式是 factor × (x − 128) + 128。factor 取 1.4 时，219 以上的输入被截成白，37 以下的输入被压成黑。</div></div>
+<div class="faq-item"><div class="faq-question">饱和度 −100 和黑白滤镜是一回事吗？</div><div class="faq-answer">不完全一样。饱和度按 0.299/0.587/0.114 的权重把像素塌到 luma 上；黑白滤镜是代码里另一条独立的灰度分支。多数图结果相近，饱和色上灰值会有差别。</div></div>
+<div class="faq-item"><div class="faq-question">扫描件锐化为什么建议 30–60？</div><div class="faq-answer">反锐化掩模放大的是 original − blur。扫描文字的边缘强、噪声低，中等强度就能提升可读性；再高会把噪声一起放大，并在边缘留下亮边或暗边。</div></div>
+<div class="faq-item"><div class="faq-question">锐化该放在缩放之前还是之后？</div><div class="faq-answer">之后，在最终的像素网格上做。先锐化再缩放，等于让缩放滤镜把你刚造出来的光晕重新插值一遍。</div></div>
+</div>
+</div>
+
+<div class="content-block">
+<h2>相关工具</h2>
+<div class="related-tools">
+<a class="related-tool" href="/zh/tools/adjust"><span>🎚️</span><span>调色</span></a>
+<a class="related-tool" href="/zh/tools/filter"><span>🎨</span><span>一键滤镜</span></a>
+<a class="related-tool" href="/zh/tools/image-compare"><span>🔍</span><span>图片对比</span></a>
+</div>
+<h2>继续阅读</h2>
+<div class="related-tools">
+<a class="related-tool" href="/zh/guides/transparency-accident-report"><span>📚</span><span>透明 PNG 的六种事故</span></a>
+<a class="related-tool" href="/zh/guides/compress-to-size"><span>📚</span><span>把图片压到指定大小</span></a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<footer class="footer">
+<div class="container">
+<div class="footer-content">
+<div class="footer-brand"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/><span class="logo-text">Pic<span class="accent">Studio</span></span></div>
+<p class="footer-desc">免费的在线图片处理工具，所有处理在浏览器本地完成</p>
+</div>
+<div class="footer-links">
+<a href="/zh/#tools">全部工具</a>
+<a href="/zh/guides/">图片指南</a>
+<a href="/zh/about">关于我们</a>
+<a href="/zh/contact">联系我们</a>
+<a href="/zh/faq">常见问题</a>
+<a href="/zh/privacy">隐私政策</a>
+<a href="/zh/terms">使用条款</a>
+</div>
+<div class="footer-bottom">
+<p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
+<p>&amp;copy; 2026 PicStudio. 保留所有权利。</p>
+</div>
+</div>
+</footer>
+<script src="/zh/assets/js/main.js?v=20261111g"></script>
+<script src="/zh/assets/js/i18n-dict.js?v=20261108ml"></script>
+<script src="/zh/assets/js/i18n.js?v=20261108ml"></script>
+<script src="/zh/assets/js/ux.js?v=20261108ml"></script>
+</body>
+</html>

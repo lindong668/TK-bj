@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
@@ -781,6 +781,7 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/adjust-curve-lab"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/adjust-curve-lab"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/adjust-curve-lab"/>
   </url>
   <url>
@@ -789,6 +790,7 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/favicon-rendering-field-test"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/favicon-rendering-field-test"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/favicon-rendering-field-test"/>
   </url>
   <url>
@@ -797,6 +799,7 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/icon-picker-priority"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/icon-picker-priority"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/icon-picker-priority"/>
   </url>
   <url>
@@ -805,6 +808,7 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/icon-qa-checklist"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/icon-qa-checklist"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/icon-qa-checklist"/>
   </url>
   <url>
@@ -813,6 +817,7 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/metadata-trail"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/metadata-trail"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/metadata-trail"/>
   </url>
   <url>
@@ -821,6 +826,7 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/transparency-accident-report"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/transparency-accident-report"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/transparency-accident-report"/>
   </url>
   <url>
@@ -912,5 +918,59 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/trim-uniform-borders"/>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/trim-uniform-borders"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/trim-uniform-borders"/>
+  </url>
+  <url>
+    <loc>https://piccalc.com/zh/guides/adjust-curve-lab</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/adjust-curve-lab"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/adjust-curve-lab"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/adjust-curve-lab"/>
+  </url>
+  <url>
+    <loc>https://piccalc.com/zh/guides/favicon-rendering-field-test</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/favicon-rendering-field-test"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/favicon-rendering-field-test"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/favicon-rendering-field-test"/>
+  </url>
+  <url>
+    <loc>https://piccalc.com/zh/guides/icon-picker-priority</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/icon-picker-priority"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/icon-picker-priority"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/icon-picker-priority"/>
+  </url>
+  <url>
+    <loc>https://piccalc.com/zh/guides/icon-qa-checklist</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/icon-qa-checklist"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/icon-qa-checklist"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/icon-qa-checklist"/>
+  </url>
+  <url>
+    <loc>https://piccalc.com/zh/guides/metadata-trail</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/metadata-trail"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/metadata-trail"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/metadata-trail"/>
+  </url>
+  <url>
+    <loc>https://piccalc.com/zh/guides/transparency-accident-report</loc>
+    <lastmod>2026-11-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://piccalc.com/guides/transparency-accident-report"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://piccalc.com/zh/guides/transparency-accident-report"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://piccalc.com/guides/transparency-accident-report"/>
   </url>
 </urlset>

@@ -1,12 +1,12 @@
 PicStudio full-package build fingerprint
-BUILD_ID=V72-20261120-ZH
+BUILD_ID=V73-20261120-ZH
 DATE=2026-11-20
 BASE=V70.10
-SITEMAP_URLS=102
-NEW_GUIDES=10
-NEW_URLS=16
+SITEMAP_URLS=108
+NEW_GUIDES=20
+NEW_URLS=22
 LAB_IMAGES=13
 ZH_SYNC=2026-11-20
-ZH_GUIDES=4
+ZH_GUIDES=10
 DEPLOY=unzip -> npx wrangler deploy
 If this file is missing on your live site, you did NOT deploy this package.

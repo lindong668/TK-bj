@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html data-lang="zh" lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>图标上线前的十二格质检表：逐格判过或不过 | PicStudio</title>
+<meta content="把五组实测结论压成十二格图标质检表：每格写清看哪里、什么算失败、用哪个工具修，另附通过判据、加权评分、三次发布记录和失败登记的五要素，上线前照着勾一遍即可。" name="description"/>
+<meta content="favicon 上线检查, 图标质检表, logo 缩小后模糊, favicon 16 像素, 图标验收测试, ICO 多尺寸" name="keywords"/>
+<link href="https://piccalc.com/zh/guides/icon-qa-checklist" rel="canonical"/>
+<meta content="index,follow,max-image-preview:large" name="robots"/>
+<meta content="article" property="og:type"/>
+<meta content="PicStudio" property="og:site_name"/>
+<meta content="zh_CN" property="og:locale"/>
+<meta content="en_US" property="og:locale:alternate"/>
+<meta content="图标上线前的十二格质检表：逐格判过或不过" property="og:title"/>
+<meta content="十二格，每格只问一件事：看哪里、什么算失败、用哪个工具修。全部通过再上传图标集。" property="og:description"/>
+<meta content="https://piccalc.com/zh/guides/icon-qa-checklist" property="og:url"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="图标上线前的十二格质检表：逐格判过或不过" name="twitter:title"/>
+<meta content="十二格，每格只问一件事：看哪里、什么算失败、用哪个工具修。全部通过再上传图标集。" name="twitter:description"/>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "图标上线前的十二格质检表：逐格判过或不过",
+  "description": "把五组实测结论压成十二格图标质检表，每格写清看哪里、什么算失败、用哪个工具修，并给出通过判据与发布记录写法。",
+  "inLanguage": "zh-CN",
+  "datePublished": "2026-11-20",
+  "dateModified": "2026-11-20",
+  "author": {"@type": "Organization", "name": "PicStudio", "url": "https://piccalc.com"},
+  "publisher": {"@type": "Organization", "name": "PicStudio", "url": "https://piccalc.com"},
+  "mainEntityOfPage": {"@type": "WebPage", "@id": "https://piccalc.com/zh/guides/icon-qa-checklist"},
+  "keywords": "favicon 上线检查, 图标质检表, logo 缩小后模糊, favicon 16 像素, ICO 多尺寸",
+  "articleSection": "Checklists",
+  "wordCount": 2760
+}</script>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "PicStudio", "item": "https://piccalc.com/zh/"},
+    {"@type": "ListItem", "position": 2, "name": "图片处理指南", "item": "https://piccalc.com/zh/guides/"},
+    {"@type": "ListItem", "position": 3, "name": "图标上线前的十二格质检表", "item": "https://piccalc.com/zh/guides/icon-qa-checklist"}
+  ]
+}</script>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "为什么我的 logo 在 16 像素下很难看？", "acceptedAnswer": {"@type": "Answer", "text": "16×16 一共只有 256 个像素，细线、小字和渐变都活不下来。请单独画一版更粗的 16 像素图标，不要拿大图缩小。"}},
+    {"@type": "Question", "name": "怎么确认 ICO 里真的装了多个尺寸？", "acceptedAnswer": {"@type": "Answer", "text": "看 ICO 目录条目，或和一份已知合格的六尺寸文件对比。只改了后缀的单张 PNG 在标签页里看着正常，在资源管理器的大图标视图里就会露馅。"}},
+    {"@type": "Question", "name": "浏览器更新后需要重跑这张表吗？", "acceptedAnswer": {"@type": "Answer", "text": "要，至少重跑涉及图标选择和深色模式的那几格。一次删一个文件的十分钟测试是最快的版本。"}},
+    {"@type": "Question", "name": "什么算通过？", "acceptedAnswer": {"@type": "Answer", "text": "十二格在浅色和深色底上都读得出，ICO 有六个条目，声明的每个 href 都返回 200。01、03、04、06、11、12 任一格失败都会拦住发布。"}},
+    {"@type": "Question", "name": "不打算做移动端，可以跳过 iOS 那一格吗？", "acceptedAnswer": {"@type": "Answer", "text": "可以，但要在发布记录里写成一条带日期的例外，而不是悄悄忽略。"}}
+  ]
+}</script>
+<link href="/favicon.ico" rel="icon" sizes="any"/>
+<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<meta content="https://piccalc.com/og-v2.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="PicStudio 品牌分享图" property="og:image:alt"/>
+<meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
+<link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
+<style>
+.article-body{max-width:820px;margin:0 auto}
+.article-body h2{font-size:20px;margin:34px 0 12px;padding-left:12px;border-left:4px solid var(--primary)}
+.article-body h3{font-size:16px;margin:22px 0 8px}
+.article-body p{margin:12px 0;line-height:1.9;color:var(--text-secondary)}
+.article-body ul,.article-body ol{margin:12px 0 12px 22px;line-height:1.9;color:var(--text-secondary)}
+.article-body li{margin:7px 0}
+.article-body strong{color:var(--text)}
+.lead{font-size:16px;background:var(--bg-secondary);border-left:3px solid var(--primary);padding:14px 18px;border-radius:8px;margin:16px 0 26px;line-height:1.85;color:var(--text-secondary)}
+.crumb{font-size:13px;color:var(--text-muted);margin-bottom:14px}
+.crumb a{color:var(--text-muted)}
+.lab-figure{margin:26px 0;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--bg-secondary)}
+.lab-figure img{display:block;width:100%;height:auto}
+.lab-figure figcaption{padding:11px 16px;font-size:13px;line-height:1.7;color:var(--text-muted);border-top:1px solid var(--border)}
+</style>
+<style>
+html[data-lang="en"] [data-lang-block="zh"]{display:none!important}
+html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
+</style>
+<link href="https://piccalc.com/guides/icon-qa-checklist" hreflang="en" rel="alternate"/><link href="https://piccalc.com/zh/guides/icon-qa-checklist" hreflang="zh-CN" rel="alternate"/><link href="https://piccalc.com/guides/icon-qa-checklist" hreflang="x-default" rel="alternate"/></head>
+<body>
+<header class="header">
+<div class="container">
+<a class="logo" href="/zh/"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/><span class="logo-text">Pic<span class="accent">Studio</span></span></a>
+<nav class="tool-nav">
+<select id="lang-select" name="lang-select" class="lang-select" aria-label="语言" onchange="if(this.value)location.href=this.value"><option value="/guides/icon-qa-checklist">English</option><option value="/zh/guides/icon-qa-checklist" selected>中文</option></select><noscript><a href="/guides/icon-qa-checklist">English</a></noscript>
+<a href="/zh/#tools">全部工具</a>
+<a href="/zh/guides/">图片指南</a>
+<a href="/zh/privacy">隐私政策</a>
+<a href="/zh/faq">常见问题</a>
+<a href="/zh/contact">联系我们</a>
+</nav>
+</div>
+</header>
+<section class="tool-page">
+<div class="container">
+<div class="article-body">
+<div class="guide-top" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px;"><a class="guide-back" href="/zh/guides/">← 返回指南</a><div class="crumb"><a href="/zh/">首页</a> › <a href="/zh/guides/">图片指南</a> › 图标质检表</div></div>
+<h1>图标上线前的十二格质检表</h1>
+<p style="font-size:13px;color:var(--text-muted);margin:6px 0 0;">发布于 2026-11-20 · 阅读约 11 分钟</p>
+<div class="lead">前面几组实测攒了一堆结论，结论不等于验收。这一页把它们压成一张能勾的表：十二格，每格只问一件事——<strong>看哪里、什么算失败、用哪个工具修</strong>。十二格全过，再把图标集传上去。</div>
+
+<div class="content-block">
+<h2>先把表打印出来，再谈结论</h2>
+<p>以「看起来还行」结尾的指南不是验收测试，有明确失败条件的清单才是。这也是这张表存在的理由：它把分散的实测结论收成一个可执行的动作，顺便让系列里其他文章没法含糊过去。</p>
+<p>用法很朴素。把样本 logo 载入图标生成器，导出全部六个尺寸，然后拿<strong>你自己的</strong>图标按顺序走十二格。开两个浏览器窗口，一个白页，一个近黑页。十二格里大半的检查，其实就是「两边各看一眼」。</p>
+<p>失败判据是统一的：认不出这个标记是什么，或者它的任何一部分被切掉、带光晕、看不见，这一格就算不过。不要取平均。一格不过，整套就不算就绪，修法就写在格子旁边。</p>
+<figure class="lab-figure"><img src="/assets/img/lab/icon-qa-12.png" alt="十二格图标质检表：每格左半是通过样例，右半是失败样例" loading="lazy" decoding="async" width="1240" height="760"><figcaption>每格左半是通过样例，右半是失败样例。所有样例都取自同系列实测里的同一枚样本图标。</figcaption></figure>
+</div>
+
+<div class="content-block">
+<h2>第 01–02 格：小尺寸看轮廓，中尺寸看细节</h2>
+<p><strong>第 01 格，看浅色标签页上的 16×16。</strong>字母结构糊成一团色块，或者两个相邻形状黏在一起，就不过。16×16 的位图一共只有 256 个像素，这点预算养不起细笔画、小字、人脸、二维码和渐变。修法是单独画一版 16 像素的粗轮廓，不要把 512 像素的主图缩下来。</p>
+<p><strong>第 02 格，看 Retina 标签页或 Windows 任务栏。</strong>小的装饰元素消失，或者边缘出现锯齿，就不过。修法是让 ICO 里真的有一个在 32 像素下画出来的条目，而不是由大图缩出来的第 32 像素。</p>
+<p>两格合起来说明一件事：缩小不是等比地丢细节，而是重新分配像素预算。所以别把 16 和 32 当成同一张图的两个导出，把它们当成两件作品更接近事实。</p>
+</div>
+
+<div class="content-block">
+<h2>第 03–04 格：深色和浅色都得活着</h2>
+<p><strong>第 03 格，看近黑色（#202124）的标签页。</strong>深色字形消失就不过。修法是给标记一个实底方块，它的亮度要同时压得住浅色界面、也压得住深色界面。深色模式是对比度问题，不是「再做一套文件」的问题。</p>
+<p><strong>第 04 格，看白色标签页或白色资源管理器视图。</strong>白色或极浅的字形消失就不过。这一格是第 03 格的镜像，也是「一枚标记必须在四个色块上都通过」的原因：#ffffff、#f1f3f4、#202124、#000000。四个底色，一个都不能漏。</p>
+<p>实底方块的修法对两格通用。改一次底色，通常比维护两套图标省事，也不用担心哪天系统换了主题。</p>
+</div>
+
+<div class="content-block">
+<h2>第 05–06 格：遮罩和边缘</h2>
+<p><strong>第 05 格，看 iOS 添加到主屏的预览。</strong>四角附近的内容被切掉就不过。修法是把所有有意义的元素收进一个居中的圆，圆的直径约为画布的三分之二，背景让它铺满到边缘。原因是 iOS 会给 apple-touch-icon 套一个方形圆角遮罩，你在生成器里看到的方角，到手机上并不存在。</p>
+<p><strong>第 06 格，看柔边样本，或你自己那张抗锯齿边缘的图，黑白两个底各看一次。</strong>边缘跟着一圈均匀的暗环，或者四角冒出暗三角，就不过。修法是重新编码一张干净的 RGBA PNG。</p>
+<p>这两格常被一起忽略：一个是被别人的遮罩切掉，一个是你自己的边缘本来就脏。前者是平台行为，后者是文件问题，修法完全不同。</p>
+<figure class="lab-figure"><img src="/assets/img/lab/control-rounded.png" alt="圆角工具面板载入真实样本后的样子" loading="lazy" decoding="async" width="1152" height="415"><figcaption>圆角面板。动导出文件之前，先用它预演第 05 格的裁切。</figcaption></figure>
+</div>
+
+<div class="content-block">
+<h2>第 07–08 格：细线和小字是同一个错误</h2>
+<p><strong>第 07 格，回到 16 像素的渲染，专看 1 像素的笔画。</strong>笔画断成虚线，或者干脆消失，就不过。修法是在目标尺寸下把笔画加粗到至少 2 像素，或者直接删掉。降采样会丢掉亚像素细节，没有例外。</p>
+<p><strong>第 08 格，看除单个粗体首字母以外的任何文字。</strong>字读不出来就不过。修法是换成符号。favicon 不是名片，一格里塞不下公司全称，也塞不下标语。</p>
+<p>这两格其实是同一道算术题的两种表现：像素不够时，线和小字都保不住。所以一格不过的时候，别指望另一格能「补分」——加权表里它们各算 1 分，正说明它们通常是同一个问题的两次目击。</p>
+</div>
+
+<div class="content-block">
+<h2>第 09–10 格：裁切和光晕</h2>
+<p><strong>第 09 格，看源图本身。</strong>源图是竖长截图或宽幅照片，而你想让人看到的部分不在中间，就不过。修法是在生成前把方形选区拖到目标位置上，不要把整张图拉成正方形——拉伸会让脸变宽、字变形。</p>
+<p><strong>第 10 格，在浅色底上看做过圆角或模糊之后的边缘。</strong>脏边还留着就不过。修法是重新编码一次再看；如果还在，就回源编辑器，用直通 alpha 重新导出。</p>
+<p>分清第 06 格和第 10 格：06 是边缘一开始就带暗环，10 是操作之后才出现脏边。病因不同，药也不同，混着治只会多绕两圈。</p>
+</div>
+
+<div class="content-block">
+<h2>第 11–12 格：容器和标签</h2>
+<p><strong>第 11 格，看 ICO 目录，不看文件名。</strong>文件其实是改了后缀的单张 PNG 时，就不过。修法是把六个尺寸全部勾上：16 / 32 / 48 / 64 / 128 / 256。sizes="any" 只有在容器里真的装了多个条目时才算一句诚实的声明，资源管理器切到 256 视图就会把它拆穿。</p>
+<p><strong>第 12 格，看已部署页面的源码，再逐个直接请求每个 href。</strong>任何一个 href 返回 404、/favicon.ico 走了一串重定向、manifest 里还写着旧文件名，都不过。修法是粘贴完整的生成片段、给文件名加版本后缀、让根目录的 ICO 直接返回 200。</p>
+<p>十二格里，只有 11 和 12 跟画得好不好无关。文件画得再漂亮，容器是假的、链接是死的，用户那边只会看到一个空白方块。</p>
+</div>
+
+<div class="content-block">
+<h2>判定规则：什么算过</h2>
+<p><strong>通过：</strong>十二格在浅色和深色底上都读得出、都完整，ICO 有六个目录条目，声明的每个 href 都能打开。</p>
+<p><strong>有条件通过：</strong>某一格失败的原因是你根本不支持的平台，比如压根不做 iOS 主屏快捷方式。这种情况写进发布记录，别默默跳过。</p>
+<p><strong>失败：</strong>01、03、04、06、11、12 任一一格出问题，直接拦住发布。这六格对应的是看得见的破图，或者干脆没有图标。</p>
+<p>想量化的话可以加权，十二格等权最容易糊弄过去，加权版本至少逼你面对严重程度。</p>
+<div class="table-wrap">
+<table class="spec">
+<thead><tr><th>格子</th><th>权重</th><th>为什么</th></tr></thead>
+<tbody>
+<tr><td>01、03、04</td><td>×3</td><td>在最常见的两种底色上读不出，或干脆看不见</td></tr>
+<tr><td>06、10、11</td><td>×2</td><td>边缘损坏和假的多尺寸容器都会直接露馅</td></tr>
+<tr><td>12</td><td>×2</td><td>一个死掉的 href 意味着某些页面上根本没有图标</td></tr>
+<tr><td>02、05、07、08、09</td><td>×1</td><td>重要，但通常只影响一个位置</td></tr>
+</tbody>
+</table>
+</div>
+<p>满分 26 分，发布线是 24 分以上，且 ×3 和 ×2 的组里零失败。第 01 格挂了的标记，不能靠 07、08 两格补回来，因为那常常是同一个底层问题被看到两次。把权重写下来，是为了防住清单最常见的死法：什么都没坏得惊天动地，于是全勾了。</p>
+</div>
+
+<div class="content-block">
+<h2>让这张表活得比一次发布久</h2>
+<p>发布记录可以短，但要有日期、有版本、可核对。示例：「图标集 v2 于 2026-11-20 对照十二格质检表核对；六尺寸 ICO 重新生成；PNG 文件名加 -v2；apple-touch-icon、manifest 数组与 mask-icon 在同一次提交里更新；在全新的浏览器配置里看过浅色和深色标签页，另加一次 iOS 添加到主屏。已知例外：无。」</p>
+<p>三条维护习惯：浏览器或系统大版本改动了图标管线，就重跑一遍，快的版本是「一次删一个文件」的十分钟测试；把日期和工具版本写进记录，一年之后「它通过了」没有意义，「它在那天用这个版本通过了」才是证据；出现新的失败模式就加新格子，并在更新日志里说明加了什么。</p>
+<p>记录也可以更细。三份示例：26/26，无例外；21/26，第 05 格不做 iOS 主屏；17/26，01、03、11 失败，后续动作是重画 16 像素、加实底方块、重生成六尺寸 ICO。第三份才是有用的那种——它点名了失败的格子和具体修法，下一轮有起点。只写「还需打磨」的，不叫记录。</p>
+<p>真要登记失败，先抓五样东西再动手：哪一格、在哪个底色上失败；文件名和字节数（我们那份合格的 ICO 是 19,822 字节，可作对照）；主机和版本（浏览器、系统、设备）；修复前浅色和深色各一张截图；以及你准备做的那一处改动。这套纪律，才是把一次偶发投诉变成一个新格子的办法。</p>
+</div>
+
+<div class="content-block">
+<h2>常见问题</h2>
+<div class="faq-list">
+<div class="faq-item"><div class="faq-question">为什么我的 logo 在 16 像素下很难看？</div><div class="faq-answer">16×16 一共只有 256 个像素，细线、小字和渐变都活不下来。请单独画一版更粗的 16 像素图标，不要拿大图缩小。</div></div>
+<div class="faq-item"><div class="faq-question">怎么确认 ICO 里真的装了多个尺寸？</div><div class="faq-answer">看 ICO 目录条目，或和一份已知合格的六尺寸文件对比。只改了后缀的单张 PNG 在标签页里看着正常，在资源管理器的大图标视图里就会露馅。</div></div>
+<div class="faq-item"><div class="faq-question">浏览器更新后需要重跑这张表吗？</div><div class="faq-answer">要，至少重跑涉及图标选择和深色模式的那几格。「一次删一个文件」的十分钟测试是最快的版本。</div></div>
+<div class="faq-item"><div class="faq-question">什么算通过？</div><div class="faq-answer">十二格在浅色和深色底上都读得出，ICO 有六个条目，声明的每个 href 都返回 200。01、03、04、06、11、12 任一格失败都会拦住发布。</div></div>
+<div class="faq-item"><div class="faq-question">不打算做移动端，可以跳过 iOS 那一格吗？</div><div class="faq-answer">可以，但要在发布记录里写成一条带日期的例外，而不是悄悄忽略。</div></div>
+</div>
+</div>
+
+<div class="content-block">
+<h2>相关工具</h2>
+<div class="related-tools">
+<a class="related-tool" href="/zh/tools/icon-maker"><span>🎯</span><span>图标与 favicon 生成</span></a>
+<a class="related-tool" href="/zh/tools/rounded"><span>⭕</span><span>圆角裁切</span></a>
+<a class="related-tool" href="/zh/tools/trim-edges"><span>🪄</span><span>自动去白边</span></a>
+</div>
+</div>
+
+<div class="content-block">
+<h2>继续阅读</h2>
+<ul>
+<li><a href="/zh/guides/favicon-rendering-field-test">一枚图标，十四个位置：favicon 渲染实测</a></li>
+<li><a href="/zh/guides/icon-picker-priority">浏览器到底用的是哪个 favicon</a></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<footer class="footer">
+<div class="container">
+<div class="footer-content">
+<div class="footer-brand"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/><span class="logo-text">Pic<span class="accent">Studio</span></span></div>
+<p class="footer-desc">免费的在线图片处理工具，所有处理在浏览器本地完成</p>
+</div>
+<div class="footer-links">
+<a href="/zh/#tools">全部工具</a>
+<a href="/zh/guides/">图片指南</a>
+<a href="/zh/about">关于我们</a>
+<a href="/zh/contact">联系我们</a>
+<a href="/zh/faq">常见问题</a>
+<a href="/zh/privacy">隐私政策</a>
+<a href="/zh/terms">使用条款</a>
+</div>
+<div class="footer-bottom">
+<p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
+<p>&amp;copy; 2026 PicStudio. 保留所有权利。</p>
+</div>
+</div>
+</footer>
+<script src="/zh/assets/js/main.js?v=20261111g"></script>
+<script src="/zh/assets/js/i18n-dict.js?v=20261108ml"></script>
+<script src="/zh/assets/js/i18n.js?v=20261108ml"></script>
+<script src="/zh/assets/js/ux.js?v=20261108ml"></script>
+</body>
+</html>

@@ -1239,7 +1239,7 @@ window.PS_I18N = {
   "k1295": "Smooths night-shot grain while keeping faces sharp",
   "k1296": "Select several images (hold Ctrl)",
   "k1297": "Download each size and drop it into your project.",
-  "k1299": "Under 5 MB per image, up to 4000 px per side",
+  "k1299": "Under 5 MB per image, up to 3000 px per side",
   "k1300": "opt out of third-party cookie advertising.",
   "k1301": "Click or drag an image here (image → Base64)",
   "k1302": "Base64 output (editable, for reverse conversion)",

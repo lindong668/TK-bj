@@ -469,12 +469,53 @@
 <h2 style="font-size:1.2rem;color:var(--text-primary);margin-bottom:10px;">Updates — 20 November 2026</h2>
 <ul style="color:var(--text-secondary);line-height:1.85;padding-left:20px;margin:0;">
 <li>Four new measured guides: <a href="/guides/image-to-pdf-page-geometry">page geometry for image-to-PDF</a>, <a href="/guides/long-screenshot-stitch-split">stitching and slicing long screenshots</a>, <a href="/guides/colour-palette-from-photo">extracting palettes</a> and <a href="/guides/trim-uniform-borders">trimming uniform borders</a>.</li>
+<li>Six new Lab Notes with measured numbers: colour adjustment curves, favicon rendering in 14 placements, icon-file priority, a 12-cell icon QA sheet, metadata survival and transparency failures — <a href="/guides/#lab-notes">all six are listed here</a>.</li>
 <li>Every tool page now carries its full documentation — method, limits, failure cases and FAQ — as plain HTML that reads with JavaScript switched off.</li>
-<li>Tool pages no longer show an internal build identifier in the footer; the dated record lives in the <a href="/guides/changelog">Lab Changelog</a>.</li>
 </ul>
 </div>
 
 <p style="text-align:center;color:var(--text-muted);font-size:14px;margin:22px 0 0;">Still stuck on a specific failure? <a href="/faq">Read the FAQ</a>, check <a href="/guides/">the guides</a>, or <a href="/contact">send the details</a>.</p>
+</div>
+</section>
+
+<!-- Latest field guides: added 2026-11-20 -->
+<section class="tools" id="latest-guides">
+<div class="container">
+<h2 class="section-title">Latest field guides — long reads, not tool cards</h2>
+<p style="text-align:center;color:var(--text-muted);font-size:14px;max-width:760px;margin:-10px auto 24px;">Six measured reports published 20 November 2026. Each starts from a real file, prints the numbers it measured, and ends with a rule you can check yourself. Word counts and dates are on every card.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;">
+<a class="related-tool" href="/guides/adjust-curve-lab" style="display:block;padding:16px 18px;text-decoration:none;">
+<span>🧪</span>
+<strong style="display:block;font-size:16px;margin:6px 0 4px;">Three Sliders, Three Curves — A Colour Adjust Lab Notebook</strong>
+<span style="font-size:13px;color:var(--text-muted);line-height:1.7;">Brightness +40 clips at 215, contrast 1.4 crushes both ends, gamma 1.4 lifts 128 to 156. One table you can recompute in a spreadsheet. · 2,370 words · 20 Nov 2026</span>
+</a>
+<a class="related-tool" href="/guides/favicon-rendering-field-test" style="display:block;padding:16px 18px;text-decoration:none;">
+<span>🧪</span>
+<strong style="display:block;font-size:16px;margin:6px 0 4px;">One Icon, Fourteen Placements — A Favicon Rendering Field Test</strong>
+<span style="font-size:13px;color:var(--text-muted);line-height:1.7;">The same bitmap in a tab, a bookmark, dark mode, an iOS mask and an Android adaptive icon — what each of the 14 placements does to it. · 3,000 words · 20 Nov 2026</span>
+</a>
+<a class="related-tool" href="/guides/icon-picker-priority" style="display:block;padding:16px 18px;text-decoration:none;">
+<span>🧪</span>
+<strong style="display:block;font-size:16px;margin:6px 0 4px;">Which Favicon Does the Browser Actually Use?</strong>
+<span style="font-size:13px;color:var(--text-muted);line-height:1.7;">Six icon files declared, then deleted one at a time, recording which one the browser falls back to. Includes the caching rules that keep old icons alive. · 2,780 words · 20 Nov 2026</span>
+</a>
+<a class="related-tool" href="/guides/icon-qa-checklist" style="display:block;padding:16px 18px;text-decoration:none;">
+<span>🧪</span>
+<strong style="display:block;font-size:16px;margin:6px 0 4px;">The 12-Cell Icon QA Sheet — Check Before You Ship</strong>
+<span style="font-size:13px;color:var(--text-muted);line-height:1.7;">Five test rounds compressed into twelve pass/fail checks: what to look at, what failure looks like, and which tool fixes it. · 2,060 words · 20 Nov 2026</span>
+</a>
+<a class="related-tool" href="/guides/metadata-trail" style="display:block;padding:16px 18px;text-decoration:none;">
+<span>🧪</span>
+<strong style="display:block;font-size:16px;margin:6px 0 4px;">Seven Saves Later — What Survives in Your Image Metadata</strong>
+<span style="font-size:13px;color:var(--text-muted);line-height:1.7;">A JPEG tagged with eight fields, pushed through seven common operations, column by column: kept, partly kept, lost. · 2,380 words · 20 Nov 2026</span>
+</a>
+<a class="related-tool" href="/guides/transparency-accident-report" style="display:block;padding:16px 18px;text-decoration:none;">
+<span>🧪</span>
+<strong style="display:block;font-size:16px;margin:6px 0 4px;">Transparent PNG Turned Black, White or Haloed — An Accident Report</strong>
+<span style="font-size:13px;color:var(--text-muted);line-height:1.7;">Six ways alpha breaks: flattening, tRNS, premultiplied halos, viewer backdrops, Office re-encoding and chat-app transcoding. · 2,720 words · 20 Nov 2026</span>
+</a>
+</div>
+<p style="text-align:center;margin:22px 0 0;font-size:14px;"><a href="/guides/#lab-notes" style="color:var(--primary);font-weight:600;">All Lab Notes and the dated changelog →</a></p>
 </div>
 </section>
 

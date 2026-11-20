@@ -184,11 +184,11 @@
 </div>
 <div class="content-block">
 <h2>规格与参数说明</h2>
-<table class="spec-table"><tbody><tr><th>输入格式</th><td>PNG / JPG / WebP / GIF / BMP / SVG / AVIF / ICO / HEIC</td></tr><tr><th>输出格式</th><td>PNG</td></tr><tr><th>强度范围</th><td>1–10（建议 2–5）</td></tr><tr><th>算法</th><td>保边滤波（双边滤波近似）</td></tr><tr><th>最大尺寸</th><td>单边 3000 像素</td></tr></tbody></table>
+<table class="spec-table"><tbody><tr><th>输入格式</th><td>PNG / JPG / WebP / GIF / BMP / SVG / AVIF / ICO / HEIC</td></tr><tr><th>输出格式</th><td>PNG</td></tr><tr><th>强度范围</th><td>1–10（建议 2–5）</td></tr><tr><th>算法</th><td>保边滤波（双边滤波近似）</td></tr><tr><th>最大尺寸</th><td>输入与输出单边 3000 像素</td></tr><tr><th>工作分辨率</th><td>滤波在长边 1400 像素的副本上计算，再把结果放大回原尺寸</td></tr></tbody></table>
 </div>
 <div class="content-block">
 <h2>关于图片去噪的常见问题</h2>
-<div class="faq-item"><h3>去噪会让照片变糊吗？</h3><p>强度过高会。本工具用保边滤波，能保留边缘，但强度拉到 8 以上仍会损失细节。建议从 3 开始，逐步加大到满意为止。</p></div><div class="faq-item"><h3>噪点很多也去不干净怎么办？</h3><p>可以尝试先用「图片放大」略微缩小再看（缩小本身会平均掉噪点），或分两次用较低强度处理，比一次高强度效果更好。</p></div><div class="faq-item"><h3>处理要多久？</h3><p>保边滤波需要逐像素计算邻域权重，1200 万像素的图可能需要十几秒。图片越大越慢，属正常现象。</p></div><div class="faq-item"><h3>能去除 JPEG 压缩噪点吗？</h3><p>能改善。JPEG 在高压缩率下产生的块状噪点也会被平滑，但严重的马赛克块无法完全恢复。</p></div>
+<div class="faq-item"><h3>去噪会让照片变糊吗？</h3><p>强度过高会。本工具用保边滤波，能保留边缘，但强度拉到 8 以上仍会损失细节。建议从 3 开始，逐步加大到满意为止。</p></div><div class="faq-item"><h3>噪点很多也去不干净怎么办？</h3><p>可以先用「图片尺寸调整」把图缩小一半，再放大回来看效果——缩小本身就会平均掉一部分噪点。也可以分两次用较低强度处理，比一次高强度更自然。</p></div><div class="faq-item"><h3>处理要多久？</h3><p>保边滤波需要逐像素计算邻域权重，1200 万像素的图可能需要十几秒。图片越大越慢，属正常现象。</p></div><div class="faq-item"><h3>能去除 JPEG 压缩噪点吗？</h3><p>能改善。JPEG 在高压缩率下产生的块状噪点也会被平滑，但严重的马赛克块无法完全恢复。</p></div>
 </div>
 <div class="content-block">
 <h2>试试其它工具</h2>

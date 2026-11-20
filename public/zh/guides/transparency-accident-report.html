@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html data-lang="zh" lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>透明 PNG 变黑、变白、长黑边：六种事故分类 | PicStudio</title>
+<meta content="透明图变黑底、变白底、边缘发脏，看起来是同一个毛病，其实是六种不同的损坏。从边缘形态入手逐一分辨，配字节证据、判断顺序，以及能修与修不了的边界。" name="description"/>
+<meta content="透明png变黑, png 透明 变白, 预乘 alpha 黑边, 透明图 黑色描边, word 透明图 黑底, base64 保留透明" name="keywords"/>
+<link href="https://piccalc.com/zh/guides/transparency-accident-report" rel="canonical"/>
+<meta content="index,follow,max-image-preview:large" name="robots"/>
+<meta content="article" property="og:type"/>
+<meta content="PicStudio" property="og:site_name"/>
+<meta content="zh_CN" property="og:locale"/>
+<meta content="en_US" property="og:locale:alternate"/>
+<meta content="透明 PNG 变黑、变白、长黑边：六种事故分类" property="og:title"/>
+<meta content="透明图变黑底、变白底、边缘发脏，看起来是同一个毛病，其实是六种不同的损坏。从边缘形态入手逐一分辨，配字节证据与判断顺序。" property="og:description"/>
+<meta content="https://piccalc.com/zh/guides/transparency-accident-report" property="og:url"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="透明 PNG 变黑、变白、长黑边：六种事故分类" name="twitter:title"/>
+<meta content="透明图变黑底、变白底、边缘发脏，看起来是同一个毛病，其实是六种不同的损坏。从边缘形态入手逐一分辨，配字节证据与判断顺序。" name="twitter:description"/>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "透明 PNG 变黑、变白、长黑边：六种事故分类",
+  "description": "把「透明图有背景」拆成六种可分辨的故障：查看器画布、格式无 alpha、调色板 tRNS、预乘暗边、圆角残留、传输转码。附字节证据与修复边界。",
+  "inLanguage": "zh-CN",
+  "datePublished": "2026-11-20",
+  "dateModified": "2026-11-20",
+  "author": {"@type": "Organization", "name": "PicStudio", "url": "https://piccalc.com"},
+  "publisher": {"@type": "Organization", "name": "PicStudio", "url": "https://piccalc.com"},
+  "mainEntityOfPage": {"@type": "WebPage", "@id": "https://piccalc.com/zh/guides/transparency-accident-report"},
+  "keywords": "透明png变黑, png 透明 变白, 预乘 alpha 黑边, 透明图 黑色描边, word 透明图 黑底, base64 保留透明",
+  "articleSection": "Image Editing",
+  "wordCount": 3180
+}</script>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "PicStudio", "item": "https://piccalc.com/zh/"},
+    {"@type": "ListItem", "position": 2, "name": "图片处理指南", "item": "https://piccalc.com/zh/guides/"},
+    {"@type": "ListItem", "position": 3, "name": "透明 PNG 的六种事故", "item": "https://piccalc.com/zh/guides/transparency-accident-report"}
+  ]
+}</script>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "为什么同一个透明 PNG，在一个软件里是黑底，在另一个里是棋盘格？", "acceptedAnswer": {"@type": "Answer", "text": "那是查看器自己画布的颜色，不是文件。换一个软件打开，或者贴到有底色的网页上；背景跟着软件变，说明 alpha 完好。"}},
+    {"@type": "Question", "name": "存成 JPEG 之后还能恢复透明吗？", "acceptedAnswer": {"@type": "Answer", "text": "不能。JPEG 没有 alpha 通道，压平时用的填充色已经写进像素里。只能回原始素材重新导出，或者重新做一张蒙版。"}},
+    {"@type": "Question", "name": "柔边外面那圈细细的暗边是怎么来的？", "acceptedAnswer": {"@type": "Answer", "text": "通常是预乘 alpha 被当成直通 alpha 处理，或者半透明像素下面的 RGB 被压暗过。它和「整块黑底」不是同一个故障。"}},
+    {"@type": "Question", "name": "PNG 转 Base64 会丢透明吗？", "acceptedAnswer": {"@type": "Answer", "text": "不会。Base64 是逐字节的文本编码，解回来还是同一份 PNG。透明消失要去看 CSS 背景或者 canvas 导出那一步。"}},
+    {"@type": "Question", "name": "圆角为什么会在四个角露出暗三角？", "acceptedAnswer": {"@type": "Answer", "text": "角的 alpha 被设成 0，但底下的 RGB 还是旧值。重新编码成干净的 RGBA PNG，再分别放到浅色和深色背景上检查四个角。"}}
+  ]
+}</script>
+<link href="/favicon.ico" rel="icon" sizes="any"/>
+<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<meta content="https://piccalc.com/og-v2.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="PicStudio 品牌分享图" property="og:image:alt"/>
+<meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
+<link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
+<style>
+.article-body{max-width:820px;margin:0 auto}
+.article-body h2{font-size:20px;margin:34px 0 12px;padding-left:12px;border-left:4px solid var(--primary)}
+.article-body h3{font-size:16px;margin:22px 0 8px}
+.article-body p{margin:12px 0;line-height:1.9;color:var(--text-secondary)}
+.article-body ul,.article-body ol{margin:12px 0 12px 22px;line-height:1.9;color:var(--text-secondary)}
+.article-body li{margin:7px 0}
+.article-body strong{color:var(--text)}
+.lead{font-size:16px;background:var(--bg-secondary);border-left:3px solid var(--primary);padding:14px 18px;border-radius:8px;margin:16px 0 26px;line-height:1.85;color:var(--text-secondary)}
+.crumb{font-size:13px;color:var(--text-muted);margin-bottom:14px}
+.crumb a{color:var(--text-muted)}
+.article-body code{background:rgba(99,102,241,.14);padding:1px 5px;border-radius:4px;font-size:.92em}
+.lab-figure{margin:24px 0;border:1px solid #26324a;border-radius:12px;overflow:hidden;background:#111a2c}
+.lab-figure img{display:block;width:100%;height:auto}
+.lab-figure figcaption{padding:11px 16px;font-size:13px;line-height:1.7;color:#94a3b8;border-top:1px solid #26324a}
+.lab-table{overflow-x:auto;margin:20px 0;border:1px solid #26324a;border-radius:10px}
+.lab-table table{border-collapse:collapse;width:100%;font-size:14px;min-width:520px}
+.lab-table th,.lab-table td{padding:9px 12px;border-bottom:1px solid #26324a;text-align:left;line-height:1.7;color:#cbd5e1}
+.lab-table th{background:#1b2740;color:#f1f5f9;font-weight:700;white-space:nowrap}
+.lab-table tr:last-child td{border-bottom:none}
+.lab-note{margin:20px 0;padding:14px 18px;border-left:4px solid #f59e0b;background:rgba(245,158,11,.08);line-height:1.85;color:#e2e8f0;border-radius:0 8px 8px 0}
+</style>
+<style>
+html[data-lang="en"] [data-lang-block="zh"]{display:none!important}
+html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
+</style>
+<link href="https://piccalc.com/guides/transparency-accident-report" hreflang="en" rel="alternate"/><link href="https://piccalc.com/zh/guides/transparency-accident-report" hreflang="zh-CN" rel="alternate"/><link href="https://piccalc.com/guides/transparency-accident-report" hreflang="x-default" rel="alternate"/></head>
+<body>
+<header class="header">
+<div class="container">
+<a class="logo" href="/zh/"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/><span class="logo-text">Pic<span class="accent">Studio</span></span></a>
+<nav class="tool-nav">
+<select id="lang-select" name="lang-select" class="lang-select" aria-label="语言" onchange="if(this.value)location.href=this.value"><option value="/guides/transparency-accident-report">English</option><option value="/zh/guides/transparency-accident-report" selected>中文</option></select><noscript><a href="/guides/transparency-accident-report">English</a></noscript>
+<a href="/zh/#tools">全部工具</a>
+<a href="/zh/guides/">图片指南</a>
+<a href="/zh/privacy">隐私政策</a>
+<a href="/zh/faq">常见问题</a>
+<a href="/zh/contact">联系我们</a>
+</nav>
+</div>
+</header>
+<section class="tool-page">
+<div class="container">
+<div class="article-body">
+<div class="guide-top" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px;"><a class="guide-back" href="/zh/guides/">← 返回指南</a><div class="crumb"><a href="/zh/">首页</a> › <a href="/zh/guides/">图片指南</a> › 透明 PNG 事故</div></div>
+<h1>透明 PNG 变黑、变白、长黑边：六种事故分类</h1>
+<p style="font-size:13px;color:var(--text-muted);margin:6px 0 0;">发布于 2026-11-20 · 阅读约 11 分钟</p>
+<div class="lead">「我的透明 PNG 有黑底」不是一个 bug，而是至少六个 bug 恰好被写进同一句话。文件可能是好的，只是查看器在说谎；也可能 alpha 早在某次保存里就没了。<strong>先看边缘，再动手改</strong>，顺序错了会把证据一起删掉。</div>
+
+<div class="content-block">
+<h2>一个标本，一条故意做软的边</h2>
+<p>文件本身可能正常，是查看器在撒谎；alpha 可能在某次另存里被扔掉；透明像素下面的 RGB 可能是错的；也可能是另一个程序在你看到它之前先转了一次码。这几种情况在工单里都叫「我的 PNG 有背景」，修法却彼此无关。这是一份事故报告，不解释 alpha 通道的定义。我们做了一个蓝色圆盘当标本，alpha 在约 14 px 内逐渐衰减。硬边查不出问题：每个像素非全透明即全不透明，透明区域下面写错的 RGB 永远不会露出来。柔边才是诊断工具——如果半透明环下面的 RGB 是错的，环就会发暗、发脏；如果被压平，渐变会变成贴着实色底的一条硬台阶。</p>
+<figure class="lab-figure"><img src="/assets/img/lab/alpha-forensics.png" alt="四种结果并排：棋盘格上的正确透明、压到黑底、压到白底、预乘出错产生的暗边" loading="lazy" decoding="async" width="1240" height="620"><figcaption>棋盘格上的正确 alpha、压到黑底、压到白底，以及预乘出错留下的暗边。四种结果在工单里都叫「有背景」，但只有中间两种是文件本身被压平了。</figcaption></figure>
+<p>标本可以下载下来自己复现：<a href="/assets/samples/picstudio-soft-alpha.png">picstudio-soft-alpha.png</a>。圆角那一组换成实心 logo，因为那里要测的恰好是硬边。</p>
+</div>
+
+<div class="content-block">
+<h2>事故一：查看器画的黑底，不是文件的黑底</h2>
+<p>有些查看器把透明画成白色，有些画成黑色，有些画棋盘格，还有些直接用应用主题色。文件在一个画黑底的软件里打开，看起来和被毁了 alpha 一模一样，但字节一个都没动。</p>
+<p>判断方法很省事：同一个文件用两个不同软件打开，或者粘到一个有底色的网页里。背景跟着软件走，文件就是好的。这是最常见的一类假警报，动手之前先把它排除掉。</p>
+</div>
+
+<div class="content-block">
+<h2>事故二：格式根本装不下 alpha</h2>
+<p>JPEG 没有 alpha 通道。透明 PNG 存成 JPEG，必须压到某个颜色上，不同编码器选的填充色还不一样：黑、白，或者透明区底下那堆本来就存在的 RGB 值，常常是垃圾。所谓「透明 PNG 在 Word 里变黑」，多半不是 Word 渲染的锅，而是导出那一步已经变成 JPEG 了。</p>
+<p>同类问题还有部分 BMP 写入器、只保留 1 位透明标志的老式 GIF 导出，以及把图栅格化到白页上的 PDF 流程。判断时看真实格式和通道数，别看后缀。<code>.png</code> 后缀套着 JPEG 字节，比想象中常见，浏览器是嗅探内容的，不是看扩展名。</p>
+<p>修法：用<a href="/zh/tools/convert">格式转换</a>重新导出，输出选 PNG，或者带 alpha 的 WebP，中途不要过一次 JPEG。这个工具能输出 PNG、JPG、WebP 与 ICO，输入支持 PNG / JPG / WebP / GIF / BMP / SVG / AVIF / ICO / HEIC，其中 HEIC 只能作输入。</p>
+<figure class="lab-figure"><img src="/assets/img/lab/control-convert.png" alt="格式转换面板，输出格式下拉框是这一步唯一的决定" loading="lazy" decoding="async" width="1152" height="434"><figcaption>格式转换面板。事故二的全部决策就是输出格式这一项：选 PNG 或 WebP，别选 JPG。</figcaption></figure>
+<div class="lab-table"><table><thead><tr><th>容器</th><th>alpha 模型</th><th>能否承载柔边</th><th>说明</th></tr></thead><tbody><tr><td>PNG，颜色类型 6</td><td>8 位或 16 位直通 alpha</td><td>可以</td><td>交换文件的安全默认值</td></tr><tr><td>PNG，颜色类型 3（索引）</td><td><code>tRNS</code> 调色板项</td><td>不行，实际只有 1 位</td><td>量化产物，就是事故三</td></tr><tr><td>WebP（有损/无损）</td><td>8 位 alpha</td><td>可以</td><td>支持面广，注意编码器的 alpha 开关</td></tr><tr><td>GIF</td><td>1 位透明</td><td>不行</td><td>只适合硬边，替代不了 PNG</td></tr><tr><td>JPEG</td><td>没有</td><td>不可能</td><td>一律压平，事故二</td></tr><tr><td>ICO（PNG 条目）</td><td>每个条目带 PNG alpha</td><td>可以</td><td>Vista 之后支持</td></tr><tr><td>AVIF</td><td>取决于编码器</td><td>一般可以</td><td>用具体编码器验证，别想当然</td></tr><tr><td>SVG</td><td>矢量绘制，没有位图 alpha</td><td>不适用</td><td>做 mask-icon 的正确选择</td></tr></tbody></table></div>
+<p>这张表把「该用哪个格式」变成一次属性查询。成品需要柔边，JPEG 和 GIF 在打开编辑器之前就可以排除。</p>
+</div>
+
+<div class="content-block">
+<h2>事故三：调色板 PNG 只有 1 位 tRNS</h2>
+<p>索引色（调色板）PNG 只能靠 <code>tRNS</code> 块表达透明，实质是一个透明调色板项。200 级 alpha 的柔边表达不了，量化会把它压成一条硬的、带锯齿的边界。结果看起来是白色或暗色的毛边加阶梯，而不是平滑过渡。</p>
+<p>判断：边缘是锯齿而不是渐变，同时图像的颜色数量很少。重新存成 RGBA PNG 能修，再存一次调色板 PNG 不能。</p>
+<p>这一条很容易被误诊成「抗锯齿没开」。它是色彩模式的限制，跟抗锯齿设置无关。</p>
+</div>
+
+<div class="content-block">
+<h2>事故四：预乘 alpha 与那圈暗边</h2>
+<p>这条最值得看，也是标本必须留柔边的原因。直通（非预乘）alpha 里，像素把真实颜色和透明度分开存；预乘 alpha 里，存的 RGB 已经乘过 alpha。两种表示都合法，但必须标注清楚、全程一致。</p>
+<p>流水线把预乘当直通处理、乘了两次、或者先把半透明像素下面的 RGB 压暗再合成到浅色背景上，柔边就会多出一圈暗色。它不是黑底：内部完全正常，只有过渡带脏。所以判断要看环，不看中心。均匀的暗色描边沿着柔边走，是预乘损坏；整个形状后面一整块实色，是压平问题。两种修法毫无关系，这就是「重新存成 PNG」这类万能建议经常失灵的原因。</p>
+<p>算式很短。颜色 C、alpha a、背景 B，正确合成是 <code>a·C + (1−a)·B</code>。如果存的 C 已经乘过 a，合成时又乘一次，得到的是 <code>a²·C + …</code>，暗掉的量正好显示为光晕。柔边越宽，中招的像素越多。</p>
+<p>修法：转成一份干净的 RGBA PNG，然后在浅色页和深色页上各看一次边。光晕还在，说明损坏发生在你拿到文件之前，必须回源编辑器用直通 alpha 重出。</p>
+</div>
+
+<div class="content-block">
+<h2>事故五：圆角操作留下的暗三角</h2>
+<p>加圆角，就是把半径之外像素的 alpha 设成 0。如果工具只改 alpha、留着旧 RGB，某些查看器和后续流程会把那些残留颜色翻出来，四个角出现暗三角。这和事故四是同一类问题，只是落在硬边上。</p>
+<p>判断：问题只出现在四个角，直边干净。</p>
+<p>修法：先用<a href="/zh/tools/rounded">圆角工具</a>处理，再走一次格式转换，然后对着黑底和白底各看一遍角。</p>
+</div>
+
+<div class="content-block">
+<h2>事故六：在路上被别人转码了</h2>
+<p>聊天软件、CDN 图像处理、邮件客户端、各种「上传前优化」的浏览器扩展，都会重新编码。透明 PNG 经过一条目标是 JPEG 或压平 WebP 的流水线，到对面就变成实色背景。发送方看到的是原图，接收方看到的是事故。</p>
+<p>判断：对比两端的格式和体积。收到的是 JPEG、发出的是 PNG，任何渲染设置都救不回 alpha，它是在传输途中被丢掉的。</p>
+<p>Base64 往返反而是无损的：字节转成文本再解回来，还是同一个 PNG，<code>tRNS</code> 和 ICC 块都在。Base64 图看起来丢了透明，通常是 <code>&lt;img&gt;</code> 上挂了 CSS 背景，或者 canvas 导出那一步压平了。把标本编码一次再解码一次，逐字节比对，就能证明编码这一步是清白的。</p>
+</div>
+
+<div class="content-block">
+<h2>从边缘入手的判断顺序</h2>
+<p>按这个顺序走，每一步都比下一步便宜。</p>
+<ol>
+<li><strong>换一个查看器，放到有底色的页面上。</strong>背景跟着软件走，就是事故一，文件没问题，到此为止。</li>
+<li><strong>查真实容器和通道数。</strong>JPEG、BMP、压平的 WebP，就是事故二。</li>
+<li><strong>看边缘。</strong>整块实色铺在后面，是压平；锯齿阶梯，是事故三；只有一圈暗环，是事故四；只有四角发暗，是事故五。</li>
+<li><strong>比对发出和收到的文件。</strong>格式不同、体积小了一截，就是事故六。</li>
+<li><strong>到这一步才重新编码。</strong>在第 1 步之前就转存，会毁掉证据，通常连同 alpha 一起毁掉。</li>
+</ol>
+<p>顺序就是取证的全部意义。大部分网上的建议直接从第 5 步开始，所以能修好一部分，也能把另一部分弄得更糟。</p>
+<div class="lab-table"><table><thead><tr><th>工具</th><th>对 alpha 做了什么</th><th>适合用来</th><th>不要用来</th></tr></thead><tbody><tr><td><a href="/zh/tools/convert">格式转换</a></td><td>重新编码到能装 alpha 的容器</td><td>确诊之后处理事故二、三、四、五</td><td>追回上游已经丢掉的 alpha</td></tr><tr><td><a href="/zh/tools/rounded">圆角</a></td><td>在四角写入新的 alpha</td><td>事故五、图标圆角蒙版</td><td>修整圈发暗的毛边</td></tr><tr><td><a href="/zh/tools/compress">图片压缩</a></td><td>重新量化，可能丢掉辅助块</td><td>alpha 已经正确时减小体积</td><td>边缘已经损坏的情况</td></tr><tr><td><a href="/zh/tools/exif">EXIF 查看与清理</a></td><td>读写元数据，不动像素</td><td>分享前清理信息</td><td>任何和像素数据有关的事</td></tr><tr><td><a href="/zh/tools/image-compare">图片对比</a></td><td>只做比对，不改文件</td><td>确认修复前后的差异</td><td>修复本身</td></tr></tbody></table></div>
+<p>压缩要单独提醒一句：激进量化会把 RGBA PNG 转成调色板 PNG，悄悄把事故三带回来。压完柔边 logo 要看边，不能只看省了多少 KB。</p>
+</div>
+
+<div class="content-block">
+<h2>修复演练、字节证据，以及修不了的部分</h2>
+<p>拿柔边标本，故意导出一份 JPEG 把它弄坏，再按顺序走：用格式转换载入损坏的 JPEG 并导出 PNG，会看到黑底已经烙进像素里——转换不可能凭空造出 alpha，这正是流程要从第 1 步开始的原因。回到原始 PNG，用圆角工具加一个半径，导出后在白页和黑页上检查四个角。把结果编码成 Base64 再解码，边缘应当完全一致。最后用 EXIF 清理工具剥掉元数据，alpha 不受影响，这能区分「清元数据」和「重编码像素」两件常被混为一谈的事。</p>
+<p>字节层看一眼，往往比看图更快结案。标本是 26,214 字节，值得检查的项目如下。</p>
+<div class="lab-table"><table><thead><tr><th>检查项</th><th>该看到什么</th><th>指向哪个事故</th></tr></thead><tbody><tr><td>前 8 个字节</td><td><code>89 50 4E 47 0D 0A 1A 0A</code></td><td><code>.png</code> 名字套 JPEG 字节，事故二</td></tr><tr><td><code>IHDR</code> 颜色类型</td><td><code>6</code> 为 RGBA，<code>4</code> 为灰+alpha，<code>3</code> 为索引色</td><td>索引色只带 <code>tRNS</code>，事故三</td></tr><tr><td>是否存在 <code>tRNS</code></td><td>只有一个调色板项透明</td><td>硬锯齿边，事故三</td></tr><tr><td><code>iCCP</code> / <code>sRGB</code></td><td>色彩描述标签</td><td>重编码后的偏色，与事故二相关</td></tr><tr><td>alpha 直方图</td><td>很多个 alpha 值，还是只有两个</td><td>柔边塌成 1 位，事故三</td></tr><tr><td>近零 alpha 下的 RGB</td><td>应该是真实颜色，不是黑色</td><td>暗边，事故四</td></tr></tbody></table></div>
+<p>最值得盯的是最后一行。读到 alpha 为 2 的像素，如果 RGB 是 <code>(0,0,0)</code> 而画面是蓝色，以后合成到白底就会出暗边；如果读到的是 <code>(56,189,248)</code>，文件就是对的，是查看器的问题。前一种情况只要源编辑器还这么写，重编码多少次都没用，只能回源头重出。</p>
+<p>也要说清边界。重编码能修色彩模式、透明像素下残留的 RGB、容器选错；它修不回一次 JPEG 导出丢掉的 alpha，修不回已经压进背景的人脸，也修不回收件人手里那份被聊天软件转码过的副本。另一个容易忽略的前提：本站编辑类工具的工作画布长边上限是 3000 像素，超出会等比缩小，而且只导出 PNG，所以别拿超大原图在这里做像素级取证。</p>
+</div>
+
+<div class="content-block">
+<h2>常见问题</h2>
+<div class="faq-list">
+<div class="faq-item"><div class="faq-question">为什么同一个透明 PNG，在一个软件里是黑底，在另一个里是棋盘格？</div><div class="faq-answer">那是查看器自己画布的颜色，不是文件。换一个软件打开，或者贴到有底色的网页上；背景跟着软件变，说明 alpha 完好。</div></div>
+<div class="faq-item"><div class="faq-question">存成 JPEG 之后还能恢复透明吗？</div><div class="faq-answer">不能。JPEG 没有 alpha 通道，压平时用的填充色已经写进像素里。只能回原始素材重新导出，或者重新做一张蒙版。</div></div>
+<div class="faq-item"><div class="faq-question">柔边外面那圈细细的暗边是怎么来的？</div><div class="faq-answer">通常是预乘 alpha 被当成直通 alpha 处理，或者半透明像素下面的 RGB 被压暗过。它和「整块黑底」不是同一个故障。</div></div>
+<div class="faq-item"><div class="faq-question">PNG 转 Base64 会丢透明吗？</div><div class="faq-answer">不会。Base64 是逐字节的文本编码，解回来还是同一份 PNG。透明消失要去看 CSS 背景或者 canvas 导出那一步。</div></div>
+<div class="faq-item"><div class="faq-question">圆角为什么会在四个角露出暗三角？</div><div class="faq-answer">角的 alpha 被设成 0，但底下的 RGB 还是旧值。重新编码成干净的 RGBA PNG，再分别放到浅色和深色背景上检查四个角。</div></div>
+</div>
+</div>
+
+<div class="content-block">
+<h2>相关工具</h2>
+<div class="related-tools">
+<a class="related-tool" href="/zh/tools/convert"><span>🔄</span><span>格式转换</span></a>
+<a class="related-tool" href="/zh/tools/rounded"><span>🔲</span><span>圆角处理</span></a>
+<a class="related-tool" href="/zh/tools/exif"><span>🏷️</span><span>EXIF 查看与清理</span></a>
+</div>
+<h2>继续阅读</h2>
+<div class="related-tools">
+<a class="related-tool" href="/zh/guides/image-formats"><span>📚</span><span>图片格式怎么选</span></a>
+<a class="related-tool" href="/zh/guides/exif-privacy"><span>📚</span><span>照片元数据与隐私</span></a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<footer class="footer">
+<div class="container">
+<div class="footer-content">
+<div class="footer-brand"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/><span class="logo-text">Pic<span class="accent">Studio</span></span></div>
+<p class="footer-desc">免费的在线图片处理工具，所有处理在浏览器本地完成</p>
+</div>
+<div class="footer-links">
+<a href="/zh/#tools">全部工具</a>
+<a href="/zh/guides/">图片指南</a>
+<a href="/zh/about">关于我们</a>
+<a href="/zh/contact">联系我们</a>
+<a href="/zh/faq">常见问题</a>
+<a href="/zh/privacy">隐私政策</a>
+<a href="/zh/terms">使用条款</a>
+</div>
+<div class="footer-bottom">
+<p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
+<p>&amp;copy; 2026 PicStudio. 保留所有权利。</p>
+</div>
+</div>
+</footer>
+<script src="/zh/assets/js/main.js?v=20261111g"></script>
+<script src="/zh/assets/js/i18n-dict.js?v=20261108ml"></script>
+<script src="/zh/assets/js/i18n.js?v=20261108ml"></script>
+<script src="/zh/assets/js/ux.js?v=20261108ml"></script>
+</body>
+</html>

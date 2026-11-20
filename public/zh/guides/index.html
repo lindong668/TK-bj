@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>图片处理指南：格式、压缩、尺寸与标注 | PicStudio</title>
-<meta content="原创图片处理教程：格式对比、按体积压缩、尺寸与像素标准、透明度与干净边缘、EXIF 隐私、二维码容错与水印技巧。" name="description"/>
+<title>图片指南与实测笔记：20 篇原创图片处理长文 | PicStudio</title>
+<meta content="20 篇原创长文：格式对比、压缩到指定体积、尺寸标准、透明边缘、EXIF 隐私，以及六篇带实测数据与日期的 Lab Notes。" name="description"/>
 <meta content="图片处理教程, 图片格式对比, 图片压缩技巧, 图片尺寸标准, 图片隐私" name="keywords"/>
 <link href="https://piccalc.com/zh/guides/" rel="canonical"/>
 <meta content="index,follow,max-image-preview:large" name="robots"/>
@@ -19,7 +19,7 @@
 <script type="application/ld+json">{
   "@context": "https://schema.org",
   "@type": "ItemList",
-  "numberOfItems": 14,
+  "numberOfItems": 20,
   "itemListOrder": "https://schema.org/ItemListUnordered",
   "itemListElement": [
     {
@@ -105,6 +105,42 @@
       "position": 14,
       "name": "裁掉均匀边框",
       "url": "https://piccalc.com/zh/guides/trim-uniform-borders"
+    },
+    {
+      "@type": "ListItem",
+      "position": 15,
+      "name": "三个滑块，三条曲线：调色实验室笔记",
+      "url": "https://piccalc.com/zh/guides/adjust-curve-lab"
+    },
+    {
+      "@type": "ListItem",
+      "position": 16,
+      "name": "一个图标，十四个位置：Favicon 渲染实测",
+      "url": "https://piccalc.com/zh/guides/favicon-rendering-field-test"
+    },
+    {
+      "@type": "ListItem",
+      "position": 17,
+      "name": "浏览器到底用哪个 Favicon：逐个删除实验",
+      "url": "https://piccalc.com/zh/guides/icon-picker-priority"
+    },
+    {
+      "@type": "ListItem",
+      "position": 18,
+      "name": "12 格图标质检表",
+      "url": "https://piccalc.com/zh/guides/icon-qa-checklist"
+    },
+    {
+      "@type": "ListItem",
+      "position": 19,
+      "name": "七次保存之后：图片元数据还剩什么",
+      "url": "https://piccalc.com/zh/guides/metadata-trail"
+    },
+    {
+      "@type": "ListItem",
+      "position": 20,
+      "name": "透明 PNG 变黑、变白或出现白边：事故报告",
+      "url": "https://piccalc.com/zh/guides/transparency-accident-report"
     }
   ]
 }</script>
@@ -160,6 +196,7 @@
 <nav class="tool-nav">
 <select id="lang-select" name="lang-select" class="lang-select" aria-label="语言" onchange="if(this.value)location.href=this.value"><option value="/guides/">English</option><option value="/zh/guides/" selected>中文</option></select><noscript><a href="/guides/">English</a></noscript>
 <a href="/zh/#tools">全部工具</a>
+<a href="/zh/guides/changelog">更新日志</a>
 <a href="/zh/privacy">隐私政策</a>
 <a href="/zh/faq">常见问题</a>
 <a href="/zh/contact">联系我们</a>
@@ -172,7 +209,43 @@
 <div style="max-width:820px;margin:0 auto;">
 <div class="guide-top"><a class="guide-back" href="/zh/">← 返回首页</a><span class="guide-crumb"><a href="/zh/" style="color:var(--text-muted);">首页</a><span>› 图片指南</span></span></div>
 <h1>📚 图片处理指南</h1>
-<div class="guide-lead">这里汇集 PicStudio 的原创长文，讲清图片处理里那些容易踩坑的问题：格式怎么选、体积怎么压到指定大小、图片尺寸与像素标准、透明图与干净边缘、分辨率和 DPI 到底是什么关系，以及发图时容易泄露的隐私信息。</div>
+<div class="guide-lead">这里汇集 PicStudio 的原创长文：格式怎么选、体积怎么压到指定大小、图片尺寸与像素标准、透明图与干净边缘、分辨率和 DPI 的关系，以及发图时容易泄露的隐私信息。<strong>实测笔记</strong>是另一类内容——每篇都从一个样本文件、一张实测表格或一次可复现的实验出发，数字带日期，结论可以自己重算。</div>
+<div class="content-block">
+<h2 id="lab-notes">🧪 实测笔记：有数字、有日期、可复算</h2>
+<p style="color:var(--text-secondary);line-height:1.9;margin:0 0 18px;">六篇长文，全部发布于 2026-11-20。每篇都附样本文件、工具截图和一张能自己重算的表格；变更记录见<a href="/zh/guides/changelog">更新日志</a>。</p>
+<div class="related-tools" style="display:block;">
+<a class="related-tool" href="/zh/guides/adjust-curve-lab" style="display:block;padding:16px 18px;margin-bottom:12px;text-decoration:none;">
+<span style="font-size:22px;">🧪</span>
+<strong style="display:block;font-size:16px;margin:6px 0 4px;">三个滑块，三条曲线：调色实验室笔记</strong>
+<span style="font-size:13px;color:var(--text-muted);line-height:1.7;">亮度 +40 在哪里截断、对比度 1.4 为什么把两端压死、gamma 1.4 怎样把 128 抬到 156，附一张可复算的对照表。 · 约 2,900 字 · 2026-11-20</span>
+</a>
+<a class="related-tool" href="/zh/guides/favicon-rendering-field-test" style="display:block;padding:16px 18px;margin-bottom:12px;text-decoration:none;">
+<span style="font-size:22px;">🧪</span>
+<strong style="display:block;font-size:16px;margin:6px 0 4px;">一个图标，十四个位置：Favicon 渲染实测</strong>
+<span style="font-size:13px;color:var(--text-muted);line-height:1.7;">同一张位图放进标签页、书签、深色模式、iOS 遮罩、Android 自适应图标等 14 个真实位置，逐处看它被怎么缩放。 · 约 3,050 字 · 2026-11-20</span>
+</a>
+<a class="related-tool" href="/zh/guides/icon-picker-priority" style="display:block;padding:16px 18px;margin-bottom:12px;text-decoration:none;">
+<span style="font-size:22px;">🧪</span>
+<strong style="display:block;font-size:16px;margin:6px 0 4px;">浏览器到底用哪个 Favicon？一次删一个文件的实验</strong>
+<span style="font-size:13px;color:var(--text-muted);line-height:1.7;">声明六个图标文件，再逐个删除，记录浏览器回退到哪一张；附优先级决策树和“图标不更新”的缓存排查。 · 约 2,770 字 · 2026-11-20</span>
+</a>
+<a class="related-tool" href="/zh/guides/icon-qa-checklist" style="display:block;padding:16px 18px;margin-bottom:12px;text-decoration:none;">
+<span style="font-size:22px;">🧪</span>
+<strong style="display:block;font-size:16px;margin:6px 0 4px;">12 格图标质检表：上线前逐格打勾</strong>
+<span style="font-size:13px;color:var(--text-muted);line-height:1.7;">把五轮实测压成 12 个通过/失败判据，每格写清看什么、失败长什么样、该用哪个工具修。 · 约 2,770 字 · 2026-11-20</span>
+</a>
+<a class="related-tool" href="/zh/guides/metadata-trail" style="display:block;padding:16px 18px;margin-bottom:12px;text-decoration:none;">
+<span style="font-size:22px;">🧪</span>
+<strong style="display:block;font-size:16px;margin:6px 0 4px;">七次保存之后：图片元数据还剩什么</strong>
+<span style="font-size:13px;color:var(--text-muted);line-height:1.7;">给 JPEG 标上八个字段，送进七种常见操作，逐列记录保留、部分保留与丢失，含 EXIF 缩略图陷阱。 · 约 2,990 字 · 2026-11-20</span>
+</a>
+<a class="related-tool" href="/zh/guides/transparency-accident-report" style="display:block;padding:16px 18px;margin-bottom:12px;text-decoration:none;">
+<span style="font-size:22px;">🧪</span>
+<strong style="display:block;font-size:16px;margin:6px 0 4px;">透明 PNG 变黑、变白或出现白边：事故报告</strong>
+<span style="font-size:13px;color:var(--text-muted);line-height:1.7;">把六种透明被破坏的方式分类：alpha 压平、tRNS、预乘光晕、查看器底色、Office 重编码与聊天软件转码。 · 约 3,200 字 · 2026-11-20</span>
+</a>
+</div>
+</div>
 <div class="content-block">
 <h2>全部文章</h2>
 <div class="related-tools" style="display:block;">

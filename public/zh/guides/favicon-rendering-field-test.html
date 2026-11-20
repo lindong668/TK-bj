@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html data-lang="zh" lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>一个图标，十四个位置：favicon 实机渲染实测 | PicStudio</title>
+<meta content="同一张 512 像素图标，放进十四个真实位置逐一观察：标签、书签栏、深色模式、手机圆角遮罩、安卓安全区、安装卡与资源管理器。附症状对照表和六档尺寸的体积数据。" name="description"/>
+<meta content="favicon 模糊, 16x16 图标, 深色模式 favicon, apple-touch-icon 圆角, maskable 安全区, ICO 尺寸, favicon 书签不显示" name="keywords"/>
+<link href="https://piccalc.com/zh/guides/favicon-rendering-field-test" rel="canonical"/>
+<meta content="index,follow,max-image-preview:large" name="robots"/>
+<meta content="article" property="og:type"/>
+<meta content="PicStudio" property="og:site_name"/>
+<meta content="zh_CN" property="og:locale"/>
+<meta content="en_US" property="og:locale:alternate"/>
+<meta content="一个图标，十四个位置：favicon 实机渲染实测" property="og:title"/>
+<meta content="同一张 512 像素图标，放进十四个真实位置逐一观察，附症状对照表与六档 ICO 体积数据。" property="og:description"/>
+<meta content="https://piccalc.com/zh/guides/favicon-rendering-field-test" property="og:url"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="一个图标，十四个位置：favicon 实机渲染实测" name="twitter:title"/>
+<meta content="同一张 512 像素图标，放进十四个真实位置逐一观察，附症状对照表与六档 ICO 体积数据。" name="twitter:description"/>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "一个图标，十四个位置：favicon 实机渲染实测",
+  "description": "把同一张贴图导出成六档 ICO，再放进十四个真实位置观察渲染结果，并给出症状到尺寸的对照表。",
+  "inLanguage": "zh-CN",
+  "datePublished": "2026-11-20",
+  "dateModified": "2026-11-20",
+  "author": {"@type": "Organization", "name": "PicStudio", "url": "https://piccalc.com"},
+  "publisher": {"@type": "Organization", "name": "PicStudio", "url": "https://piccalc.com"},
+  "mainEntityOfPage": {"@type": "WebPage", "@id": "https://piccalc.com/zh/guides/favicon-rendering-field-test"},
+  "keywords": "favicon 模糊, 16x16 图标, 深色模式 favicon, apple-touch-icon 圆角, maskable 安全区, ICO 尺寸",
+  "articleSection": "Rendering Field Tests",
+  "wordCount": 2964
+}</script>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "PicStudio", "item": "https://piccalc.com/zh/"},
+    {"@type": "ListItem", "position": 2, "name": "图片处理指南", "item": "https://piccalc.com/zh/guides/"},
+    {"@type": "ListItem", "position": 3, "name": "一个图标，十四个位置", "item": "https://piccalc.com/zh/guides/favicon-rendering-field-test"}
+  ]
+}</script>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "源图很清晰，为什么 16×16 还是糊？", "acceptedAnswer": {"@type": "Answer", "text": "因为 16×16 一共只有 256 个像素，任何重采样算法在这个预算里都留不住细线、小字和渐变。正确做法是单独画一版 16 px，用更粗的剪影，而不是把大图缩小。"}},
+    {"@type": "Question", "name": "favicon.ico 里真的需要 256 这一档吗？", "acceptedAnswer": {"@type": "Answer", "text": "浏览器标签用不到，但资源管理器的大图标视图、任务栏预览和文件属性会请求它。ICO 条目可以存 PNG 压缩数据，成本只有几 KB，加上就能消掉一整类“大图标发虚”的反馈。"}},
+    {"@type": "Question", "name": "为什么 iPhone 上的图标和 Chrome 里不一样？", "acceptedAnswer": {"@type": "Answer", "text": "iOS 读的是 apple-touch-icon，会套圆角遮罩，并在添加到主屏时就把图标缓存下来。它是另一个文件、另一套裁切，跟 ICO 里的条目没有关系。"}},
+    {"@type": "Question", "name": "往 ICO 里多加几个尺寸，能修好 Safari 固定标签吗？", "acceptedAnswer": {"@type": "Answer", "text": "不能。固定标签走的是 mask-icon，一张单色 SVG，任何位图尺寸都不参与这个位置的渲染。"}},
+    {"@type": "Question", "name": "聊天软件的链接预览用的是 favicon 吗？", "acceptedAnswer": {"@type": "Answer", "text": "多数不是，它读的是 og:image 或平台自己的卡片图。换 ICO 不会改变那张缩略图。"}}
+  ]
+}</script>
+<link href="/favicon.ico" rel="icon" sizes="any"/>
+<link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<meta content="https://piccalc.com/og-v2.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="PicStudio 品牌分享图" property="og:image:alt"/>
+<meta content="https://piccalc.com/og-v2.png" name="twitter:image"/>
+<link href="/assets/css/style.css?v=20261111g" rel="stylesheet"/>
+<style>
+.article-body{max-width:820px;margin:0 auto}
+.article-body h2{font-size:20px;margin:34px 0 12px;padding-left:12px;border-left:4px solid var(--primary)}
+.article-body h3{font-size:16px;margin:22px 0 8px}
+.article-body p{margin:12px 0;line-height:1.9;color:var(--text-secondary)}
+.article-body ul,.article-body ol{margin:12px 0 12px 22px;line-height:1.9;color:var(--text-secondary)}
+.article-body li{margin:7px 0}
+.article-body strong{color:var(--text)}
+.lead{font-size:16px;background:var(--bg-secondary);border-left:3px solid var(--primary);padding:14px 18px;border-radius:8px;margin:16px 0 26px;line-height:1.85;color:var(--text-secondary)}
+.crumb{font-size:13px;color:var(--text-muted);margin-bottom:14px}
+.crumb a{color:var(--text-muted)}
+</style>
+<style>
+html[data-lang="en"] [data-lang-block="zh"]{display:none!important}
+html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
+</style>
+<style>
+.lab-figure{margin:24px 0;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--bg-secondary)}
+.lab-figure img{display:block;width:100%;height:auto}
+.lab-figure figcaption{padding:10px 16px;font-size:13px;line-height:1.7;color:var(--text-muted);border-top:1px solid var(--border)}
+.lab-table{overflow-x:auto;margin:20px 0;border:1px solid var(--border);border-radius:10px}
+.lab-table table{border-collapse:collapse;width:100%;font-size:14px;min-width:560px}
+.lab-table th,.lab-table td{padding:10px 13px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
+.lab-table th{color:var(--text);font-weight:600;white-space:nowrap}
+.lab-table tr:last-child td{border-bottom:none}
+</style>
+<link href="https://piccalc.com/guides/favicon-rendering-field-test" hreflang="en" rel="alternate"/><link href="https://piccalc.com/zh/guides/favicon-rendering-field-test" hreflang="zh-CN" rel="alternate"/><link href="https://piccalc.com/guides/favicon-rendering-field-test" hreflang="x-default" rel="alternate"/></head>
+<body>
+<header class="header">
+<div class="container">
+<a class="logo" href="/zh/"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/><span class="logo-text">Pic<span class="accent">Studio</span></span></a>
+<nav class="tool-nav">
+<select id="lang-select" name="lang-select" class="lang-select" aria-label="语言" onchange="if(this.value)location.href=this.value"><option value="/guides/favicon-rendering-field-test">English</option><option value="/zh/guides/favicon-rendering-field-test" selected>中文</option></select><noscript><a href="/guides/favicon-rendering-field-test">English</a></noscript>
+<a href="/zh/#tools">全部工具</a>
+<a href="/zh/guides/">图片指南</a>
+<a href="/zh/privacy">隐私政策</a>
+<a href="/zh/faq">常见问题</a>
+<a href="/zh/contact">联系我们</a>
+</nav>
+</div>
+</header>
+<section class="tool-page">
+<div class="container">
+<div class="article-body">
+<div class="guide-top" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px;"><a class="guide-back" href="/zh/guides/">← 返回指南</a><div class="crumb"><a href="/zh/">首页</a> › <a href="/zh/guides/">图片指南</a> › favicon 实测</div></div>
+<h1>一个图标，十四个位置：favicon 实机渲染实测</h1>
+<p style="font-size:13px;color:var(--text-muted);margin:6px 0 0;">发布于 2026-11-20 · 阅读约 11 分钟</p>
+<div class="lead">大多数 favicon 文章写到「导出」就停了，那只是容易的一半。难的一半从同一个文件被要求代表整个网站开始：标签、书签栏、任务栏、iOS 主屏、安装卡、文件管理器，一共十四个位置，每个位置的尺寸、底色、裁切和配色规则都不同。</div>
+
+<div class="content-block">
+<h2>先把方法说清楚：一个标本，六档尺寸</h2>
+<p>这次不是格式科普，而是一次现场实测。我们只做了一个标本：512×512 的 PNG，画着实心圆角方块、一个简化的字母轮廓、一个小的强调色圆点。刻意做成高对比、极简，因为只有这样才能分清：某处渲染失败，是图形本身撑不住，还是宿主的要求没被满足。</p>
+<p>导出用的是本站的 ICO 生成器，一次勾选 16、32、48、64、128、256 六档，得到一个真正的多尺寸 .ico；每个尺寸另外单独存一份 PNG；再附上工具自动生成的 <code>&lt;link&gt;</code> 标签。然后把它们放进一个本地测试页，逐个观察十四种渲染环境。整个过程没有上传到任何服务器，也没有任何服务端图像处理。</p>
+<figure class="lab-figure"><img src="/assets/img/lab/control-icon-maker.png" alt="本站 ICO 生成器载入 512 像素标本后的导出面板，六档尺寸全部勾选" loading="lazy" decoding="async" width="1086" height="44"><figcaption>本站 ICO 生成器载入 512 px 标本后的样子。这张文章要检验的，就是面板里那六个勾选项。</figcaption></figure>
+</div>
+
+<div class="content-block">
+<h2>16×16 的预算，比你想象的小得多</h2>
+<p>16×16 的图标一共只有 256 个像素。512×512 的源图有 262,144 个。缩放不是"变小一点"，而是先扔掉 99.9% 的信息，再让重采样滤波器替你猜一个总结。这个动作一旦发生，细节就回不来了。二维码、人脸、一行小字、1 像素的细线、克制的渐变，在那个预算里不会"稍微软一点"，而是直接塌成几块颜色。</p>
+<p>所以生成器会在 16 px 那一档旁边给一条警告。那不是审美说教，是算术。16 px 只装得下一个字母、一个扁平的几何块，或者一个两色的高对比剪影。标本上那个强调圆点能在 16 px 活下来，是因为缩放后它还是一个约 4 px 的实心圆，不是因为导出器有多聪明。</p>
+<p>由此得到一个很实际的结论：<strong>16 和 32 应该单独画，不要拿大图往下缩</strong>。主体撑满画布，剪影尽量简单，对比度往上拉。这也正是导出六档、而不是只给一张 32 px PNG 的理由——宿主总能从中挑到接近自己需求的那一档。</p>
+</div>
+
+<div class="content-block">
+<h2>十四个位置，逐一过一遍</h2>
+<p>下面这张图就是测试全貌。每格用同一个标本、同一种缩放方式，变的只有宿主的尺寸、底色和遮罩。</p>
+<figure class="lab-figure"><img src="/assets/img/lab/favicon-14-placements.png" alt="同一个图标在十四种真实位置里的渲染对比，包括浅色标签、深色标签、资源管理器列表与手机主屏" loading="lazy" decoding="async" width="1240" height="880"><figcaption>一个图标，十四个位置。深色标签、白色底的资源管理器视图，以及两个带遮罩的手机位置，最容易暴露缺失的 ICO 条目。</figcaption></figure>
+<div class="lab-table">
+<table>
+<thead><tr><th>#</th><th>位置</th><th>请求尺寸</th><th>底色</th><th>遮罩</th><th>缺档时会发生什么</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Chrome / Edge 标签页</td><td>16 px</td><td>浅色或界面色</td><td>无</td><td>只有 32 的 ICO 会被临时缩小，字母轮廓糊掉</td></tr>
+<tr><td>2</td><td>书签栏 / 标签列表</td><td>16 px</td><td>通常偏浅</td><td>无</td><td>标签里正常、这里发灰，只因为背景不同</td></tr>
+<tr><td>3</td><td>深色模式标签页</td><td>16 px</td><td>近黑</td><td>无</td><td>深色图案直接消失；白图案则在浅色标签上消失</td></tr>
+<tr><td>4</td><td>Retina / 2 倍屏标签</td><td>32 px</td><td>任意</td><td>无</td><td>只有 16 的 ICO 被放大，高分屏上明显发虚</td></tr>
+<tr><td>5</td><td>Windows 任务栏</td><td>32 px</td><td>深色</td><td>无</td><td>小徽标借用 32 条目；只有 16 的文件边缘看到锯齿</td></tr>
+<tr><td>6</td><td>资源管理器列表视图</td><td>16 px</td><td>白色</td><td>无</td><td>浅色图案上的白色细节全部消失</td></tr>
+<tr><td>7</td><td>资源管理器平铺 / 中图标</td><td>48 px</td><td>白色</td><td>无</td><td>拿 32 条目放大到 48，强调点变模糊</td></tr>
+<tr><td>8</td><td>资源管理器超大图标</td><td>256 px</td><td>白色</td><td>无</td><td>没有 256 条目时，外壳把 48 px 拉成一个软方块</td></tr>
+<tr><td>9</td><td>iOS 主屏</td><td>180 px</td><td>壁纸</td><td>圆角方块</td><td>四角被切，任何靠近角落的内容都没有了</td></tr>
+<tr><td>10</td><td>Android 自适应图标</td><td>108 px</td><td>壁纸</td><td>圆形 / 圆角</td><td>外侧约 20% 在安全区外，可能被厂商的遮罩裁掉</td></tr>
+<tr><td>11</td><td>Safari 固定标签</td><td>16 px</td><td>带染色</td><td>无</td><td>它<strong>不是</strong>位图，需要一张单色 SVG</td></tr>
+<tr><td>12</td><td>PWA 安装卡</td><td>192 px</td><td>浅色卡片</td><td>平台决定</td><td>这里读的是 manifest 图标，不是 <code>favicon.ico</code></td></tr>
+<tr><td>13</td><td>聊天 / 链接预览</td><td>64 px</td><td>白色</td><td>无</td><td>通常来自 <code>og:image</code>，改 favicon 不会变</td></tr>
+<tr><td>14</td><td>高对比度 / 辅助模式</td><td>32 px</td><td>黑色</td><td>无</td><td>低对比图案消失，只剩下轮廓还能看见</td></tr>
+</tbody>
+</table>
+</div>
+<p>表里有三行值得展开说：深色标签、iOS 主屏、Android 自适应图标。它们的失败都不是"尺寸不够"，而是"环境变了"。</p>
+</div>
+
+<div class="content-block">
+<h2>深色模式是对比度问题，不是再做一个文件</h2>
+<p>最常听到的反馈是"切到深色模式，图标就没了"。几乎都是同一个原因：深色图形配透明背景。浅色标签上读得出来，近黑标签上就融进去了。解决办法不是再做一份深色图标、指望浏览器自己挑——大多数宿主不会挑。办法是给图形一块自己的底板：一个实心圆角方块，和浅色界面、深色界面都拉开亮度差。</p>
+<p>标本用靛蓝方块就是为了这个，它也是让第 1、3、14 格同时过关的唯一一处改动。</p>
+<p>如果一定要保留透明图形，上线前把它分别放在 <code>#ffffff</code>、<code>#f1f3f4</code>、<code>#202124</code>、<code>#000000</code> 四种底色上看一遍。这四个色值覆盖了大多数标签背景。只过得了其中两个的图标，早晚会收到用户来信。</p>
+</div>
+
+<div class="content-block">
+<h2>iOS 圆角遮罩和 Android 安全区，本质都是裁切</h2>
+<p>iOS 主屏不会把你的 <code>apple-touch-icon</code> 当方块摆着。它会套一个圆角遮罩，某些系统版本还会加高光或者染色。你画在四角的东西就是不显示。Android 自适应图标更激进：前景层是 108×108 dp，实际可见的遮罩通常是直径约 66 dp 的圆，所以超出中心约 80% 的内容，都有可能被厂商选定的形状切掉。</p>
+<p>我们的做法是：所有有意义的内容收进画布中心约三分之二的圆里，让底色一直铺到边缘。标本的字母在圆内，强调圆点刚好压在圆外，所以十四格对比图里，第 10 格的那个点是被裁掉的。这是故意留的可见演示，不是导出出错。</p>
+<p>这里还有另一个坑：<code>apple-touch-icon</code> 和 manifest 里那一套图标，是<strong>完全不同的文件、完全不同的用途</strong>。往 ICO 里加一张 180 px 的图，对 iOS 毫无帮助，ICO 是 Windows 和浏览器的容器；反过来，再精致的 <code>apple-touch-icon</code> 也不会出现在 Windows 任务栏上。它们要当成两套交付物，配两套标签。</p>
+</div>
+
+<div class="content-block">
+<h2>Safari 固定标签根本不用 ICO</h2>
+<p>Safari 的固定标签由 <code>mask-icon</code> 驱动，那是一张单色 SVG，颜色写在 <code>color</code> 属性里。只给 ICO，Safari 会退回一个通用字形，或者干脆显示类似首字母的占位。这是十四个位置里唯一一个"再导出多少位图尺寸都没用"的。</p>
+<p>所以这一格的修法不在导出面板里：做一张单色 SVG，只留剪影，用 <code>mask-icon</code> 声明并指定颜色。它和 ICO 是两条独立的产线，谁也替代不了谁。</p>
+</div>
+
+<div class="content-block">
+<h2>256 这一档，为什么还值得留</h2>
+<p>很容易想只导 16 和 32，反正浏览器多数时候只要这两个。然后有人在资源管理器里把视图调成大图标，或者把鼠标停到任务栏预览上，或者只是看一眼文件属性，看到的就是 48 px 被拉伸的糊图。256 这一档只花几 KB，因为 ICO 条目可以直接放 PNG 压缩数据，还带着 alpha 通道，却能把"为什么我们的 logo 在 Windows 上显得廉价"这一整类问题消掉。ICO 目录项可以直接是一整张 PNG，不必是 BMP 加掩码，六个条目因此能塞进一个很小的文件。</p>
+<p>随文样例就是六档齐全的。用能列出 ICO 目录的查看器打开，会看到六条 <code>ICONDIR</code> 记录——真多尺寸 ICO 和改后缀 PNG 的差别就在这里。</p>
+<div class="lab-table">
+<table>
+<thead><tr><th>条目</th><th>位深</th><th>资源内字节数</th><th>偏移</th></tr></thead>
+<tbody>
+<tr><td>16 × 16</td><td>32</td><td>625</td><td>102</td></tr>
+<tr><td>32 × 32</td><td>32</td><td>1,236</td><td>727</td></tr>
+<tr><td>48 × 48</td><td>32</td><td>1,833</td><td>1,963</td></tr>
+<tr><td>64 × 64</td><td>32</td><td>2,453</td><td>3,796</td></tr>
+<tr><td>128 × 128</td><td>32</td><td>4,692</td><td>6,249</td></tr>
+<tr><td>256 × 256</td><td>32</td><td>8,881</td><td>10,941</td></tr>
+</tbody>
+</table>
+</div>
+<p>整份文件 19,822 字节。16×16 那条只有几百字节，256×256 占了大部分。"加六档是不是浪费"的诚实答案是：在大片纯色的图形上，多出来的条目比你随手截一张图还小。作为对照，标本 PNG 本身是 3,859 字节——扁平几何图案压缩得极好，照片式渐变就不行。</p>
+</div>
+
+<div class="content-block">
+<h2>测试中排掉的四个假警报</h2>
+<p>有四个现象在测试里反复出现，最后都证明与导出无关。先排除它们，能省下大量无效的重新导出。</p>
+<ul>
+<li><strong>"链接预览里的图标变了。"</strong> 聊天软件和社交卡片读的是 <code>og:image</code>，不是 <code>favicon.ico</code>。换 ICO 不会改变那张缩略图。</li>
+<li><strong>"桌面更新了，手机没更新。"</strong> 主屏图标在安装那一刻就被缓存了。要删掉快捷方式重新添加，重新导出没有用。</li>
+<li><strong>"标签里正常，书签里不对。"</strong> 同一张位图，不同背景。这是对比度问题，不是尺寸问题。</li>
+<li><strong>"加了几档之后更糊了。"</strong> 只有当宿主挑到一档画得很差的条目时才会这样。在 16 px 上画的 16 px 条目，胜过浏览器临时缩出来的 512 px 大图。</li>
+</ul>
+<p>把这几条放在排查清单最前面：先确认看到的到底是不是 favicon，再决定要不要动文件。</p>
+</div>
+
+<div class="content-block">
+<h2>五步复现这次测试</h2>
+<p>工具会给出一组默认值，但顺序比参数更重要。下面这套流程跑完，基本不会返工。</p>
+<ol class="steps">
+<li><strong>打开 ICO 生成器，载入一张方形、高对比的图。</strong> 想用完全相同的输入，就下载随文的标本 PNG。</li>
+<li><strong>六档全勾：16、32、48、64、128、256。</strong> 生成后同时留下 .ico 和各个尺寸的 PNG。</li>
+<li><strong>把生成的标签贴进本地 HTML。</strong> 补一个 <code>apple-touch-icon</code> 和最小 manifest，用 <code>http://localhost</code> 起服务，让浏览器把它当真实站点。</li>
+<li><strong>走完十四个位置。</strong> 标签、书签、深色标签、2 倍屏、任务栏、三种资源管理器视图、iOS 加主屏、自适应图标预览、Safari 固定标签、PWA 安装卡、链接预览、高对比模式。</li>
+<li><strong>对着表格定位缺档或错误的文件类型。</strong> 只重导发生变化的那部分，别整体重做。</li>
+</ol>
+<figure class="lab-figure"><img src="/assets/img/lab/tool-icon-maker.png" alt="ICO 生成器上传区域的界面，导出前会提示 16 像素这一档的信息预算" loading="lazy" decoding="async" width="1280" height="1050"><figcaption>工具在你导出之前就提示 16 px 的信息预算。这条提示的依据，就是前面那点算术。</figcaption></figure>
+<p>如果只改一件事，改 16 px 那一版图形。它是唯一一处花十分钟、却能在标签、书签、列表视图和高对比模式里同时见效的改动。</p>
+</div>
+
+<div class="content-block">
+<h2>常见问题</h2>
+<div class="faq-list">
+<div class="faq-item"><div class="faq-question">源图很清晰，为什么 16×16 还是糊？</div><div class="faq-answer">因为 16×16 一共只有 256 个像素，任何重采样算法在这个预算里都留不住细线、小字和渐变。正确做法是单独画一版 16 px，用更粗的剪影，而不是把大图缩小。</div></div>
+<div class="faq-item"><div class="faq-question">favicon.ico 里真的需要 256 这一档吗？</div><div class="faq-answer">浏览器标签用不到，但资源管理器的大图标视图、任务栏预览和文件属性会请求它。ICO 条目可以存 PNG 压缩数据，成本只有几 KB，加上就能消掉一整类"大图标发虚"的反馈。</div></div>
+<div class="faq-item"><div class="faq-question">为什么 iPhone 上的图标和 Chrome 里不一样？</div><div class="faq-answer">iOS 读的是 apple-touch-icon，会套圆角遮罩，并在添加到主屏时就把图标缓存下来。它是另一个文件、另一套裁切，跟 ICO 里的条目没有关系。</div></div>
+<div class="faq-item"><div class="faq-question">往 ICO 里多加几个尺寸，能修好 Safari 固定标签吗？</div><div class="faq-answer">不能。固定标签走的是 mask-icon，一张单色 SVG，任何位图尺寸都不参与这个位置的渲染。</div></div>
+<div class="faq-item"><div class="faq-question">聊天软件的链接预览用的是 favicon 吗？</div><div class="faq-answer">多数不是，它读的是 og:image 或平台自己的卡片图。换 ICO 不会改变那张缩略图。</div></div>
+</div>
+</div>
+
+<div class="content-block">
+<h2>相关工具</h2>
+<div class="related-tools">
+<a class="related-tool" href="/zh/tools/icon-maker"><span>🧩</span><span>ICO 与 favicon 生成器</span></a>
+<a class="related-tool" href="/zh/tools/rounded"><span>🔲</span><span>圆角图标</span></a>
+<a class="related-tool" href="/zh/tools/resize"><span>📐</span><span>尺寸调整</span></a>
+</div>
+<h2>继续阅读</h2>
+<div class="related-tools">
+<a class="related-tool" href="/zh/guides/icon-qa-checklist"><span>📋</span><span>图标上线前 12 项检查</span></a>
+<a class="related-tool" href="/zh/guides/transparency-accident-report"><span>🫥</span><span>透明背景事故报告</span></a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<footer class="footer">
+<div class="container">
+<div class="footer-content">
+<div class="footer-brand"><img alt="PicStudio" class="logo-icon" height="32" src="/icon-192.png" width="32"/><span class="logo-text">Pic<span class="accent">Studio</span></span></div>
+<p class="footer-desc">免费的在线图片处理工具，所有处理在浏览器本地完成</p>
+</div>
+<div class="footer-links">
+<a href="/zh/#tools">全部工具</a>
+<a href="/zh/guides/">图片指南</a>
+<a href="/zh/about">关于我们</a>
+<a href="/zh/contact">联系我们</a>
+<a href="/zh/faq">常见问题</a>
+<a href="/zh/privacy">隐私政策</a>
+<a href="/zh/terms">使用条款</a>
+</div>
+<div class="footer-bottom">
+<p style="margin-bottom:6px;">Contact: <a href="mailto:yokok8@outlook.com" style="color:#818cf8;">yokok8@outlook.com</a></p>
+<p>&amp;copy; 2026 PicStudio. 保留所有权利。</p>
+</div>
+</div>
+</footer>
+<script src="/zh/assets/js/main.js?v=20261111g"></script>
+<script src="/zh/assets/js/i18n-dict.js?v=20261108ml"></script>
+<script src="/zh/assets/js/i18n.js?v=20261108ml"></script>
+<script src="/zh/assets/js/ux.js?v=20261108ml"></script>
+</body>
+</html>
