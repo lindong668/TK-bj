@@ -117,7 +117,7 @@ html[data-lang="zh"] [data-lang-block="en"]{display:none!important}
 <h2>一个标本，一条故意做软的边</h2>
 <p>文件本身可能正常，是查看器在撒谎；alpha 可能在某次另存里被扔掉；透明像素下面的 RGB 可能是错的；也可能是另一个程序在你看到它之前先转了一次码。这几种情况在工单里都叫「我的 PNG 有背景」，修法却彼此无关。这是一份事故报告，不解释 alpha 通道的定义。我们做了一个蓝色圆盘当标本，alpha 在约 14 px 内逐渐衰减。硬边查不出问题：每个像素非全透明即全不透明，透明区域下面写错的 RGB 永远不会露出来。柔边才是诊断工具——如果半透明环下面的 RGB 是错的，环就会发暗、发脏；如果被压平，渐变会变成贴着实色底的一条硬台阶。</p>
 <figure class="lab-figure"><img src="/assets/img/lab/alpha-forensics.png" alt="四种结果并排：棋盘格上的正确透明、压到黑底、压到白底、预乘出错产生的暗边" loading="lazy" decoding="async" width="1240" height="620"><figcaption>棋盘格上的正确 alpha、压到黑底、压到白底，以及预乘出错留下的暗边。四种结果在工单里都叫「有背景」，但只有中间两种是文件本身被压平了。</figcaption></figure>
-<p>标本可以下载下来自己复现：<a href="/assets/samples/picstudio-soft-alpha.png">软边 Alpha 样本</a>。圆角那一组换成实心 logo，因为那里要测的恰好是硬边。</p>
+<p>标本可以下载下来自己复现：<a href="/assets/samples/piccalc-soft-alpha.png">软边 Alpha 样本</a>。圆角那一组换成实心 logo，因为那里要测的恰好是硬边。</p>
 </div>
 
 <div class="content-block">

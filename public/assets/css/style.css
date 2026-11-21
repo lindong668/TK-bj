@@ -1662,3 +1662,12 @@ kbd{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;borde
 .gloss-def{font-size:16px;line-height:1.8;color:var(--text-primary);border-left:3px solid #6366f1;padding:2px 0 2px 14px;margin:0 0 20px}
 .myth{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.28);border-radius:10px;padding:12px 14px;font-size:13.5px;line-height:1.75}
 @media(max-width:760px){.ref-grid,.ex-grid,.gloss-grid{grid-template-columns:1fr}.need-card{padding:14px}.ex-body dl{font-size:12px}}
+
+
+/* === V78 窄屏防横向溢出补丁 2026-11-21 === */
+:not(pre)>code{overflow-wrap:anywhere;word-break:break-word}
+pre{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+pre>code{white-space:pre}
+.code-block{max-width:100%;overflow-wrap:anywhere;word-break:break-all}
+.lab-table{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+@media(max-width:760px){span[style*="white-space:nowrap"]{white-space:normal!important}}
