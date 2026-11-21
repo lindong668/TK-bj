@@ -22,3 +22,6 @@ AUDIT=V78-FULL-SITE
 IMG_AUDIT=2026-11-21
 IMG_RESHOT=26
 IMG_VERDICT=26 checked / 12 corrected / 0 missing
+IMG_FRAMING=2026-11-21 header-free (fixed 70px header excluded)
+QR_FIX=2026-11-21 qr-reader + qrcode samples re-shot; clipboard fallback
+RENDER_CHECK=26 EN + 26 ZH at 1440/390, 0 overflow

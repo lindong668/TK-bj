@@ -352,6 +352,8 @@ $('copyBtn').addEventListener('click',function(){
   if(!v){alert('没有内容可复制');return;}
   if(navigator.clipboard&&navigator.clipboard.writeText){
     navigator.clipboard.writeText(v).then(function(){$('copyBtn').textContent='已复制 ✓';
+      setTimeout(function(){$('copyBtn').textContent='复制内容';},1800);})
+    .catch(function(){resultText.select();document.execCommand('copy');$('copyBtn').textContent='已复制 ✓';
       setTimeout(function(){$('copyBtn').textContent='复制内容';},1800);});
   }else{resultText.select();document.execCommand('copy');}});
 })();

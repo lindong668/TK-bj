@@ -403,6 +403,8 @@ $('copyBtn').addEventListener('click',function(){
   if(!v){alert('Nothing to copy');return;}
   if(navigator.clipboard&&navigator.clipboard.writeText){
     navigator.clipboard.writeText(v).then(function(){$('copyBtn').textContent='Copied ✓';
+      setTimeout(function(){$('copyBtn').textContent='Copy content';},1800);})
+    .catch(function(){resultText.select();document.execCommand('copy');$('copyBtn').textContent='Copied ✓';
       setTimeout(function(){$('copyBtn').textContent='Copy content';},1800);});
   }else{resultText.select();document.execCommand('copy');}});
 })();
