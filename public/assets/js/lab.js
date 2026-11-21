@@ -813,8 +813,45 @@
         0x8298: 'Copyright', 0x829A: 'Exposure time', 0x829D: 'F-number', 0x8822: 'Exposure program',
         0x8827: 'ISO', 0x9003: 'Original time', 0x920A: 'Focal length', 0xA402: 'Exposure mode',
         0xA403: 'White balance', 0xA406: 'Scene type', 0xA432: 'Lens info',
-        0x8825: 'GPS', 0x9286: 'User comment'
+        0x9286: 'User comment'
     };
+
+    function rational(view, off, le) {
+        var d = view.getUint32(off + 4, le);
+        return d ? view.getUint32(off, le) / d : 0;
+    }
+
+    /* GPS 子 IFD：纬度/经度各 3 个有理数（度、分、秒）+ 半球参考字母 */
+    function parseGps(view, gpsIfd, tiffStart, le) {
+        var n = view.getUint16(gpsIfd, le);
+        var lat = null, lon = null, latRef = '', lonRef = '', alt = null;
+        for (var i = 0; i < n; i++) {
+            var e = gpsIfd + 2 + i * 12;
+            if (e + 12 > view.byteLength) break;
+            var tag = view.getUint16(e, le);
+            var count = view.getUint32(e + 4, le);
+            try {
+                if (tag === 1 || tag === 3) {
+                    var s = '';
+                    for (var c = 0; c < 2; c++) {
+                        var ch = view.getUint8(e + 8 + c);
+                        if (!ch) break;
+                        s += String.fromCharCode(ch);
+                    }
+                    if (tag === 1) latRef = s; else lonRef = s;
+                } else if ((tag === 2 || tag === 4) && count === 3) {
+                    var off = tiffStart + view.getUint32(e + 8, le);
+                    var v = rational(view, off, le) + rational(view, off + 8, le) / 60 + rational(view, off + 16, le) / 3600;
+                    if (tag === 2) lat = v; else lon = v;
+                } else if (tag === 6) {
+                    alt = rational(view, tiffStart + view.getUint32(e + 8, le), le);
+                }
+            } catch (err) { }
+        }
+        if (lat === null || lon === null) return null;
+        return lat.toFixed(4) + '° ' + (latRef || 'N') + ', ' + lon.toFixed(4) + '° ' + (lonRef || 'E') +
+            (alt === null ? '' : ' · ' + alt.toFixed(1) + ' m');
+    }
 
     function readIFD(view, ifd, tiffStart, le, out, depth) {
         if (depth > 3) return;
@@ -825,6 +862,13 @@
             var tag = view.getUint16(entry, le);
             var type = view.getUint16(entry + 2, le);
             var count = view.getUint32(entry + 4, le);
+            if (tag === 0x8825) {
+                try {
+                    var gps = parseGps(view, tiffStart + view.getUint32(entry + 8, le), tiffStart, le);
+                    if (gps) out['GPS location'] = gps;
+                } catch (err) { }
+                continue;
+            }
             var name = TAGS[tag];
             if (!name) continue;
             var valOff = entry + 8;
