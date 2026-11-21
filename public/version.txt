@@ -27,3 +27,4 @@ QR_FIX=2026-11-21 qr-reader + qrcode samples re-shot; clipboard fallback
 RENDER_CHECK=26 EN + 26 ZH at 1440/390, 0 overflow
 FOOTER_AUDIT=142 html / 140 footers (2 noindex utilities) / compliance links 140-140
 FOOTER_FIX=2026-11-21 privacy EN+ZH footer landmark added; ZH &copy; entity fixed on 68 pages
+AD_LABEL_REMOVED=2026-11-21 EN+ZH homepage ad-block label <p>Advertisement</p>/<p>广告</p> removed; ad slots, CSS, ads-config untouched
